@@ -1,36 +1,117 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Sense</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentence Sense — Find it. Ask it. Understand it.</title>
+  <meta name="description" content="Sentence Sense helps elementary students understand how a whole sentence works: verbs, subjects, predicates, nouns, and adjectives.">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-    <h1>Sentence Sense</h1>
-    <p>Learn how an entire sentence works.</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <h1 class="visually-hidden">Sentence Sense — learn how a whole sentence works</h1>
 
-    <h2>Sentence Structure</h2>
+  <div class="app-shell" id="main">
 
-    <p><strong>Example:</strong> The excited player kicked the red ball.</p>
+    <!-- ================= HOME ================= -->
+    <section class="screen screen-home" id="screen-home" aria-labelledby="home-heading" hidden>
+      <div class="home-bg" aria-hidden="true">
+        <span class="hb-circle hb-c1"></span><span class="hb-circle hb-c2"></span><span class="hb-circle hb-c3"></span>
+        <span class="hb-word hb-w1">verb</span><span class="hb-word hb-w2">noun</span><span class="hb-word hb-w3">?</span>
+        <span class="hb-rule"></span>
+      </div>
 
-    <ul>
-        <li><strong>Verb:</strong> kicked</li>
-        <li><strong>Subject:</strong> player</li>
-        <li><strong>Complete Subject:</strong> The excited player</li>
-        <li><strong>Predicate:</strong> kicked the red ball</li>
-        <li><strong>Nouns:</strong> player, ball</li>
-        <li><strong>Adjectives:</strong> excited, red</li>
-    </ul>
+      <header class="app-header header-home">
+        <div class="ph-brand">
+          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
+          <span class="ph-name">Sentence Sense</span>
+        </div>
+        <span class="ph-tagline">Find it. Ask it. Understand it.</span>
+      </header>
 
-    <hr>
+      <div class="home-inner">
+        <img class="home-logo" src="assets/images/logo.png"
+             srcset="assets/images/logo-512.png 512w, assets/images/logo.png 1024w"
+             sizes="(max-width: 600px) 260px, 400px"
+             alt="Sentence Sense" width="1024" height="768">
 
-    <h2>How Sentence Sense Will Work</h2>
+        <h2 id="home-heading" class="home-title">What do you want to do today?</h2>
+        <p class="home-sub">Pick one to begin.</p>
 
-    <p><strong>Learn</strong> — Learn what each sentence part means.</p>
-    <p><strong>Practice</strong> — Practice one skill at a time.</p>
-    <p><strong>Break It Down</strong> — See how the entire sentence works together.</p>
-    <p><strong>Test</strong> — Show what you know without hints.</p>
+        <div class="card-grid mode-grid">
+          <button type="button" class="pick-card mode-card mode-learn" data-mode="learn">
+            <span class="mode-icon" aria-hidden="true">&#127891;</span>
+            <span class="pick-name">Learn</span>
+            <span class="pick-sub">Teach me the parts of a sentence.</span>
+            <span class="mode-cta">Start Learning <span aria-hidden="true">&rarr;</span></span>
+          </button>
+          <button type="button" class="pick-card mode-card mode-practice" data-mode="practice">
+            <span class="mode-icon" aria-hidden="true">&#9999;&#65039;</span>
+            <span class="pick-name">Practice</span>
+            <span class="pick-sub">Let me try one skill with help.</span>
+            <span class="mode-cta">Start Practice <span aria-hidden="true">&rarr;</span></span>
+          </button>
+          <button type="button" class="pick-card mode-card mode-breakdown" data-mode="breakdown">
+            <span class="mode-icon" aria-hidden="true">&#128269;</span>
+            <span class="pick-name">Break It Down</span>
+            <span class="pick-sub">Take a whole sentence apart.</span>
+            <span class="mode-cta">Break It Down <span aria-hidden="true">&rarr;</span></span>
+          </button>
+          <button type="button" class="pick-card mode-card mode-test" data-mode="test">
+            <span class="mode-icon" aria-hidden="true">&#127942;</span>
+            <span class="pick-name">Test</span>
+            <span class="pick-sub">Let me try on my own.</span>
+            <span class="mode-cta">Start Test <span aria-hidden="true">&rarr;</span></span>
+          </button>
+        </div>
 
+        <p class="method-strip" aria-label="The Sentence Sense strategy">
+          <span>Find the verb</span><span class="ms-arrow" aria-hidden="true">&rarr;</span>
+          <span>Ask who or what?</span><span class="ms-arrow" aria-hidden="true">&rarr;</span>
+          <span>Find the subject</span><span class="ms-arrow" aria-hidden="true">&rarr;</span>
+          <span>Check the sentence</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= MODE DESTINATION =================
+         One shared destination screen. Its title, colour and text come
+         from the MODES config in js/app.js, so each learning engine can
+         replace its own section later without touching this shell. -->
+    <section class="screen screen-mode" id="screen-mode" aria-labelledby="mode-heading" data-mode="" hidden>
+      <header class="app-header header-mode">
+        <div class="ph-brand">
+          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
+          <span class="ph-name">Sentence Sense</span>
+        </div>
+        <span class="ph-mode-tag" id="mode-tag"></span>
+        <span class="ph-spacer" aria-hidden="true"></span>
+        <button type="button" class="nav-btn nav-home" id="mode-home"><span aria-hidden="true">&#127968;</span> Home</button>
+      </header>
+
+      <div class="mode-body">
+        <div class="stage mode-stage">
+          <p class="mode-stage-icon" id="mode-icon" aria-hidden="true"></p>
+          <h2 id="mode-heading" class="stage-title" tabindex="-1"></h2>
+          <p class="coming-soon">Coming in a future build.</p>
+          <p class="coming-note" id="mode-note"></p>
+        </div>
+      </div>
+
+      <footer class="activity-foot">
+        <button type="button" class="nav-btn nav-back" id="mode-back"><span aria-hidden="true">&larr;</span> Back</button>
+      </footer>
+    </section>
+
+    <p class="build-badge" id="build-badge" aria-label="Application version"></p>
+
+  </div>
+
+  <script src="js/app.js"></script>
 </body>
 </html>

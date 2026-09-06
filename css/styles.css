@@ -1,0 +1,302 @@
+/* =========================================================
+   Sentence Sense — Find it. Ask it. Understand it.
+   Build 1.0 stylesheet (foundation / shell only).
+
+   Sections:
+     1. Design Tokens          5. Mode Cards
+     2. Reset / Base           6. Mode Destination Screen
+     3. Shared Shell           7. Build Badge
+     4. Header / Navigation    8. Responsive
+
+   Family note: Sentence Sense shares the Add It! visual system
+   (rounded card shapes, display type, navy/blue/yellow palette,
+   pill navigation buttons, fixed build badge) so the two apps
+   read as one product family. Nothing here is math-specific.
+   ========================================================= */
+
+/* ---------- 1. DESIGN TOKENS ---------- */
+:root {
+  --navy:#12325B; --navy-deep:#0C2647;
+  --royal-blue:#4667F2; --blue:#1E63E9; --deep-blue:#0F4FBF;
+  --sky-blue:#67C8F3; --cyan:#35C3E8;
+  --green:#59C97A; --green-dark:#2FA457; --mint:#A8E6C1;
+  --yellow:#FFD84D; --gold:#F5B82E; --gold-dark:#8A5D00;
+  --orange:#FF9648; --orange-dark:#E06D1F;
+  --purple:#8567E8; --purple-dark:#6A4CD0; --lavender:#C9B8F5;
+
+  --cream:#FFF9E8; --soft-green:#EEF9EF; --soft-yellow:#FFF7D8;
+  --soft-purple:#F4EFFF; --soft-blue:#EDF7FF; --soft-orange:#FFF1E6;
+  --card:#FFFFFF; --text:#173051; --muted:#4E678C;
+
+  --font-display:"Baloo 2","Nunito",system-ui,sans-serif;
+  --font-body:"Nunito",system-ui,-apple-system,sans-serif;
+
+  --radius-xl:28px; --radius-lg:22px; --radius-md:16px; --radius-sm:10px;
+  --shadow-card:0 16px 40px rgba(18,50,91,0.14);
+  --shadow-soft:0 6px 18px rgba(18,50,91,0.12);
+  --focus-ring:0 0 0 3px #fff,0 0 0 6px var(--royal-blue);
+
+  --shell-w:1320px;
+
+  /* Instructional colour meanings, reserved for later builds so every
+     mode labels a sentence part the same way. Colour will never be the
+     only signal — each part also carries a written label. */
+  --c-verb:var(--royal-blue);
+  --c-subject:var(--green-dark);
+  --c-noun:var(--purple-dark);
+  --c-adjective:var(--orange-dark);
+}
+
+/* ---------- 2. RESET / BASE ---------- */
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+[hidden]{display:none !important;}
+
+body{
+  margin:0; font-family:var(--font-body); font-size:17px; line-height:1.5;
+  color:var(--text); min-height:100vh; overflow-x:hidden;
+  background:
+    radial-gradient(1100px 560px at 88% -8%, rgba(103,200,243,0.18), transparent 60%),
+    radial-gradient(950px 520px at 4% 4%, rgba(133,103,232,0.14), transparent 55%),
+    radial-gradient(900px 680px at 50% 120%, rgba(89,201,122,0.12), transparent 60%),
+    var(--cream);
+}
+button{font-family:inherit; cursor:pointer;}
+button:focus-visible,a:focus-visible{outline:none; box-shadow:var(--focus-ring);}
+h2,h3{color:var(--navy);}
+img{max-width:100%;}
+
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+.skip-link{
+  position:absolute; left:12px; top:-60px; z-index:60;
+  background:var(--navy); color:#fff; padding:10px 18px; border-radius:var(--radius-sm);
+  font-weight:800; text-decoration:none; transition:top .2s ease;
+}
+.skip-link:focus{top:12px;}
+
+@keyframes rise{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+}
+
+/* ---------- 3. SHARED SHELL ---------- */
+.app-shell{width:min(var(--shell-w),100% - 40px); margin:0 auto; min-height:100vh; display:flex; flex-direction:column;}
+.screen{flex:1; display:flex; flex-direction:column;}
+.screen[hidden]{display:none !important;}
+
+.stage{background:#fff;border-radius:var(--radius-xl);box-shadow:var(--shadow-card);
+  padding:22px clamp(20px,3vw,40px) 26px;display:flex;flex-direction:column;align-items:center;}
+.stage-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.7rem,4vw,2.3rem);margin:0 0 10px;}
+.stage-title:focus-visible{outline:none;box-shadow:var(--focus-ring);border-radius:12px;}
+
+/* ---------- 4. HEADER / NAVIGATION ---------- */
+.app-header{
+  display:grid; align-items:center; gap:14px; color:#fff;
+  border-radius:var(--radius-lg); padding:12px 20px; box-shadow:var(--shadow-soft); margin-top:16px;
+}
+.header-home{background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.3);
+  grid-template-columns:auto 1fr; color:var(--navy);
+  position:relative; z-index:2; width:min(1180px,100% - 48px); margin:16px auto 0;}
+.header-mode{grid-template-columns:auto auto 1fr auto;
+  background:linear-gradient(120deg,var(--navy),var(--royal-blue));}
+.screen-mode[data-mode="learn"] .header-mode{background:linear-gradient(120deg,var(--green-dark),var(--green));}
+.screen-mode[data-mode="practice"] .header-mode{background:linear-gradient(120deg,var(--navy),var(--royal-blue));}
+.screen-mode[data-mode="breakdown"] .header-mode{background:linear-gradient(120deg,var(--orange-dark),var(--gold));}
+.screen-mode[data-mode="test"] .header-mode{background:linear-gradient(120deg,var(--navy),var(--purple-dark));}
+
+.ph-brand{display:flex; align-items:center; gap:10px;}
+.ph-mark{width:34px;height:34px;border-radius:10px;background:var(--yellow);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);}
+.ph-mark-glyph{font-family:var(--font-display);font-weight:800;font-size:1.3rem;line-height:1;color:var(--navy);}
+.ph-name{font-family:var(--font-display);font-weight:800;font-size:1.25rem;}
+.ph-tagline{font-weight:800;color:var(--navy);}
+.ph-mode-tag{font-family:var(--font-display);font-weight:800;font-size:.9rem;border-radius:999px;
+  padding:4px 14px;white-space:nowrap;background:var(--yellow);color:var(--navy);}
+.ph-spacer{min-width:0;}
+
+.nav-btn{font-family:var(--font-display);font-weight:800;font-size:.98rem;color:var(--navy);
+  background:#fff;border:3px solid var(--soft-blue);border-radius:999px;padding:9px 20px;
+  box-shadow:var(--shadow-soft);transition:transform .12s ease,border-color .15s ease;
+  min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:5px;}
+.nav-btn:hover{transform:translateY(-2px);border-color:var(--sky-blue);}
+.nav-btn:active{transform:translateY(0);}
+/* These elements set their own box-shadow, which would otherwise win over the
+   base focus rule, so each restates the focus ring explicitly. */
+.nav-btn:focus-visible{box-shadow:var(--focus-ring);}
+
+.activity-foot{display:flex;align-items:center;justify-content:flex-start;gap:12px;padding:14px 4px 4px;margin-top:auto;}
+
+/* ---------- 5. HOME SCREEN + MODE CARDS ---------- */
+.screen-home{position:relative;overflow:hidden;border-radius:var(--radius-xl);margin:10px 0;
+  min-height:calc(100vh - 20px);justify-content:flex-start;color:var(--text);
+  background:
+    radial-gradient(760px 460px at 88% -6%, rgba(103,200,243,0.35), transparent 62%),
+    radial-gradient(680px 520px at 6% 108%, rgba(133,103,232,0.28), transparent 60%),
+    radial-gradient(600px 460px at 60% 120%, rgba(255,216,77,0.22), transparent 60%),
+    linear-gradient(165deg,#EAF6FF 0%, var(--cream) 60%, #FDF3FF 100%);
+}
+.home-bg{position:absolute;inset:0;pointer-events:none;}
+.hb-circle{position:absolute;border-radius:50%;opacity:.16;}
+.hb-c1{width:300px;height:300px;background:var(--sky-blue);top:-70px;right:-50px;}
+.hb-c2{width:230px;height:230px;background:var(--purple);bottom:40px;left:-70px;opacity:.18;}
+.hb-c3{width:150px;height:150px;background:var(--yellow);bottom:120px;right:9%;opacity:.24;}
+.hb-word{position:absolute;font-family:var(--font-display);font-weight:800;color:rgba(18,50,91,0.06);font-size:5rem;user-select:none;}
+.hb-w1{top:15%;left:5%;} .hb-w2{top:57%;right:4%;font-size:4rem;} .hb-w3{bottom:8%;left:16%;font-size:5.5rem;}
+.hb-rule{position:absolute;left:0;right:0;bottom:8%;height:3px;
+  background:repeating-linear-gradient(90deg,rgba(18,50,91,0.10) 0 2px,transparent 2px 34px);}
+
+.home-inner{position:relative;z-index:2;width:min(1120px,100% - 48px);margin:0 auto;padding:14px 0 40px;
+  display:flex;flex-direction:column;align-items:center;}
+/* The logo is capped by height as well as width so it introduces the app
+   without pushing the four buttons below the fold on a phone. */
+.home-logo{display:block;width:min(400px,72%);height:auto;max-height:min(30vh,300px);
+  object-fit:contain;margin:2px auto 6px;}
+.home-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.6rem,4vw,2.4rem);
+  text-align:center;margin:0 0 4px;}
+.home-sub{text-align:center;color:var(--muted);font-weight:700;margin:0 0 22px;}
+
+.card-grid{display:grid;gap:18px;justify-content:center;width:100%;}
+.mode-grid{grid-template-columns:repeat(4,minmax(0,255px));}
+
+.pick-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;
+  border:4px solid transparent;border-radius:var(--radius-lg);padding:24px 18px;color:#fff;
+  text-align:center;box-shadow:var(--shadow-card);overflow:hidden;
+  transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}
+.pick-card::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% -20%,rgba(255,255,255,.35),transparent 60%);pointer-events:none;}
+.pick-card:hover{transform:translateY(-6px);}
+.pick-card:active{transform:translateY(-2px);}
+.pick-card:focus-visible{box-shadow:var(--focus-ring),var(--shadow-card);}
+.pick-name{font-family:var(--font-display);font-weight:800;font-size:1.35rem;line-height:1.15;}
+.pick-sub{font-weight:700;opacity:.96;}
+
+.mode-icon{font-size:2.5rem;line-height:1;}
+.mode-cta{margin-top:auto;padding-top:12px;}
+.mode-cta{font-family:var(--font-display);font-weight:800;font-size:1rem;
+  background:rgba(255,255,255,.24);border:2px solid rgba(255,255,255,.42);border-radius:999px;
+  padding:7px 18px;margin-top:12px;}
+
+/* Card text colour is chosen per card so every label clears WCAG AA against
+   its own gradient: navy on the light green and gold cards, white on the
+   dark blue and purple cards. Verified ratios are listed in the audit. */
+.mode-learn{background:linear-gradient(160deg,var(--green),var(--cyan));color:var(--navy);}
+.mode-learn .mode-cta{background:rgba(255,255,255,.5);border-color:rgba(18,50,91,.25);}
+.mode-practice{background:linear-gradient(160deg,var(--blue),var(--deep-blue));}
+/* Gold card carries navy text: white on gold would not meet contrast. */
+.mode-breakdown{background:linear-gradient(160deg,var(--yellow),var(--orange));color:var(--navy);}
+.mode-breakdown .mode-cta{background:rgba(255,255,255,.5);border-color:rgba(18,50,91,.25);}
+.mode-test{background:linear-gradient(160deg,var(--purple-dark),var(--navy));}
+.mode-test .pick-name,.mode-test .mode-icon{color:var(--yellow);}
+.mode-test .mode-cta{border-color:rgba(255,216,77,.6);}
+
+.method-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 12px;
+  margin:30px auto 0;max-width:min(1040px,100%);font-family:var(--font-display);font-weight:800;color:var(--navy);}
+.method-strip>span:not(.ms-arrow){background:#fff;border:2px solid var(--soft-blue);border-radius:999px;
+  padding:7px 16px;box-shadow:var(--shadow-soft);}
+.ms-arrow{color:var(--gold-dark);font-size:1.2rem;}
+
+/* ---------- 6. MODE DESTINATION SCREEN ---------- */
+.screen-mode{padding:14px 0 16px;min-height:calc(100vh - 20px);}
+.mode-body{flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:16px;}
+/* The card hugs its content and sits in the middle of the screen: a short,
+   honest destination, not a large empty panel. */
+.mode-stage{justify-content:center;text-align:center;animation:rise .3s ease;}
+.mode-stage-icon{font-size:2.8rem;line-height:1;margin:4px 0 10px;}
+.coming-soon{font-family:var(--font-display);font-weight:800;font-size:1.15rem;color:var(--gold-dark);
+  background:var(--soft-yellow);border:2px solid #F2DE9C;border-radius:999px;padding:8px 22px;margin:0 0 18px;}
+.coming-note{font-weight:700;color:var(--text);max-width:560px;margin:0;font-size:1.05rem;}
+
+/* ---------- 7. BUILD BADGE ---------- */
+.build-badge{position:fixed;right:12px;bottom:10px;margin:0;z-index:40;font-family:var(--font-body);
+  font-weight:800;font-size:.72rem;letter-spacing:.3px;color:#41608C;background:rgba(255,255,255,.85);
+  border:1px solid rgba(18,50,91,.1);border-radius:999px;padding:4px 12px;
+  box-shadow:0 2px 8px rgba(18,50,91,.08);pointer-events:none;
+  max-width:calc(100vw - 24px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ---------- 8. RESPONSIVE ---------- */
+/* Small laptop and tablet landscape: keep one row of four by narrowing the
+   cards, so a child still sees every mode without scrolling. */
+@media (max-width:1120px) and (min-width:921px){
+  .mode-grid{grid-template-columns:repeat(4,minmax(0,220px));gap:14px;}
+  .mode-card{padding:22px 14px;}
+}
+/* Tablet portrait and below: two rows of two. */
+@media (max-width:920px){
+  .mode-grid{grid-template-columns:repeat(2,minmax(0,300px));}
+}
+@media (max-width:920px){
+  .app-shell{width:min(var(--shell-w),100% - 28px);}
+  .app-header{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
+  .header-mode .nav-home{margin-left:auto;}
+  .ph-spacer{display:none;}
+  .ph-tagline{display:none;}
+}
+
+/* Phone: the four modes become full-width tappable rows so all four are
+   visible together without scrolling, matching the Add It! phone pattern. */
+@media (max-width:600px){
+  body{font-size:16px;}
+  .screen-home{border-radius:0;margin:0;min-height:100vh;}
+  .header-home{margin-top:10px;padding:10px 12px;width:min(1180px,100% - 24px);gap:8px;}
+  .ph-name{white-space:nowrap;}
+  .ph-brand{gap:7px;}
+  .app-header .nav-btn{padding:7px 14px;font-size:.9rem;white-space:nowrap;}
+  .home-inner{padding:10px 0 24px;width:min(1120px,100% - 24px);}
+  /* The logo is capped tightly on phones so all four mode buttons stay as
+     close to the first screenful as the device allows. */
+  .home-logo{width:min(280px,68%);max-height:18vh;margin-bottom:2px;}
+  .home-title{font-size:1.32rem;margin-bottom:2px;}
+  .home-sub{margin-bottom:10px;font-size:.95rem;}
+  .card-grid{gap:10px;}
+  .mode-grid{grid-template-columns:minmax(0,1fr);}
+  .mode-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;
+    column-gap:12px;row-gap:2px;align-items:center;text-align:left;padding:12px 14px;min-height:82px;}
+  .mode-card .mode-icon{grid-row:1 / span 2;font-size:2rem;min-width:52px;text-align:center;}
+  .mode-card .pick-name{grid-column:2;grid-row:1;font-size:1.18rem;}
+  .mode-card .pick-sub{grid-column:2;grid-row:2;font-size:.95rem;}
+  /* On a phone row the arrow replaces the CTA pill: same meaning, less height. */
+  .mode-card .mode-cta{display:none;}
+  .mode-card::after{content:"\2192";grid-column:3;grid-row:1 / span 2;font-family:var(--font-display);
+    font-weight:800;font-size:1.45rem;opacity:.9;}
+  .mode-card:hover{transform:none;}
+  .method-strip{margin-top:20px;font-size:.9rem;gap:6px 8px;}
+  .method-strip>span:not(.ms-arrow){padding:6px 12px;}
+  .stage{padding:18px 16px 20px;}
+
+  .coming-note{font-size:1rem;}
+  /* The badge joins the page flow on phones, so the mode screen gives up the
+     last strip of viewport height and the build number stays on screen. */
+  .screen-mode{min-height:calc(100vh - 80px);}
+  .build-badge{position:static;display:block;width:max-content;max-width:100%;margin:8px auto 10px;box-shadow:none;}
+}
+
+/* Narrowest supported phones (about 320px). */
+@media (max-width:400px){
+  .home-logo{width:min(240px,66%);max-height:15vh;}
+  .home-title{font-size:1.24rem;}
+  .mode-card{padding:12px 10px;column-gap:9px;}
+  .mode-card .mode-icon{font-size:1.7rem;min-width:42px;}
+  .mode-card .pick-name{font-size:1.08rem;}
+  .mode-card .pick-sub{font-size:.9rem;}
+  .method-strip{font-size:.82rem;}
+  .stage{padding:16px 12px 18px;}
+  .screen-mode{min-height:calc(100vh - 110px);}
+}
+
+/* Short viewports (landscape phones, small windows): reclaim space from the
+   logo and spacing, never from button size or readable text. */
+@media (max-height:620px){
+  /* Kept at or below the narrow-phone cap so this rule can only ever
+     reclaim height, never add it. */
+  .home-logo{max-height:15vh;margin-bottom:0;}
+  .home-inner{padding-top:8px;}
+  .home-sub{margin-bottom:12px;}
+  .method-strip{margin-top:16px;}
+  .app-header{margin-top:8px;padding-top:8px;padding-bottom:8px;}
+}
+
+/* Large desktop and classroom displays: cap measure, scale type. */
+@media (min-width:1600px){
+  .home-logo{width:min(440px,60%);max-height:min(32vh,340px);}
+  .mode-grid{grid-template-columns:repeat(4,minmax(0,285px));}
+}
