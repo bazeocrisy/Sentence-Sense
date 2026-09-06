@@ -497,9 +497,21 @@
     if (!items.length) { e.preventDefault(); return; }
     const first = items[0], last = items[items.length - 1];
     const active = document.activeElement;
-    const inside = el("guide-panel").contains(active);
+    const idx = items.indexOf(active);
 
-    if (!inside) { e.preventDefault(); (e.shiftKey ? last : first).focus(); return; }
+    /* Build 1.1.1 final pass: focus may legitimately sit on an element that is
+       inside the panel but NOT in the tab cycle — the dialog title carries
+       tabindex="-1" and receives focus when the guide opens. It is also the
+       FIRST node in the panel, so an unguarded Shift+Tab from it walked
+       backwards out of the dialog into the lesson controls behind. Any focus
+       that is not on a cycle member is therefore re-anchored explicitly:
+       Tab goes to the first focusable, Shift+Tab to the last. This also
+       covers focus having drifted outside the panel entirely. */
+    if (idx === -1) {
+      e.preventDefault();
+      (e.shiftKey ? last : first).focus();
+      return;
+    }
     if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
   }

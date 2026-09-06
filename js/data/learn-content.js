@@ -124,8 +124,9 @@ window.SS_LEARN_CONTENT = {
         sections: [
           { heading: "What it is", lines: ["A verb tells what someone or something does or is."] },
           { heading: "How to find it", lines: ["Ask: What happened?", "Or ask: What is happening?"] },
-          { heading: "Verbs that show action", chips: ["run", "jump", "play", "throw", "catch", "read", "climb"] },
-          { heading: "Verbs that tell what something is", chips: ["is", "are"] },
+          { heading: "Verbs that show action", chips: ["run", "jump", "play", "throw", "catch", "read", "climb", "walk", "write", "talk", "help", "carry"] },
+          { heading: "Verbs that tell what something is", chips: ["am", "is", "are", "was", "were", "be", "been", "being"] },
+          { heading: "Common verbs to remember", chips: ["have", "has", "had", "do", "does", "did"] },
           { heading: "Clue: verbs ending in -s", chips: ["runs", "plays", "throws"] },
           { heading: "Clue: verbs ending in -ed", chips: ["jumped", "played", "walked"] },
           { heading: "Clue: verbs ending in -ing", chips: ["running", "playing", "walking"] },

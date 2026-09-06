@@ -8,6 +8,8 @@ A correction-only build against the P0/P1 defect register in `SENTENCE-SENSE-BUI
 
 **Mandatory regression gate: HORIZONTAL OVERFLOW = 0 of 605 states.**
 
+**Final completion pass (this revision)** adds two further items on top of the nine corrections: a remaining Study Guide focus-trap edge case found by independent review, and the approved Verb Study Guide memorization expansion. Both are documented in §4A. `css/styles.css`, `index.html` and `js/app.js` are **byte-identical** to the visually approved Build 1.1.1 — no sizing, typography or layout was touched.
+
 Every authorized defect is verified **FIXED** with measurements. Two items outside the nine enumerated corrections are flagged for your review in §17 — one is a P1 defect from the audit that the nine corrections did not list, and one is a contrast failure in the same component that **the forensic audit itself missed**.
 
 Verdict: **PASS**.
@@ -46,11 +48,13 @@ Verified by SHA-256 against the Build 1.1 baseline.
 | `css/styles.css` | MODIFIED | Corrections 1, 6, 9 + D-06 |
 | `index.html` | MODIFIED | Three attributes for Corrections 7 and 8 |
 | `js/app.js` | MODIFIED | Build number, Correction 8A/8B |
-| `js/data/learn-content.js` | MODIFIED | Corrections 2, 3, 4, 5 |
-| `js/learn.js` | MODIFIED | Corrections 2, 7, 8C |
+| `js/data/learn-content.js` | MODIFIED | Corrections 2, 3, 4, 5 **+ 11 (final pass)** |
+| `js/learn.js` | MODIFIED | Corrections 2, 7, 8C **+ 10 (final pass)** |
 | `assets/images/logo.png` | unchanged | — |
 | `assets/images/logo-512.png` | unchanged | — |
 | `assets/images/favicon.png` | unchanged | — |
+
+**Final completion pass changed only two files** — `js/learn.js` and `js/data/learn-content.js`. `css/styles.css`, `index.html` and `js/app.js` are byte-identical to the visually approved Build 1.1.1.
 
 No files added or removed from the running application. The Build 1.1 audit report was replaced in the ZIP by this report; extracting the ZIP does not delete the older report from your repository.
 
@@ -347,6 +351,164 @@ The label is no longer the smallest essential text; it now sits above both the b
 
 ---
 
+## 4A. Final Completion Pass
+
+Two items, added after the visual approval of Build 1.1.1. Build number remains **Build 1.1.1**.
+
+---
+
+### Correction 10 — Study Guide focus-trap edge case (independent review finding)
+
+**Original defect.** Independent review identified that the trap protected forward Tab but not the exact state *open guide → focus on title → Shift+Tab*. **Reproduced before fixing**, on the shipped Build 1.1.1 code:
+
+```
+on open            : { id: "guide-title",   inPanel: true  }
+TITLE -> SHIFT+TAB : { id: "lesson-topics", inPanel: false }   <-- ESCAPED THE MODAL
+```
+
+Focus landed on the **All Topics** navigation button behind the overlay. The review's diagnosis was exactly right, and so was the warning not to declare it fixed on forward-Tab evidence alone: forward Tab from the title happened to work only because `#guide-close` is the next node in DOM order.
+
+**Root cause.** `#guide-title` carries `tabindex="-1"` so it can receive focus when the dialog opens, but it is therefore excluded from the focusable list the trap builds. The old guard only wrapped when the active element *was* the first or last cycle member. The title is neither, so no branch fired and the browser's default Shift+Tab applied — and because the title is the **first node inside the panel**, backwards default focus movement left the dialog entirely.
+
+**Correction.** The trap no longer asks "is focus inside the panel"; it asks "is focus on a member of the tab cycle". Any focus that is not a cycle member is re-anchored explicitly — Tab to the first focusable, Shift+Tab to the last. This covers the title, any future `tabindex="-1"` element inside the dialog, and focus having drifted outside the panel altogether.
+
+```js
+const idx = items.indexOf(active);
+if (idx === -1) {
+  e.preventDefault();
+  (e.shiftKey ? last : first).focus();
+  return;
+}
+if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+```
+
+**Files changed.** `js/learn.js` only. No CSS, no HTML, no dimension change.
+
+**Regression risk.** Low — one branch added ahead of two unchanged branches. Escape, Close, backdrop and focus-return paths were re-tested on all six guides.
+
+**Verification result: FIXED.** Every required test run on **all six Study Guides**. `guide-close` and `guide-body` are the two cycle members; `guide-title` receives initial focus.
+
+| Topic | TITLE → TAB | TITLE → SHIFT+TAB | FIRST → SHIFT+TAB | LAST → TAB | 10× Tab | 10× Shift+Tab | Mixed |
+|---|---|---|---|---|---|---|---|
+| Verb | guide-close | **guide-body** | guide-body | guide-close | all inside | all inside | all inside |
+| Subject | guide-close | **guide-body** | guide-body | guide-close | all inside | all inside | all inside |
+| Complete Subject | guide-close | **guide-body** | guide-body | guide-close | all inside | all inside | all inside |
+| Predicate | guide-close | **guide-body** | guide-body | guide-close | all inside | all inside | all inside |
+| Noun | guide-close | **guide-body** | guide-body | guide-close | all inside | all inside | all inside |
+| Adjective | guide-close | **guide-body** | guide-body | guide-close | all inside | all inside | all inside |
+
+**Every `activeElement` in every test remained inside `#guide-panel`.** The reported escape to `lesson-topics` no longer occurs.
+
+Exact sequences captured (Verb guide, identical shape on the other five):
+
+```
+10 consecutive Tab       : guide-close, guide-body, guide-close, guide-body, guide-close,
+                           guide-body, guide-close, guide-body, guide-close, guide-body
+10 consecutive Shift+Tab : guide-body, guide-close, guide-body, guide-close, guide-body,
+                           guide-close, guide-body, guide-close, guide-body, guide-close
+Mixed direction          : guide-close, guide-body, guide-close, guide-body,
+                           guide-close, guide-body, guide-close, guide-body
+```
+
+Close paths and focus return, all six guides:
+
+| Topic | Escape closes | Close button closes | Backdrop closes | Focus returns to |
+|---|---|---|---|---|
+| Verb | yes | yes | yes | `lesson-guide` |
+| Subject | yes | yes | yes | `lesson-guide` |
+| Complete Subject | yes | yes | yes | `lesson-guide` |
+| Predicate | yes | yes | yes | `lesson-guide` |
+| Noun | yes | yes | yes | `lesson-guide` |
+| Adjective | yes | yes | yes | `lesson-guide` |
+
+**No duplicate keydown handlers.** After **10 consecutive open/close cycles**: 1 overlay, 1 panel, Tab sequence still `guide-close → guide-body → guide-close …` with every element inside the panel, and Escape still closes. A single handler reference is added on open and removed on close.
+
+**No lesson, home or navigation control behind the modal can receive focus** in any direction, at any point in any of the tests above.
+
+---
+
+### Correction 11 — Verb Study Guide memorization expansion (approved)
+
+**Purpose.** Make the Verb Study Guide a usable reference and memorization aid without turning it into a word list. Concise and grouped, per instruction.
+
+**Changes.** Sections 8 → 10; chips 13 → 35.
+
+| Section | Build 1.1.1 (approved) | Final pass |
+|---|---|---|
+| Verbs that show action | run, jump, play, throw, catch, read, climb *(7)* | run, jump, play, throw, catch, read, climb, **walk, write, talk, help, carry** *(12)* |
+| Verbs that tell what something is | is, are *(2)* | **am,** is, are, **was, were, be, been, being** *(8)* |
+| **Common verbs to remember** | — | **have, has, had, do, does, did** *(6, new section)* |
+| Clue: verbs ending in -s | runs, plays, throws | **runs, plays, throws — unchanged** |
+| Clue: verbs ending in -ed | jumped, played, walked | **jumped, played, walked — unchanged** |
+| Clue: verbs ending in -ing | running, playing, walking | **running, playing, walking — unchanged** |
+
+Full section order after the change:
+
+1. What it is
+2. How to find it
+3. Verbs that show action *(12)*
+4. Verbs that tell what something is *(8)*
+5. **Common verbs to remember** *(6)*
+6. Clue: verbs ending in -s *(3)*
+7. Clue: verbs ending in -ed *(3)*
+8. Clue: verbs ending in -ing *(3)*
+9. See it in a sentence
+10. Why an ending is only a clue
+
+**Instructional rule honoured — verified programmatically:**
+
+| Rule | Result |
+|---|---|
+| "was" is **not** categorized as a verb ending in -s | PASS — it appears only in "Verbs that tell what something is" |
+| "has" is **not** categorized as a verb ending in -s | PASS — it appears only in "Common verbs to remember" |
+| Suffix clue sections kept separate and unchanged | PASS — all three still hold exactly their original three examples |
+| Memorization groups kept separate from suffix clue groups | PASS — sections 3–5 vs sections 6–8 |
+| Exact wording preserved: *"These endings are clues. They are not rules. Read the sentence to make sure."* | PASS — byte-identical in the Verb Clue step |
+| **No formal helping-verb terminology introduced** | **PASS** — "helping verb", "verb phrase", "auxiliary" and "linking verb" appear **nowhere** in the content file |
+| No adverbs added | PASS — "adverb" appears nowhere |
+| Not a giant word list | 35 chips across 5 grouped sections; the larger list remains deferred to Practice → Verb → Verb List |
+
+**Files changed.** `js/data/learn-content.js` only.
+
+**Layout impact — no horizontal overflow, no unusable scrolling:**
+
+| Device | Overflow | Panel fits viewport | Close always in view | Guide body |
+|---|---|---|---|---|
+| phone 320×568 | **0 px** | yes | yes | scrolls internally |
+| phone 390×844 | **0 px** | yes | yes | scrolls internally |
+| tablet 768×1024 | **0 px** | yes | yes | scrolls internally |
+| laptop 1366×768 | **0 px** | yes | yes | scrolls internally |
+| desktop 1920×1080 | **0 px** | yes | yes | scrolls internally |
+
+Verified across all 11 viewports: the guide panel fits the viewport everywhere and the Close button is always in view. Internal scrolling of the guide body is the intended behaviour for a reference list and was already present before the expansion.
+
+---
+
+### Confirmation: no sizing or layout change in this pass
+
+Byte-compared against the visually approved Build 1.1.1:
+
+| File | Result |
+|---|---|
+| `css/styles.css` | **IDENTICAL** — no desktop text, projector typography, card, lesson-stage, sentence or Study Guide dimension change |
+| `index.html` | **IDENTICAL** |
+| `js/app.js` | **IDENTICAL** |
+| `js/learn.js` | changed — focus trap only |
+| `js/data/learn-content.js` | changed — Verb Study Guide content only |
+
+The focus-trap correction required no style change, so none was made.
+
+---
+
+### One observation for your review — not changed
+
+The Verb **Study Guide** reminder reads *"These endings are clues. Read the sentence to make sure."* while the Verb **Clue step** carries the fuller *"These endings are clues. **They are not rules.** Read the sentence to make sure."* Both are pre-existing approved wording and the instruction was to preserve, not to alter, so I left the guide reminder untouched. If you want the two to match exactly, say so and it is a one-string change.
+
+Related, also unchanged: section 4 is headed "Verbs that tell what something is" and now contains the past forms *was* and *were*. Strictly the heading is present-tense while two of its members are past. "Verbs that tell what something is or was" would be marginally more accurate. Flagged rather than changed, because you specified the grouping.
+
+---
+
 ## 5. Instructional Integrity Audit
 
 Verified programmatically against the corrected content file.
@@ -362,6 +524,11 @@ Verified programmatically against the corrected content file.
 | | "is" / "are" verbs represented | PASS |
 | | Same-word comparison preserved (relocated, not deleted) | PASS |
 | | Comparison removed from the Clue step | PASS |
+| | *Final pass:* action verbs expanded to 12 | PASS |
+| | *Final pass:* "tell what something is" expanded to am, is, are, was, were, be, been, being | PASS |
+| | *Final pass:* new "Common verbs to remember" — have, has, had, do, does, did | PASS |
+| | *Final pass:* "was" / "has" never categorized as -s verbs | PASS |
+| | *Final pass:* three suffix clue sections unchanged and separate | PASS |
 | **Subject** | Find the verb → ask who or what → find the subject | PASS |
 | | Word type vs sentence job preserved | PASS |
 | | No "noun" before Noun is taught | PASS — 0 occurrences |
@@ -386,12 +553,16 @@ Verified programmatically against the corrected content file.
 
 The same sweep as the forensic audit: 55 Learn states × 11 viewports.
 
+Re-run in full after the final completion pass:
+
 ```
 TOTAL STATE OBSERVATIONS : 605
 HORIZONTAL OVERFLOW      : 0 of 605          <-- mandatory gate MET
 Focus on hidden element  : 0 of 605
 Console / page errors    : none
 ```
+
+The expanded Verb Study Guide did not introduce overflow at any viewport.
 
 Mandatory gate checklist:
 
@@ -539,7 +710,9 @@ Also verified at this size: no hover dependence anywhere; marked words still car
 | Keyboard-only lesson completion | **PASS** — Learn card → topic → 3 step advances → correct answer → Finish, reaching the completion panel with focus on its title |
 | Focus order | PASS — matches visual order |
 | Focus visibility | PASS — two-ring indicator on all controls |
-| **Modal focus trap** | **PASS — 0 controls reachable behind the overlay** (was 5) |
+| **Modal focus trap — forward** | **PASS — 0 controls reachable behind the overlay** (was 5) |
+| **Modal focus trap — reverse (Shift+Tab)** | **PASS** — including the title → Shift+Tab edge case that escaped to `lesson-topics` before the final pass. 10× Tab, 10× Shift+Tab and mixed-direction runs on all six guides kept every `activeElement` inside `#guide-panel`. See §4A |
+| Focus trap after 10 open/close cycles | PASS — 1 overlay, 1 panel, no duplicate handlers, Escape still closes |
 | Escape behaviour | PASS — closes the guide, then leaves a lesson, then returns Home; focus ends on `home-heading` |
 | Close button / backdrop click | PASS — both close and return focus to the opener |
 | aria-live feedback | PASS — `role="status" aria-live="polite"`; exactly 1 live region; focus moves to a button rather than into the live region, so no duplicate announcement |
@@ -613,6 +786,8 @@ Shared tokens deliberately **not** changed, and verified unchanged: `--orange-da
 | Console errors — full six-topic walkthrough | **0** |
 | Console errors — transition suite | **0** |
 | Console errors — 9-viewport shell regression | **0** |
+| Console errors — final-pass focus-trap suite (6 guides × 9 tests) | **0** |
+| Console errors — final-pass 605-state re-run | **0** |
 | Uncaught exceptions | **0** |
 | Failed local asset requests (4xx/5xx) | **0** |
 | Logo loads (`naturalWidth` > 0) | Yes at all viewports |
@@ -698,9 +873,13 @@ Every authorized P0 and P1 defect is verified **FIXED** with measurements:
 | D-09 Predicate wording | P1 | **FIXED** — card, definition, guide and recap consistent on "does or is" |
 | D-10 untaught "noun" references | P1 | **FIXED** — 8 → 0, topic order unchanged |
 | D-15 Complete Subject card wording | P2, authorized | **FIXED** |
+| **Study Guide reverse focus trap (title → Shift+Tab)** | independent review | **FIXED** — escaped to `lesson-topics`, now contained; verified on all six guides in both directions |
+| **Verb Study Guide memorization expansion** | approved | **DONE** — 8 → 10 sections, 13 → 35 chips, suffix clue sections untouched |
 
 The mandatory regression gate is met exactly as specified: **horizontal overflow 0 of 605 states**, with zero wrong-topic Study Guides, zero stale Try It states, zero duplicate listeners, zero incorrect progress states, zero console errors, zero failed asset requests, zero hidden-screen focus, a working focus trap, working keyboard retry, all six topics completing, and all three placeholder modes unchanged.
 
 Instructional integrity is intact: the approved sequence, the four-step model, all six definitions, the three verb-ending clues, the verbatim clues-not-rules wording, the verb-first subject strategy, the simple/complete subject contrast, the predicate's does-or-is coverage, all four noun categories and all three adjective questions were verified present after correction. No educational content was weakened, and the relocated verb comparison was preserved in full.
 
-Two honest qualifications on this PASS: one P1 fix (D-06) and one contrast fix the forensic audit missed were made outside the nine enumerated corrections, both documented in §17 for your decision; and **no physical device, projector or screen reader has been tested** — every claim here is simulated.
+The final completion pass is verified to the standard requested: the focus trap was **reproduced as broken first**, then fixed, then re-tested in **both** directions — TITLE→TAB, TITLE→SHIFT+TAB, FIRST→SHIFT+TAB, LAST→TAB, ten consecutive Tab presses, ten consecutive Shift+Tab presses and a mixed-direction run — on **all six** Study Guides, with every `activeElement` confirmed inside `#guide-panel` and no duplicate handlers after ten open/close cycles. The Verb Study Guide expansion honours the instructional rule that "was" and "has" are never presented as verbs ending in -s, preserves the clues-not-rules wording byte-for-byte, and introduces **no helping-verb or verb-phrase terminology**.
+
+Three honest qualifications on this PASS: one P1 fix (D-06) and one contrast fix the forensic audit missed were made outside the nine enumerated corrections, both documented in §17 for your decision; two small wording observations in §4A are flagged rather than changed; and **no physical device, projector or screen reader has been tested** — every claim here is simulated.
