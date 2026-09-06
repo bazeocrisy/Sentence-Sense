@@ -79,6 +79,100 @@
       </div>
     </section>
 
+    <!-- ================= LEARN: TOPIC SELECTION ================= -->
+    <section class="screen screen-topics" id="screen-topics" aria-labelledby="topics-heading" hidden>
+      <header class="app-header header-learn">
+        <div class="ph-brand">
+          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
+          <span class="ph-name">Sentence Sense</span>
+        </div>
+        <span class="ph-mode-tag">Learn</span>
+        <span class="ph-spacer" aria-hidden="true"></span>
+        <button type="button" class="nav-btn nav-home" id="topics-home"><span aria-hidden="true">&#127968;</span> Home</button>
+      </header>
+
+      <div class="topics-body">
+        <h2 id="topics-heading" class="stage-title" tabindex="-1">What do you want to learn?</h2>
+        <p class="topics-sub">Pick a topic. Each one is short.</p>
+
+        <!-- Topic cards are built from js/data/learn-content.js -->
+        <div class="card-grid topic-grid" id="topic-grid"></div>
+
+        <section class="strategy-box" aria-labelledby="strategy-heading">
+          <h3 class="strategy-heading" id="strategy-heading"></h3>
+          <ol class="strategy-list" id="strategy-list"></ol>
+          <p class="strategy-note" id="strategy-note"></p>
+        </section>
+      </div>
+
+      <footer class="activity-foot">
+        <button type="button" class="nav-btn nav-back" id="topics-back"><span aria-hidden="true">&larr;</span> Back</button>
+      </footer>
+    </section>
+
+    <!-- ================= LEARN: LESSON =================
+         One lesson runner for all six topics. Its content comes
+         from js/data/learn-content.js through js/learn.js. -->
+    <section class="screen screen-lesson" id="screen-lesson" aria-labelledby="lesson-heading" data-topic="" hidden>
+      <header class="app-header header-lesson">
+        <div class="ph-brand">
+          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
+          <span class="ph-name">Sentence Sense</span>
+        </div>
+        <span class="ph-mode-tag" id="lesson-topic-tag"></span>
+        <span class="ph-spacer" aria-hidden="true"></span>
+        <button type="button" class="nav-btn guide-btn" id="lesson-guide"><span aria-hidden="true">&#128218;</span> Study Guide</button>
+        <button type="button" class="nav-btn nav-home" id="lesson-home"><span aria-hidden="true">&#127968;</span> Home</button>
+      </header>
+
+      <div class="lesson-body">
+        <ol class="lesson-progress" id="lesson-progress" aria-label="Lesson steps">
+          <li data-step="0">Definition</li>
+          <li class="lp-arrow" aria-hidden="true">&rarr;</li>
+          <li data-step="1">Clue</li>
+          <li class="lp-arrow" aria-hidden="true">&rarr;</li>
+          <li data-step="2">Example</li>
+          <li class="lp-arrow" aria-hidden="true">&rarr;</li>
+          <li data-step="3">Try It</li>
+        </ol>
+
+        <div class="stage lesson-stage">
+          <div class="lesson-step" id="lesson-step">
+            <h2 class="lesson-title" id="lesson-heading" tabindex="-1"></h2>
+            <div class="lesson-content" id="lesson-content"></div>
+
+            <div class="tryit" id="tryit" hidden>
+              <div class="sentence-host" id="tryit-sentence"></div>
+              <p class="tryit-question" id="tryit-question"></p>
+              <div class="tryit-choices" id="tryit-choices" role="group" aria-labelledby="tryit-question"></div>
+              <p class="tryit-feedback" id="tryit-feedback" role="status" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <div class="lesson-done" id="lesson-done" hidden>
+            <p class="done-mark" aria-hidden="true">&#127881;</p>
+            <h2 class="lesson-title" id="done-title" tabindex="-1"></h2>
+            <p class="done-recap" id="done-recap"></p>
+            <div class="done-buttons">
+              <button type="button" class="nav-btn next-btn" id="done-next"></button>
+              <button type="button" class="nav-btn" id="done-again">Learn this again</button>
+              <button type="button" class="nav-btn" id="done-topics">All Topics</button>
+              <button type="button" class="nav-btn" id="done-home"><span aria-hidden="true">&#127968;</span> Home</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lesson-controls" id="lesson-controls">
+          <button type="button" class="nav-btn" id="lesson-prev"><span aria-hidden="true">&larr;</span> Back</button>
+          <button type="button" class="nav-btn next-btn" id="lesson-next">Next <span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </div>
+
+      <footer class="activity-foot">
+        <button type="button" class="nav-btn nav-back" id="lesson-topics"><span aria-hidden="true">&larr;</span> All Topics</button>
+      </footer>
+    </section>
+
     <!-- ================= MODE DESTINATION =================
          One shared destination screen. Its title, colour and text come
          from the MODES config in js/app.js, so each learning engine can
@@ -112,6 +206,19 @@
 
   </div>
 
+  <!-- Study Guide panel: contextual to a Learn topic, never a home mode. -->
+  <div class="guide-overlay" id="guide-overlay" hidden>
+    <div class="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <div class="guide-head">
+        <h2 class="guide-title" id="guide-title" tabindex="-1"></h2>
+        <button type="button" class="nav-btn" id="guide-close">Close <span aria-hidden="true">&#10005;</span></button>
+      </div>
+      <div class="guide-body" id="guide-body"></div>
+    </div>
+  </div>
+
+  <script src="js/data/learn-content.js"></script>
+  <script src="js/learn.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

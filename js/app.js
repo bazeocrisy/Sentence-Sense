@@ -1,6 +1,10 @@
 /* =========================================================
    Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.0.1 — FOUNDATION / SHELL (Build 1.0 plus the logo deployment fix).
+   Build 1.1 — SHELL + LEARN MODE ROUTING.
+
+   This file remains the shell: it shows one screen at a time and
+   owns Home / Back / Escape. Learn Mode itself lives in js/learn.js
+   and its content in js/data/learn-content.js.
 
    What this file does:
      - shows one screen at a time (home, mode destination)
@@ -22,16 +26,12 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.0.1";
+  const BUILD_NUMBER = "Build 1.1";
 
   /* ---------- Approved modes (home screen shows exactly these four) ---------- */
+  /* Build 1.1: "learn" is no longer a placeholder — the Learn card now
+     opens the Learn topic screen. The other three are unchanged. */
   const MODES = {
-    learn: {
-      tag: "Learn",
-      icon: "🎓",
-      title: "Learn",
-      note: "Learn will teach one part of a sentence at a time. You will get what it means, a clue to help you find it, an example, and a chance to try it."
-    },
     practice: {
       tag: "Practice",
       icon: "✏️",
@@ -52,12 +52,12 @@
     }
   };
 
-  const SCREENS = ["home", "mode"];
+  const SCREENS = ["home", "topics", "lesson", "mode"];
   const el = id => document.getElementById(id);
 
   /* ---------- State ---------- */
   const state = {
-    screen: "home",   // "home" | "mode"
+    screen: "home",   // "home" | "topics" | "lesson" | "mode"
     mode: null        // null | a key of MODES
   };
 
@@ -74,10 +74,14 @@
   function goHome() {
     state.mode = null;
     el("screen-mode").dataset.mode = "";
+    if (window.SS_LEARN) window.SS_LEARN.closeGuide();
     showScreen("home");
   }
 
   function openMode(key) {
+    /* Build 1.1: Learn has a real destination now. */
+    if (key === "learn") { window.SS_LEARN.openTopics(); return; }
+
     const mode = MODES[key];
     if (!mode) return;
 
@@ -108,10 +112,19 @@
     el("mode-back").addEventListener("click", goHome);
     el("mode-home").addEventListener("click", goHome);
 
-    // Escape returns to the home screen from any mode screen.
+    /* Escape steps back one level: it closes the Study Guide first, then
+       leaves a lesson for the topic list, then returns Home. */
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && state.screen === "mode") goHome();
+      if (e.key !== "Escape") return;
+      if (window.SS_LEARN && window.SS_LEARN.guideIsOpen()) { window.SS_LEARN.closeGuide(); return; }
+      if (state.screen === "lesson") { window.SS_LEARN.openTopics(); return; }
+      if (state.screen === "topics" || state.screen === "mode") goHome();
     });
+
+    /* The shell exposes only what Learn Mode needs: screen switching
+       and Home. Learn owns everything inside its own screens. */
+    window.SS_SHELL = { showScreen, goHome };
+    if (window.SS_LEARN) window.SS_LEARN.init();
 
     renderBuildBadge();
     goHome();
@@ -125,6 +138,7 @@
     state,
     MODES,
     openMode,
-    goHome
+    goHome,
+    showScreen
   };
 })();
