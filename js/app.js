@@ -1,6 +1,6 @@
 /* =========================================================
    Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.0 — FOUNDATION / SHELL ONLY.
+   Build 1.0.1 — FOUNDATION / SHELL (Build 1.0 plus the logo deployment fix).
 
    What this file does:
      - shows one screen at a time (home, mode destination)
@@ -22,7 +22,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.0";
+  const BUILD_NUMBER = "Build 1.0.1";
 
   /* ---------- Approved modes (home screen shows exactly these four) ---------- */
   const MODES = {
