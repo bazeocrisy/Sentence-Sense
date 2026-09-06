@@ -1,5 +1,5 @@
 /* =========================================================
-   Sentence Sense — Learn Mode engine (Build 1.1)
+   Sentence Sense — Learn Mode engine (Build 1.1.1)
 
    ONE lesson system, used by all six topics. This file contains
    rendering and interaction only. Every word a child reads comes
@@ -142,6 +142,24 @@
     host.appendChild(box);
   }
 
+  /* The same-word comparison. Build 1.1.1 moved it out of the Verb Clue
+     step and into the Verb Study Guide, so this one renderer is now shared
+     by the lesson step renderer and the Study Guide renderer. */
+  function renderContrast(host, contrast) {
+    const wrap = make("div", "lesson-contrast");
+    wrap.appendChild(make("h3", "lesson-contrast-heading", contrast.heading));
+    contrast.rows.forEach(row => {
+      const r = make("div", "contrast-row");
+      const sHost = make("div", "sentence-host");
+      renderSentence(sHost, row.sentence);
+      r.appendChild(sHost);
+      r.appendChild(make("p", "contrast-text", row.text));
+      wrap.appendChild(r);
+    });
+    wrap.appendChild(make("p", "lesson-warning", contrast.close));
+    host.appendChild(wrap);
+  }
+
   /* =========================================================
      2. STEP BLOCK RENDERER
      Renders one content block in a fixed, pedagogically ordered
@@ -192,20 +210,7 @@
       host.appendChild(ul);
     }
 
-    if (block.contrast) {
-      const wrap = make("div", "lesson-contrast");
-      wrap.appendChild(make("h3", "lesson-contrast-heading", block.contrast.heading));
-      block.contrast.rows.forEach(row => {
-        const r = make("div", "contrast-row");
-        const sHost = make("div", "sentence-host");
-        renderSentence(sHost, row.sentence);
-        r.appendChild(sHost);
-        r.appendChild(make("p", "contrast-text", row.text));
-        wrap.appendChild(r);
-      });
-      wrap.appendChild(make("p", "lesson-warning", block.contrast.close));
-      host.appendChild(wrap);
-    }
+    if (block.contrast) renderContrast(host, block.contrast);
 
     if (block.note) host.appendChild(make("p", "lesson-note", block.note));
   }
@@ -422,6 +427,12 @@
       body.appendChild(make("span", "tryit-feedback-text", choice.feedback));
       body.appendChild(make("span", "tryit-again", "Try again."));
       fb.appendChild(body);
+      /* Build 1.1.1 (D-08): disabling the chosen button drops focus to
+         <body>. Move it to the next choice the child can still try. The
+         feedback is announced by its own aria-live region, so moving focus
+         here does not create a second announcement. */
+      const nextChoice = Array.prototype.filter.call(buttons, x => !x.disabled)[0];
+      if (nextChoice) nextChoice.focus();
     }
     fb.hidden = false;
   }
@@ -461,10 +472,36 @@
         renderSentence(sHost, section.sentence);
         wrap.appendChild(sHost);
       }
+      if (section.contrast) renderContrast(wrap, section.contrast);
       body.appendChild(wrap);
     });
 
     body.appendChild(make("p", "guide-reminder", guide.reminder));
+  }
+
+  /* Build 1.1.1 (D-03): the panel declares aria-modal="true", so keyboard
+     focus must not be able to reach the page behind it. Tab and Shift+Tab
+     cycle within the panel while it is open. Escape, the Close button and
+     the backdrop click are unchanged, and the scrollable guide body is in
+     the cycle so a keyboard user can still scroll it. */
+  function guideFocusables() {
+    return Array.prototype.filter.call(
+      el("guide-panel").querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+      n => n.offsetParent !== null && !n.disabled
+    );
+  }
+
+  function trapGuideTab(e) {
+    if (e.key !== "Tab") return;
+    const items = guideFocusables();
+    if (!items.length) { e.preventDefault(); return; }
+    const first = items[0], last = items[items.length - 1];
+    const active = document.activeElement;
+    const inside = el("guide-panel").contains(active);
+
+    if (!inside) { e.preventDefault(); (e.shiftKey ? last : first).focus(); return; }
+    if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
   }
 
   function openGuide() {
@@ -473,11 +510,13 @@
     renderGuide(lesson.topicKey);
     el("guide-overlay").hidden = false;
     document.body.classList.add("guide-open");
+    document.addEventListener("keydown", trapGuideTab, true);
     el("guide-title").focus();
   }
 
   function closeGuide() {
     if (el("guide-overlay").hidden) return;
+    document.removeEventListener("keydown", trapGuideTab, true);
     el("guide-overlay").hidden = true;
     document.body.classList.remove("guide-open");
     if (lesson.guideOpener && lesson.guideOpener.focus) lesson.guideOpener.focus();

@@ -1,5 +1,5 @@
 /* =========================================================
-   Sentence Sense — Learn content (Build 1.1)
+   Sentence Sense — Learn content (Build 1.1.1)
 
    THIS FILE HOLDS EDUCATIONAL CONTENT ONLY.
    No rendering, no navigation, no application logic. Every
@@ -87,27 +87,7 @@ window.SS_LEARN_CONTENT = {
           "Some verbs end in -ed: jumped, played, walked",
           "Some verbs end in -ing: running, playing, walking"
         ],
-        warning: "These endings are clues. They are not rules. Read the sentence to make sure.",
-        contrast: {
-          heading: "The same word can do two different jobs",
-          rows: [
-            {
-              sentence: {
-                words: ["The", "workers", "are", "building", "a", "house."],
-                marks: [{ start: 3, end: 3, kind: "verb", label: "TELLS WHAT THEY DO" }]
-              },
-              text: "Here, building tells what the workers are doing."
-            },
-            {
-              sentence: {
-                words: ["The", "building", "is", "tall."],
-                marks: [{ start: 1, end: 1, kind: "noun", label: "NAMES A THING" }]
-              },
-              text: "Here, building names a thing. The verb is is."
-            }
-          ],
-          close: "Same word, two different jobs. That is why an ending is a clue, not a rule."
-        }
+        warning: "These endings are clues. They are not rules. Read the sentence to make sure."
       },
 
       example: {
@@ -131,9 +111,9 @@ window.SS_LEARN_CONTENT = {
         question: "Which word tells what happened?",
         choices: [
           { text: "small", feedback: "small tells what kind of dog it is. It describes the dog. Look again for the word that tells what happened." },
-          { text: "dog", feedback: "dog names an animal, so it is a noun. Look again for the word that tells what happened." },
+          { text: "dog", feedback: "dog names the animal. It does not tell what happened. Look again for the word that tells what happened." },
           { text: "jumped", correct: true, feedback: "Correct! jumped is the verb because it tells what the dog did." },
-          { text: "log", feedback: "log names a thing, so it is a noun. Look again for the word that tells what happened." }
+          { text: "log", feedback: "log names a thing. It does not tell what happened. Look again for the word that tells what happened." }
         ]
       },
 
@@ -154,6 +134,31 @@ window.SS_LEARN_CONTENT = {
             sentence: {
               words: ["The", "player", "kicked", "the", "ball."],
               marks: [{ start: 2, end: 2, kind: "verb", label: "VERB" }]
+            }
+          },
+          {
+            /* Build 1.1.1: moved here from the Verb Clue step so the primary
+               lesson carries one idea at a time. The teaching is unchanged. */
+            heading: "Why an ending is only a clue",
+            contrast: {
+              heading: "The same word can do two different jobs",
+              rows: [
+                {
+                  sentence: {
+                    words: ["The", "workers", "are", "building", "a", "house."],
+                    marks: [{ start: 3, end: 3, kind: "verb", label: "TELLS WHAT THEY DO" }]
+                  },
+                  text: "Here, building tells what the workers are doing."
+                },
+                {
+                  sentence: {
+                    words: ["The", "building", "is", "tall."],
+                    marks: [{ start: 1, end: 1, kind: "noun", label: "NAMES A THING" }]
+                  },
+                  text: "Here, building names a thing. The verb is is."
+                }
+              ],
+              close: "Same word, two different jobs. That is why an ending is a clue, not a rule."
             }
           }
         ],
@@ -176,7 +181,7 @@ window.SS_LEARN_CONTENT = {
         list: [
           "The main subject word is called the simple subject."
         ],
-        note: "A word can be a noun and be the subject at the same time. Noun tells what kind of word it is. Subject tells the job it does in the sentence.",
+        note: "Every word has a type, and it also has a job in the sentence. Subject is a job. Here, player names a person, and its job in this sentence is the subject.",
         sentence: {
           words: ["The", "player", "kicked", "the", "ball."],
           marks: [{ start: 1, end: 1, kind: "subject", label: "SIMPLE SUBJECT" }]
@@ -215,7 +220,7 @@ window.SS_LEARN_CONTENT = {
           "Find the verb: kicked.",
           "Ask: Who kicked? The player.",
           "So player is the simple subject.",
-          "player is a noun, and here it is also doing the job of the subject."
+          "player names a person, and here its job in the sentence is the subject."
         ]
       },
 
@@ -229,7 +234,7 @@ window.SS_LEARN_CONTENT = {
           { text: "tall", feedback: "tall describes the teacher. It is not the main subject word. Ask: who wrote?" },
           { text: "teacher", correct: true, feedback: "Correct! The verb is wrote. Who wrote? The teacher. So teacher is the simple subject." },
           { text: "wrote", feedback: "wrote is the verb. It tells what happened. Now ask: who wrote?" },
-          { text: "board", feedback: "board names a thing, so it is a noun — but it is not who did the writing. Ask: who wrote?" }
+          { text: "board", feedback: "board names a thing, but it is not who did the writing. Ask: who wrote?" }
         ]
       },
 
@@ -251,7 +256,7 @@ window.SS_LEARN_CONTENT = {
             },
             lines: ["The verb is kicked. Who kicked? The player. So player is the simple subject."]
           },
-          { heading: "Noun or subject?", lines: ["Noun tells what kind of word it is.", "Subject tells the job the word does in the sentence.", "player is a noun. In this sentence it is also the subject."] }
+          { heading: "Word type or sentence job?", lines: ["A word type tells what kind of word it is.", "Subject tells the job the word does in the sentence.", "player names a person. In this sentence its job is the subject."] }
         ],
         reminder: "In many of the sentences we are learning, the subject comes before the verb."
       }
@@ -263,7 +268,7 @@ window.SS_LEARN_CONTENT = {
     "complete-subject": {
       name: "Complete Subject",
       badge: "The ___",
-      card: "See the whole subject part.",
+      card: "See all the words in the subject.",
       color: "complete-subject",
 
       definition: {
@@ -351,7 +356,7 @@ window.SS_LEARN_CONTENT = {
     "predicate": {
       name: "Predicate",
       badge: "did what?",
-      card: "Find what the subject does.",
+      card: "Find what the subject does or is.",
       color: "predicate",
 
       definition: {
@@ -413,7 +418,7 @@ window.SS_LEARN_CONTENT = {
         ]
       },
 
-      recap: "The predicate is the part with the verb. It tells what the subject does.",
+      recap: "The predicate is the part with the verb. It tells what the subject does or is.",
 
       studyGuide: {
         title: "Predicate Study Guide",

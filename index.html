@@ -40,7 +40,7 @@
              sizes="(max-width: 600px) 260px, 400px"
              alt="Sentence Sense" width="1024" height="768">
 
-        <h2 id="home-heading" class="home-title">What do you want to do today?</h2>
+        <h2 id="home-heading" class="home-title" tabindex="-1">What do you want to do today?</h2>
         <p class="home-sub">Pick one to begin.</p>
 
         <div class="card-grid mode-grid">
@@ -208,12 +208,12 @@
 
   <!-- Study Guide panel: contextual to a Learn topic, never a home mode. -->
   <div class="guide-overlay" id="guide-overlay" hidden>
-    <div class="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+    <div class="guide-panel" id="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
       <div class="guide-head">
         <h2 class="guide-title" id="guide-title" tabindex="-1"></h2>
         <button type="button" class="nav-btn" id="guide-close">Close <span aria-hidden="true">&#10005;</span></button>
       </div>
-      <div class="guide-body" id="guide-body"></div>
+      <div class="guide-body" id="guide-body" tabindex="0"></div>
     </div>
   </div>
 

@@ -1,6 +1,6 @@
 /* =========================================================
    Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.1 — SHELL + LEARN MODE ROUTING.
+   Build 1.1.1 — SHELL + LEARN MODE ROUTING.
 
    This file remains the shell: it shows one screen at a time and
    owns Home / Back / Escape. Learn Mode itself lives in js/learn.js
@@ -26,7 +26,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.1";
+  const BUILD_NUMBER = "Build 1.1.1";
 
   /* ---------- Approved modes (home screen shows exactly these four) ---------- */
   /* Build 1.1: "learn" is no longer a placeholder — the Learn card now
@@ -71,11 +71,16 @@
     window.scrollTo(0, 0);
   }
 
-  function goHome() {
+  /* Build 1.1.1 (D-07): Home used to leave keyboard focus on a button inside
+     the screen it had just hidden. It now moves focus to the Home heading,
+     matching what the Learn screens already do on entry. `moveFocus` is
+     false on the initial call from init(), so nothing steals focus on load. */
+  function goHome(moveFocus) {
     state.mode = null;
     el("screen-mode").dataset.mode = "";
     if (window.SS_LEARN) window.SS_LEARN.closeGuide();
     showScreen("home");
+    if (moveFocus !== false) el("home-heading").focus();
   }
 
   function openMode(key) {
@@ -109,8 +114,9 @@
       card.addEventListener("click", () => openMode(card.dataset.mode));
     });
 
-    el("mode-back").addEventListener("click", goHome);
-    el("mode-home").addEventListener("click", goHome);
+    /* Wrapped so the click Event is never passed as goHome's argument. */
+    el("mode-back").addEventListener("click", () => goHome());
+    el("mode-home").addEventListener("click", () => goHome());
 
     /* Escape steps back one level: it closes the Study Guide first, then
        leaves a lesson for the topic list, then returns Home. */
@@ -127,7 +133,7 @@
     if (window.SS_LEARN) window.SS_LEARN.init();
 
     renderBuildBadge();
-    goHome();
+    goHome(false);
   }
 
   document.addEventListener("DOMContentLoaded", init);
