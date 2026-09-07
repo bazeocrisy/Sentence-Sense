@@ -286,7 +286,7 @@ img{max-width:100%;}
   border-bottom:5px solid var(--yellow);padding-bottom:3px;}
 
 /* ---------- 6. MODE DESTINATION SCREEN ---------- */
-.screen-mode{padding:14px 0 16px;min-height:calc(100vh - 20px);}
+.screen-mode{padding:14px 0 16px;}
 .mode-body{flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:16px;}
 /* The card hugs its content and sits in the middle of the screen: a short,
    honest destination, not a large empty panel. */
@@ -296,12 +296,41 @@ img{max-width:100%;}
   background:var(--soft-yellow);border:2px solid #F2DE9C;border-radius:999px;padding:8px 22px;margin:0 0 18px;}
 .coming-note{font-weight:700;color:var(--text);max-width:560px;margin:0;font-size:1.05rem;}
 
-/* ---------- 7. BUILD BADGE ---------- */
-.build-badge{position:fixed;right:12px;bottom:10px;margin:0;z-index:40;font-family:var(--font-body);
+/* ---------- 7. BUILD BADGE ----------
+   Build 1.2 correction — D-21 fixed structurally, not per-viewport.
+
+   A position:fixed badge is only ever safe on a screen that cannot scroll.
+   Every Learn screen can scroll: lesson content, the Try It block, feedback
+   and the completion panel all vary in height, so at some viewport the
+   content WILL pass under a pinned corner. Patching the sizes where that was
+   observed (1024x692 and the rest of the 621px-tall band) would leave the
+   same defect waiting at the next size.
+
+   The badge is therefore in normal document flow by default, below all
+   content, on every screen. Overlap is then structurally impossible rather
+   than merely unobserved. The single exception is the Home portal at the
+   sizes where Home provably does not scroll and already reserves a 48px
+   empty lane for the badge -- Home's appearance is unchanged by this pass.
+   The old rule set did the opposite: fixed by default, with three separate
+   opt-outs, one of which (max-height:620px) was unscoped and was the only
+   thing protecting Learn. That asymmetry was D-21. */
+.build-badge{position:static;display:block;width:max-content;max-width:100%;
+  margin:10px auto 12px;z-index:40;font-family:var(--font-body);
   font-weight:800;font-size:.72rem;letter-spacing:.3px;color:#41608C;background:rgba(255,255,255,.85);
   border:1px solid rgba(18,50,91,.1);border-radius:999px;padding:4px 12px;
-  box-shadow:0 2px 8px rgba(18,50,91,.08);pointer-events:none;
-  max-width:calc(100vw - 24px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  box-shadow:none;pointer-events:none;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* HOME ONLY, and only where Home does not scroll: the badge keeps the
+   bottom-right corner it has had since Build 1.2 shipped. Both conditions
+   are required. Below 1181px wide Home is a two-column portal taller than
+   the viewport; at 620px tall or less it is a short landscape window. In
+   both cases Home scrolls and the badge must stay in flow. */
+@media (min-width:1181px) and (min-height:621px){
+  #screen-home:not([hidden]) ~ .build-badge{
+    position:fixed;right:12px;bottom:10px;margin:0;width:auto;
+    max-width:calc(100vw - 24px);box-shadow:0 2px 8px rgba(18,50,91,.08);}
+}
 
 /* ---------- 8. RESPONSIVE ---------- */
 
@@ -319,14 +348,10 @@ img{max-width:100%;}
   .mode-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   /* In the two-column band the portal is taller than the viewport, so a fixed
      badge would float over a card at scroll-0 (measured at 1024x768 and
-     1180x820). Below 1181px the badge therefore joins the document flow under
-     the content, where overlap is structurally impossible.
-     The selector applies ONLY while Home is the visible screen, so the Learn
-     and placeholder screens keep the badge behaviour they already had. */
-  #screen-home:not([hidden]) ~ .build-badge{position:static;display:block;
-    width:max-content;max-width:100%;margin:10px auto 12px;box-shadow:none;}
-  /* Reclaim the height the in-flow badge now occupies so a page that used to
-     fit exactly does not gain a scrollbar. */
+     1180x820). The badge is now in flow by default (Section 7) and the media
+     query that restores the fixed corner starts at 1181px, so this band gets
+     the in-flow badge without needing its own opt-out rule.
+     Only the height reclaim is still needed here. */
   .screen-home{padding-bottom:0;min-height:calc(100vh - 52px);}
 }
 /* Phone: one card per row, full-width action buttons. */
@@ -367,11 +392,8 @@ img{max-width:100%;}
   .app-header .nav-btn{padding:7px 14px;font-size:.9rem;white-space:nowrap;}
   .stage{padding:18px 16px 20px;}
   .coming-note{font-size:1rem;}
-  /* The badge joins the page flow on phones, so the mode screen gives up the
-     last strip of viewport height and the build number stays on screen. */
-  .screen-mode{min-height:calc(100vh - 80px);}
-  .build-badge{position:static;display:block;width:max-content;max-width:100%;margin:8px auto 10px;box-shadow:none;}
-  /* Badge is in flow here, so the reserved corner lane is not needed. */
+  /* The badge is in flow on every screen now (Section 7), so no per-width
+     opt-out is needed here and the reserved corner lane is not needed. */
   .screen-home{padding-bottom:0;}
 }
 
@@ -382,7 +404,6 @@ img{max-width:100%;}
   .mode-name{font-size:1.15rem;}
   .mode-desc{font-size:.92rem;}
   .stage{padding:16px 12px 18px;}
-  .screen-mode{min-height:calc(100vh - 110px);}
 }
 
 /* Short viewports (landscape phones, small windows): reclaim spacing only. */
@@ -391,12 +412,10 @@ img{max-width:100%;}
   .home-sub{margin-bottom:12px;}
   .hd-hills{display:none;}
   .app-header{margin-top:8px;padding-top:8px;padding-bottom:8px;}
-  /* A short landscape window scrolls, and a fixed badge would then float over
-     whatever card scrolls beneath it. It joins the flow instead, below all
-     content, where it cannot overlap anything. */
   .home-logo{width:clamp(104px,13vh,132px);}
-  .build-badge{position:static;display:block;width:max-content;max-width:100%;
-    margin:10px auto 12px;box-shadow:none;}
+  /* The badge already sits in flow at every size (Section 7); the fixed-corner
+     exception is gated at min-height:621px, so a short window never gets it.
+     Only the reserved lane needs clearing here. */
   .screen-home{padding-bottom:0;}
 }
 
@@ -425,14 +444,48 @@ img{max-width:100%;}
 .guide-btn{border-color:var(--gold);}
 
 /* ---------- 9b. Topic screen ---------- */
-.screen-topics,.screen-lesson{padding:14px 0 16px;min-height:calc(100vh - 20px);}
+.screen-topics,.screen-lesson{padding:14px 0 16px;}
 .topics-body{flex:1;display:flex;flex-direction:column;align-items:center;margin-top:18px;}
 .topics-sub{text-align:center;color:var(--muted);font-weight:700;margin:0 0 20px;}
-.topic-grid{grid-template-columns:repeat(3,minmax(0,270px));}
-.topic-card{padding:20px 16px;gap:4px;}
-.topic-badge{font-family:var(--font-display);font-weight:800;font-size:1.25rem;
+
+/* Build 1.2 correction — RESTORED BASE CARD RULES.
+   These four classes are written by js/learn.js and index.html but had no
+   base rule in this stylesheet, so #topic-grid computed display:block, the
+   card <button> stayed inline-block, and the three <span>s stayed inline.
+   The result was six inline-flowed strips of unequal width reading
+   "kickedVerbFind what happens." The grid-template-columns rule below was
+   inert because nothing declared display:grid.
+   The card is ONE button (the whole card is the control, as it has been
+   since Build 1.1) and its three parts are three stacked block levels:
+       CLUE BADGE  ->  TOPIC NAME  ->  SHORT DESCRIPTION           */
+.card-grid{display:grid;width:100%;justify-content:center;
+  gap:clamp(12px,1.6vw,20px);}
+.pick-card{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;border:none;border-radius:var(--radius-lg);color:#fff;cursor:pointer;
+  font-family:var(--font-display);box-shadow:var(--shadow-card);
+  transition:transform .15s ease,box-shadow .15s ease;}
+.pick-card:hover{transform:translateY(-4px);}
+.pick-card:focus-visible{outline:none;box-shadow:var(--focus-ring),var(--shadow-card);}
+.pick-name{display:block;font-family:var(--font-display);font-weight:800;
+  font-size:clamp(1.2rem,1.55vw,1.45rem);line-height:1.15;}
+.pick-sub{display:block;font-family:var(--font-body);font-weight:700;
+  font-size:clamp(.92rem,1.05vw,1.02rem);line-height:1.35;}
+
+/* Desktop: a deliberate 3 x 2. Equal 1fr tracks give equal widths and
+   grid-auto-rows:1fr gives all six cards the same height, so the six read
+   as one balanced set of choices rather than a ragged list. */
+.topic-grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:1fr;
+  width:min(1020px,100%);}
+.topic-card{padding:clamp(16px,1.8vw,22px) clamp(12px,1.3vw,18px);}
+/* The three levels are separated by real space, never by punctuation. */
+.topic-badge{display:block;font-family:var(--font-display);font-weight:800;
+  font-size:clamp(1.05rem,1.35vw,1.3rem);
   background:rgba(255,255,255,.24);border:3px solid rgba(255,255,255,.5);border-radius:var(--radius-md);
-  padding:8px 18px;margin-bottom:6px;white-space:nowrap;}
+  padding:8px 18px;margin:0 0 12px;white-space:nowrap;}
+.topic-card .pick-name{margin:0 0 6px;}
+/* Full opacity: the description is instructional text, so it is never
+   dimmed. Contrast is measured on the rendered gradient, not assumed. */
+.topic-card .pick-sub{margin:0;}
 .topic-verb{background:linear-gradient(160deg,var(--blue),var(--deep-blue));}
 .topic-subject{background:linear-gradient(160deg,var(--green),var(--cyan));color:var(--navy);}
 .topic-subject .topic-badge{background:rgba(255,255,255,.5);border-color:rgba(18,50,91,.22);}
@@ -443,18 +496,25 @@ img{max-width:100%;}
 .topic-adjective .topic-badge{background:rgba(255,255,255,.5);border-color:rgba(18,50,91,.22);}
 
 /* The strategy is stated once, on the topic screen, in the order the
-   topics themselves are listed. Static text, not an interaction. */
-.strategy-box{width:min(900px,100%);margin:30px auto 0;background:#fff;border:2px solid var(--soft-blue);
-  border-radius:var(--radius-lg);padding:16px 20px 18px;box-shadow:var(--shadow-soft);}
-.strategy-heading{font-family:var(--font-display);font-weight:800;font-size:1.1rem;margin:0 0 10px;text-align:center;}
+   topics themselves are listed. Static text, not an interaction.
+
+   Build 1.2 correction — SUBORDINATED, not changed. The six topic cards are
+   the primary decision area; this is secondary reference material. The eight
+   steps and their wording are untouched. What changed is only rank: the box
+   is narrower than the card grid, sits on the page tint instead of white,
+   drops its lift shadow, and its type steps down below the card type. */
+.strategy-box{width:min(860px,100%);margin:34px auto 0;background:rgba(255,255,255,.55);
+  border:1px solid #DCEAF8;border-radius:var(--radius-lg);padding:14px 20px 16px;box-shadow:none;}
+.strategy-heading{font-family:var(--font-display);font-weight:800;font-size:1rem;margin:0 0 10px;
+  text-align:center;color:var(--muted);letter-spacing:.2px;}
 .strategy-list{list-style:none;counter-reset:ss-step;display:flex;flex-wrap:wrap;justify-content:center;
-  gap:8px;margin:0;padding:0;}
-.strategy-list li{counter-increment:ss-step;font-family:var(--font-display);font-weight:800;font-size:.9rem;
-  color:var(--navy);background:var(--soft-blue);border:2px solid #C6DAF6;border-radius:999px;padding:6px 14px 6px 10px;
-  display:flex;align-items:center;gap:7px;}
+  gap:7px;margin:0;padding:0;}
+.strategy-list li{counter-increment:ss-step;font-family:var(--font-display);font-weight:700;font-size:.84rem;
+  color:var(--navy);background:var(--soft-blue);border:1px solid #D3E5F8;border-radius:999px;padding:5px 12px 5px 8px;
+  display:flex;align-items:center;gap:6px;}
 .strategy-list li::before{content:counter(ss-step);display:inline-flex;align-items:center;justify-content:center;
-  width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:.78rem;flex:none;}
-.strategy-note{text-align:center;color:var(--muted);font-weight:700;font-size:.94rem;margin:12px 0 0;}
+  width:19px;height:19px;border-radius:50%;background:var(--muted);color:#fff;font-size:.72rem;flex:none;}
+.strategy-note{text-align:center;color:var(--muted);font-weight:600;font-size:.88rem;margin:11px 0 0;}
 
 /* ---------- 9c. Lesson layout ---------- */
 .lesson-body{flex:1;display:flex;flex-direction:column;margin-top:16px;}
@@ -615,26 +675,32 @@ body.guide-open{overflow:hidden;}
    10. LEARN MODE — RESPONSIVE
    ============================================================= */
 
-/* Tablet portrait and small laptop: topics in two columns. */
-@media (max-width:1080px){
-  .topic-grid{grid-template-columns:repeat(2,minmax(0,290px));}
+/* Topic grid steps 3 -> 2 -> 1. Thresholds were set by measuring the widest
+   card content ("Complete Subject" over "See all the words in the subject.")
+   against the track width each step produces, not chosen by eye.
+   At 901px the three-column track is 277px wide with 254px of content box,
+   which clears the longest title with room to spare, so three columns are
+   kept down to 901px. Below that the title would begin to crowd. */
+@media (max-width:900px){
+  .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:min(660px,100%);}
 }
 
 /* Phones: everything stacks; nothing instructional shrinks below
    readable size, and every control keeps a 44px+ target. */
 @media (max-width:600px){
   :root{--sentence-size:1.12rem;--sentence-label:.72rem;--lesson-text:1rem;}
-  .screen-topics,.screen-lesson{min-height:calc(100vh - 80px);}
   .topics-body{margin-top:12px;}
   .topics-sub{margin-bottom:14px;}
-  .topic-grid{grid-template-columns:minmax(0,1fr);gap:10px;}
-  .topic-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;
-    column-gap:12px;row-gap:2px;align-items:center;text-align:left;padding:12px 14px;min-height:82px;}
-  .topic-card .topic-badge{grid-row:1 / span 2;font-size:.95rem;padding:8px 10px;margin:0;min-width:84px;text-align:center;}
-  .topic-card .pick-name{grid-column:2;grid-row:1;font-size:1.1rem;}
-  .topic-card .pick-sub{grid-column:2;grid-row:2;font-size:.92rem;}
-  .topic-card::after{content:"\2192";grid-column:3;grid-row:1 / span 2;font-family:var(--font-display);
-    font-weight:800;font-size:1.4rem;opacity:.9;}
+  /* One column, and the SAME three stacked levels as every other viewport.
+     Build 1.2 correction: the previous phone rule laid the card out as a
+     three-column grid with the badge beside the text, which contradicted the
+     hierarchy used everywhere else. The card stays a stacked
+     BADGE -> NAME -> DESCRIPTION column here and only its sizes come down. */
+  .topic-grid{grid-template-columns:minmax(0,1fr);gap:10px;width:100%;}
+  .topic-card{padding:14px 16px;}
+  .topic-card .topic-badge{font-size:1.05rem;padding:7px 14px;margin:0 0 9px;}
+  .topic-card .pick-name{font-size:1.2rem;margin:0 0 4px;}
+  .topic-card .pick-sub{font-size:.95rem;}
   .topic-card:hover{transform:none;}
   .strategy-box{margin-top:20px;padding:14px;}
   .strategy-list{flex-direction:column;align-items:stretch;gap:6px;}
@@ -661,7 +727,10 @@ body.guide-open{overflow:hidden;}
 
 @media (max-width:400px){
   .lesson-groups{grid-template-columns:minmax(0,1fr);}
-  .topic-card .topic-badge{min-width:70px;font-size:.85rem;}
+  .topic-card{padding:12px 12px;}
+  .topic-card .topic-badge{font-size:.95rem;padding:6px 12px;margin:0 0 8px;}
+  .topic-card .pick-name{font-size:1.12rem;}
+  .topic-card .pick-sub{font-size:.9rem;}
   .lesson-stage{padding:14px 8px 16px;}
 }
 
@@ -676,7 +745,8 @@ body.guide-open{overflow:hidden;}
    capped so text never stretches across the whole screen. */
 @media (min-width:1600px){
   :root{--sentence-size:1.9rem;--sentence-label:.9rem;--lesson-text:1.22rem;--lesson-max:1000px;}
-  .topic-grid{grid-template-columns:repeat(3,minmax(0,300px));}
+  /* Still three equal columns — only the container grows. */
+  .topic-grid{width:min(1120px,100%);}
   .lesson-title{font-size:2.2rem;}
 }
 
@@ -720,16 +790,18 @@ body.guide-open{overflow:hidden;}
   .tryit-feedback{font-size:1.4rem;padding:16px 22px;}
   .tryit-mark{font-size:1.7rem;}
   .lesson-controls .nav-btn,.done-buttons .nav-btn{font-size:1.35rem;padding:16px 34px;}
-  .topic-grid{grid-template-columns:repeat(3,minmax(0,340px));}
+  .topic-grid{width:min(1320px,100%);}
   .topic-card{padding:26px 20px;}
-  .topic-badge{font-size:1.6rem;padding:10px 24px;}
-  .topic-card .pick-name{font-size:1.75rem;}
+  .topic-badge{font-size:1.6rem;padding:10px 24px;margin:0 0 16px;}
+  .topic-card .pick-name{font-size:1.75rem;margin:0 0 8px;}
   .topic-card .pick-sub{font-size:1.25rem;}
-  .strategy-box{width:min(1400px,100%);padding:22px 26px 24px;}
-  .strategy-heading{font-size:1.6rem;}
-  .strategy-list li{font-size:1.25rem;padding:9px 20px 9px 12px;}
-  .strategy-list li::before{width:30px;height:30px;font-size:1.05rem;}
-  .strategy-note{font-size:1.2rem;}
+  /* The strategy box stays NARROWER than the topic grid at projector sizes so
+     the six choices remain the widest, most prominent thing on the screen. */
+  .strategy-box{width:min(1060px,100%);padding:20px 26px 22px;}
+  .strategy-heading{font-size:1.35rem;}
+  .strategy-list li{font-size:1.1rem;padding:8px 18px 8px 10px;}
+  .strategy-list li::before{width:26px;height:26px;font-size:.95rem;}
+  .strategy-note{font-size:1.05rem;}
   .done-recap{font-size:1.5rem;max-width:60ch;}
   .done-mark{font-size:3.4rem;}
   .guide-panel{width:min(1100px,100%);}
