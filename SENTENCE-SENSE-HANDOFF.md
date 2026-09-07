@@ -1,7 +1,7 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.2.3**
-**Last pass:** Learn UX correction — 2026-09-07
+**Current build: Sentence Sense — Build 1.2.4**
+**Last pass:** Learn vertical placement correction — 2026-09-07
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
 **This file describes the CURRENT shipped state only. Read it first.**
 
@@ -27,12 +27,12 @@ Two governing rules:
 ## 2. BUILD NUMBERING — EVERY PUSH GETS A NEW NUMBER
 
 **Every approved GitHub push increments the visible build number**, so the live
-site can be verified after GitHub Pages refreshes. Current: **Build 1.2.3**.
+site can be verified after GitHub Pages refreshes. Current: **Build 1.2.4**.
 
 It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.3";`
-2. the rendered badge — `Sentence Sense — Build 1.2.3`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.4";`
+2. the rendered badge — `Sentence Sense — Build 1.2.4`
 3. the audit file name and heading
 4. this handoff
 
@@ -43,12 +43,12 @@ It must match in four places, and the audit checks all four:
 | File | Role | Lines |
 |---|---|---|
 | `index.html` | All screens: home, topics, lesson, mode placeholder, guide overlay | 233 |
-| `css/styles.css` | Every style, numbered sections 1–11 | 908 |
+| `css/styles.css` | Every style, numbered sections 1–11 | 940 |
 | `js/app.js` | Shell only: screen switching, Home/Back/Escape, build badge | 158 |
 | `js/learn.js` | Learn engine: topic screen, lesson runner, sentence component, Try It, Study Guide | 634 |
 | `js/data/learn-content.js` | **All instructional content.** Byte-identical since Build 1.1.1 | 659 |
 | `assets/images/` | `logo.png` 1024×768 · `logo-512.png` · `favicon.png` — unmodified since 1.1.1 | — |
-| `AUDIT-REPORT-Build-1.2.3.md` | The current build audit — **the only one in the repo** | — |
+| `AUDIT-REPORT-Build-1.2.4.md` | The current build audit — **the only one in the repo** | — |
 | `SENTENCE-SENSE-HANDOFF.md` | This file, at the repo root | — |
 
 `js/data/learn-content.js` checksum: `e6ec8d739fecf51df7f92ab8b6c62bca`
@@ -206,6 +206,13 @@ brightened — those sit on a light ground, where brighter means less contrast.
 
 Do not add new colours for variety.
 
+**Projector type scale — gated on width AND height.** The `@media (min-width:1800px)`
+block that raises the sentence to 2.6rem is now `(min-width:1800px) and
+(min-height:1100px)`. Gated on width alone it treated an ordinary 1920×1080
+desktop as a classroom projector, which wrapped the adjective sentence to three
+rows and forced 100px of scroll. A real large display is large in both
+dimensions. Do not remove the height condition.
+
 ---
 
 ## 11. DEFECT LEDGER
@@ -214,35 +221,41 @@ Do not add new colours for variety.
 
 | ID | Issue | Severity |
 |---|---|---|
-| D-22 | Adjective Clue and Example need ~36px more than a 1920×1080 viewport; the ≥1600px projector type scale wraps the marked sentence. Back and Next stay visible. | 4 |
-| D-11 | Topic-screen density — much improved in 1.2/1.2.3; re-assess before closing | 4 |
+| **D-26** | At 1366×768 the two densest Clue screens (Predicate, Adjective) push the **build badge** 49–63px below the fold. The lesson itself — panel, Back, Next, All Topics footer — is fully visible. Closing it would mean shrinking instructional text. | 4 |
+| D-11 | Topic-screen density — much improved; re-assess before closing | 4 |
 | D-13 | Completion-screen Back behaviour | 4 |
-| D-14 | Learn state reset between topics | 4 |
 | D-20 | Abstract nouns in the noun topic (content, not layout) | 3 |
+
+### Closed as design behaviour
+
+**D-14 — CLOSED / DESIGN BEHAVIOR.** Learn does not persist lesson progress
+between visits. Entering or re-entering a topic begins at Definition. This is
+current design behavior, not a user-visible stale-state defect. Do not change
+application logic for this.
 
 ### Closed
 
-K-01 Home badge overlap · **D-12 / K-02** Learn landscape badge overlap (was
-carried as open when already fixed; now covered by the general in-flow rule) ·
-**D-20b** topic screen rendering as inline strips · **D-21** badge covering Learn
-content above 620px viewport height · Learn screens too tall with excessive
-internal whitespace · markup shown before the plain sentence · Adjective identity
-reading brown · empty completion screen.
+**D-23** lesson stack positioned too low (header→rail gap was 33–406px, now a
+constant 14px) · **D-24** Try It scroll at large viewports · **D-25** Definition
+and footer pushed below the fold · **D-22** adjective marked sentence wrapping on
+wide screens · K-01 Home badge overlap · D-12 / K-02 Learn landscape badge
+overlap · D-20b topic screen rendering as inline strips · D-21 badge covering
+Learn content above 620px height · Learn screens too tall with excessive internal
+whitespace · markup shown before the plain sentence · Adjective identity reading
+brown · empty completion screen.
 
 ### Standing limitations of every audit so far
 
 - **L-01 — The real webfont has never been measured here.** The sandbox blocks
-  the Google Fonts CDN. Build 1.2.3 was informed by live screenshots in Baloo 2,
-  but post-fix measurements are fallback-face figures. **Confirm the 1366×768 fit
-  on the live site.**
+  the Google Fonts CDN. The live screenshots that exposed D-23 were in real
+  Baloo 2, so defects are confirmed against the real face — but post-fix numbers
+  are fallback-face figures. **Verify placement on the live site.**
 - **L-02 — All device testing is simulated.** No physical phone, tablet, laptop
   or projector has ever been used.
 - **L-03 — No classroom projector verification.**
 - **L-04 — No screen-reader testing.**
 - **L-05 — No testing with a child.**
 - **L-06 — Chromium only.** No Safari or Firefox; this matters most for iPad.
-
----
 
 ## 12. BUILD BADGE — HOW IT WORKS
 
@@ -253,6 +266,40 @@ reading brown · empty completion screen.
 A `position:fixed` badge is only safe on a screen that cannot scroll, and every
 Learn screen can scroll. Do not add a new fixed rule without proving that screen
 never scrolls at any viewport. New screens inherit the safe behaviour.
+
+---
+
+## 12b. LESSON VERTICAL PLACEMENT — A PERMANENT RULE
+
+> **Never vertically centre `.lesson-body`.** Build 1.2.3 added
+> `justify-content:center` there to tidy the dead strip below a short step. On a
+> tall desktop it centred the whole lesson column, so the shorter the step the
+> further down the page its rail and panel were pushed — the header→rail gap
+> measured 33px at 1366 Definition but 226px at 1920 Completion and 406px at
+> 2560. The lesson column is top-aligned with one controlled gap, and that gap
+> must stay a **constant** (currently 14px), never a function of spare height.
+
+If a short step ever looks bottom-heavy again, adjust the footer — not the
+position of the lesson.
+
+**The audit harness enforces this.** `place.js` measures header bottom, rail top
+and bottom, panel top and bottom, control-row top, footer bottom, badge bottom,
+and the gaps between them. Acceptance:
+
+| Rule | Threshold | Scope |
+|---|---|---|
+| Panel top | ≤ 40% of viewport | desktop only |
+| **Header→rail gap** | **≤ 60px and constant** | all viewports |
+| Horizontal overflow | 0 | all viewports |
+| Controls in view | required | desktop only (§4 accepts phone scrolling) |
+
+The panel-top percentage **alone is not sufficient** — the 1.2.3 regression
+measured 38.9% and would have passed a 40% threshold. The header→rail gap is the
+metric that catches it. Keep both.
+
+**One harness caveat worth remembering:** `.ss-words` is `align-items:flex-end`,
+so a marked chip and a plain word have different `top` values on the same visual
+line. Count row wraps by **bottoms**, never tops.
 
 ---
 
@@ -268,6 +315,26 @@ For every approved build:
 4. Update this handoff. Current state only; no contradictory leftovers.
 5. Provide the PowerShell Git commands in `GIT-COMMANDS.md`. **Never run Git.**
 6. Increment the visible build number.
+
+### The Git block — required in every delivery, verbatim
+
+Christopher wants this exact five-line block at the end of **every** build, in
+the chat reply as well as in `GIT-COMMANDS.md`. Do not omit it, do not replace it
+with prose, and do not make him ask for it. Only the build number in the commit
+message changes:
+
+```powershell
+cd C:\Sentence-Sense
+git status
+git add -A
+git commit -m "Sentence Sense Build <N> - <short description of the build>"
+git push origin main
+```
+
+If the build also deletes files, put the `Remove-Item` lines **above** this block
+rather than altering it — unzipping copies over the repo and never deletes, so
+`git add -A` cannot record a removal on its own. The five lines above stay intact
+underneath.
 
 Startup for the next session: read the ZIP → read this handoff → read the latest
 audit → reconcile all three → **code wins over stale documentation** → report any

@@ -432,6 +432,16 @@ img{max-width:100%;}
   .screen-home{padding-bottom:0;}
 }
 
+/* Build 1.2.4 — short desktop windows (an iPad in landscape at 1024x692, a
+   laptop with browser chrome eating the height). The densest Clue screen put
+   its Back/Next row 8px past the fold there. Structural spacing only: the
+   sentence, the body text and the buttons keep their sizes. */
+@media (min-width:1024px) and (max-height:720px){
+  .lesson-body{margin-top:8px;}
+  .lesson-stage{padding-top:12px;padding-bottom:14px;}
+  .lesson-controls{margin-top:8px;}
+}
+
 /* Large desktop and classroom displays. */
 @media (min-width:1600px){
   .mode-grid{gap:26px;}
@@ -535,11 +545,22 @@ img{max-width:100%;}
    instructional shrank in this pass: --lesson-text, --sentence-size, the button
    sizes and the tap targets are all unchanged. What changed is the space
    BETWEEN things, and the panel no longer stretches past its own content. */
-.lesson-body{flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:10px;}
-/* Build 1.2.3: short steps (Clue, the completion panel) sit optically centred
-   in the space instead of hugging the header with a long dead strip beneath.
-   Tall steps still fill the column, so this changes nothing when content is
-   long -- `justify-content` has no effect once the content overflows. */
+.lesson-body{flex:1;display:flex;flex-direction:column;margin-top:14px;}
+/* Build 1.2.4 -- D-23. The 1.2.3 rule added `justify-content:center` here to
+   tidy the dead strip below a short step. On a tall desktop that centred the
+   WHOLE lesson column, so the shorter the step the further down the page its
+   progress rail and panel were pushed: the header-to-rail gap measured 33px at
+   1366 Definition but 226px at 1920 Completion and 406px at 2560. The
+   completion screen -- the shortest step -- floated worst of all.
+
+   The column is top-aligned again with one controlled gap (margin-top above,
+   plus the rail's own 10px below it). That gap is now a CONSTANT: it no longer
+   grows with spare viewport height, so the rail and panel stay in the upper
+   part of the learning area at every size. The dead space moves back below the
+   content, where the footer already anchors it and where it costs nothing.
+
+   Do not reintroduce vertical centring on this element. If a short step ever
+   looks bottom-heavy again, adjust the footer, not the position of the lesson. */
 .lesson-progress{list-style:none;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
   gap:8px;margin:0 0 10px;padding:0;}
 .lesson-progress li{font-family:var(--font-display);font-weight:800;font-size:.92rem;color:var(--muted);}
@@ -827,9 +848,13 @@ body.guide-open{overflow:hidden;}
 /* Desktop monitor: larger sentence, but the reading measure stays
    capped so text never stretches across the whole screen. */
 @media (min-width:1600px){
-  :root{--sentence-size:1.9rem;--sentence-label:.9rem;--lesson-text:1.22rem;--lesson-max:1000px;}
+  :root{--sentence-size:1.9rem;--sentence-label:.9rem;--lesson-text:1.22rem;--lesson-max:1140px;}
   /* Still three equal columns — only the container grows. */
   .topic-grid{width:min(1120px,100%);}
+  /* Build 1.2.4 — D-22. The adjective marked sentence measured 1020px wide at
+     this scale against a 1000px column, so it wrapped by 20px. The column is
+     widened rather than the sentence shrunk. Body text is unaffected: it carries
+     its own 70ch / 64ch measure. */
   .lesson-title{font-size:2.2rem;}
 }
 
@@ -841,12 +866,19 @@ body.guide-open{overflow:hidden;}
    hover, and every part label stays written text on a bordered,
    underlined word rather than a colour difference.
    ============================================================= */
-@media (min-width:1800px){
+/* Build 1.2.4 — D-22. This block was gated on width alone, so an ordinary
+   1920x1080 desktop was treated as a classroom projector: the sentence jumped to
+   2.6rem with 1.6rem labels, needed 1548px against a 1400px column, and wrapped
+   to three rows while pushing the page 100px into scroll. A real large display
+   is large in BOTH dimensions, so the projector scale now also requires height.
+   1920x1080 falls through to the 1600px scale above and holds one line;
+   2560x1440 still gets the full projector treatment. */
+@media (min-width:1800px) and (min-height:1100px){
   :root{
     --sentence-size:2.6rem;      /* the sentence is the largest thing on screen */
     --sentence-label:1.6rem;     /* 25.6px — Build 1.1.1 (D-05), was 16.8px */
     --lesson-text:1.5rem;
-    --lesson-max:1400px;
+    --lesson-max:1560px;     /* fits the 1548px projector-scale sentence */
   }
   .app-shell{width:min(1720px,100% - 64px);}
   .lesson-title{font-size:2.9rem;margin-bottom:18px;}
