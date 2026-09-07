@@ -1,6 +1,6 @@
 /* =========================================================
    Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.1.1 — SHELL + LEARN MODE ROUTING.
+   Build 1.2 — SHELL + HOME PORTAL + LEARN MODE ROUTING.
 
    This file remains the shell: it shows one screen at a time and
    owns Home / Back / Escape. Learn Mode itself lives in js/learn.js
@@ -26,7 +26,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.1.1";
+  const BUILD_NUMBER = "Build 1.2";
 
   /* ---------- Approved modes (home screen shows exactly these four) ---------- */
   /* Build 1.1: "learn" is no longer a placeholder — the Learn card now
@@ -110,8 +110,13 @@
 
   /* ---------- Init ---------- */
   function init() {
-    Array.from(document.querySelectorAll(".mode-grid .mode-card")).forEach(card => {
-      card.addEventListener("click", () => openMode(card.dataset.mode));
+    /* Build 1.2 home portal — ONE interaction model, not two.
+       The button inside each card is the only navigation control. The card is
+       a plain container: no click handler, not focusable, no role="button".
+       That gives exactly one tab stop and one click target per mode, so the
+       child learns a single rule: "I press this button to start." */
+    Array.from(document.querySelectorAll(".mode-grid .mode-btn")).forEach(btn => {
+      btn.addEventListener("click", () => openMode(btn.dataset.mode));
     });
 
     /* Wrapped so the click Event is never passed as goHome's argument. */

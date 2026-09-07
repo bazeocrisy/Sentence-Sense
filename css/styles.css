@@ -1,10 +1,10 @@
 /* =========================================================
    Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.1.1 stylesheet. Sections 1-8 are the approved shell; sections
-   9-11 add Learn Mode.
+   Build 1.2 stylesheet. Section 5 is the Build 1.2 home portal;
+   sections 9-11 are the approved Learn Mode and are unchanged.
 
    Sections:
-     1. Design Tokens          5. Mode Cards
+     1. Design Tokens          5. Home portal (Build 1.2)
      2. Reset / Base           6. Mode Destination Screen
      3. Shared Shell           7. Build Badge
      4. Header / Navigation    8. Responsive
@@ -63,6 +63,15 @@
      Measured: #A34A0B on --soft-orange = 5.36:1, #197144 on --soft-green = 5.57:1. */
   --c-wrong-text:#A34A0B;
   --c-right-text:#197144;
+
+  /* Build 1.2 — home portal palette. Scoped to the home screen only. */
+  --home-cream:#FDF8EC;
+  --home-green:#DDEBD4;
+  --home-green-dark:#1D6B3F;
+  --home-learn-bg:#CDEBC6;   --home-learn-edge:#A9DCA0;   --home-learn-btn:#14602F;
+  --home-practice-bg:#C7E4FA; --home-practice-edge:#9CCDF3; --home-practice-btn:#0F62C4;
+  --home-break-bg:#FCE7B4;   --home-break-edge:#F4D183;   --home-break-btn:#B04A06;
+  --home-test-bg:#DED4FA;    --home-test-edge:#C4B4F2;    --home-test-btn:#5B34C0;
 
   --sentence-size:1.25rem;
   --sentence-label:0.74rem;
@@ -149,74 +158,132 @@ img{max-width:100%;}
 
 .activity-foot{display:flex;align-items:center;justify-content:flex-start;gap:12px;padding:14px 4px 4px;margin-top:auto;}
 
-/* ---------- 5. HOME SCREEN + MODE CARDS ---------- */
-.screen-home{position:relative;overflow:hidden;border-radius:var(--radius-xl);margin:10px 0;
-  min-height:calc(100vh - 20px);justify-content:flex-start;color:var(--text);
-  background:
-    radial-gradient(760px 460px at 88% -6%, rgba(103,200,243,0.35), transparent 62%),
-    radial-gradient(680px 520px at 6% 108%, rgba(133,103,232,0.28), transparent 60%),
-    radial-gradient(600px 460px at 60% 120%, rgba(255,216,77,0.22), transparent 60%),
-    linear-gradient(165deg,#EAF6FF 0%, var(--cream) 60%, #FDF3FF 100%);
+/* ---------- 5. HOME SCREEN — THE PORTAL (Build 1.2) ----------
+   One job: help a child choose one of four modes in a few seconds.
+   No teaching, no strategy strip, no topic list, no wizard, and no
+   account / profile / settings controls anywhere on this screen.
+   Card hierarchy is fixed: ICON -> NAME -> ONE LINE -> ACTION BUTTON. */
+/* The portal is edge-to-edge: it steps outside the centred app shell so the
+   header band and the background reach both edges of the screen. */
+/* padding-bottom reserves a lane at the foot of the portal that no card can
+   enter, so the fixed build badge always lands on empty background. Where the
+   home screen can scroll instead (short and phone viewports), the badge leaves
+   the corner entirely and joins the document flow — see Section 8. */
+.screen-home{position:relative;overflow:hidden;background:var(--home-cream);
+  width:100vw;margin-left:calc(50% - 50vw);min-height:100vh;
+  padding-bottom:48px;
+  display:flex;flex-direction:column;color:var(--text);}
+
+/* Decoration is strictly behind the content and never competes with it. */
+.home-decor{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.hd-blob{position:absolute;border-radius:50%;}
+.hd-blob-left{width:min(46vw,560px);aspect-ratio:1;background:rgba(255,216,77,.32);
+  top:9%;left:-16%;}
+.hd-blob-right{width:min(42vw,520px);aspect-ratio:1;background:rgba(103,200,243,.30);
+  top:6%;right:-14%;}
+.hd-hills{position:absolute;left:-5%;right:-5%;bottom:-8%;height:min(26vh,220px);
+  border-radius:50% 50% 0 0 / 100% 100% 0 0;background:var(--home-green);opacity:.9;}
+
+/* --- Header: the graphical logo is the brand anchor. Deliberately nothing on
+       the right: no account, profile, settings or gear controls. --- */
+/* The logo carries the name, so it is sized by WIDTH (its readable dimension)
+   with height:auto, which keeps the supplied 4:3 asset undistorted. The asset
+   itself is never redrawn, recoloured or cropped. */
+.home-header{position:relative;z-index:2;display:flex;align-items:center;
+  gap:clamp(12px,1.6vw,22px);flex-wrap:wrap;background:var(--home-green-dark);
+  color:#fff;padding:clamp(8px,1.2vh,14px) clamp(16px,4vw,40px);}
+.home-logo{width:clamp(128px,12.4vw,178px);height:auto;display:block;flex:none;}
+.home-tagline{font-weight:800;color:#FFF3C4;font-size:clamp(.95rem,1.5vw,1.12rem);
+  border-bottom:3px solid var(--yellow);padding-bottom:2px;}
+
+/* --- Hero: short. The child reads three short lines and then chooses. --- */
+.home-main{position:relative;z-index:2;width:min(1220px,100% - clamp(28px,6vw,72px));
+  margin:0 auto;padding:clamp(18px,3vh,40px) 0 clamp(24px,4vh,48px);
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.home-eyebrow{margin:0 0 4px;font-family:var(--font-display);font-weight:800;
+  color:var(--home-green-dark);font-size:clamp(1rem,1.8vw,1.25rem);
+  display:flex;align-items:center;gap:10px;}
+.home-eyebrow::before,.home-eyebrow::after{content:"";width:26px;height:3px;border-radius:2px;
+  background:var(--yellow);}
+.home-title{font-family:var(--font-display);font-weight:800;color:var(--navy);
+  font-size:clamp(1.55rem,4.4vw,3.1rem);line-height:1.1;text-align:center;margin:0 0 8px;
+  border-bottom:6px solid var(--yellow);padding-bottom:4px;}
+.home-title:focus-visible{outline:none;box-shadow:var(--focus-ring);border-radius:12px;}
+.home-sub{text-align:center;color:var(--text);font-weight:700;margin:0 0 clamp(18px,3vh,30px);
+  font-size:clamp(.98rem,1.5vw,1.12rem);max-width:44ch;}
+
+/* --- Four mode cards --- */
+.mode-grid{list-style:none;margin:0;padding:0;display:grid;width:100%;
+  grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,1.6vw,24px);}
+/* The card is a container, not a control. It keeps a lift on hover so the page
+   feels alive, but it carries no click handler, no cursor:pointer, no tabindex
+   and no role="button" — the button inside it is the only way to navigate. */
+.mode-card{position:relative;display:flex;flex-direction:column;align-items:center;
+  text-align:center;gap:8px;border-radius:26px;padding:clamp(18px,2vw,26px) clamp(12px,1.4vw,20px);
+  border:3px solid transparent;min-width:0;
+  transition:transform .14s ease,box-shadow .14s ease;}
+.mode-card:hover{transform:translateY(-4px);}
+.mode-icon{display:block;width:clamp(56px,6vw,84px);height:clamp(56px,6vw,84px);}
+.mode-icon svg{width:100%;height:100%;display:block;}
+.ic-ray{stroke:currentColor;fill:none;}
+.mode-name{font-family:var(--font-display);font-weight:800;color:var(--navy);
+  font-size:clamp(1.25rem,2.1vw,1.7rem);margin:0;line-height:1.15;}
+.mode-desc{font-weight:700;color:var(--text);margin:0 0 auto;
+  font-size:clamp(.95rem,1.15vw,1.05rem);line-height:1.35;}
+
+/* The action is the last thing in the card and is unmistakable: a solid,
+   full-width button in the card's own colour. */
+/* The longest label ("Start Breaking Down") sets the type size: it must fit on
+   one line at the narrowest four-across width. This cannot be verified against
+   Baloo 2 in the build sandbox, which has no access to Google Fonts, so it is
+   sized against the WIDEST face measured locally rather than the one that
+   happens to render here: the same string varies ~34% in width between faces,
+   so a small margin proves nothing. The clamp maximum is 1rem, not 1.05rem,
+   precisely to keep that headroom at >=1600px; below ~1493px the clamp already
+   sits at its .98rem minimum, so this bound does not affect smaller screens. */
+.mode-btn{width:100%;margin-top:clamp(12px,1.6vh,18px);border:none;border-radius:16px;
+  padding:clamp(12px,1.4vh,16px) 10px;min-height:52px;
+  font-family:var(--font-display);font-weight:800;color:#fff;
+  font-size:clamp(.98rem,1.05vw,1rem);line-height:1.15;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 4px 0 rgba(0,0,0,.16);cursor:pointer;
+  transition:transform .12s ease,filter .15s ease;}
+.mode-btn:hover{filter:brightness(1.07);}
+.mode-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.16);}
+.mode-btn:focus-visible{outline:none;box-shadow:var(--focus-ring),0 4px 0 rgba(0,0,0,.16);}
+
+/* Per-mode colour. Colour is decoration only — every card is identified by
+   its written name, its own icon and its own button label. */
+.mode-learn{background:var(--home-learn-bg);border-color:var(--home-learn-edge);}
+.mode-learn .mode-icon{color:var(--home-learn-btn);}
+.mode-learn .mode-btn{background:var(--home-learn-btn);}
+.mode-practice{background:var(--home-practice-bg);border-color:var(--home-practice-edge);}
+.mode-practice .mode-icon{color:var(--home-practice-btn);}
+.mode-practice .mode-btn{background:var(--home-practice-btn);}
+.mode-breakdown{background:var(--home-break-bg);border-color:var(--home-break-edge);}
+.mode-breakdown .mode-icon{color:var(--home-break-btn);}
+.mode-breakdown .mode-btn{background:var(--home-break-btn);}
+.mode-test{background:var(--home-test-bg);border-color:var(--home-test-edge);}
+.mode-test .mode-icon{color:var(--home-test-btn);}
+.mode-test .mode-btn{background:var(--home-test-btn);}
+
+/* --- Two small motivational accents. Decorative, hidden when space is
+       tight so they can never compete with the four choices. --- */
+/* Decoration must never compete with the four choices, so these two accents
+   are hidden by default and only appear on displays with real room to spare.
+   Verified: at every tested size where they show, neither overlaps a card. */
+.home-note,.home-cheer{display:none;position:absolute;z-index:1;margin:0;
+  font-family:var(--font-display);font-weight:800;color:var(--navy);}
+@media (min-width:1500px) and (min-height:950px){
+  .home-note,.home-cheer{display:block;}
 }
-.home-bg{position:absolute;inset:0;pointer-events:none;}
-.hb-circle{position:absolute;border-radius:50%;opacity:.16;}
-.hb-c1{width:300px;height:300px;background:var(--sky-blue);top:-70px;right:-50px;}
-.hb-c2{width:230px;height:230px;background:var(--purple);bottom:40px;left:-70px;opacity:.18;}
-.hb-c3{width:150px;height:150px;background:var(--yellow);bottom:120px;right:9%;opacity:.24;}
-.hb-word{position:absolute;font-family:var(--font-display);font-weight:800;color:rgba(18,50,91,0.06);font-size:5rem;user-select:none;}
-.hb-w1{top:15%;left:5%;} .hb-w2{top:57%;right:4%;font-size:4rem;} .hb-w3{bottom:8%;left:16%;font-size:5.5rem;}
-.hb-rule{position:absolute;left:0;right:0;bottom:8%;height:3px;
-  background:repeating-linear-gradient(90deg,rgba(18,50,91,0.10) 0 2px,transparent 2px 34px);}
-
-.home-inner{position:relative;z-index:2;width:min(1120px,100% - 48px);margin:0 auto;padding:14px 0 40px;
-  display:flex;flex-direction:column;align-items:center;}
-/* The logo is capped by height as well as width so it introduces the app
-   without pushing the four buttons below the fold on a phone. */
-.home-logo{display:block;width:min(400px,72%);height:auto;max-height:min(30vh,300px);
-  object-fit:contain;margin:2px auto 6px;}
-.home-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.6rem,4vw,2.4rem);
-  text-align:center;margin:0 0 4px;}
-.home-sub{text-align:center;color:var(--muted);font-weight:700;margin:0 0 22px;}
-
-.card-grid{display:grid;gap:18px;justify-content:center;width:100%;}
-.mode-grid{grid-template-columns:repeat(4,minmax(0,255px));}
-
-.pick-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;
-  border:4px solid transparent;border-radius:var(--radius-lg);padding:24px 18px;color:#fff;
-  text-align:center;box-shadow:var(--shadow-card);overflow:hidden;
-  transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}
-.pick-card::before{content:"";position:absolute;inset:0;
-  background:radial-gradient(120% 90% at 50% -20%,rgba(255,255,255,.35),transparent 60%);pointer-events:none;}
-.pick-card:hover{transform:translateY(-6px);}
-.pick-card:active{transform:translateY(-2px);}
-.pick-card:focus-visible{box-shadow:var(--focus-ring),var(--shadow-card);}
-.pick-name{font-family:var(--font-display);font-weight:800;font-size:1.35rem;line-height:1.15;}
-.pick-sub{font-weight:700;opacity:.96;}
-
-.mode-icon{font-size:2.5rem;line-height:1;}
-.mode-cta{margin-top:auto;padding-top:12px;}
-.mode-cta{font-family:var(--font-display);font-weight:800;font-size:1rem;
-  background:rgba(255,255,255,.24);border:2px solid rgba(255,255,255,.42);border-radius:999px;
-  padding:7px 18px;margin-top:12px;}
-
-/* Card text colour is chosen per card so every label clears WCAG AA against
-   its own gradient: navy on the light green and gold cards, white on the
-   dark blue and purple cards. Verified ratios are listed in the audit. */
-.mode-learn{background:linear-gradient(160deg,var(--green),var(--cyan));color:var(--navy);}
-.mode-learn .mode-cta{background:rgba(255,255,255,.5);border-color:rgba(18,50,91,.25);}
-.mode-practice{background:linear-gradient(160deg,var(--blue),var(--deep-blue));}
-/* Gold card carries navy text: white on gold would not meet contrast. */
-.mode-breakdown{background:linear-gradient(160deg,var(--yellow),var(--orange));color:var(--navy);}
-.mode-breakdown .mode-cta{background:rgba(255,255,255,.5);border-color:rgba(18,50,91,.25);}
-.mode-test{background:linear-gradient(160deg,var(--purple-dark),var(--navy));}
-.mode-test .pick-name,.mode-test .mode-icon{color:var(--yellow);}
-.mode-test .mode-cta{border-color:rgba(255,216,77,.6);}
-
-.method-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 12px;
-  margin:30px auto 0;max-width:min(1040px,100%);font-family:var(--font-display);font-weight:800;color:var(--navy);}
-.method-strip>span:not(.ms-arrow){background:#fff;border:2px solid var(--soft-blue);border-radius:999px;
-  padding:7px 16px;box-shadow:var(--shadow-soft);}
-.ms-arrow{color:var(--gold-dark);font-size:1.2rem;}
+.home-note{left:clamp(16px,3vw,48px);bottom:clamp(18px,4vh,54px);
+  background:var(--yellow);padding:14px 18px;border-radius:6px;
+  transform:rotate(-4deg);box-shadow:0 6px 16px rgba(18,50,91,.18);
+  font-size:clamp(.95rem,1.1vw,1.08rem);line-height:1.25;}
+.home-cheer{right:clamp(16px,3vw,56px);bottom:clamp(60px,9vh,110px);
+  font-size:clamp(1rem,1.4vw,1.35rem);
+  border-bottom:5px solid var(--yellow);padding-bottom:3px;}
 
 /* ---------- 6. MODE DESTINATION SCREEN ---------- */
 .screen-mode{padding:14px 0 16px;min-height:calc(100vh - 20px);}
@@ -237,16 +304,54 @@ img{max-width:100%;}
   max-width:calc(100vw - 24px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
 /* ---------- 8. RESPONSIVE ---------- */
-/* Small laptop and tablet landscape: keep one row of four by narrowing the
-   cards, so a child still sees every mode without scrolling. */
-@media (max-width:1120px) and (min-width:921px){
-  .mode-grid{grid-template-columns:repeat(4,minmax(0,220px));gap:14px;}
-  .mode-card{padding:22px 14px;}
+
+/* --- HOME PORTAL --- */
+/* Small laptop: four cards still fit one row. The breakpoint is set where the
+   longest button label ("Start Breaking Down") still fits on one line in the
+   fallback font — below this the row is dropped to 2 x 2 rather than squeezing
+   the action buttons. */
+@media (max-width:1280px) and (min-width:1181px){
+  .mode-grid{gap:14px;}
+  .mode-card{padding:18px 12px;}
 }
-/* Tablet portrait and below: two rows of two. */
-@media (max-width:920px){
-  .mode-grid{grid-template-columns:repeat(2,minmax(0,300px));}
+/* Tablet and small laptop: 2 x 2. */
+@media (max-width:1180px){
+  .mode-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  /* In the two-column band the portal is taller than the viewport, so a fixed
+     badge would float over a card at scroll-0 (measured at 1024x768 and
+     1180x820). Below 1181px the badge therefore joins the document flow under
+     the content, where overlap is structurally impossible.
+     The selector applies ONLY while Home is the visible screen, so the Learn
+     and placeholder screens keep the badge behaviour they already had. */
+  #screen-home:not([hidden]) ~ .build-badge{position:static;display:block;
+    width:max-content;max-width:100%;margin:10px auto 12px;box-shadow:none;}
+  /* Reclaim the height the in-flow badge now occupies so a page that used to
+     fit exactly does not gain a scrollbar. */
+  .screen-home{padding-bottom:0;min-height:calc(100vh - 52px);}
 }
+/* Phone: one card per row, full-width action buttons. */
+@media (max-width:640px){
+  /* The logo stays the anchor but must not eat the screen: it drops to a size
+     that still reads clearly above a one-card-per-row list. */
+  .home-logo{width:clamp(112px,32vw,140px);}
+  .mode-grid{grid-template-columns:minmax(0,1fr);gap:12px;}
+  .mode-card{padding:16px 16px;gap:6px;}
+  .home-main{padding-top:14px;}
+  .home-title{border-bottom-width:5px;}
+  .home-sub{margin-bottom:16px;}
+  .hd-hills{height:18vh;}
+  /* Phone card keeps the same hierarchy but reads as a compact row plus a
+     full-width button, so the action is never squeezed. */
+  .mode-card{display:grid;grid-template-columns:auto minmax(0,1fr);
+    grid-template-areas:"icon name" "icon desc" "btn btn";
+    column-gap:14px;row-gap:2px;text-align:left;align-items:center;}
+  .mode-icon{grid-area:icon;width:52px;height:52px;align-self:center;}
+  .mode-name{grid-area:name;align-self:end;}
+  .mode-desc{grid-area:desc;align-self:start;margin-bottom:0;}
+  .mode-btn{grid-area:btn;margin-top:12px;}
+}
+
+/* --- SHELL / LEARN + PLACEHOLDER SCREENS (unchanged behaviour) --- */
 @media (max-width:920px){
   .app-shell{width:min(var(--shell-w),100% - 28px);}
   .app-header{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
@@ -255,73 +360,49 @@ img{max-width:100%;}
   .ph-tagline{display:none;}
 }
 
-/* Phone: the four modes become full-width tappable rows so all four are
-   visible together without scrolling, matching the Add It! phone pattern. */
 @media (max-width:600px){
   body{font-size:16px;}
-  .screen-home{border-radius:0;margin:0;min-height:100vh;}
-  .header-home{margin-top:10px;padding:10px 12px;width:min(1180px,100% - 24px);gap:8px;}
   .ph-name{white-space:nowrap;}
   .ph-brand{gap:7px;}
   .app-header .nav-btn{padding:7px 14px;font-size:.9rem;white-space:nowrap;}
-  .home-inner{padding:10px 0 24px;width:min(1120px,100% - 24px);}
-  /* The logo is capped tightly on phones so all four mode buttons stay as
-     close to the first screenful as the device allows. */
-  .home-logo{width:min(280px,68%);max-height:18vh;margin-bottom:2px;}
-  .home-title{font-size:1.32rem;margin-bottom:2px;}
-  .home-sub{margin-bottom:10px;font-size:.95rem;}
-  .card-grid{gap:10px;}
-  .mode-grid{grid-template-columns:minmax(0,1fr);}
-  .mode-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;
-    column-gap:12px;row-gap:2px;align-items:center;text-align:left;padding:12px 14px;min-height:82px;}
-  .mode-card .mode-icon{grid-row:1 / span 2;font-size:2rem;min-width:52px;text-align:center;}
-  .mode-card .pick-name{grid-column:2;grid-row:1;font-size:1.18rem;}
-  .mode-card .pick-sub{grid-column:2;grid-row:2;font-size:.95rem;}
-  /* On a phone row the arrow replaces the CTA pill: same meaning, less height. */
-  .mode-card .mode-cta{display:none;}
-  .mode-card::after{content:"\2192";grid-column:3;grid-row:1 / span 2;font-family:var(--font-display);
-    font-weight:800;font-size:1.45rem;opacity:.9;}
-  .mode-card:hover{transform:none;}
-  .method-strip{margin-top:20px;font-size:.9rem;gap:6px 8px;}
-  .method-strip>span:not(.ms-arrow){padding:6px 12px;}
   .stage{padding:18px 16px 20px;}
-
   .coming-note{font-size:1rem;}
   /* The badge joins the page flow on phones, so the mode screen gives up the
      last strip of viewport height and the build number stays on screen. */
   .screen-mode{min-height:calc(100vh - 80px);}
   .build-badge{position:static;display:block;width:max-content;max-width:100%;margin:8px auto 10px;box-shadow:none;}
+  /* Badge is in flow here, so the reserved corner lane is not needed. */
+  .screen-home{padding-bottom:0;}
 }
 
 /* Narrowest supported phones (about 320px). */
 @media (max-width:400px){
-  .home-logo{width:min(240px,66%);max-height:15vh;}
-  .home-title{font-size:1.24rem;}
-  .mode-card{padding:12px 10px;column-gap:9px;}
-  .mode-card .mode-icon{font-size:1.7rem;min-width:42px;}
-  .mode-card .pick-name{font-size:1.08rem;}
-  .mode-card .pick-sub{font-size:.9rem;}
-  .method-strip{font-size:.82rem;}
+  .home-title{font-size:1.42rem;}
+  .mode-icon{width:44px;height:44px;}
+  .mode-name{font-size:1.15rem;}
+  .mode-desc{font-size:.92rem;}
   .stage{padding:16px 12px 18px;}
   .screen-mode{min-height:calc(100vh - 110px);}
 }
 
-/* Short viewports (landscape phones, small windows): reclaim space from the
-   logo and spacing, never from button size or readable text. */
+/* Short viewports (landscape phones, small windows): reclaim spacing only. */
 @media (max-height:620px){
-  /* Kept at or below the narrow-phone cap so this rule can only ever
-     reclaim height, never add it. */
-  .home-logo{max-height:15vh;margin-bottom:0;}
-  .home-inner{padding-top:8px;}
+  .home-main{padding-top:10px;padding-bottom:16px;}
   .home-sub{margin-bottom:12px;}
-  .method-strip{margin-top:16px;}
+  .hd-hills{display:none;}
   .app-header{margin-top:8px;padding-top:8px;padding-bottom:8px;}
+  /* A short landscape window scrolls, and a fixed badge would then float over
+     whatever card scrolls beneath it. It joins the flow instead, below all
+     content, where it cannot overlap anything. */
+  .home-logo{width:clamp(104px,13vh,132px);}
+  .build-badge{position:static;display:block;width:max-content;max-width:100%;
+    margin:10px auto 12px;box-shadow:none;}
+  .screen-home{padding-bottom:0;}
 }
 
-/* Large desktop and classroom displays: cap measure, scale type. */
+/* Large desktop and classroom displays. */
 @media (min-width:1600px){
-  .home-logo{width:min(440px,60%);max-height:min(32vh,340px);}
-  .mode-grid{grid-template-columns:repeat(4,minmax(0,285px));}
+  .mode-grid{gap:26px;}
 }
 
 /* =============================================================

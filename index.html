@@ -18,65 +18,71 @@
 
   <div class="app-shell" id="main">
 
-    <!-- ================= HOME ================= -->
+    <!-- ================= HOME (Build 1.2 portal) =================
+         PORTAL = CHOICE. This screen has one job: help the child pick a
+         mode. All teaching lives inside the modes. -->
     <section class="screen screen-home" id="screen-home" aria-labelledby="home-heading" hidden>
-      <div class="home-bg" aria-hidden="true">
-        <span class="hb-circle hb-c1"></span><span class="hb-circle hb-c2"></span><span class="hb-circle hb-c3"></span>
-        <span class="hb-word hb-w1">verb</span><span class="hb-word hb-w2">noun</span><span class="hb-word hb-w3">?</span>
-        <span class="hb-rule"></span>
+
+      <div class="home-decor" aria-hidden="true">
+        <span class="hd-blob hd-blob-left"></span>
+        <span class="hd-blob hd-blob-right"></span>
+        <span class="hd-hills"></span>
       </div>
 
-      <header class="app-header header-home">
-        <div class="ph-brand">
-          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
-          <span class="ph-name">Sentence Sense</span>
-        </div>
-        <span class="ph-tagline">Find it. Ask it. Understand it.</span>
-      </header>
-
-      <div class="home-inner">
+      <!-- The graphical logo IS the brand name: it already reads "Sentence
+           Sense", so there is no plain-text wordmark beside it. The logo is the
+           header's anchor and the tagline is its only companion. -->
+      <header class="home-header">
         <img class="home-logo" src="assets/images/logo.png"
              srcset="assets/images/logo-512.png 512w, assets/images/logo.png 1024w"
-             sizes="(max-width: 600px) 260px, 400px"
+             sizes="(max-width:640px) 128px, (max-width:1180px) 150px, 178px"
              alt="Sentence Sense" width="1024" height="768">
+        <span class="home-tagline">See how sentences work.</span>
+      </header>
 
-        <h2 id="home-heading" class="home-title" tabindex="-1">What do you want to do today?</h2>
-        <p class="home-sub">Pick one to begin.</p>
+      <div class="home-main">
+        <p class="home-eyebrow"><span>Welcome!</span></p>
+        <h2 id="home-heading" class="home-title" tabindex="-1">What would you like to do today?</h2>
+        <p class="home-sub">Choose a mode to get started.</p>
 
-        <div class="card-grid mode-grid">
-          <button type="button" class="pick-card mode-card mode-learn" data-mode="learn">
-            <span class="mode-icon" aria-hidden="true">&#127891;</span>
-            <span class="pick-name">Learn</span>
-            <span class="pick-sub">Teach me the parts of a sentence.</span>
-            <span class="mode-cta">Start Learning <span aria-hidden="true">&rarr;</span></span>
-          </button>
-          <button type="button" class="pick-card mode-card mode-practice" data-mode="practice">
-            <span class="mode-icon" aria-hidden="true">&#9999;&#65039;</span>
-            <span class="pick-name">Practice</span>
-            <span class="pick-sub">Let me try one skill with help.</span>
-            <span class="mode-cta">Start Practice <span aria-hidden="true">&rarr;</span></span>
-          </button>
-          <button type="button" class="pick-card mode-card mode-breakdown" data-mode="breakdown">
-            <span class="mode-icon" aria-hidden="true">&#128269;</span>
-            <span class="pick-name">Break It Down</span>
-            <span class="pick-sub">Take a whole sentence apart.</span>
-            <span class="mode-cta">Break It Down <span aria-hidden="true">&rarr;</span></span>
-          </button>
-          <button type="button" class="pick-card mode-card mode-test" data-mode="test">
-            <span class="mode-icon" aria-hidden="true">&#127942;</span>
-            <span class="pick-name">Test</span>
-            <span class="pick-sub">Let me try on my own.</span>
-            <span class="mode-cta">Start Test <span aria-hidden="true">&rarr;</span></span>
-          </button>
-        </div>
-
-        <p class="method-strip" aria-label="The Sentence Sense strategy">
-          <span>Find the verb</span><span class="ms-arrow" aria-hidden="true">&rarr;</span>
-          <span>Ask who or what?</span><span class="ms-arrow" aria-hidden="true">&rarr;</span>
-          <span>Find the subject</span><span class="ms-arrow" aria-hidden="true">&rarr;</span>
-          <span>Check the sentence</span>
-        </p>
+        <ul class="mode-grid">
+          <li class="mode-card mode-learn" data-mode="learn">
+            <span class="mode-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M32 20c-6-5-14-6-22-4v32c8-2 16-1 22 4 6-5 14-6 22-4V16c-8-2-16-1-22 4z" fill="#FFFFFF"/><path d="M32 20v32"/><path d="M16 25h9M16 32h9M39 25h9M39 32h9" stroke-width="2.6"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
+            </span>
+            <h3 class="mode-name">Learn</h3>
+            <p class="mode-desc">Learn the parts of a sentence step by step.</p>
+            <button type="button" class="mode-btn" data-mode="learn">Start Learning <span aria-hidden="true">&rarr;</span></button>
+          </li>
+          <li class="mode-card mode-practice" data-mode="practice">
+            <span class="mode-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M20 52l-7 2 2-7L42 20l5 5z" fill="#FFD84D"/><path d="M42 20l4-4a3.5 3.5 0 015 5l-4 4z" fill="#FF9648"/><path d="M15 47l5 5"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
+            </span>
+            <h3 class="mode-name">Practice</h3>
+            <p class="mode-desc">Build your skills with practice.</p>
+            <button type="button" class="mode-btn" data-mode="practice">Start Practicing <span aria-hidden="true">&rarr;</span></button>
+          </li>
+          <li class="mode-card mode-breakdown" data-mode="breakdown">
+            <span class="mode-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M32 12a15 15 0 00-9 27v5h18v-5a15 15 0 00-9-27z" fill="#FFD84D"/><path d="M26 49h12M28 54h8" stroke-width="3"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
+            </span>
+            <h3 class="mode-name">Break It Down</h3>
+            <p class="mode-desc">Take a sentence apart.</p>
+            <button type="button" class="mode-btn" data-mode="breakdown">Start Breaking Down <span aria-hidden="true">&rarr;</span></button>
+          </li>
+          <li class="mode-card mode-test" data-mode="test">
+            <span class="mode-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><rect x="14" y="12" width="36" height="42" rx="5" fill="#FFFFFF"/><path d="M25 12h14v6H25z" fill="#C9B8F5"/><path d="M22 30l4 4 7-8M22 43l4 4 7-8" stroke="#2FA457" stroke-width="3.4"/><path d="M38 32h9M38 45h9" stroke-width="2.6"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
+            </span>
+            <h3 class="mode-name">Test</h3>
+            <p class="mode-desc">See what you know.</p>
+            <button type="button" class="mode-btn" data-mode="test">Start Test <span aria-hidden="true">&rarr;</span></button>
+          </li>
+        </ul>
       </div>
+
+      <p class="home-note">Better sentences.<br>A brighter you!</p>
+      <p class="home-cheer">You got this!</p>
     </section>
 
     <!-- ================= LEARN: TOPIC SELECTION ================= -->
