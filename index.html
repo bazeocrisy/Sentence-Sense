@@ -99,7 +99,7 @@
 
       <div class="topics-body">
         <h2 id="topics-heading" class="stage-title" tabindex="-1">What do you want to learn?</h2>
-        <p class="topics-sub">Pick a topic. Each one is short.</p>
+        <p class="topics-sub">Choose a topic to start learning.</p>
 
         <!-- Topic cards are built from js/data/learn-content.js -->
         <div class="card-grid topic-grid" id="topic-grid"></div>
@@ -158,6 +158,9 @@
           <div class="lesson-done" id="lesson-done" hidden>
             <p class="done-mark" aria-hidden="true">&#127881;</p>
             <h2 class="lesson-title" id="done-title" tabindex="-1"></h2>
+            <!-- Build 1.2.3: a named badge the child earned. No points,
+                 no streak, nothing stored. -->
+            <div class="done-badge" id="done-badge"></div>
             <p class="done-recap" id="done-recap"></p>
             <div class="done-buttons">
               <button type="button" class="nav-btn next-btn" id="done-next"></button>

@@ -1,6 +1,9 @@
 /* =========================================================
    Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.2 — SHELL + HOME PORTAL + LEARN MODE ROUTING.
+   Build 1.2.3 — SHELL + HOME PORTAL + LEARN MODE ROUTING.
+
+   Every approved push increments this visible build number so the live
+   GitHub Pages site can be verified after it refreshes.
 
    This file remains the shell: it shows one screen at a time and
    owns Home / Back / Escape. Learn Mode itself lives in js/learn.js
@@ -26,7 +29,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.2";
+  const BUILD_NUMBER = "Build 1.2.3";
 
   /* ---------- Approved modes (home screen shows exactly these four) ---------- */
   /* Build 1.1: "learn" is no longer a placeholder — the Learn card now

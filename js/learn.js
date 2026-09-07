@@ -82,16 +82,28 @@
     return row;
   }
 
-  function renderSentence(host, spec) {
+  /* Build 1.2.3 — `opts.plain` renders the SAME spec with every annotation
+     suppressed: no marks, no split, no links. The words array is the single
+     source of truth for both passes, so the plain sentence and the marked
+     sentence cannot drift apart. The marked pass only decorates: it never
+     adds, removes, reorders or re-punctuates a word. */
+  function renderSentence(host, spec, opts) {
     clear(host);
     if (!spec) { host.hidden = true; return; }
     host.hidden = false;
 
+    const plain = !!(opts && opts.plain);
     const words = spec.words;
-    const marks = spec.marks || [];
+    const marks = plain ? [] : (spec.marks || []);
     const markFor = i => marks.find(m => i >= m.start && i <= m.end) || null;
 
-    const box = make("div", "ss-sentence");
+    const box = make("div", "ss-sentence" + (plain ? " is-plain" : ""));
+
+    if (plain) {
+      box.appendChild(wordRow(words, () => null, 0, words.length - 1));
+      host.appendChild(box);
+      return;
+    }
 
     if (spec.split) {
       const at = spec.split.at;
@@ -198,10 +210,40 @@
 
     if (block.warning) host.appendChild(make("p", "lesson-warning", block.warning));
 
+    /* Build 1.2.3 — PLAIN SENTENCE FIRST, MARKED SENTENCE SECOND.
+       A child should read the sentence as a sentence before meeting the
+       grammar markup. When a spec carries any annotation (marks, a split or
+       links) the same sentence is shown twice: "READ IT" plain, then
+       "SEE HOW IT WORKS" annotated. A spec with no annotation — the Try It
+       question — is a plain sentence already and is shown once, unlabelled. */
     if (block.sentence) {
-      const sHost = make("div", "sentence-host");
-      renderSentence(sHost, block.sentence);
-      host.appendChild(sHost);
+      const spec = block.sentence;
+      const annotated = !!((spec.marks && spec.marks.length) || spec.split ||
+                           (spec.links && spec.links.length));
+
+      if (annotated) {
+        const pair = make("div", "sentence-pair");
+
+        const readWrap = make("div", "sentence-stepbox is-read");
+        readWrap.appendChild(make("p", "sentence-steplabel", "READ IT"));
+        const plainHost = make("div", "sentence-host");
+        renderSentence(plainHost, spec, { plain: true });
+        readWrap.appendChild(plainHost);
+
+        const seeWrap = make("div", "sentence-stepbox is-see");
+        seeWrap.appendChild(make("p", "sentence-steplabel", "SEE HOW IT WORKS"));
+        const markedHost = make("div", "sentence-host");
+        renderSentence(markedHost, spec);
+        seeWrap.appendChild(markedHost);
+
+        pair.appendChild(readWrap);
+        pair.appendChild(seeWrap);
+        host.appendChild(pair);
+      } else {
+        const sHost = make("div", "sentence-host");
+        renderSentence(sHost, spec);
+        host.appendChild(sHost);
+      }
     }
 
     if (block.points) {
@@ -340,8 +382,23 @@
     el("lesson-controls").hidden = true;
     el("lesson-done").hidden = false;
 
-    el("done-title").textContent = "Nice work! You learned " + t.name + ".";
+    el("done-title").textContent = "You learned " + t.name + "!";
     el("done-recap").textContent = t.recap;
+
+    /* Build 1.2.3 — a small, quiet sense of achievement. A named badge the
+       child earned, nothing more: no points, no coins, no streak, no sound,
+       and nothing persisted. Encouragement, not gamification. */
+    const badge = el("done-badge");
+    if (badge) {
+      clear(badge);
+      const chip = make("span", "done-badge-chip is-" + t.color);
+      chip.appendChild(make("span", "done-badge-name", t.name.toUpperCase()));
+      const tick = make("span", "done-badge-tick", "✓");
+      tick.setAttribute("aria-hidden", "true");
+      chip.appendChild(tick);
+      badge.appendChild(chip);
+      badge.setAttribute("aria-label", t.name + " complete");
+    }
 
     const idx = C.order.indexOf(lesson.topicKey);
     const nextKey = C.order[idx + 1];

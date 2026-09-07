@@ -25,6 +25,11 @@
   --green:#59C97A; --green-dark:#2FA457; --mint:#A8E6C1;
   --yellow:#FFD84D; --gold:#F5B82E; --gold-dark:#8A5D00;
   --orange:#FF9648; --orange-dark:#E06D1F;
+  /* Build 1.2.3 — Adjective identity lifted out of brown into a warmer,
+     brighter burnt orange. Both stops keep white text above WCAG AA:
+     #A84E06 = 5.59:1, #BA5A0B = 4.61:1. Anything brighter drops below 4.5
+     against white, so this is the top of the range, not a neon choice. */
+  --orange-deep:#A84E06; --orange-bright:#BA5A0B;
   --purple:#8567E8; --purple-dark:#6A4CD0; --lavender:#C9B8F5;
 
   --cream:#FFF9E8; --soft-green:#EEF9EF; --soft-yellow:#FFF7D8;
@@ -125,7 +130,7 @@ img{max-width:100%;}
 /* ---------- 4. HEADER / NAVIGATION ---------- */
 .app-header{
   display:grid; align-items:center; gap:14px; color:#fff;
-  border-radius:var(--radius-lg); padding:12px 20px; box-shadow:var(--shadow-soft); margin-top:16px;
+  border-radius:var(--radius-lg); padding:12px 20px; box-shadow:var(--shadow-soft); margin-top:12px;
 }
 .header-home{background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.3);
   grid-template-columns:auto 1fr; color:var(--navy);
@@ -189,10 +194,18 @@ img{max-width:100%;}
 /* The logo carries the name, so it is sized by WIDTH (its readable dimension)
    with height:auto, which keeps the supplied 4:3 asset undistorted. The asset
    itself is never redrawn, recoloured or cropped. */
-.home-header{position:relative;z-index:2;display:flex;align-items:center;
-  gap:clamp(12px,1.6vw,22px);flex-wrap:wrap;background:var(--home-green-dark);
-  color:#fff;padding:clamp(8px,1.2vh,14px) clamp(16px,4vw,40px);}
-.home-logo{width:clamp(128px,12.4vw,178px);height:auto;display:block;flex:none;}
+/* Build 1.2.3 — the brand is CENTRED. The logo was previously left-aligned
+   with the tagline beside it, which read as a corner mark rather than as the
+   identity of the page. It now sits on the centre line with the tagline
+   directly beneath it, so the header is symmetrical about the same axis as
+   the hero and the card grid below. Sizing is unchanged: still by width with
+   height:auto, so the supplied 4:3 proportion cannot be distorted. */
+.home-header{position:relative;z-index:2;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  gap:clamp(6px,.9vh,10px);background:var(--home-green-dark);
+  color:#fff;padding:clamp(10px,1.4vh,16px) clamp(16px,4vw,40px);}
+.home-logo{width:clamp(128px,12.4vw,178px);height:auto;display:block;flex:none;
+  margin-inline:auto;}
 .home-tagline{font-weight:800;color:#FFF3C4;font-size:clamp(.95rem,1.5vw,1.12rem);
   border-bottom:3px solid var(--yellow);padding-bottom:2px;}
 
@@ -315,7 +328,7 @@ img{max-width:100%;}
    opt-outs, one of which (max-height:620px) was unscoped and was the only
    thing protecting Learn. That asymmetry was D-21. */
 .build-badge{position:static;display:block;width:max-content;max-width:100%;
-  margin:10px auto 12px;z-index:40;font-family:var(--font-body);
+  margin:7px auto 9px;z-index:40;font-family:var(--font-body);
   font-weight:800;font-size:.72rem;letter-spacing:.3px;color:#41608C;background:rgba(255,255,255,.85);
   border:1px solid rgba(18,50,91,.1);border-radius:999px;padding:4px 12px;
   box-shadow:none;pointer-events:none;
@@ -440,7 +453,7 @@ img{max-width:100%;}
 .screen-lesson[data-topic="complete-subject"] .header-lesson{background:linear-gradient(120deg,#145C39,#1F7A4C);}
 .screen-lesson[data-topic="predicate"] .header-lesson{background:linear-gradient(120deg,#08545C,#12808C);}
 .screen-lesson[data-topic="noun"] .header-lesson{background:linear-gradient(120deg,#4B32A8,var(--purple-dark));}
-.screen-lesson[data-topic="adjective"] .header-lesson{background:linear-gradient(120deg,#8F400A,#B4530F);}
+.screen-lesson[data-topic="adjective"] .header-lesson{background:linear-gradient(120deg,var(--orange-deep),var(--orange-bright));}
 .guide-btn{border-color:var(--gold);}
 
 /* ---------- 9b. Topic screen ---------- */
@@ -516,10 +529,19 @@ img{max-width:100%;}
   width:19px;height:19px;border-radius:50%;background:var(--muted);color:#fff;font-size:.72rem;flex:none;}
 .strategy-note{text-align:center;color:var(--muted);font-weight:600;font-size:.88rem;margin:11px 0 0;}
 
-/* ---------- 9c. Lesson layout ---------- */
-.lesson-body{flex:1;display:flex;flex-direction:column;margin-top:16px;}
+/* ---------- 9c. Lesson layout ----------
+   Build 1.2.3 — COMPACTION. The lesson screens were not too large because the
+   text was too large; they were too large because spacing accumulated. Nothing
+   instructional shrank in this pass: --lesson-text, --sentence-size, the button
+   sizes and the tap targets are all unchanged. What changed is the space
+   BETWEEN things, and the panel no longer stretches past its own content. */
+.lesson-body{flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:10px;}
+/* Build 1.2.3: short steps (Clue, the completion panel) sit optically centred
+   in the space instead of hugging the header with a long dead strip beneath.
+   Tall steps still fill the column, so this changes nothing when content is
+   long -- `justify-content` has no effect once the content overflows. */
 .lesson-progress{list-style:none;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
-  gap:8px;margin:0 0 14px;padding:0;}
+  gap:8px;margin:0 0 10px;padding:0;}
 .lesson-progress li{font-family:var(--font-display);font-weight:800;font-size:.92rem;color:var(--muted);}
 .lesson-progress li[data-step]{background:#fff;border:2px solid var(--soft-blue);border-radius:999px;padding:5px 14px;}
 .lesson-progress li.done{color:var(--c-right-text);border-color:var(--green);background:var(--soft-green);}
@@ -532,12 +554,12 @@ img{max-width:100%;}
    could push the whole lesson column past the viewport. It is now pinned to the
    available width and its children may shrink. */
 .lesson-step{width:100%;min-width:0;max-width:100%;}
-.lesson-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.4rem,3.4vw,2rem);
-  margin:0 0 12px;line-height:1.15;}
+.lesson-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.4rem,3.4vw,1.85rem);
+  margin:0 0 7px;line-height:1.15;}
 .lesson-title:focus-visible{outline:none;box-shadow:var(--focus-ring);border-radius:12px;}
-.lesson-content{width:min(var(--lesson-max),100%);max-width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.lesson-content{width:min(var(--lesson-max),100%);max-width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;gap:10px;}
 .lesson-text{font-size:var(--lesson-text);font-weight:800;color:var(--text);margin:0;max-width:70ch;}
-.lesson-list,.lesson-points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;
+.lesson-list,.lesson-points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;
   text-align:left;max-width:64ch;}
 .lesson-list li,.lesson-points li{font-weight:700;color:var(--text);padding-left:26px;position:relative;
   font-size:var(--lesson-text);}
@@ -546,9 +568,15 @@ img{max-width:100%;}
 .lesson-steps{margin:0;padding-left:26px;text-align:left;display:flex;flex-direction:column;gap:7px;max-width:64ch;}
 .lesson-steps li{font-weight:800;color:var(--navy);font-size:var(--lesson-text);}
 .lesson-note{font-weight:700;color:var(--deep-blue);background:var(--soft-blue);border-radius:var(--radius-md);
-  padding:10px 16px;margin:0;max-width:66ch;font-size:calc(var(--lesson-text) - .04rem);}
-.lesson-warning{font-weight:800;color:var(--gold-dark);background:var(--soft-yellow);border:2px solid #F2DE9C;
-  border-radius:var(--radius-md);padding:10px 16px;margin:0;max-width:66ch;font-size:calc(var(--lesson-text) - .02rem);}
+  padding:8px 14px;margin:0;max-width:66ch;font-size:calc(var(--lesson-text) - .06rem);}
+/* Build 1.2.3 — SUBORDINATED. This rule box restates a point the bullets above
+   it have already made; it is a reminder, not a fifth equal teaching block. It
+   keeps its meaning and its wording, and gives up its heavy slab: a left rule
+   instead of a full border, no fill weight, and type one step down. */
+.lesson-warning{font-weight:700;color:var(--gold-dark);background:rgba(255,247,216,.7);
+  border:1px solid #F0E3B5;border-left:5px solid var(--gold);
+  border-radius:0 var(--radius-md) var(--radius-md) 0;padding:7px 14px;margin:0;max-width:64ch;
+  font-size:calc(var(--lesson-text) - .08rem);text-align:left;}
 
 .lesson-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%;}
 .lesson-group{background:var(--soft-blue);border:2px solid #C6DAF6;border-radius:var(--radius-md);padding:10px 8px;}
@@ -563,13 +591,29 @@ img{max-width:100%;}
 .contrast-row{display:flex;flex-direction:column;align-items:center;gap:8px;}
 .contrast-text{font-weight:800;color:var(--text);margin:0;font-size:calc(var(--lesson-text) - .02rem);}
 
-.lesson-controls{display:flex;justify-content:center;gap:14px;margin-top:16px;}
+.lesson-controls{display:flex;justify-content:center;gap:14px;margin-top:10px;}
 .next-btn{background:var(--yellow);border-color:var(--gold);}
 .next-btn:disabled{opacity:.5;cursor:default;transform:none;}
 
-.lesson-done{text-align:center;padding:20px 0 10px;animation:rise .25s ease;}
-.done-mark{font-size:2.6rem;margin:0 0 6px;line-height:1;}
-.done-recap{font-weight:800;color:var(--deep-blue);font-size:1.08rem;max-width:52ch;margin:10px auto 20px;}
+/* Build 1.2.3 — the completion screen was correct but felt like an empty room.
+   It now reads as a small, earned moment: the confetti, the topic named as an
+   achievement, one sentence of what the child can now do, then the way on.
+   Deliberately NOT gamified — no points, coins, streaks, sound or storage. */
+.lesson-done{text-align:center;padding:6px 0 4px;animation:rise .25s ease;
+  display:flex;flex-direction:column;align-items:center;}
+.done-mark{font-size:2.4rem;margin:0 0 2px;line-height:1;}
+.done-badge{margin:8px 0 2px;}
+.done-badge-chip{display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--font-display);font-weight:800;font-size:1.02rem;letter-spacing:.6px;
+  color:#fff;border-radius:999px;padding:7px 18px;box-shadow:var(--shadow-soft);}
+.done-badge-tick{font-size:1.1rem;line-height:1;}
+.done-badge-chip.is-verb{background:linear-gradient(135deg,var(--blue),var(--deep-blue));}
+.done-badge-chip.is-subject{background:linear-gradient(135deg,var(--green-dark),#1B8F63);}
+.done-badge-chip.is-complete-subject{background:linear-gradient(135deg,#145C39,#1F7A4C);}
+.done-badge-chip.is-predicate{background:linear-gradient(135deg,#08545C,#12808C);}
+.done-badge-chip.is-noun{background:linear-gradient(135deg,#4B32A8,var(--purple-dark));}
+.done-badge-chip.is-adjective{background:linear-gradient(135deg,var(--orange-deep),var(--orange-bright));}
+.done-recap{font-weight:800;color:var(--deep-blue);font-size:1.06rem;max-width:52ch;margin:10px auto 14px;}
 .done-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
 
 /* ---------- 9d. Shared sentence component ----------
@@ -579,9 +623,46 @@ img{max-width:100%;}
    its own box; an adjective link is spelled out in words. Colour is
    never the only signal. */
 .sentence-host{width:100%;display:flex;justify-content:center;}
-.ss-sentence{width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;
-  background:#F7FBFF;border:2px solid #D8E8F7;border-radius:var(--radius-lg);padding:16px 14px 14px;}
-.ss-words{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;gap:6px 8px;}
+.ss-sentence{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;
+  background:#F7FBFF;border:2px solid #D8E8F7;border-radius:var(--radius-lg);padding:12px 14px 11px;}
+
+/* ---------- 9d-i. PLAIN SENTENCE FIRST, MARKED SENTENCE SECOND ----------
+   Build 1.2.3. A child meets the sentence as a sentence before meeting the
+   grammar. Both renders come from the same words array in
+   js/data/learn-content.js, so they are the same sentence by construction —
+   the marked pass only decorates.
+
+   The two steps are ranked, not equal: READ IT is quiet and single-line so it
+   reads in a second, and SEE HOW IT WORKS is the one that carries the
+   teaching. The label is a small eyebrow, never a heading competing with the
+   lesson title. */
+   The two steps share ONE container rather than two stacked boxes. Two boxes
+   cost a second border, a second set of padding and a gap between them --
+   roughly 35px of pure structure per screen -- for no teaching gain. One box
+   with a hairline between the steps also reads as "the same sentence, twice"
+   rather than "two different sentences", which is the whole point. */
+.sentence-pair{width:100%;display:flex;flex-direction:column;gap:7px;
+  background:#F7FBFF;border:2px solid #D8E8F7;border-radius:var(--radius-lg);
+  padding:9px 14px 11px;}
+.sentence-stepbox{width:100%;display:flex;flex-direction:column;gap:3px;}
+.sentence-stepbox.is-see{border-top:1px dashed #CBDFF2;padding-top:7px;}
+.sentence-steplabel{font-family:var(--font-body);font-weight:900;letter-spacing:1.1px;
+  font-size:.66rem;margin:0;text-transform:uppercase;color:var(--muted);text-align:center;}
+.sentence-stepbox.is-see .sentence-steplabel{color:var(--deep-blue);}
+/* Inside the pair the sentence component drops its own frame -- the pair IS
+   the frame. Nothing about the words changes. */
+.sentence-pair .ss-sentence{background:none;border:none;padding:0;}
+/* The plain pass is a calm read: same words, same size, no boxes, no labels,
+   no colour coding, no relationship lines. Just the sentence. */
+.ss-sentence.is-plain{gap:0;}
+.ss-sentence.is-plain .ss-words{gap:2px 7px;}
+.ss-sentence.is-plain .ss-word-text{color:var(--text);}
+.ss-words{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;gap:5px 6px;}
+/* Build 1.2.3: the lesson column is wider than the sentence needs at desktop
+   widths, so the marked sentence is allowed the full column before it wraps.
+   Preventing one wrap saves a whole row of boxed words (~55px) on the two
+   densest Clue screens, without touching the type size. */
+.sentence-pair .ss-sentence{width:100%;}
 .ss-word{display:flex;flex-direction:column;align-items:center;gap:3px;
   font-family:var(--font-display);font-weight:800;font-size:var(--sentence-size);color:var(--navy);
   line-height:1.2;padding:2px 4px;border-radius:8px;}
@@ -606,7 +687,7 @@ img{max-width:100%;}
    never carried by position alone. */
 .ss-parts{display:flex;align-items:stretch;justify-content:center;gap:10px;width:100%;flex-wrap:wrap;}
 .ss-part{flex:0 1 auto;min-width:0;max-width:100%;background:#fff;border:3px solid #D8E8F7;border-radius:var(--radius-md);
-  padding:8px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  padding:6px 10px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;}
 .ss-part-label{font-family:var(--font-body);font-weight:900;font-size:var(--sentence-label);letter-spacing:.6px;
   text-transform:uppercase;color:#3B5C8A;}
 .ss-part-left{border-color:var(--c-complete-subject);}
@@ -615,7 +696,7 @@ img{max-width:100%;}
 .ss-part-right .ss-part-label{color:var(--c-predicate);}
 .ss-divider{width:5px;align-self:stretch;border-radius:3px;background:var(--navy);flex:none;}
 
-.ss-links{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;}
+.ss-links{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;}
 .ss-link{display:flex;align-items:center;gap:7px;background:#fff;border:2px solid #D8E8F7;border-radius:999px;
   padding:5px 14px;}
 .ss-link-word{font-family:var(--font-display);font-weight:800;font-size:calc(var(--sentence-size) - .18rem);
@@ -737,8 +818,10 @@ body.guide-open{overflow:hidden;}
 /* Laptop (about 1366x768 and 1440x900): the lesson fits without
    excessive empty space, and the sentence stays the focus. */
 @media (min-width:1200px){
-  :root{--sentence-size:1.55rem;--sentence-label:.8rem;--lesson-text:1.12rem;--lesson-max:900px;}
-  .lesson-stage{padding-top:26px;padding-bottom:30px;}
+  :root{--sentence-size:1.55rem;--sentence-label:.8rem;--lesson-text:1.12rem;--lesson-max:980px;}
+  /* Build 1.2.3: the sentence still steps up here; only the padding comes in,
+     so a short Definition or Clue screen does not become a tall empty card. */
+  .lesson-stage{padding-top:16px;padding-bottom:18px;}
 }
 
 /* Desktop monitor: larger sentence, but the reading measure stays
@@ -769,7 +852,13 @@ body.guide-open{overflow:hidden;}
   .lesson-title{font-size:2.9rem;margin-bottom:18px;}
   .lesson-progress li{font-size:1.25rem;}
   .lesson-progress li[data-step]{padding:8px 22px;}
-  .lesson-stage{padding:34px 40px 40px;min-height:min(70vh,860px);justify-content:center;}
+  /* Build 1.2.3 — the min-height was removed. It forced the lesson card to
+     70vh on ANY display 1800px or wider, and a 1920x1080 desktop monitor is
+     indistinguishable from a projector, so ordinary desktop users got a 756px
+     card holding 393px of content: 30-48% of the panel was empty white, and it
+     still scrolled. The card now sizes to its content at every width; the
+     larger projector type below is unaffected. */
+  .lesson-stage{padding:26px 40px 28px;}
   .ss-sentence{padding:26px 22px 22px;gap:18px;border-width:3px;}
   .ss-words{gap:10px 14px;}
   .ss-word.is-marked{border-width:3px;padding:5px 12px 2px;}
