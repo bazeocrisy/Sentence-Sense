@@ -376,7 +376,7 @@ window.SS_LEARN_CONTENT = {
             reveal: "Let's find it together. were tells what the players were, so were is the verb." },
           /* Q20 -- stage 4 */
           { stage: 3,
-            sentence: { words: ["Our", "new", "library", "was", "crowded", "during", "family", "reading", "night."] },
+            sentence: { words: ["Our", "new", "library", "was", "busy", "during", "family", "reading", "night."] },
             question: "Which word is the verb in this sentence?",
             choices: [
               { text: "new", feedback: "new tells what kind of library it is. It describes the library. A verb can tell what something is. Look again for the word that tells what someone or something is." },

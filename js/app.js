@@ -29,7 +29,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.2.5";
+  const BUILD_NUMBER = "Build 1.2.6";
 
   /* ---------- Approved modes (home screen shows exactly these four) ---------- */
   /* Build 1.1: "learn" is no longer a placeholder — the Learn card now

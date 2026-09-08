@@ -1,7 +1,7 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.2.5**
-**Last pass:** Verb 20-question guided learning bank — 2026-09-07
+**Current build: Sentence Sense — Build 1.2.6**
+**Last pass:** Verb Q20 wording correction (micro pass) — 2026-09-08
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
 **This file describes the CURRENT shipped state only. Read it first.**
 
@@ -27,12 +27,12 @@ Two governing rules:
 ## 2. BUILD NUMBERING — EVERY PUSH GETS A NEW NUMBER
 
 **Every approved GitHub push increments the visible build number**, so the live
-site can be verified after GitHub Pages refreshes. Current: **Build 1.2.5**.
+site can be verified after GitHub Pages refreshes. Current: **Build 1.2.6**.
 
 It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.5";`
-2. the rendered badge — `Sentence Sense — Build 1.2.5`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.6";`
+2. the rendered badge — `Sentence Sense — Build 1.2.6`
 3. the audit file name and heading
 4. this handoff
 
@@ -48,11 +48,12 @@ It must match in four places, and the audit checks all four:
 | `js/learn.js` | Learn engine: topic screen, lesson runner, sentence component, Try It, **guided question bank**, Study Guide | 899 |
 | `js/data/learn-content.js` | **All instructional content**, including the Verb 20-question bank | 932 |
 | `assets/images/` | `logo.png` 1024×768 · `logo-512.png` · `favicon.png` — unmodified since 1.1.1 | — |
-| `AUDIT-REPORT-Build-1.2.5.md` | The current build audit — **the only one in the repo** | — |
+| `AUDIT-REPORT-Build-1.2.6.md` | The current build audit — **the only one in the repo** | — |
 | `SENTENCE-SENSE-HANDOFF.md` | This file, at the repo root | — |
 
 `js/data/learn-content.js` is no longer byte-identical to 1.1.1: Build 1.2.5 added
-`verb.tryItBank`. Nothing that existed before it was altered.
+`verb.tryItBank`, and Build 1.2.6 changed one word inside its Q20 sentence.
+Nothing that existed before the bank was altered.
 
 ---
 
@@ -121,7 +122,7 @@ content, no scoring exists for any of them.
 
 ---
 
-## 5b. THE VERB GUIDED BANK (Build 1.2.5) — VERB ONLY
+## 5b. THE VERB GUIDED BANK (Build 1.2.5, Q20 reworded 1.2.6) — VERB ONLY
 
 Verb's Try It step runs a 20-question cycle. **No other topic has one yet.** A
 topic gets the cycle purely by having a `tryItBank` in `learn-content.js`; a
@@ -161,10 +162,27 @@ starts fresh at Definition. `localStorage` and `sessionStorage` stay empty.
 cycle, add its own `tryItBank` — do not generalise further until that content is
 approved.
 
+**Being-verb sentences must not read as passive (Build 1.2.6).** In Stage 4 the
+being verb is the answer, so the word right after `is / are / was / were`
+decides whether the question has one reading or two. A word ending in `-ed` or
+`-en` after a being verb can be read as a past participle, which turns
+`was <word>` into a single passive verb phrase and leaves the correct answer
+ambiguous between the being verb and the phrase. Q20 originally read
+`was crowded` and was corrected to `was busy` for exactly this reason.
+
+> **Rule:** after a being verb, use a plain adjective that has no participle
+> form — `busy`, `quiet`, `happy`, `ready`, `full`, `empty`, `loud`. Never
+> `crowded`, `excited`, `broken`, `finished`, `tired`, `frozen`.
+
 **Harness note.** Any test that selects a Try It answer must be bank-aware:
 Verb's choices come from `tryItBank.questions[order[pos]]`, not `tryIt`, and the
 completion screen is twenty answers away, not one. `window.SS_LEARN.bankState()`
 exposes `{pos, order, attempts, milestone, total}` read-only for this purpose.
+
+**Screenshot note.** `.lesson-done` has a 0.25s `rise` entry animation. A
+capture taken immediately after the final Next catches the completion panel
+mid-fade and looks washed out — that is a capture artifact, not a defect. Settle
+~450ms before screenshotting completion.
 
 ---
 
@@ -277,12 +295,16 @@ dimensions. Do not remove the height condition.
 | D-13 | Completion-screen Back behaviour | 4 |
 | D-20 | Abstract nouns in the noun topic (content, not layout) | 3 |
 
-### Content observation carried forward
+### Content observations — resolved
 
-**Verb Q20 — "Our new library `was` crowded during family reading night."** A
-strict parse can read `was crowded` as passive rather than *was* + predicate
-adjective. Defensible at third grade, and unambiguous among the four choices
-because `crowded` is not offered. Kept as approved; flagged for the owner.
+**Verb Q20 — RESOLVED in Build 1.2.6.** The 1.2.5 wording,
+"Our new library was crowded during family reading night," allowed a strict
+parse of `was crowded` as passive rather than *was* + predicate adjective.
+The owner elected to remove the ambiguity rather than carry it. The sentence
+now reads **"Our new library was busy during family reading night."** `busy`
+has no participle form, so only the linking-verb reading survives. Choices,
+correct answer, feedback, clue, and reveal were all unchanged. See the
+being-verb rule in §5b.
 
 ### Closed as design behaviour
 
@@ -432,4 +454,4 @@ ls AUDIT-REPORT-Build-*.md | wc -l
 
 ---
 
-*End of handoff. Last updated 2026-09-07 for Build 1.2.5.*
+*End of handoff. Last updated 2026-09-08 for Build 1.2.6.*
