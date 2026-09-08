@@ -1,7 +1,7 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.2.4**
-**Last pass:** Learn vertical placement correction — 2026-09-07
+**Current build: Sentence Sense — Build 1.2.5**
+**Last pass:** Verb 20-question guided learning bank — 2026-09-07
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
 **This file describes the CURRENT shipped state only. Read it first.**
 
@@ -27,12 +27,12 @@ Two governing rules:
 ## 2. BUILD NUMBERING — EVERY PUSH GETS A NEW NUMBER
 
 **Every approved GitHub push increments the visible build number**, so the live
-site can be verified after GitHub Pages refreshes. Current: **Build 1.2.4**.
+site can be verified after GitHub Pages refreshes. Current: **Build 1.2.5**.
 
 It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.4";`
-2. the rendered badge — `Sentence Sense — Build 1.2.4`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.5";`
+2. the rendered badge — `Sentence Sense — Build 1.2.5`
 3. the audit file name and heading
 4. this handoff
 
@@ -42,16 +42,17 @@ It must match in four places, and the audit checks all four:
 
 | File | Role | Lines |
 |---|---|---|
-| `index.html` | All screens: home, topics, lesson, mode placeholder, guide overlay | 233 |
-| `css/styles.css` | Every style, numbered sections 1–11 | 940 |
+| `index.html` | All screens: home, topics, lesson, mode placeholder, guide overlay | 254 |
+| `css/styles.css` | Every style, numbered sections 1–11 | 973 |
 | `js/app.js` | Shell only: screen switching, Home/Back/Escape, build badge | 158 |
-| `js/learn.js` | Learn engine: topic screen, lesson runner, sentence component, Try It, Study Guide | 634 |
-| `js/data/learn-content.js` | **All instructional content.** Byte-identical since Build 1.1.1 | 659 |
+| `js/learn.js` | Learn engine: topic screen, lesson runner, sentence component, Try It, **guided question bank**, Study Guide | 899 |
+| `js/data/learn-content.js` | **All instructional content**, including the Verb 20-question bank | 932 |
 | `assets/images/` | `logo.png` 1024×768 · `logo-512.png` · `favicon.png` — unmodified since 1.1.1 | — |
-| `AUDIT-REPORT-Build-1.2.4.md` | The current build audit — **the only one in the repo** | — |
+| `AUDIT-REPORT-Build-1.2.5.md` | The current build audit — **the only one in the repo** | — |
 | `SENTENCE-SENSE-HANDOFF.md` | This file, at the repo root | — |
 
-`js/data/learn-content.js` checksum: `e6ec8d739fecf51df7f92ab8b6c62bca`
+`js/data/learn-content.js` is no longer byte-identical to 1.1.1: Build 1.2.5 added
+`verb.tryItBank`. Nothing that existed before it was altered.
 
 ---
 
@@ -106,6 +107,8 @@ It must match in four places, and the audit checks all four:
   DEFINITION *what is it?* → CLUE *how do I find it?* → EXAMPLE *show me* →
   TRY IT *can I find it?* The grammar changes; the rhythm does not.
 - **Plain sentence first, marked sentence second.** See Section 6.
+- **Verb Try It runs a 20-question guided cycle.** See Section 5b. The other
+  five topics still have ONE Try It question each.
 - Study Guide per topic: modal, focus-trapped **both** directions, Escape and
   backdrop close, focus returns to the `lesson-guide` button.
 - Completion: confetti, "You learned X!", a named topic badge, one recap line,
@@ -115,6 +118,53 @@ It must match in four places, and the audit checks all four:
 
 All three route from Home to the shared placeholder screen. No engine, no
 content, no scoring exists for any of them.
+
+---
+
+## 5b. THE VERB GUIDED BANK (Build 1.2.5) — VERB ONLY
+
+Verb's Try It step runs a 20-question cycle. **No other topic has one yet.** A
+topic gets the cycle purely by having a `tryItBank` in `learn-content.js`; a
+topic without one keeps the single-question behaviour with no code change.
+
+| Stage | Qs | Name | Focus |
+|---|---|---|---|
+| 1 | 1–5 | Get Started | clear action verbs |
+| 2 | 6–10 | Look Closer | richer sentences, stronger distractors |
+| 3 | 11–15 | Think It Through | longer sentences, varied openings |
+| 4 | 16–20 | Challenge Yourself | action verbs mixed with `is / are / was / were` |
+
+**Shuffle is scoped to a stage.** The five inside a stage are shuffled; the
+stages never move. Never shuffle all 20 together — the difficulty banding is the
+teaching.
+
+**Wrong answers escalate, they do not punish:**
+
+| Attempt | Child gets | Answer shown? |
+|---|---|---|
+| 1st | what that word does in THIS sentence, then a redirect | no |
+| 2nd | the central Verb clue again | no |
+| 3rd | guided reveal, answer marked, choices lock, Next enabled | yes |
+
+**Milestones** after Q5 / Q10 / Q15, completion after Q20. **No score anywhere** —
+no `n/20`, no percentage, no points, no streak, no timer. Progress is stated only
+as "Question X of 20".
+
+**Back:** from Try It, Back returns to Example; returning to Try It restarts the
+cycle at Question 1 with a fresh shuffle. Partial progress is deliberately not
+kept, matching the rest of Learn.
+
+**Nothing is persisted.** Leaving via Home or All Topics and reopening Verb
+starts fresh at Definition. `localStorage` and `sessionStorage` stay empty.
+
+**The engine is reusable but deliberately unpopulated.** To give another topic a
+cycle, add its own `tryItBank` — do not generalise further until that content is
+approved.
+
+**Harness note.** Any test that selects a Try It answer must be bank-aware:
+Verb's choices come from `tryItBank.questions[order[pos]]`, not `tryIt`, and the
+completion screen is twenty answers away, not one. `window.SS_LEARN.bankState()`
+exposes `{pos, order, attempts, milestone, total}` read-only for this purpose.
 
 ---
 
@@ -221,10 +271,18 @@ dimensions. Do not remove the height condition.
 
 | ID | Issue | Severity |
 |---|---|---|
-| **D-26** | At 1366×768 the two densest Clue screens (Predicate, Adjective) push the **build badge** 49–63px below the fold. The lesson itself — panel, Back, Next, All Topics footer — is fully visible. Closing it would mean shrinking instructional text. | 4 |
+| **D-27** | At 390×844 in the wrong-answer state the Next button sits just below the fold. All four choices and the feedback stay visible, and Next is disabled in that state. | 4 |
+| **D-26** | At 1366×768 the two densest Clue screens push the build badge below the fold. Lesson and controls fully visible. | 4 |
 | D-11 | Topic-screen density — much improved; re-assess before closing | 4 |
 | D-13 | Completion-screen Back behaviour | 4 |
 | D-20 | Abstract nouns in the noun topic (content, not layout) | 3 |
+
+### Content observation carried forward
+
+**Verb Q20 — "Our new library `was` crowded during family reading night."** A
+strict parse can read `was crowded` as passive rather than *was* + predicate
+adjective. Defensible at third grade, and unambiguous among the four choices
+because `crowded` is not offered. Kept as approved; flagged for the owner.
 
 ### Closed as design behaviour
 
@@ -235,27 +293,21 @@ application logic for this.
 
 ### Closed
 
-**D-23** lesson stack positioned too low (header→rail gap was 33–406px, now a
-constant 14px) · **D-24** Try It scroll at large viewports · **D-25** Definition
-and footer pushed below the fold · **D-22** adjective marked sentence wrapping on
-wide screens · K-01 Home badge overlap · D-12 / K-02 Learn landscape badge
-overlap · D-20b topic screen rendering as inline strips · D-21 badge covering
-Learn content above 620px height · Learn screens too tall with excessive internal
-whitespace · markup shown before the plain sentence · Adjective identity reading
-brown · empty completion screen.
+**D-23** lesson stack positioned too low · **D-24** Try It scroll · **D-25**
+Definition and footer below the fold · **D-22** adjective sentence wrapping ·
+K-01 · D-12 / K-02 · D-20b · D-21 · Learn screens too tall · markup before the
+plain sentence · Adjective identity reading brown · empty completion screen.
 
 ### Standing limitations of every audit so far
 
 - **L-01 — The real webfont has never been measured here.** The sandbox blocks
-  the Google Fonts CDN. The live screenshots that exposed D-23 were in real
-  Baloo 2, so defects are confirmed against the real face — but post-fix numbers
-  are fallback-face figures. **Verify placement on the live site.**
-- **L-02 — All device testing is simulated.** No physical phone, tablet, laptop
-  or projector has ever been used.
+  the Google Fonts CDN. Verify on the live site.
+- **L-02 — All device testing is simulated.**
 - **L-03 — No classroom projector verification.**
 - **L-04 — No screen-reader testing.**
-- **L-05 — No testing with a child.**
-- **L-06 — Chromium only.** No Safari or Firefox; this matters most for iPad.
+- **L-05 — No testing with a child.** Whether a third grader stays engaged for
+  20 questions is not something this audit can answer.
+- **L-06 — Chromium only.**
 
 ## 12. BUILD BADGE — HOW IT WORKS
 
@@ -370,13 +422,14 @@ ls AUDIT-REPORT-Build-*.md | wc -l
 
 ## 14. NEXT — NOT STARTED
 
-- **20-question Learn banks.** Learn currently has **one** Try It question per
-  topic. Question banks, randomization, scoring, mastery tracking and progress
-  persistence are all out of scope until the Learn UX is approved.
+- **Subject, Complete Subject, Predicate, Noun and Adjective question banks.**
+  Only Verb has one. Each still has a single Try It question.
 - **Practice Mode** — not designed, not stubbed beyond the placeholder.
 - **Break It Down Mode**, **Test Mode**.
+- Scoring, timers, streaks, accounts, persistent progress, APIs, databases —
+  none of these exist and none are planned for Learn.
 - Build 1.3.
 
 ---
 
-*End of handoff. Last updated 2026-09-07 for Build 1.2.3.*
+*End of handoff. Last updated 2026-09-07 for Build 1.2.5.*

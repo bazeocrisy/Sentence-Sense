@@ -34,7 +34,15 @@
     stepIndex: 0,
     answered: false,
     done: false,
-    guideOpener: null
+    guideOpener: null,
+    /* Build 1.2.5 — guided question bank (Verb only for now). All of this is
+       session state held in memory: nothing is persisted, so leaving Learn and
+       coming back starts a fresh cycle at Definition, Question 1. */
+    bank: null,        // the topic's tryItBank, or null for single-question topics
+    bankOrder: [],     // question indices, shuffled inside each stage
+    bankPos: 0,        // 0-based position in bankOrder
+    attempts: 0,       // wrong attempts on the CURRENT question (0-3)
+    milestoneStage: -1 // stage index while a milestone screen is showing
   };
 
   /* ---------- small DOM helpers ---------- */
@@ -284,6 +292,10 @@
   }
 
   function openTopics() {
+    /* Leaving Learn ends the session: the milestone screen must not survive
+       into the next topic the child opens. */
+    el("lesson-milestone").hidden = true;
+    lesson.milestoneStage = -1;
     lesson.topicKey = null;
     window.SS_SHELL.showScreen("topics");
     el("topics-heading").focus();
@@ -298,6 +310,8 @@
     lesson.stepIndex = 0;
     lesson.answered = false;
     lesson.done = false;
+    /* A fresh entry into a topic is a fresh cycle: new shuffle, Question 1. */
+    resetBank(key);
 
     const t = C.topics[key];
     el("screen-lesson").dataset.topic = t.color;
@@ -336,13 +350,29 @@
     if (isTry) clear(el("lesson-content"));
     else renderBlock(el("lesson-content"), block);
 
+    el("lesson-milestone").hidden = true;
+    lesson.milestoneStage = -1;
     el("tryit").hidden = !isTry;
-    if (isTry) buildTryIt(block);
-    else clearTryIt();   /* never leave a previous question in the DOM */
+
+    /* Build 1.2.5: a topic with a bank runs the 20-question cycle here.
+       Entering Try It always starts that cycle at Question 1 of a fresh
+       shuffle -- see the Back rule below. */
+    const useBank = isTry && !!lesson.bank;
+    if (useBank) {
+      lesson.bankPos = 0;
+      buildBankQuestion();
+    } else if (isTry) {
+      buildTryIt(block);
+      el("tryit-head").hidden = true;
+    } else {
+      clearTryIt();   /* never leave a previous question in the DOM */
+    }
 
     el("lesson-prev").disabled = (lesson.stepIndex === 0);
     const next = el("lesson-next");
-    if (isTry) {
+    if (useBank) {
+      setBankNext(lesson.answered ? "ready" : "wait");
+    } else if (isTry) {
       next.textContent = "Finish";
       next.disabled = !lesson.answered;
     } else {
@@ -356,6 +386,12 @@
   }
 
   function nextStep() {
+    /* Inside a bank, Next moves to the next QUESTION, a milestone, or the
+       completion screen -- not to the next lesson step. */
+    if (lesson.stepIndex === STEP_KEYS.length - 1 && lesson.bank) {
+      if (lesson.answered) advanceBank();
+      return;
+    }
     if (lesson.stepIndex < STEP_KEYS.length - 1) {
       lesson.stepIndex += 1;
       lesson.answered = false;
@@ -365,8 +401,15 @@
     }
   }
 
+  /* Build 1.2.5 — BACK BEHAVIOUR, defined so it cannot corrupt the cycle.
+     From Try It, Back leaves for Example, as it always has. Returning to
+     Try It then RESTARTS the cycle cleanly at Question 1 with a fresh
+     shuffle -- partial progress is deliberately not preserved, which matches
+     the rest of Learn (nothing is stored anywhere). renderStep() resets
+     bankPos, so there is no half-finished state to step back into. */
   function prevStep() {
     if (lesson.done) { lesson.done = false; renderStep(); return; }
+    if (lesson.milestoneStage >= 0) { leaveMilestone(); return; }
     if (lesson.stepIndex > 0) {
       lesson.stepIndex -= 1;
       lesson.answered = false;
@@ -380,10 +423,16 @@
 
     el("lesson-step").hidden = true;
     el("lesson-controls").hidden = true;
+    el("lesson-milestone").hidden = true;
+    lesson.milestoneStage = -1;
     el("lesson-done").hidden = false;
 
     el("done-title").textContent = "You learned " + t.name + "!";
-    el("done-recap").textContent = t.recap;
+    /* A topic that ran the guided cycle says what the child actually did.
+       Still no score, no percentage, no count of right answers. */
+    el("done-recap").textContent = lesson.bank
+      ? "You practiced finding action and being verbs in 20 different sentences."
+      : t.recap;
 
     /* Build 1.2.3 — a small, quiet sense of achievement. A named badge the
        child earned, nothing more: no points, no coins, no streak, no sound,
@@ -427,10 +476,216 @@
     clear(el("tryit-sentence"));
     clear(el("tryit-choices"));
     el("tryit-question").textContent = "";
+    el("tryit-head").hidden = true;
     const fb = el("tryit-feedback");
     fb.hidden = true;
     fb.className = "tryit-feedback";
     clear(fb);
+  }
+
+  /* =========================================================
+     2b. GUIDED QUESTION BANK  (Build 1.2.5 — Verb only)
+     A topic may carry `tryItBank`: four stages of five questions. The child
+     finishes a stage before the next opens, and the five inside a stage are
+     shuffled, so returning is not a memory test of the order.
+
+     This is LEARN, so a wrong answer buys teaching, not a mark:
+       1st wrong -> what that word actually does in THIS sentence, then redirect
+       2nd wrong -> the central Verb clue again, answer still hidden
+       3rd wrong -> guided reveal; the answer is shown and the child moves on
+
+     Nothing is scored, timed or stored. A topic without `tryItBank` keeps the
+     single-question behaviour exactly as before.
+     ========================================================= */
+
+  /* Fisher-Yates, scoped to one stage so difficulty banding is preserved. */
+  function shuffled(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function bankFor(topicKey) {
+    const t = C.topics[topicKey];
+    return (t && t.tryItBank && t.tryItBank.questions && t.tryItBank.questions.length)
+      ? t.tryItBank : null;
+  }
+
+  /* Build the running order: shuffle inside each stage, keep the stages in
+     order. Stage 1's five all come before any of Stage 2's. */
+  function resetBank(topicKey) {
+    const bank = bankFor(topicKey);
+    lesson.bank = bank;
+    lesson.bankOrder = [];
+    lesson.bankPos = 0;
+    lesson.attempts = 0;
+    lesson.milestoneStage = -1;
+    if (!bank) return;
+    bank.stages.forEach((st, si) => {
+      const idx = [];
+      bank.questions.forEach((q, qi) => { if (q.stage === si) idx.push(qi); });
+      shuffled(idx).forEach(i => lesson.bankOrder.push(i));
+    });
+  }
+
+  function currentBankQuestion() {
+    if (!lesson.bank) return null;
+    const i = lesson.bankOrder[lesson.bankPos];
+    return (i === undefined) ? null : lesson.bank.questions[i];
+  }
+
+  function renderBankHead(q) {
+    const head = el("tryit-head");
+    if (!head) return;
+    if (!q) { head.hidden = true; return; }
+    head.hidden = false;
+    const st = lesson.bank.stages[q.stage];
+    el("tryit-count").textContent =
+      "Question " + (lesson.bankPos + 1) + " of " + lesson.bankOrder.length;
+    el("tryit-stage").textContent = "Stage " + (q.stage + 1) + ": " + st.name;
+    el("tryit-stage-desc").textContent = st.desc;
+  }
+
+  /* The Next button carries the bank's pacing. The child always advances
+     deliberately -- nothing auto-advances. */
+  function setBankNext(state) {
+    const next = el("lesson-next");
+    const last = lesson.bankPos >= lesson.bankOrder.length - 1;
+    next.textContent = last ? "Finish" : "Next Question";
+    next.disabled = (state !== "ready");
+  }
+
+  function buildBankQuestion() {
+    const q = currentBankQuestion();
+    if (!q) return;
+    lesson.attempts = 0;
+    lesson.answered = false;
+
+    el("lesson-heading").textContent = C.topics[lesson.topicKey].name + " — Try it";
+    clear(el("lesson-content"));
+    el("tryit").hidden = false;
+    renderBankHead(q);
+    renderSentence(el("tryit-sentence"), q.sentence);
+    el("tryit-question").textContent = q.question;
+
+    const host = el("tryit-choices");
+    clear(host);
+    const longest = q.choices.reduce((n, c) => Math.max(n, c.text.length), 0);
+    host.classList.toggle("is-wide", longest > 12);
+    q.choices.forEach(choice => {
+      const btn = make("button", "tryit-choice");
+      btn.type = "button";
+      btn.textContent = choice.text;
+      btn.addEventListener("click", () => answerBank(btn, choice, q));
+      host.appendChild(btn);
+    });
+
+    const fb = el("tryit-feedback");
+    fb.hidden = true;
+    fb.className = "tryit-feedback";
+    clear(fb);
+    setBankNext("wait");
+  }
+
+  function bankFeedback(kind, parts) {
+    const fb = el("tryit-feedback");
+    fb.hidden = false;
+    fb.className = "tryit-feedback is-" + kind;
+    clear(fb);
+    fb.appendChild(make("span", "tryit-mark", kind === "right" ? "✓" : "✕"));
+    const body = make("span", "tryit-feedback-body");
+    parts.forEach((p, i) => {
+      const line = make("span", i === 0 ? "tryit-feedback-text" : "tryit-again", p);
+      body.appendChild(line);
+    });
+    fb.appendChild(body);
+  }
+
+  function answerBank(btn, choice, q) {
+    const buttons = el("tryit-choices").querySelectorAll(".tryit-choice");
+
+    if (choice.correct) {
+      lesson.answered = true;
+      Array.prototype.forEach.call(buttons, b => { b.disabled = true; b.classList.remove("is-wrong"); });
+      btn.classList.add("is-right");
+      bankFeedback("right", [choice.feedback]);
+      setBankNext("ready");
+      el("lesson-next").focus();
+      return;
+    }
+
+    lesson.attempts += 1;
+    btn.classList.add("is-wrong");
+    btn.disabled = true;
+
+    if (lesson.attempts === 1) {
+      /* What that word actually does here, then where to look instead. */
+      bankFeedback("wrong", [choice.feedback, "Try again."]);
+    } else if (lesson.attempts === 2) {
+      /* The clue again. The answer is still the child's to find. */
+      bankFeedback("wrong", [choice.feedback, q.clue]);
+    } else {
+      /* Third miss: find it together rather than leave the child stuck. */
+      const right = Array.prototype.filter.call(buttons,
+        b => q.choices.some(c => c.correct && c.text === b.textContent))[0];
+      Array.prototype.forEach.call(buttons, b => { b.disabled = true; });
+      if (right) { right.classList.add("is-right"); right.disabled = true; }
+      bankFeedback("right", [q.reveal]);
+      lesson.answered = true;
+      setBankNext("ready");
+      el("lesson-next").focus();
+      return;
+    }
+
+    const nextChoice = Array.prototype.filter.call(buttons, x => !x.disabled)[0];
+    if (nextChoice) nextChoice.focus();
+  }
+
+  /* Milestone between stages: encouragement, never a score. */
+  function showMilestone(stageIndex) {
+    const st = lesson.bank.stages[stageIndex];
+    lesson.milestoneStage = stageIndex;
+    el("lesson-step").hidden = true;
+    el("lesson-controls").hidden = true;
+    el("lesson-done").hidden = true;
+    el("lesson-milestone").hidden = false;
+    el("ms-mark").textContent = st.mark;
+    el("ms-title").textContent = st.milestoneTitle;
+    el("ms-line").textContent = st.milestoneLine;
+    el("ms-next").textContent = st.nextStage ? ("Next: " + st.nextStage) : "";
+    el("ms-next").hidden = !st.nextStage;
+    renderProgress();
+    el("ms-title").focus();
+    window.scrollTo(0, 0);
+  }
+
+  function leaveMilestone() {
+    lesson.milestoneStage = -1;
+    el("lesson-milestone").hidden = true;
+    el("lesson-step").hidden = false;
+    el("lesson-controls").hidden = false;
+    buildBankQuestion();
+    el("lesson-heading").focus();
+    window.scrollTo(0, 0);
+  }
+
+  /* Advance one question, or into a milestone, or out to completion. */
+  function advanceBank() {
+    const q = currentBankQuestion();
+    const wasStage = q ? q.stage : 0;
+    lesson.bankPos += 1;
+
+    if (lesson.bankPos >= lesson.bankOrder.length) { showDone(); return; }
+
+    const nextQ = currentBankQuestion();
+    if (nextQ && nextQ.stage !== wasStage) { showMilestone(wasStage); return; }
+
+    buildBankQuestion();
+    el("lesson-heading").focus();
+    window.scrollTo(0, 0);
   }
 
   function buildTryIt(block) {
@@ -614,6 +869,12 @@
       if (e.target === el("guide-overlay")) closeGuide();
     });
 
+    /* Milestone controls. "Keep Going" continues the cycle; the other two
+       leave Learn, which ends the session -- nothing is saved. */
+    el("ms-continue").addEventListener("click", leaveMilestone);
+    el("ms-topics").addEventListener("click", openTopics);
+    el("ms-home").addEventListener("click", () => window.SS_SHELL.goHome());
+
     el("done-next").addEventListener("click", function () {
       if (this.dataset.topic) openTopic(this.dataset.topic);
     });
@@ -624,6 +885,10 @@
 
   window.SS_LEARN = {
     init,
+    /* read-only hooks for the audit harness */
+    bankState: () => ({ pos: lesson.bankPos, order: lesson.bankOrder.slice(),
+                        attempts: lesson.attempts, milestone: lesson.milestoneStage,
+                        total: lesson.bankOrder.length }),
     openTopics,
     openTopic,
     closeGuide,

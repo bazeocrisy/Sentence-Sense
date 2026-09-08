@@ -754,6 +754,39 @@ img{max-width:100%;}
 .tryit-feedback-body{display:block;}
 .tryit-again{display:block;margin-top:4px;}
 
+/* ---------- 9e-i. GUIDED QUESTION BANK (Build 1.2.5) ----------
+   The progress line above the question. It must orient the child without
+   competing with the sentence they are supposed to read, so it sits in
+   muted type above the sentence, not as a heading. There is deliberately
+   no score, percentage, streak or timer anywhere in this block. */
+.tryit-head{display:flex;flex-direction:column;align-items:center;gap:2px;
+  margin:0 0 4px;text-align:center;}
+.tryit-count{font-family:var(--font-display);font-weight:800;font-size:.95rem;
+  color:var(--navy);background:var(--soft-blue);border:1px solid #D3E5F8;
+  border-radius:999px;padding:3px 14px;margin:0;}
+.tryit-stage{font-family:var(--font-display);font-weight:800;font-size:.9rem;
+  color:var(--deep-blue);margin:4px 0 0;}
+.tryit-stage-desc{font-weight:700;font-size:.84rem;color:var(--muted);margin:0;
+  max-width:52ch;}
+
+/* Milestone between stages. Same visual family as the completion panel so it
+   reads as part of the journey, not a pop-up. */
+.lesson-milestone{text-align:center;padding:6px 0 4px;animation:rise .25s ease;
+  display:flex;flex-direction:column;align-items:center;}
+.ms-mark{font-size:2.2rem;margin:0 0 2px;line-height:1;}
+.ms-line{font-weight:800;color:var(--deep-blue);font-size:1.04rem;max-width:52ch;
+  margin:8px auto 0;}
+.ms-next{font-family:var(--font-display);font-weight:800;font-size:.95rem;
+  color:var(--navy);background:var(--soft-yellow);border:2px solid #F2DE9C;
+  border-radius:999px;padding:5px 16px;margin:12px 0 14px;}
+
+@media (max-width:600px){
+  .tryit-count{font-size:.9rem;}
+  .tryit-stage{font-size:.86rem;}
+  .tryit-stage-desc{font-size:.8rem;}
+  .ms-mark{font-size:2rem;}
+}
+
 /* ---------- 9f. Study Guide panel ---------- */
 .guide-overlay{position:fixed;inset:0;z-index:80;background:rgba(12,38,71,.55);
   display:flex;align-items:center;justify-content:center;padding:16px;}

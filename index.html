@@ -148,10 +148,31 @@
             <div class="lesson-content" id="lesson-content"></div>
 
             <div class="tryit" id="tryit" hidden>
+              <!-- Build 1.2.5: guided-bank header. Shown only when the topic has a
+                   question bank; the single-question topics never see it. -->
+              <div class="tryit-head" id="tryit-head" hidden>
+                <p class="tryit-count" id="tryit-count"></p>
+                <p class="tryit-stage" id="tryit-stage"></p>
+                <p class="tryit-stage-desc" id="tryit-stage-desc"></p>
+              </div>
               <div class="sentence-host" id="tryit-sentence"></div>
               <p class="tryit-question" id="tryit-question"></p>
               <div class="tryit-choices" id="tryit-choices" role="group" aria-labelledby="tryit-question"></div>
               <p class="tryit-feedback" id="tryit-feedback" role="status" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- Build 1.2.5: stage milestone. Encouragement between stages --
+               no score, no points, no streak. -->
+          <div class="lesson-milestone" id="lesson-milestone" hidden>
+            <p class="ms-mark" id="ms-mark" aria-hidden="true"></p>
+            <h2 class="lesson-title" id="ms-title" tabindex="-1"></h2>
+            <p class="ms-line" id="ms-line"></p>
+            <p class="ms-next" id="ms-next"></p>
+            <div class="done-buttons">
+              <button type="button" class="nav-btn next-btn" id="ms-continue">Keep Going</button>
+              <button type="button" class="nav-btn" id="ms-topics">All Topics</button>
+              <button type="button" class="nav-btn" id="ms-home"><span aria-hidden="true">&#127968;</span> Home</button>
             </div>
           </div>
 

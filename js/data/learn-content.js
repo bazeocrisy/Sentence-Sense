@@ -117,6 +117,279 @@ window.SS_LEARN_CONTENT = {
         ]
       },
 
+      /* -----------------------------------------------------------------
+         VERB — 20-QUESTION GUIDED LEARNING BANK (Build 1.2.5)
+
+         Four stages of five. The child completes a stage before the next
+         one opens, and the five questions inside a stage are shuffled so a
+         repeat visit is not the same order. Nothing here is scored, timed
+         or stored: this is Learn, so a wrong answer buys an explanation.
+
+         Each question carries, for every wrong choice, what that word
+         actually does IN THAT SENTENCE, then a redirect. `clue` is the
+         second-attempt reminder and `reveal` is the third-attempt guided
+         answer -- the child is never trapped.
+         ----------------------------------------------------------------- */
+      tryItBank: {
+        stages: [
+          { name: "Get Started", desc: "Find clear verbs and build confidence.",
+            mark: "⭐", milestoneTitle: "Get Started complete!",
+            milestoneLine: "You found verbs in clear sentences.", nextStage: "Look Closer" },
+          { name: "Look Closer", desc: "Find verbs in sentences with more details.",
+            mark: "🌟", milestoneTitle: "Look Closer complete!",
+            milestoneLine: "You found verbs even when the sentence had more details.", nextStage: "Think It Through" },
+          { name: "Think It Through", desc: "Use the clues even when the sentence is trickier.",
+            mark: "💪", milestoneTitle: "Think It Through complete!",
+            milestoneLine: "You used sentence clues to find the verb.", nextStage: "Challenge Yourself" },
+          { name: "Challenge Yourself", desc: "Find action and being verbs in different kinds of sentences.",
+            mark: "🎉", milestoneTitle: "You practiced Verb 20 different ways!",
+            milestoneLine: "", nextStage: "" }
+        ],
+        questions: [
+          /* Q1 -- stage 1 */
+          { stage: 0,
+            sentence: { words: ["The", "playful", "dog", "jumped", "over", "the", "fallen", "log."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "playful", feedback: "playful tells what kind of dog it is. It describes the dog. Look again for the word that tells what happened." },
+              { text: "dog", feedback: "dog names who did the action. Look again for the word that tells what the dog did." },
+              { text: "jumped", correct: true, feedback: "Nice thinking! jumped is the verb because it tells what the dog did." },
+              { text: "log", feedback: "log names a thing in the sentence. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. jumped tells what the dog did, so jumped is the verb." },
+          /* Q2 -- stage 1 */
+          { stage: 0,
+            sentence: { words: ["Our", "baseball", "team", "practices", "before", "the", "Saturday", "game."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "baseball", feedback: "baseball tells what kind of team it is. It describes the team. Look again for the word that tells what happened." },
+              { text: "team", feedback: "team names who does the action. Look again for the word that tells what the team does." },
+              { text: "practices", correct: true, feedback: "You found it! practices tells what the team does." },
+              { text: "game", feedback: "game names a thing that happens on Saturday. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. practices tells what the team does, so practices is the verb." },
+          /* Q3 -- stage 1 */
+          { stage: 0,
+            sentence: { words: ["The", "brown", "rabbit", "hopped", "across", "the", "grassy", "field."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "brown", feedback: "brown tells what color the rabbit is. It describes the rabbit. Look again for the word that tells what happened." },
+              { text: "rabbit", feedback: "rabbit names who did the action. Look again for the word that tells what the rabbit did." },
+              { text: "hopped", correct: true, feedback: "Great job! hopped tells what the rabbit did." },
+              { text: "field", feedback: "field names a place. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. hopped tells what the rabbit did, so hopped is the verb." },
+          /* Q4 -- stage 1 */
+          { stage: 0,
+            sentence: { words: ["Maya", "opens", "her", "colorful", "notebook", "during", "science", "class."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "Maya", feedback: "Maya names who does the action. Look again for the word that tells what Maya does." },
+              { text: "opens", correct: true, feedback: "That's the verb! opens tells what Maya does." },
+              { text: "colorful", feedback: "colorful tells what kind of notebook it is. It describes the notebook. Look again for the word that tells what happened." },
+              { text: "notebook", feedback: "notebook names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. opens tells what Maya does, so opens is the verb." },
+          /* Q5 -- stage 1 */
+          { stage: 0,
+            sentence: { words: ["The", "hungry", "puppy", "carried", "its", "blue", "toy", "upstairs."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "hungry", feedback: "hungry tells what kind of puppy it is. It describes the puppy. Look again for the word that tells what happened." },
+              { text: "puppy", feedback: "puppy names who did the action. Look again for the word that tells what the puppy did." },
+              { text: "carried", correct: true, feedback: "Nice thinking! carried tells what the puppy did." },
+              { text: "toy", feedback: "toy names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. carried tells what the puppy did, so carried is the verb." },
+          /* Q6 -- stage 2 */
+          { stage: 1,
+            sentence: { words: ["The", "talented", "pitcher", "threw", "the", "baseball", "toward", "home", "plate."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "talented", feedback: "talented tells what kind of pitcher it is. It describes the pitcher. Look again for the word that tells what happened." },
+              { text: "pitcher", feedback: "pitcher names who did the action. Look again for the word that tells what the pitcher did." },
+              { text: "threw", correct: true, feedback: "You found it! threw tells what the pitcher did." },
+              { text: "baseball", feedback: "baseball names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. threw tells what the pitcher did, so threw is the verb." },
+          /* Q7 -- stage 2 */
+          { stage: 1,
+            sentence: { words: ["Several", "noisy", "birds", "gather", "beside", "the", "school", "playground."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "noisy", feedback: "noisy tells what kind of birds they are. It describes the birds. Look again for the word that tells what happened." },
+              { text: "birds", feedback: "birds names who does the action. Look again for the word that tells what the birds do." },
+              { text: "gather", correct: true, feedback: "Great job! gather tells what the birds do." },
+              { text: "playground", feedback: "playground names a place. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. gather tells what the birds do, so gather is the verb." },
+          /* Q8 -- stage 2 */
+          { stage: 1,
+            sentence: { words: ["The", "bright", "yellow", "bus", "stopped", "near", "our", "neighborhood."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "yellow", feedback: "yellow tells what color the bus is. It describes the bus. Look again for the word that tells what happened." },
+              { text: "bus", feedback: "bus names the thing we are talking about. Look again for the word that tells what the bus did." },
+              { text: "stopped", correct: true, feedback: "Nice thinking! stopped tells what the bus did." },
+              { text: "neighborhood", feedback: "neighborhood names a place. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. stopped tells what the bus did, so stopped is the verb." },
+          /* Q9 -- stage 2 */
+          { stage: 1,
+            sentence: { words: ["Jordan", "packed", "his", "clean", "uniform", "before", "baseball", "practice."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "Jordan", feedback: "Jordan names who did the action. Look again for the word that tells what Jordan did." },
+              { text: "clean", feedback: "clean tells what kind of uniform it is. It describes the uniform. Look again for the word that tells what happened." },
+              { text: "packed", correct: true, feedback: "You found it! packed tells what Jordan did." },
+              { text: "uniform", feedback: "uniform names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. packed tells what Jordan did, so packed is the verb." },
+          /* Q10 -- stage 2 */
+          { stage: 1,
+            sentence: { words: ["The", "young", "artist", "paints", "a", "colorful", "picture", "for", "the", "hallway."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "young", feedback: "young tells what kind of artist it is. It describes the artist. Look again for the word that tells what happened." },
+              { text: "artist", feedback: "artist names who does the action. Look again for the word that tells what the artist does." },
+              { text: "paints", correct: true, feedback: "That's the verb! paints tells what the artist does." },
+              { text: "picture", feedback: "picture names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. paints tells what the artist does, so paints is the verb." },
+          /* Q11 -- stage 3 */
+          { stage: 2,
+            sentence: { words: ["After", "lunch,", "the", "students", "carried", "their", "projects", "into", "the", "classroom."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "students", feedback: "students names who did the action. Look again for the word that tells what the students did." },
+              { text: "projects", feedback: "projects names the things the students had. Look again for the word that tells what happened." },
+              { text: "carried", correct: true, feedback: "Nice work! carried tells what the students did." },
+              { text: "classroom", feedback: "classroom names a place. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. carried tells what the students did, so carried is the verb." },
+          /* Q12 -- stage 3 */
+          { stage: 2,
+            sentence: { words: ["Near", "the", "fence,", "a", "curious", "squirrel", "climbed", "the", "tall", "oak", "tree."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "curious", feedback: "curious tells what kind of squirrel it is. It describes the squirrel. Look again for the word that tells what happened." },
+              { text: "squirrel", feedback: "squirrel names who did the action. Look again for the word that tells what the squirrel did." },
+              { text: "climbed", correct: true, feedback: "You found it! climbed tells what the squirrel did." },
+              { text: "tree", feedback: "tree names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. climbed tells what the squirrel did, so climbed is the verb." },
+          /* Q13 -- stage 3 */
+          { stage: 2,
+            sentence: { words: ["During", "practice,", "the", "catcher", "blocked", "the", "bouncing", "baseball."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "practice", feedback: "practice names when this happened. It does not tell what happened. Look again for the word that tells what happened." },
+              { text: "catcher", feedback: "catcher names who did the action. Look again for the word that tells what the catcher did." },
+              { text: "blocked", correct: true, feedback: "Great sentence checking! blocked tells what the catcher did." },
+              { text: "baseball", feedback: "baseball names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. blocked tells what the catcher did, so blocked is the verb." },
+          /* Q14 -- stage 3 */
+          { stage: 2,
+            sentence: { words: ["The", "silver", "airplane", "crosses", "the", "cloudy", "sky", "before", "sunset."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "silver", feedback: "silver tells what color the airplane is. It describes the airplane. Look again for the word that tells what happened." },
+              { text: "airplane", feedback: "airplane names the thing we are talking about. Look again for the word that tells what the airplane does." },
+              { text: "crosses", correct: true, feedback: "That's the verb! crosses tells what the airplane does." },
+              { text: "sky", feedback: "sky names a place the airplane flies through. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. crosses tells what the airplane does, so crosses is the verb." },
+          /* Q15 -- stage 3 */
+          { stage: 2,
+            sentence: { words: ["On", "Friday,", "our", "class", "visited", "the", "local", "science", "museum."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "class", feedback: "class names who did the action. Look again for the word that tells what the class did." },
+              { text: "visited", correct: true, feedback: "Nice thinking! visited tells what the class did." },
+              { text: "local", feedback: "local tells which museum it is. It describes the museum. Look again for the word that tells what happened." },
+              { text: "museum", feedback: "museum names a place. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. visited tells what the class did, so visited is the verb." },
+          /* Q16 -- stage 4 */
+          { stage: 3,
+            sentence: { words: ["The", "classroom", "is", "quiet", "after", "the", "morning", "announcements."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "classroom", feedback: "classroom names a place. A verb can tell what someone or something does OR is. Look again for the word that tells what someone or something is." },
+              { text: "is", correct: true, feedback: "You found it! is is the verb. Not every verb shows an action. Some verbs tell what someone or something is." },
+              { text: "quiet", feedback: "quiet tells how the classroom feels. It describes the classroom. A verb can tell what something is. Look again for the word that tells what someone or something is." },
+              { text: "announcements", feedback: "announcements names things that happened in the morning. A verb can tell what something is. Look again for the word that tells what someone or something is." }
+            ],
+            clue: "Remember: a verb can also tell what someone or something is.",
+            reveal: "Let's find it together. is tells what the classroom is, so is is the verb." },
+          /* Q17 -- stage 4 */
+          { stage: 3,
+            sentence: { words: ["The", "muddy", "shoes", "rested", "beside", "the", "back", "door."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "muddy", feedback: "muddy tells what kind of shoes they are. It describes the shoes. Look again for the word that tells what happened." },
+              { text: "shoes", feedback: "shoes names the things we are talking about. Look again for the word that tells what the shoes did." },
+              { text: "rested", correct: true, feedback: "Great job! rested tells what the shoes did." },
+              { text: "door", feedback: "door names a thing. Look again for the word that tells what happened." }
+            ],
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. rested tells what the shoes did, so rested is the verb." },
+          /* Q18 -- stage 4 */
+          { stage: 3,
+            sentence: { words: ["Those", "tall", "buildings", "are", "visible", "from", "the", "highway."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "tall", feedback: "tall tells what kind of buildings they are. It describes the buildings. A verb can tell what something is. Look again for the word that tells what someone or something is." },
+              { text: "buildings", feedback: "buildings names the things we are talking about. A verb can tell what something is. Look again for the word that tells what someone or something is." },
+              { text: "are", correct: true, feedback: "Nice thinking! are is the verb. It tells what the buildings are." },
+              { text: "highway", feedback: "highway names a place. A verb can tell what something is. Look again for the word that tells what someone or something is." }
+            ],
+            clue: "Remember: a verb can also tell what someone or something is.",
+            reveal: "Let's find it together. are tells what the buildings are, so are is the verb." },
+          /* Q19 -- stage 4 */
+          { stage: 3,
+            sentence: { words: ["The", "players", "were", "ready", "before", "the", "final", "inning."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "players", feedback: "players names who we are talking about. A verb can tell what someone is. Look again for the word that tells what someone or something is." },
+              { text: "were", correct: true, feedback: "You found it! were is the verb. It tells what the players were." },
+              { text: "ready", feedback: "ready tells how the players felt. It describes the players. A verb can tell what someone is. Look again for the word that tells what someone or something is." },
+              { text: "inning", feedback: "inning names a part of the game. A verb can tell what someone is. Look again for the word that tells what someone or something is." }
+            ],
+            clue: "Remember: a verb can also tell what someone or something is.",
+            reveal: "Let's find it together. were tells what the players were, so were is the verb." },
+          /* Q20 -- stage 4 */
+          { stage: 3,
+            sentence: { words: ["Our", "new", "library", "was", "crowded", "during", "family", "reading", "night."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "new", feedback: "new tells what kind of library it is. It describes the library. A verb can tell what something is. Look again for the word that tells what someone or something is." },
+              { text: "library", feedback: "library names a place. A verb can tell what something is. Look again for the word that tells what someone or something is." },
+              { text: "was", correct: true, feedback: "Great job! was is the verb. It tells what the library was." },
+              { text: "night", feedback: "night names when this happened. A verb can tell what something is. Look again for the word that tells what someone or something is." }
+            ],
+            clue: "Remember: a verb can also tell what someone or something is.",
+            reveal: "Let's find it together. was tells what the library was, so was is the verb." }
+        ]
+      },
+
+
       recap: "A verb tells what someone or something does or is. Ask: What happened?",
 
       studyGuide: {
