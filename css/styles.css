@@ -880,7 +880,18 @@ body.guide-open{overflow:hidden;}
 
 /* Desktop monitor: larger sentence, but the reading measure stays
    capped so text never stretches across the whole screen. */
-@media (min-width:1600px){
+/* Build 1.2.7 -- D-28. This rule used to be gated on WIDTH ALONE, which is the
+   same defect D-22 had one band higher: at a fixed height a WIDER viewport got
+   bigger type with no extra height to hold it, so 1600x720 scrolled 152px on
+   the Predicate Clue screen where 1280x720 -- narrower, same height -- fitted
+   whole. Measured on the densest screen at width 1600, the scale needs 880px of
+   height to fit; 900px is the guard, rounded up to the standard breakpoint and
+   coherent with the height-guarded rules above (min-height:950px at 1500px) and
+   below (min-height:1100px at 1800px).
+
+   PERMANENT RULE: a media query that enlarges type MUST carry a min-height
+   guard. Width alone never justifies bigger type. */
+@media (min-width:1600px) and (min-height:900px){
   :root{--sentence-size:1.9rem;--sentence-label:.9rem;--lesson-text:1.22rem;--lesson-max:1140px;}
   /* Still three equal columns — only the container grows. */
   .topic-grid{width:min(1120px,100%);}

@@ -103,19 +103,12 @@ window.SS_LEARN_CONTENT = {
         ]
       },
 
-      tryIt: {
-        title: "Try it",
-        sentence: {
-          words: ["The", "small", "dog", "jumped", "over", "the", "log."]
-        },
-        question: "Which word tells what happened?",
-        choices: [
-          { text: "small", feedback: "small tells what kind of dog it is. It describes the dog. Look again for the word that tells what happened." },
-          { text: "dog", feedback: "dog names the animal. It does not tell what happened. Look again for the word that tells what happened." },
-          { text: "jumped", correct: true, feedback: "Correct! jumped is the verb because it tells what the dog did." },
-          { text: "log", feedback: "log names a thing. It does not tell what happened. Look again for the word that tells what happened." }
-        ]
-      },
+      /* Build 1.2.7 (D-33): Verb's retired single-question `tryIt` was removed.
+         A topic that carries a `tryItBank` has ONE source of truth for its Try
+         It experience. The five topics without a bank still use `tryIt`, and
+         the engine still supports them unchanged. Do not reintroduce a hidden
+         fallback question here -- an unreachable question is one a maintainer
+         or a harness can mistake for live instructional content. */
 
       /* -----------------------------------------------------------------
          VERB — 20-QUESTION GUIDED LEARNING BANK (Build 1.2.5)
@@ -131,6 +124,12 @@ window.SS_LEARN_CONTENT = {
          answer -- the child is never trapped.
          ----------------------------------------------------------------- */
       tryItBank: {
+        /* Build 1.2.7 (D-30): the completion recap belongs to the CONTENT, not
+           to the engine. Before this, js/learn.js hard-coded Verb's wording for
+           any topic that had a bank, so a future Subject bank would have told
+           the child they practiced finding verbs. Every new bank MUST carry its
+           own `recap`. Wording unchanged from Build 1.2.5. */
+        recap: "You practiced finding action and being verbs in 20 different sentences.",
         stages: [
           { name: "Get Started", desc: "Find clear verbs and build confidence.",
             mark: "⭐", milestoneTitle: "Get Started complete!",

@@ -1,7 +1,7 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.2.6**
-**Last pass:** Verb Q20 wording correction (micro pass) — 2026-09-08
+**Current build: Sentence Sense — Build 1.2.7**
+**Last pass:** Guided-bank engine hardening + responsive regression correction — 2026-09-08
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
 **This file describes the CURRENT shipped state only. Read it first.**
 
@@ -27,12 +27,12 @@ Two governing rules:
 ## 2. BUILD NUMBERING — EVERY PUSH GETS A NEW NUMBER
 
 **Every approved GitHub push increments the visible build number**, so the live
-site can be verified after GitHub Pages refreshes. Current: **Build 1.2.6**.
+site can be verified after GitHub Pages refreshes. Current: **Build 1.2.7**.
 
 It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.6";`
-2. the rendered badge — `Sentence Sense — Build 1.2.6`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.7";`
+2. the rendered badge — `Sentence Sense — Build 1.2.7`
 3. the audit file name and heading
 4. this handoff
 
@@ -43,17 +43,19 @@ It must match in four places, and the audit checks all four:
 | File | Role | Lines |
 |---|---|---|
 | `index.html` | All screens: home, topics, lesson, mode placeholder, guide overlay | 254 |
-| `css/styles.css` | Every style, numbered sections 1–11 | 973 |
+| `css/styles.css` | Every style, numbered sections 1–11 | 984 |
 | `js/app.js` | Shell only: screen switching, Home/Back/Escape, build badge | 158 |
-| `js/learn.js` | Learn engine: topic screen, lesson runner, sentence component, Try It, **guided question bank**, Study Guide | 899 |
-| `js/data/learn-content.js` | **All instructional content**, including the Verb 20-question bank | 932 |
+| `js/learn.js` | Learn engine: topic screen, lesson runner, sentence component, Try It, **guided question bank**, Study Guide | 925 |
+| `js/data/learn-content.js` | **All instructional content**, including the Verb 20-question bank | 931 |
 | `assets/images/` | `logo.png` 1024×768 · `logo-512.png` · `favicon.png` — unmodified since 1.1.1 | — |
-| `AUDIT-REPORT-Build-1.2.6.md` | The current build audit — **the only one in the repo** | — |
+| `AUDIT-REPORT-Build-1.2.7.md` | The current build audit — **the only one in the repo** | — |
 | `SENTENCE-SENSE-HANDOFF.md` | This file, at the repo root | — |
 
 `js/data/learn-content.js` is no longer byte-identical to 1.1.1: Build 1.2.5 added
-`verb.tryItBank`, and Build 1.2.6 changed one word inside its Q20 sentence.
-Nothing that existed before the bank was altered.
+`verb.tryItBank`, Build 1.2.6 changed one word inside its Q20 sentence, and
+Build 1.2.7 added `tryItBank.recap` and removed the dead `verb.tryIt`.
+No question, answer, distractor, feedback, clue or reveal has ever been altered
+except the single Q20 word in 1.2.6.
 
 ---
 
@@ -96,7 +98,7 @@ Nothing that existed before the bank was altered.
   four tab stops.
 - No login, profile, account, avatar, settings or gear icon anywhere.
 
-### Learn — COMPLETE for six topics, one question each
+### Learn — COMPLETE for six topics; Verb runs a 20-question bank
 
 - Six topics, fixed order: **verb → subject → complete-subject → predicate →
   noun → adjective**.
@@ -122,7 +124,7 @@ content, no scoring exists for any of them.
 
 ---
 
-## 5b. THE VERB GUIDED BANK (Build 1.2.5, Q20 reworded 1.2.6) — VERB ONLY
+## 5b. THE VERB GUIDED BANK (Build 1.2.5; Q20 reworded 1.2.6; engine hardened 1.2.7) — VERB ONLY
 
 Verb's Try It step runs a 20-question cycle. **No other topic has one yet.** A
 topic gets the cycle purely by having a `tryItBank` in `learn-content.js`; a
@@ -135,9 +137,11 @@ topic without one keeps the single-question behaviour with no code change.
 | 3 | 11–15 | Think It Through | longer sentences, varied openings |
 | 4 | 16–20 | Challenge Yourself | action verbs mixed with `is / are / was / were` |
 
-**Shuffle is scoped to a stage.** The five inside a stage are shuffled; the
-stages never move. Never shuffle all 20 together — the difficulty banding is the
-teaching.
+**Question shuffle is scoped to a stage.** The five inside a stage are shuffled;
+the stages never move. Never shuffle all 20 together — the difficulty banding is
+the teaching. **This is not the same thing as the choice shuffle added in 1.2.7**
+— see THE BANK CONTRACT below. Questions shuffle within a stage; the four
+answer choices shuffle on every render. Two shuffles, two concerns.
 
 **Wrong answers escalate, they do not punish:**
 
@@ -174,10 +178,41 @@ ambiguous between the being verb and the phrase. Q20 originally read
 > form — `busy`, `quiet`, `happy`, `ready`, `full`, `empty`, `loud`. Never
 > `crowded`, `excited`, `broken`, `finished`, `tired`, `frozen`.
 
+### THE BANK CONTRACT (Build 1.2.7) — read this before adding a second bank
+
+The engine was hardened in 1.2.7 so it can be reused. **It now knows nothing
+about what any topic teaches.** A new bank supplies all of this and nothing else:
+
+| Field | Required | Note |
+|---|---|---|
+| `recap` | **Yes** | The completion line for THIS topic. Before 1.2.7 the engine hard-coded Verb's wording for any bank, so a Subject bank would have told the child they practiced finding verbs (D-30). A bank with no `recap` falls back to the topic's own `recap`, never to another topic's. |
+| `stages[]` | Yes | `name`, `desc`, `mark`, `milestoneTitle`, `milestoneLine`, `nextStage`. Any number of stages — the engine reads `q.stage` and never assumes four. |
+| `questions[]` | Yes | `stage`, `sentence`, `question`, four `choices` (exactly one `correct`), `clue`, `reveal`. Any number — the engine never assumes twenty. |
+
+**A topic with a bank must NOT also have a `tryIt` (D-33).** One source of truth
+per topic. Verb's retired single question was removed in 1.2.7; do not
+reintroduce a hidden fallback, and note that `renderStep()` no longer requires a
+`tryIt` block to exist.
+
+**Choice order is shuffled at render time (D-29).** Do not hand-balance answer
+positions in new content — the engine handles it. Before 1.2.7 choices rendered
+in data order and Verb's correct answer sat in position 3 in 16 of 20 questions
+and never in position 1 or 4, so a child could clear the bank by pressing the
+third button and never earn the teaching a wrong answer is meant to buy.
+
+**Answer identity is `dataset.ci`, never rendered text (D-36).** Each button
+carries its original choice index. Never match a choice by `textContent`.
+
+**Two shuffles, two concerns.** `resetBank()` shuffles QUESTIONS within a stage
+and never across stages. `buildBankQuestion()` shuffles CHOICES per render.
+Keep them separate.
+
 **Harness note.** Any test that selects a Try It answer must be bank-aware:
-Verb's choices come from `tryItBank.questions[order[pos]]`, not `tryIt`, and the
-completion screen is twenty answers away, not one. `window.SS_LEARN.bankState()`
-exposes `{pos, order, attempts, milestone, total}` read-only for this purpose.
+Verb's choices come from `tryItBank.questions[order[pos]]`, not `tryIt`; the
+completion screen is twenty answers away, not one; and **choice buttons are
+shuffled, so button `[0]` is not reliably a wrong answer** — select by
+`dataset.ci`. `window.SS_LEARN.bankState()` exposes
+`{pos, order, attempts, milestone, total}` read-only for this purpose.
 
 **Screenshot note.** `.lesson-done` has a 0.25s `rise` entry animation. A
 capture taken immediately after the final Next catches the completion panel
@@ -239,8 +274,12 @@ carried their heavy backpacks into the quiet classroom.*
 
 Learn gives **explanatory wrong-answer feedback** and must keep doing so:
 
-> *"small tells what kind of dog it is. It describes the dog. Look again for the
-> word that tells what happened."*
+> *"playful tells what kind of dog it is. It describes the dog. Look again for
+> the word that tells what happened."*
+> — Verb bank Q1, the live wording. (An earlier edition of this handoff quoted
+> *"small tells what kind of dog…"* from Verb's single Try It question. That
+> question was removed in 1.2.7 as dead data — see D-33 — so the quote above was
+> updated to a string that still exists.)
 
 Never reduce Learn feedback to "Wrong. Try again." That belongs to Test, not Learn.
 
@@ -274,26 +313,54 @@ brightened — those sit on a light ground, where brighter means less contrast.
 
 Do not add new colours for variety.
 
-**Projector type scale — gated on width AND height.** The `@media (min-width:1800px)`
-block that raises the sentence to 2.6rem is now `(min-width:1800px) and
-(min-height:1100px)`. Gated on width alone it treated an ordinary 1920×1080
-desktop as a classroom projector, which wrapped the adjective sentence to three
-rows and forced 100px of scroll. A real large display is large in both
-dimensions. Do not remove the height condition.
+**Type scale is gated on width AND height — BOTH wide breakpoints.**
+
+| Rule | Guard | Why |
+|---|---|---|
+| `@media (min-width:1800px) and (min-height:1100px)` | added in **1.2.4** (D-22) | Raises the sentence to 2.6rem. Gated on width alone it treated an ordinary 1920×1080 desktop as a classroom projector, wrapping the adjective sentence to three rows and forcing 100px of scroll. |
+| `@media (min-width:1600px) and (min-height:900px)` | added in **1.2.7** (D-28) | Raises the sentence to 1.9rem. Gated on width alone, a **wider** viewport became **vertically worse** at the same height: 1600×720 scrolled 152px on the Predicate Clue screen where 1280×720 — narrower, same height — fitted whole. The 900px guard is the measured threshold (880px) rounded up. |
+
+> **PERMANENT RULE: a media query that enlarges type MUST carry a `min-height`
+> guard. Width alone never justifies bigger type.** A real large display is large
+> in **both** dimensions. `respguard.js` lints for this and will fail the build if
+> a new width-only type rule appears. Do not remove either height condition.
 
 ---
 
 ## 11. DEFECT LEDGER
 
+This ledger is the current truth as of Build 1.2.7 and matches
+`AUDIT-REPORT-Build-1.2.7.md`. Statuses here supersede any wording in an earlier
+audit.
+
 ### Open
 
 | ID | Issue | Severity |
 |---|---|---|
-| **D-27** | At 390×844 in the wrong-answer state the Next button sits just below the fold. All four choices and the feedback stay visible, and Next is disabled in that state. | 4 |
-| **D-26** | At 1366×768 the two densest Clue screens push the build badge below the fold. Lesson and controls fully visible. | 4 |
-| D-11 | Topic-screen density — much improved; re-assess before closing | 4 |
-| D-13 | Completion-screen Back behaviour | 4 |
-| D-20 | Abstract nouns in the noun topic (content, not layout) | 3 |
+| **D-27** | **OPEN, re-measured in 1.2.7.** Required-control visibility on short-height viewports. After the D-28 fix, **58 below-fold samples** remain across the responsive matrix, but there are **ZERO false-bottom states** — every below-fold case has visible continuation at the fold, so the page never looks finished when it is not. **Nine near-fold states** remain; the tightest measured case is **Verb Clue at 375×667, Next about 11px below the fold**. Phone scrolling itself is acceptable and is not the defect. | 3 |
+| **D-26** | **OPEN / DEFERRED.** The build badge can fall below the fold across multiple device classes and states, including some desktop screens. This is deployment/debug metadata, not instructional content and not a child control. Broad fixed-position treatment is deliberately avoided because it risks reopening **D-21**. Defer unless deployment verification becomes materially difficult. | 4 |
+| **D-20** | **OPEN.** Abstract nouns are **defined and illustrated** — the Noun definition names *idea*, shows a fourth chip group (*love · joy · hope · freedom*) and carries the note *"An idea is something you cannot touch, like joy or hope. It is still a noun."*, and the Clue asks *"An idea?"*. What is missing is the **demonstration**: no abstract noun appears inside a marked sentence, and Try It never asks about one. They are not missing — they are untested and undemonstrated. | 3 |
+| **D-35** | **OPEN / DEFERRED.** The Study Guide's background is not marked `inert` or `aria-hidden`, so assistive technology that ignores `aria-modal` could reach behind the overlay. Mitigated: the two-way focus trap works (10/10 forward, 10/10 reverse) and `#guide-panel` carries `role="dialog" aria-modal="true"`. Do not fix without real screen-reader testing. | 4 |
+
+**What D-27 is NOT.** It is not a requirement that every Next button fit without
+scrolling. Scrolling on a phone is normal. The concern is narrower: a required
+control sitting only slightly below the fold on a page that could otherwise
+appear complete.
+
+### Closed in Build 1.2.7
+
+| ID | Resolution |
+|---|---|
+| **D-28** | **CLOSED.** The 1600px type-scaling rule now carries a height guard, so a wider-but-short viewport no longer becomes vertically worse. |
+| **D-29** | **CLOSED.** Choice order is shuffled at render time. Answer position no longer carries structural correctness information. |
+| **D-30** | **CLOSED.** The bank completion recap is data-driven through the bank content, not hard-coded to Verb. |
+| **D-33** | **CLOSED.** Verb's dead legacy single-question `tryIt` data was removed. A bank topic has one source of truth. |
+| **D-36** | **CLOSED.** Bank answer identity uses stable rendered identity (`dataset.ci`) rather than `textContent`. |
+| **D-11** | **CLOSED.** The topic-screen density issue no longer reproduces. All six topic cards are visible without scrolling at the representative desktop and tablet sizes used for closure, and phone scrolling is normal for a six-item portal. |
+| **D-13** | **CLOSED / DESIGN BEHAVIOUR.** Completion is a terminal state with deliberate exits: **Next Topic** where applicable, **Learn Again**, **All Topics**, **Home**. There is no Back control on completion by design. |
+| **D-31** | **CLOSED.** The stale `js/app.js` file-header build comment was corrected. |
+| **D-32** | **CLOSED.** The contradictory handoff heading was corrected. |
+| **D-34** | **CLOSED.** The audit wording/table inconsistency was corrected. |
 
 ### Content observations — resolved
 
@@ -315,10 +382,14 @@ application logic for this.
 
 ### Closed
 
+**Closed before 1.2.7 and re-verified in it, none regressed:**
 **D-23** lesson stack positioned too low · **D-24** Try It scroll · **D-25**
 Definition and footer below the fold · **D-22** adjective sentence wrapping ·
 K-01 · D-12 / K-02 · D-20b · D-21 · Learn screens too tall · markup before the
 plain sentence · Adjective identity reading brown · empty completion screen.
+
+**Closed in 1.2.7:** D-28 · D-29 · D-30 · D-31 · D-32 · D-33 · D-34 · D-36 ·
+D-11 · D-13 (design behaviour). See the table above.
 
 ### Standing limitations of every audit so far
 
@@ -375,6 +446,35 @@ metric that catches it. Keep both.
 so a marked chip and a plain word have different `top` values on the same visual
 line. Count row wraps by **bottoms**, never tops.
 
+**`place.js` is NOT the responsive authority any more.** It only tests
+`w >= 1024 && h >= 600`, so it cannot fail on a phone and cannot fail on a
+wide-but-short desktop. That blind spot is precisely why D-27's true scope stayed
+hidden for three builds and why D-28 was invisible until the 1.2.6 forensic
+audit. Since 1.2.7 the responsive authority is **`respguard.js`** — see below.
+Keep `place.js` for the §12b placement rule; do not treat its PASS as responsive
+coverage.
+
+---
+
+## 12c. PERMANENT HARNESSES — WHAT EACH ONE GUARDS
+
+Run these before any delivery. All live outside the project ZIP.
+
+| Harness | Guards | Would catch |
+|---|---|---|
+| **`bankguard.js`** (19 checks) | **A** choice position over 800 renders · **B** answer identity under shuffle · **C** bank recap, using a **test-only mock second bank** injected at runtime | D-29, D-36, D-30 returning |
+| **`respguard.js`** (11 checks) | **D** 18 viewports × 3 topics × 4 steps, width **and** height, phones and phone-landscape included · **E** non-monotonic width pairs **plus a CSS lint** that fails any ≥1500px media query enlarging type without a `min-height` guard · **F** control visibility measuring `pxBelowFold`, `scrollHeight`, viewport height and fold-cut, reporting **false bottoms separately from ordinary scrolling** | D-28 and the whole D-22 family; D-27 regressions |
+| **`stateguard.js`** (48 checks) | state leakage, rapid input, accessibility | double-click, stale state, focus loss |
+| `bank.js` (33) · `func.js` (19) · `q20.js` (31) · `exact.js` (16) · `checks.js` (26) · `place.js` | bank engine · Learn engine · Q20 + 20-question integrity · plain→marked · Home/build/assets · §12b placement | — |
+
+**The CSS lint in `respguard.js` §E is the durable guard for the D-22/D-28
+family.** It reports `FAIL — unguarded: (min-width:1600px)` against Build 1.2.6
+and passes against 1.2.7, so it demonstrably bites.
+
+**Harness rule learned in 1.2.7: choice buttons are shuffled, so button `[0]` is
+not reliably a wrong answer.** Any test that needs a specific choice must select
+by `dataset.ci`, never by position and never by rendered text.
+
 ---
 
 ## 13. WORKING AGREEMENT
@@ -419,10 +519,26 @@ new discrepancy **before** editing.
 | Archive | Contents |
 |---|---|
 | `Sentence-Sense.zip` | The project repository only |
-| `Sentence-Sense-Build-<n>-Deliverables.zip` | All review-only material |
+| `Sentence-Sense-Build-<n>-Deliverables.zip` | All review-only material, organised as `AUDIT-REPORT-…md` · `SENTENCE-SENSE-HANDOFF.md` · `GIT-COMMANDS.md` · `verification/` · `screenshots/`. Never contains a copy of the project ZIP. |
+
+**PROJECT ZIP — NO WRAPPER FOLDER (set in 1.2.7).** The repository files must sit
+at the **root of the ZIP**. Opening `Sentence-Sense.zip` shows `index.html`,
+`css/`, `js/`, `assets/` immediately — never a `Sentence-Sense-main/` folder to
+open first. The ZIP root **is** the repo root, so its contents drop straight into
+`C:\Sentence-Sense`.
+
+```
+Sentence-Sense.zip
+├── index.html
+├── css/styles.css
+├── js/app.js · js/learn.js · js/data/learn-content.js
+├── assets/images/logo.png · logo-512.png · favicon.png
+├── SENTENCE-SENSE-HANDOFF.md
+└── AUDIT-REPORT-Build-<n>.md
+```
 
 **PROJECT ZIP — keep only:** `index.html` · `css/` · `js/` · `assets/images/` ·
-`SENTENCE-SENSE-HANDOFF.md` · **the CURRENT audit only**.
+`SENTENCE-SENSE-HANDOFF.md` · **the CURRENT audit only**. Ten files, nothing else.
 
 **Never in the project ZIP:** historical audits · screenshots · `GIT-COMMANDS.md`
 · startup verification reports · test harnesses · Playwright scripts · temporary
@@ -454,4 +570,4 @@ ls AUDIT-REPORT-Build-*.md | wc -l
 
 ---
 
-*End of handoff. Last updated 2026-09-08 for Build 1.2.6.*
+*End of handoff. Last updated 2026-09-08 for Build 1.2.7.*

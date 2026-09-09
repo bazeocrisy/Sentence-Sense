@@ -342,13 +342,18 @@
     el("lesson-step").hidden = false;
     el("lesson-controls").hidden = false;
 
-    el("lesson-heading").textContent = t.name + " — " + block.title;
-
     const isTry = (stepKey === "tryIt");
+
+    /* Build 1.2.7 (D-33): a topic that runs a bank has no `tryIt` block at all,
+       so the step title cannot be read from one. buildBankQuestion() sets the
+       heading itself; this is the safe default until it does. */
+    el("lesson-heading").textContent =
+      t.name + " — " + ((block && block.title) || "Try it");
     /* Try It renders its own sentence, question and choices below, so the
        generic block renderer is skipped for that step. */
     if (isTry) clear(el("lesson-content"));
-    else renderBlock(el("lesson-content"), block);
+    else if (block) renderBlock(el("lesson-content"), block);
+    else clear(el("lesson-content"));
 
     el("lesson-milestone").hidden = true;
     lesson.milestoneStage = -1;
@@ -430,8 +435,11 @@
     el("done-title").textContent = "You learned " + t.name + "!";
     /* A topic that ran the guided cycle says what the child actually did.
        Still no score, no percentage, no count of right answers. */
-    el("done-recap").textContent = lesson.bank
-      ? "You practiced finding action and being verbs in 20 different sentences."
+    /* Build 1.2.7 (D-30): the bank's recap is CONTENT. The engine no longer
+       knows what any topic teaches. A bank that forgets to carry a `recap`
+       falls back to the topic recap rather than to another topic's wording. */
+    el("done-recap").textContent = (lesson.bank && lesson.bank.recap)
+      ? lesson.bank.recap
       : t.recap;
 
     /* Build 1.2.3 — a small, quiet sense of achievement. A named badge the
@@ -575,9 +583,24 @@
     clear(host);
     const longest = q.choices.reduce((n, c) => Math.max(n, c.text.length), 0);
     host.classList.toggle("is-wide", longest > 12);
-    q.choices.forEach(choice => {
+
+    /* Build 1.2.7 (D-29): the choices are shuffled at RENDER time, so choice
+       position carries no answer signal. Before this, choices rendered in data
+       order and the correct answer sat in position 3 in 16 of the 20 questions
+       and never in position 1 or 4 -- a child could clear the whole bank by
+       pressing the third button and so never earn the teaching a wrong answer
+       is meant to buy. This is separate from the question shuffle in
+       resetBank(): question order is stage-scoped, choice order is per render.
+
+       Build 1.2.7 (D-36): each button carries its ORIGINAL index in
+       `dataset.ci`. Identity never depends on rendered text, so the guided
+       reveal still finds the right button when the order changes, and it will
+       not break silently if a future bank ever repeats a choice label. */
+    shuffled(q.choices.map((c, i) => i)).forEach(ci => {
+      const choice = q.choices[ci];
       const btn = make("button", "tryit-choice");
       btn.type = "button";
+      btn.dataset.ci = String(ci);
       btn.textContent = choice.text;
       btn.addEventListener("click", () => answerBank(btn, choice, q));
       host.appendChild(btn);
@@ -629,8 +652,11 @@
       bankFeedback("wrong", [choice.feedback, q.clue]);
     } else {
       /* Third miss: find it together rather than leave the child stuck. */
+      /* Build 1.2.7 (D-36): match the correct button by its original choice
+         index, never by rendered text. */
+      const correctIndex = q.choices.findIndex(c => c.correct);
       const right = Array.prototype.filter.call(buttons,
-        b => q.choices.some(c => c.correct && c.text === b.textContent))[0];
+        b => Number(b.dataset.ci) === correctIndex)[0];
       Array.prototype.forEach.call(buttons, b => { b.disabled = true; });
       if (right) { right.classList.add("is-right"); right.disabled = true; }
       bankFeedback("right", [q.reveal]);
