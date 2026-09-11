@@ -294,6 +294,7 @@
   function openTopics() {
     /* Leaving Learn ends the session: the milestone screen must not survive
        into the next topic the child opens. */
+    if (window.SS_MISSION) window.SS_MISSION.stopSpeech();
     el("lesson-milestone").hidden = true;
     lesson.milestoneStage = -1;
     lesson.topicKey = null;
@@ -304,8 +305,29 @@
   /* =========================================================
      4. LESSON RUNNER
      ========================================================= */
+  /* Build 1.3.0 — VERB ROUTING, and the only behavioural change in this
+     file. Verb opens the illustrated "Sentence Detectives" mission in
+     js/mission.js. The other five topics fall straight through to the
+     four-step lesson below, unchanged.
+
+     ?verb=classic restores the original Verb lesson, including its
+     20-question guided bank. That flag is not a child-facing feature:
+     it exists so the bank engine stays reachable and testable instead
+     of being orphaned by the prototype, and so this build can be
+     compared against 1.2.7 in the same browser. */
+  function classicVerbRequested() {
+    return /[?&]verb=classic\b/.test(window.location.search);
+  }
+
   function openTopic(key) {
     if (!C.topics[key]) return;
+
+    if (key === "verb" && window.SS_MISSION && !classicVerbRequested()) {
+      lesson.topicKey = key;          // the Study Guide needs to know the topic
+      window.SS_MISSION.start();
+      return;
+    }
+
     lesson.topicKey = key;
     lesson.stepIndex = 0;
     lesson.answered = false;
@@ -854,6 +876,20 @@
     else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
   }
 
+  /* Build 1.3.0 — the mission reaches the Study Guide through here rather
+     than carrying its own copy of the content or its own focus trap.
+     One guide panel, one trap, one set of Verb study material. */
+  function openGuideFor(topicKey, opener) {
+    if (!C.topics[topicKey]) return;
+    lesson.topicKey = topicKey;
+    lesson.guideOpener = opener || document.activeElement;
+    renderGuide(topicKey);
+    el("guide-overlay").hidden = false;
+    document.body.classList.add("guide-open");
+    document.addEventListener("keydown", trapGuideTab, true);
+    el("guide-title").focus();
+  }
+
   function openGuide() {
     if (!lesson.topicKey) return;
     lesson.guideOpener = document.activeElement;
@@ -917,6 +953,7 @@
                         total: lesson.bankOrder.length }),
     openTopics,
     openTopic,
+    openGuideFor,
     closeGuide,
     guideIsOpen,
     backFromLesson: openTopics,

@@ -1,0 +1,576 @@
+{
+ "pass": 114,
+ "fail": 0,
+ "results": [
+  {
+   "r": "PASS",
+   "name": "1.1 no uncaught page errors on load",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "1.2 no console errors (font/favicon network noise allowed)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "1.3 all four mission globals present",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "1.4 BUILD_NUMBER is Build 1.3.0",
+   "detail": "Build 1.3.0"
+  },
+  {
+   "r": "PASS",
+   "name": "1.5 rendered badge matches",
+   "detail": "Sentence Sense — Build 1.3.0"
+  },
+  {
+   "r": "PASS",
+   "name": "1.6 localStorage and sessionStorage empty on load",
+   "detail": "local=0 session=0"
+  },
+  {
+   "r": "PASS",
+   "name": "2.1 Verb card opens the mission screen",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "2.2 subject still runs the four-step lesson",
+   "detail": "Subject — What is a subject?"
+  },
+  {
+   "r": "PASS",
+   "name": "2.2 complete-subject still runs the four-step lesson",
+   "detail": "Complete Subject — What is a complete subject?"
+  },
+  {
+   "r": "PASS",
+   "name": "2.2 predicate still runs the four-step lesson",
+   "detail": "Predicate — What is a predicate?"
+  },
+  {
+   "r": "PASS",
+   "name": "2.2 noun still runs the four-step lesson",
+   "detail": "Noun — What is a noun?"
+  },
+  {
+   "r": "PASS",
+   "name": "2.2 adjective still runs the four-step lesson",
+   "detail": "Adjective — What is an adjective?"
+  },
+  {
+   "r": "PASS",
+   "name": "2.3 ?verb=classic restores the original Verb lesson",
+   "detail": "Verb — What is a verb?"
+  },
+  {
+   "r": "PASS",
+   "name": "2.4 the 20-question guided bank still loads",
+   "detail": "total=20"
+  },
+  {
+   "r": "PASS",
+   "name": "2.5 bank question counter renders",
+   "detail": "Question 1 of 20"
+  },
+  {
+   "r": "PASS",
+   "name": "3.1 WATCH marks nothing before the reveal",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "3.2 WATCH scene description does not contain the verb",
+   "detail": "A soccer player on a green field swings one leg toward a mud-spattered ball, with a goal net behind it."
+  },
+  {
+   "r": "PASS",
+   "name": "3.3 independent-practice cards carry no scene",
+   "detail": "Solve it yourself=null; Find the being verb=null; Find the whole verb phrase=null"
+  },
+  {
+   "r": "PASS",
+   "name": "3.4 FIND marks nothing before a choice is made",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "3.5 every word in a FIND sentence is a real button",
+   "detail": "10 word buttons"
+  },
+  {
+   "r": "PASS",
+   "name": "4.1 mission has 12 cards",
+   "detail": "total=12"
+  },
+  {
+   "r": "PASS",
+   "name": "4.R reveal action is named, not a bare Next (Show me the verb.)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.R reveal marks the verb and shows the plain/marked pair",
+   "detail": "label=VERB"
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct word(s) solve the card (6)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct answer still gets a teaching explanation",
+   "detail": "✓Yes. Examined tells what the students did — they looked at the rocks "
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct word(s) solve the card (3)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct answer still gets a teaching explanation",
+   "detail": "✓Yes. Discovered tells what the puppy did — it found something that wa"
+  },
+  {
+   "r": "PASS",
+   "name": "4.S swap starts locked until a verb is tried",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S still locked after only one verb is tried",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S the illustration changes with the verb",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S advance unlocks once both verbs are tried",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S the cause-and-effect insight appears after both",
+   "detail": "✓Now the students are gathering the rocks up and taking them along. Most of the "
+  },
+  {
+   "r": "PASS",
+   "name": "4.S swap starts locked until a verb is tried",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S still locked after only one verb is tried",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S the illustration changes with the verb",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S advance unlocks once both verbs are tried",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.S the cause-and-effect insight appears after both",
+   "detail": "✓Now the water is moving out of the container and into the bowl. The container i"
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct word(s) solve the card (7)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct answer still gets a teaching explanation",
+   "detail": "✓Yes. Blocked tells what the goalie did — the goalie stopped the shot."
+  },
+  {
+   "r": "PASS",
+   "name": "4.W the explanatory question appears after the verb is found",
+   "detail": "4 choices"
+  },
+  {
+   "r": "PASS",
+   "name": "4.W advance is blocked until the explanation is given",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.W correct explanation unlocks the advance",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.R reveal action is named, not a bare Next (Show me this verb.)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.R reveal marks the verb and shows the plain/marked pair",
+   "detail": "label=BEING VERB"
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct word(s) solve the card (7)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct answer still gets a teaching explanation",
+   "detail": "✓Yes. Was is the being verb. It tells what the hallway was — empty."
+  },
+  {
+   "r": "PASS",
+   "name": "4.R reveal action is named, not a bare Next (Show me the whole verb.)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.R reveal marks the verb and shows the plain/marked pair",
+   "detail": "label=VERB PHRASE"
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct word(s) solve the card (5+6)",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.P correct answer still gets a teaching explanation",
+   "detail": "✓That is the whole verb phrase: are training. Are is the helping verb "
+  },
+  {
+   "r": "PASS",
+   "name": "4.2 the mission reaches completion",
+   "detail": "kind=done"
+  },
+  {
+   "r": "PASS",
+   "name": "4.3 no button is labelled a bare 'Next' anywhere in the run",
+   "detail": "Open the case file | Show me the verb. | Next sentence | Show me something interesting | Try another one | I can do one on my own | There is one more thing to learn | Show me this verb. | Show me the last kind | Show me the whole verb. | Close the case"
+  },
+  {
+   "r": "PASS",
+   "name": "4.4 completion does not claim mastery",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.5 completion has no score, percentage or streak",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.6 completion offers the Study Guide and a replay",
+   "detail": "Open the Study Guide, Work the case again, All Topics, Home"
+  },
+  {
+   "r": "PASS",
+   "name": "4.7 the primary control row is hidden on completion",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.8 no page errors across the whole walkthrough",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "4.9 still nothing persisted after a full run",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "5.1 first wrong answer explains that word and redirects",
+   "detail": "✕Beside tells WHERE the students are. A place word does not tell what happened.H"
+  },
+  {
+   "r": "PASS",
+   "name": "5.2 first wrong answer does NOT reveal the verb",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "5.3 second wrong answer gives the strategy clue",
+   "detail": "✕the is a small word that points to a noun. It never tells what happened.Ask yourself: wha"
+  },
+  {
+   "r": "PASS",
+   "name": "5.4 second wrong answer still does not reveal the verb",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "5.5 third wrong answer models the reasoning instead of trapping",
+   "detail": "💡Let's find it together. The students did something to the rocks — they examined them. So"
+  },
+  {
+   "r": "PASS",
+   "name": "5.6 third wrong answer marks the verb and unlocks the advance",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "5.7 a ruled-out word is disabled and struck through, not just recoloured",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "5.8 feedback never reads as a bare 'Wrong, try again'",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "5.9 the sentence stays visible while feedback shows",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "6.1 reached the verb-phrase card",
+   "detail": "pickCount=2"
+  },
+  {
+   "r": "PASS",
+   "name": "6.2 the prompt asks for BOTH words, never ambiguously for 'the verb'",
+   "detail": "This sentence has a verb phrase. Click BOTH words that make the complete verb.0 / 2 chosen"
+  },
+  {
+   "r": "PASS",
+   "name": "6.3 the verb phrase is TAUGHT before it is assessed",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "6.4 one word of two is progress, not an error",
+   "detail": "mi-feedback is-part"
+  },
+  {
+   "r": "PASS",
+   "name": "6.5 the partial answer invites the second word",
+   "detail": "💡Yes — training tells the action. It needs its helping verb too.Good — that wor"
+  },
+  {
+   "r": "PASS",
+   "name": "6.6 a visible count shows how many words are chosen",
+   "detail": "1 / 2 chosen"
+  },
+  {
+   "r": "PASS",
+   "name": "6.7 both words complete the card",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "6.8 the explanation names the helping verb and the main verb",
+   "detail": "✓That is the whole verb phrase: are training. Are is the helping verb and training tells the action."
+  },
+  {
+   "r": "PASS",
+   "name": "6.9 the phrase is drawn as ONE verb with ONE label",
+   "detail": "{\"labels\":1,\"phrase\":1,\"text\":\"VERB PHRASE\"}"
+  },
+  {
+   "r": "PASS",
+   "name": "7.1 entering a card moves focus to its heading",
+   "detail": "mission-heading"
+  },
+  {
+   "r": "PASS",
+   "name": "7.2 sentence words are reachable by Tab",
+   "detail": "BUTTON.mi-word"
+  },
+  {
+   "r": "PASS",
+   "name": "7.3 the focused word shows a visible focus ring",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "7.4 a word can be chosen with Enter",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "7.5 focus moves to the primary action after a correct answer",
+   "detail": "mission-next"
+  },
+  {
+   "r": "PASS",
+   "name": "7.6 a wrong answer keeps focus on a word the child can still try",
+   "detail": "BUTTON.mi-word mi-word-btn"
+  },
+  {
+   "r": "PASS",
+   "name": "8.1 Study Guide opens from the mission header",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "8.2 it is the Verb guide, with its sections",
+   "detail": "Verb Study Guide / 10 sections"
+  },
+  {
+   "r": "PASS",
+   "name": "8.3 focus moves into the dialog",
+   "detail": "guide-title"
+  },
+  {
+   "r": "PASS",
+   "name": "8.4 Tab cannot leave the dialog",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "8.5 Shift+Tab cannot leave the dialog",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "8.6 Escape closes the guide",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "8.7 focus returns to the Study Guide button",
+   "detail": "mission-guide"
+  },
+  {
+   "r": "PASS",
+   "name": "8.8 Escape on the mission returns to the topic list",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "9.1 read-aloud never autoplays",
+   "detail": "[]"
+  },
+  {
+   "r": "PASS",
+   "name": "9.2 the read-aloud control is offered",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "9.3 pressing it speaks exactly one utterance",
+   "detail": "[\"The determined player kicked the muddy ball across the field.\"]"
+  },
+  {
+   "r": "PASS",
+   "name": "9.4 it speaks the plain sentence only — no label, no answer marker",
+   "detail": "The determined player kicked the muddy ball across the field."
+  },
+  {
+   "r": "PASS",
+   "name": "9.5 the spoken text contains no mark or label text",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "9.6 leaving the screen cancels speech",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "10.1 no replay button is offered under reduced motion",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "10.2 the kick animation does not run",
+   "detail": "animationName=none"
+  },
+  {
+   "r": "PASS",
+   "name": "10.3 the motion trail is hidden",
+   "detail": "none"
+  },
+  {
+   "r": "PASS",
+   "name": "10.4 the reveal still works with no motion at all",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "10.5 the mission is completable with reduced motion",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "11.1 Back is disabled on the first card",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "11.2 card solved before stepping back",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "11.3 Back steps to the previous card",
+   "detail": "pos=1"
+  },
+  {
+   "r": "PASS",
+   "name": "11.4 stepping back clears that card's interaction state",
+   "detail": "{\"pos\":1,\"total\":12,\"kind\":\"reveal\",\"phase\":\"watch\",\"revealed\":false,\"picked\":[],\"wrong\":[],\"attempts\":0,\"solved\":false,\"tried\":[],\"whyDone\":false}"
+  },
+  {
+   "r": "PASS",
+   "name": "11.5 Back reaches the first card and stops there",
+   "detail": "pos=0"
+  },
+  {
+   "r": "PASS",
+   "name": "11.6 All Topics exits the mission from the first card",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "11.7 re-entering Verb restarts the case at card 1",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "11.8 Home exits the mission",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "12.1 zero horizontal overflow at every viewport",
+   "detail": "0 overflowing samples"
+  },
+  {
+   "r": "PASS",
+   "name": "12.2 zero false-bottom states (a page never looks finished when it is not)",
+   "detail": "0 false bottoms of 8 below-fold samples"
+  },
+  {
+   "r": "PASS",
+   "name": "12.3 header-to-rail gap is constant and <= 60px (handoff 12b)",
+   "detail": "values=14px"
+  },
+  {
+   "r": "PASS",
+   "name": "12.4 the primary action is in view on every desktop/laptop sample",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "12.5 a wider viewport is never vertically worse at the same height (D-28 class)",
+   "detail": ""
+  }
+ ]
+}
