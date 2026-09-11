@@ -63,7 +63,7 @@ It must match in four places, and the audit checks all four:
 | `assets/Sentence-Sense_logo.png` | **1.7 MB and UNREFERENCED.** Nothing links to it. Recommend deletion — see §11. | — |
 | `verification/` | **NEW 1.3.0** — the 1.3.0 harness, its raw results and 33 screenshots | — |
 | `AUDIT-REPORT-Build-1.3.0.md` | The current build audit | — |
-| `AUDIT-REPORT-Build-1.2.3 / 1.2.4 / 1.2.5.md` | **Superseded. Should have been removed** — see §11. | — |
+| `AUDIT-REPORT-Build-1.2.3 / 1.2.4 / 1.2.5 / 1.2.7.md` | **Four superseded audits. Should have been removed** — see §11. | — |
 | `SENTENCE-SENSE-HANDOFF.md` | This file, at the repo root | — |
 
 **`js/data/learn-content.js` was not touched in 1.3.0 — not one byte.** The Verb
@@ -430,7 +430,7 @@ Current truth as of Build 1.3.0. Matches `AUDIT-REPORT-Build-1.3.0.md`.
 | **D-26** | **OPEN / DEFERRED.** The build badge can fall below the fold across several device classes. Deployment metadata, not instructional content. Fixed-position treatment is avoided because it risks reopening D-21. | 4 |
 | **D-20** | **OPEN.** Abstract nouns are defined and illustrated in the Noun lesson but never demonstrated inside a marked sentence and never asked about in Try It. | 3 |
 | **D-35** | **OPEN / DEFERRED.** The Study Guide's background is not marked `inert` or `aria-hidden`. Mitigated: the two-way focus trap works and `#guide-panel` carries `role="dialog" aria-modal="true"`. Re-verified in 1.3.0 from the mission (checks 8.4, 8.5). Do not fix without real screen-reader testing. | 4 |
-| **H-01** | **OPEN — repository hygiene, needs owner approval.** Three superseded audits (`1.2.3`, `1.2.4`, `1.2.5`) are still in the repo; §13 says one audit should exist at a time. **Not deleted** — the 1.3.0 brief required approval before deleting files. | 4 |
+| **H-01** | **OPEN — repository hygiene, needs owner approval.** Four superseded audits (`1.2.3`, `1.2.4`, `1.2.5`, `1.2.7`) are still in the repo; §13 says one audit should exist at a time. **Not deleted** — the 1.3.0 brief required approval before deleting files. | 4 |
 | **H-02** | **OPEN — repository hygiene, needs owner approval.** `assets/Sentence-Sense_logo.png` is **1.7 MB and referenced by nothing**. It is 66% of the repo's asset weight and loads for nobody. **Not deleted** — same reason. | 4 |
 | **P-01** | **OPEN — product decision.** The 20-question Verb bank is no longer reachable from the UI, only via `?verb=classic`. See §5b. | 3 |
 
@@ -574,7 +574,7 @@ new discrepancy **before** editing.
 ## 14. NEXT — NOT STARTED
 
 - **An owner decision on P-01** — whether the 20-question bank returns to the UI.
-- **Owner approval for H-01 and H-02** — deleting three superseded audits and the
+- **Owner approval for H-01 and H-02** — deleting four superseded audits and the
   1.7 MB unreferenced logo.
 - **Testing with an actual third grader (L-05).** Nothing else on this list
   matters as much.

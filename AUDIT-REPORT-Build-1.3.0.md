@@ -410,8 +410,9 @@ section 4 and are clean on desktop, laptop and tablet.
    a substitute for running the originals**, and if you have them, they should
    be run against this branch.
 
-5. **Three superseded audit reports are still in the repository** —
-   `AUDIT-REPORT-Build-1.2.3.md`, `-1.2.4.md`, `-1.2.5.md`. Handoff section 13
+5. **Four superseded audit reports are still in the repository** —
+   `AUDIT-REPORT-Build-1.2.3.md`, `-1.2.4.md`, `-1.2.5.md`, and now
+   `-1.2.7.md`, which this build supersedes. Handoff section 13
    says one audit should exist at a time and the old ones should be `git rm`'d.
    **I did not delete them**, because your brief requires approval before
    deleting files. Say the word and they go in the next commit.
