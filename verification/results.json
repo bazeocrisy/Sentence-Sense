@@ -86,7 +86,7 @@
   {
    "r": "PASS",
    "name": "2.9 a quiet Georgia alignment line is present",
-   "detail": "\n            3rd Grade ELA\n            Aligned with Georgia Grade 3 ELA Standards\n          "
+   "detail": "\n              3rd Grade ELA\n              Aligned with Georgia Grade 3 ELA Standards\n            "
   },
   {
    "r": "PASS",
@@ -401,7 +401,7 @@
   {
    "r": "PASS",
    "name": "5.9 choice order is shuffled at render time (D-29)",
-   "detail": "11 distinct orders in 12 renders"
+   "detail": "9 distinct orders in 12 renders"
   },
   {
    "r": "PASS",
@@ -411,7 +411,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕baseball tells what kind of team it is. It describes the te"
+   "detail": "✕playful tells what kind of dog it is. It describes the dog."
   },
   {
    "r": "PASS",
@@ -431,7 +431,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. practices tells what the team does, "
+   "detail": "Let's find it together. jumped tells what the dog did, so ju"
   },
   {
    "r": "PASS",
@@ -646,7 +646,7 @@
   {
    "r": "PASS",
    "name": "11.home.phone-390 no false bottom",
-   "detail": "3 below fold, scrollable=true"
+   "detail": "4 below fold, scrollable=true"
   },
   {
    "r": "PASS",
@@ -746,7 +746,7 @@
   {
    "r": "PASS",
    "name": "11.home.tablet-820 no false bottom",
-   "detail": "0 below fold, scrollable=false"
+   "detail": "0 below fold, scrollable=true"
   },
   {
    "r": "PASS",

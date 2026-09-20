@@ -47,25 +47,32 @@
 
         <div class="hero-inner">
           <div class="hero-text">
+            <!-- The two-line wordmark from the reference: the glyph on the
+                 left, "Sentence" over "Sense" beside it. -->
             <p class="brand">
               <span class="brand-mark" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false">
                   <path d="M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5"
-                        fill="none" stroke="currentColor" stroke-width="1.7"
+                        fill="none" stroke="currentColor" stroke-width="1.8"
                         stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </span>
-              <span class="brand-name"><span class="bn-1">Sentence</span> <span class="bn-2">Sense</span></span>
+              <span class="brand-name">
+                <span class="bn-1">Sentence</span>
+                <span class="bn-2">Sense</span>
+              </span>
             </p>
             <h1 id="home-heading" class="hero-title" tabindex="-1">Build stronger sentences.</h1>
             <p class="hero-sub">Choose a skill to start learning.</p>
-          </div>
 
-          <!-- Non-interactive. Not a link, not a control, not a grade picker. -->
-          <p class="hero-badge">
-            <span class="hb-grade">3rd Grade ELA</span>
-            <span class="hb-line">Aligned with Georgia Grade 3 ELA Standards</span>
-          </p>
+            <!-- Non-interactive: not a link, not a control, not a grade picker.
+                 It lives INSIDE the text column so it always sits on the
+                 readable area and can never overlap a child. -->
+            <p class="hero-badge">
+              <span class="hb-grade">3rd Grade ELA</span>
+              <span class="hb-line">Aligned with Georgia Grade 3 ELA Standards</span>
+            </p>
+          </div>
         </div>
       </header>
 
@@ -85,6 +92,37 @@
       <aside class="home-quote">
         <span class="hq-mark" aria-hidden="true">&ldquo;</span>
         <p class="hq-text">Better sentences today. Brighter opportunities tomorrow.</p>
+
+        <!-- DECORATION, NOT NAVIGATION. These four are the arc of the product,
+             not links: no href, no button, no tabindex, no click handler.
+             They must never become controls — pressing them would go nowhere,
+             and a dead control is worse than no control. -->
+        <ul class="hq-arc" aria-hidden="true">
+          <li class="hq-step">
+            <span class="hq-icon">
+              <svg viewBox="0 0 24 24" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M5 20v-6"/><path d="M12 20V8"/><path d="M19 20v-9"/></g></svg>
+            </span>
+            <span class="hq-label">Learn</span>
+          </li>
+          <li class="hq-step">
+            <span class="hq-icon">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="hq-label">Practice</span>
+          </li>
+          <li class="hq-step">
+            <span class="hq-icon">
+              <svg viewBox="0 0 24 24" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 1.8 9 12 14l10.2-5z"/><path d="M6 11.4v4.9c0 1.6 2.7 2.9 6 2.9s6-1.3 6-2.9v-4.9"/></g></svg>
+            </span>
+            <span class="hq-label">Improve</span>
+          </li>
+          <li class="hq-step">
+            <span class="hq-icon">
+              <svg viewBox="0 0 24 24" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8.4"/><path d="M12 12.6C12 8.9 15.1 6 18.9 6H21c0 3.7-3.1 6.6-6.9 6.6z"/><path d="M12 14.2C12 11.3 9.5 9 6.5 9H5c0 2.9 2.5 5.2 5.5 5.2z"/></g></svg>
+            </span>
+            <span class="hq-label">Grow</span>
+          </li>
+        </ul>
       </aside>
     </section>
 

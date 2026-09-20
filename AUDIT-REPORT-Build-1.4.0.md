@@ -107,9 +107,14 @@ rendered from the same word array as any teaching sentence (check 10.3).
 **The child clues are the brief's wording, not the mockup's** (check 2.5). Where
 the reference image and the written brief disagreed, the brief won — Subject is
 "Who or what?" not "Who or what is it about?", and Adjective is "Describes a
-noun." not "What describes the noun?". The mockup's quote band and its
-Learn/Practice/Improve/Grow icon strip were **not** built: §4 forbids quote bands
-and persistent navigation.
+noun." not "What describes the noun?". The child clues remain the brief's
+wording; only the layout and furniture were brought to the reference.
+
+The quote band and the Learn/Practice/Improve/Grow row were withheld at first
+delivery, because §4 forbids quote bands and persistent navigation. **Both were
+added later on the owner's explicit instruction**, the row strictly as
+decoration — no link, no control, no tab stop, and `aria-hidden` so a screen
+reader is not offered four dead words.
 
 ### The classroom banner
 
@@ -124,7 +129,7 @@ Home. Three of those calls were reversed on instruction:
 | Photo banner, two children | §5 / §30: do not invent or generate a human image | Banner built to take a supplied photograph |
 | Bottom quote strip | §4: "DO NOT copy … quote bands" | Built, on owner instruction |
 | Running-person Verb icon | §30: no stick figures | Restored |
-| `Learn · Practice · Improve · Grow` icon row | §4: no persistent navigation | **Not built** — reads as navigation, would go nowhere. Needs a decision. |
+| `Learn · Practice · Improve · Grow` icon row | §4: no persistent navigation | **Built as decoration** on later instruction — no link, no control, no tab stop, `aria-hidden`. |
 
 The standards line moved from a footer line into the banner badge, as the
 reference shows, rather than appearing twice.
@@ -150,10 +155,26 @@ This is measured at every viewport, not assumed: check
 *stacked, no overlap* on the three phone widths and *overlay + scrim* on the six
 larger ones, and fails if text ever overlaps the photo with no scrim painted.
 
-**One deliberate deviation.** The standards badge sits bottom-right rather than
-top-right. The reference had a blank whiteboard in that corner; this photograph
-has a child's head there, and a label across a face is worse than a small
-placement change. Flagged for the owner rather than done silently.
+**Home was then corrected again against the live screenshot**, on five points
+raised by the owner:
+
+1. **The standards badge moved into the text column**, under the sub-line. It had
+   been covering the girl's chin and upper body. No corner of this photograph is
+   reliably clear of both children, so the badge now lives on the readable area
+   at every width.
+2. **The readability scrim was confined to the text.** It had washed across to
+   72% of the banner and desaturated the boy's face at roughly 56%. The headline
+   ends around 45%, so the scrim now reaches full transparency by 56%.
+3. **The wordmark is larger and set on two lines**, as the reference has it.
+4. **The skill cards were centred**: a 60px icon above a centred name, a centred
+   clue on a fixed min-height so all four example chips and Start buttons line
+   up across the row, then the chip and a full-width button.
+5. **The `Learn · Practice · Improve · Grow` row was added** beside the quote,
+   as decoration only — no link, no control, no tab stop, `aria-hidden` — and
+   wraps below the quote on phones.
+
+Each was checked by eye on the rendered desktop and phone screenshots, not by
+the automated suite alone, because none of these is a thing a check would catch.
 
 **A first pass rendered the reserved area as two grey bars and read as a failed
 image load.** It was replaced after screenshot inspection (§29).

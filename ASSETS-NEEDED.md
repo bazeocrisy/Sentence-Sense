@@ -39,12 +39,18 @@ text ever overlaps the photo with no scrim painted.
 
 ### One deliberate deviation from the reference
 
-**The standards badge sits bottom-right, not top-right.** The reference image had
-a blank whiteboard in that corner; this photograph has a child's head there, and
-a label across a face is worse than a small placement change. Wordmark top-left,
-badge bottom-right still reads as a balanced banner and nothing is obscured.
+**The standards badge sits in the text column, under the sub-line — not
+top-right.** The reference had a blank whiteboard in that corner; this photograph
+has a child there, and neither top-right nor bottom-right is reliably clear of
+both children. Keeping the badge inside the text column guarantees clear space at
+every width and puts it on the readable area, so it never lands on a face.
 
-Say the word if you would rather have it top-right and accept the overlap.
+### The readability overlay is confined to the text
+
+The scrim previously washed across to 72% of the banner, which desaturated the
+boy's face at roughly 56%. The headline ends around 45%, so the scrim now fades
+to fully transparent by 56% and both children keep their natural contrast. If the
+text column is ever widened, widen the scrim with it — not past it.
 
 ### Optional, still not supplied
 
@@ -73,13 +79,15 @@ a separate, cosmetic decision.
 
 ---
 
-## 3. One design decision still open
+## 3. The Learn · Practice · Improve · Grow row — BUILT, as decoration
 
-The reference pairs the bottom quote with a **`Learn · Practice · Improve · Grow`
-icon row**. That row was **not built**: it reads as persistent navigation, and
-tapping it would go nowhere, which is the kind of element the product brief rules
-out.
+Added on owner instruction, beside the closing quote.
 
-If you want it as **non-interactive decoration** — four small glyphs with labels,
-no links, no tab stops — say so and it is a short change. No asset is required;
-the glyphs would be authored the same way the four skill icons are.
+**It is decoration, and it must stay that way.** No `href`, no `button`, no
+`tabindex`, no click handler, and `aria-hidden` on the list so a screen reader is
+not offered four dead words. Do not turn these into controls: pressing them would
+go nowhere, and a dead control is worse than no control.
+
+It sits beside the quote at 620px and up, and wraps to a full-width row below the
+quote on phones. The four glyphs are authored the same way the skill icons are —
+no asset required.

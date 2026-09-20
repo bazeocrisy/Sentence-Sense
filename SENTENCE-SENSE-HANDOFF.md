@@ -132,15 +132,22 @@ larger ones, and fails if text ever overlaps the photo with no scrim.
 and badge are live text drawn over it; printed text would double up and collide
 at phone widths. See `ASSETS-NEEDED.md` for the full specification.
 
-**The standards badge sits bottom-right, not top-right as the reference shows.**
-The reference had a blank whiteboard in that corner; this photograph has a
-child's head there, and a label across a face is worse than a small placement
-change.
+**The standards badge sits in the text column, under the sub-line.** The
+reference put it top-right over a blank whiteboard; this photograph has a child
+there, and no corner of it is reliably clear of both children. Inside the text
+column it is guaranteed clear space at every width.
 
-The closing quote strip is decoration: no link, no control, no tab stop. The
-reference pairs the quote with a Learn/Practice/Improve/Grow icon row; **that row
-is deliberately not built**, because it reads as navigation and tapping it would
-go nowhere. It needs an owner decision.
+**The scrim is confined to the text area.** It fades to fully transparent by 56%
+of the banner, so the boy's face at roughly 56% keeps its natural contrast. If
+the text column is ever widened, widen the scrim with it — not past it.
+
+The closing quote strip carries the quote and the
+**Learn · Practice · Improve · Grow** row from the reference. Both are
+**decoration**: no link, no control, no tab stop, and the row is `aria-hidden` so
+a screen reader is not offered four dead words. **Do not turn the row into
+navigation** — pressing those words would go nowhere, and a dead control is worse
+than no control. It sits beside the quote at 620px and up and wraps below it on
+phones.
 
 ### Skill screen — ONE component, all four skills
 

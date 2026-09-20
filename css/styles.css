@@ -350,19 +350,24 @@ img{max-width:100%;}
   padding:22px 18px;
 }
 
-.brand{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+/* The wordmark is the brand anchor and the reference sets it on TWO
+   lines beside the glyph, at display scale. It is deliberately the
+   largest thing in the banner after the headline. */
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
 .brand-mark{
   color:var(--navy);
-  width:34px;height:34px;flex:0 0 34px;
+  width:52px;height:52px;flex:0 0 52px;
   display:inline-flex;align-items:center;justify-content:center;
 }
 .brand-mark svg{width:100%;height:100%;}
 .brand-name{
+  display:flex;
+  flex-direction:column;
   font-family:var(--font-display);
   font-weight:800;
-  font-size:1.5rem;
-  letter-spacing:-0.02em;
-  line-height:1.1;
+  font-size:2rem;
+  letter-spacing:-0.025em;
+  line-height:0.98;
 }
 .bn-1{color:var(--navy);}
 .bn-2{color:var(--green);}
@@ -376,12 +381,14 @@ img{max-width:100%;}
 .hero-sub{color:var(--muted);font-size:1.05rem;}
 
 /* The standards badge. Non-interactive: not a link, not a grade picker. */
+/* Inside the text column, below the sub-line. It therefore always sits
+   on the readable area and can never land on a child's face. */
 .hero-badge{
   display:flex;
   flex-direction:column;
   align-items:flex-start;
   gap:1px;
-  margin-top:auto;
+  margin-top:14px;
 }
 .hb-grade{
   font-family:var(--font-display);
@@ -416,30 +423,48 @@ img{max-width:100%;}
   border:1px solid var(--line);
   border-radius:var(--radius-lg);
   box-shadow:var(--shadow-card);
-  padding:18px 16px;
+  padding:22px 16px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
   transition:box-shadow .15s ease, transform .15s ease;
 }
 .skill-card:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);}
 
-.skill-card-head{display:flex;align-items:center;gap:11px;}
+/* The reference stacks the card: a large icon, then the name, then the
+   clue, all centred. The example chip and the Start button follow. */
+.skill-card-head{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
 
 .skill-icon{
-  width:40px;height:40px;flex:0 0 40px;
+  width:60px;height:60px;flex:0 0 60px;
   border-radius:var(--radius-md);
   display:inline-flex;align-items:center;justify-content:center;
 }
-.skill-icon svg{width:24px;height:24px;}
+.skill-icon svg{width:34px;height:34px;}
 
 .skill-name{
-  font-size:1.35rem;
+  font-size:1.5rem;
   font-weight:800;
   color:var(--navy-deep);
+  text-align:center;
 }
 
-.skill-ask{color:var(--muted);font-size:0.97rem;flex:0 0 auto;}
+/* A fixed min-height so the four example chips and the four Start buttons
+   line up across the row even though the clues are different lengths.
+   Without it the Noun card, whose clue wraps to two lines, pushed its own
+   button a line lower than its neighbours. */
+.skill-ask{
+  color:var(--muted);
+  font-size:0.99rem;
+  text-align:center;
+  flex:0 0 auto;
+  min-height:2.9em;
+}
 
 /* The preview sentence: a small, real demonstration of the skill,
    rendered from the same word array as any teaching sentence. */
@@ -450,7 +475,7 @@ img{max-width:100%;}
   padding:9px 12px;
   margin-top:auto;
 }
-.skill-preview-line{font-size:0.97rem;color:var(--text);}
+.skill-preview-line{font-size:0.99rem;color:var(--text);text-align:center;}
 .sp-hit{font-weight:800;}
 
 .skill-card .btn-start{width:100%;font-size:1.05rem;}
@@ -483,9 +508,11 @@ img{max-width:100%;}
    icon row; that row is deliberately NOT built, because it reads as
    navigation and tapping it would go nowhere. It needs an owner decision
    before it is added as non-interactive decoration. */
+/* Phone: the arc stacks BELOW the quote. Desktop: it sits beside it. */
 .home-quote{
   display:flex;
-  align-items:flex-start;
+  flex-wrap:wrap;
+  align-items:center;
   gap:12px;
   background:var(--verb-tint);
   border:1px solid var(--verb-edge);
@@ -503,6 +530,40 @@ img{max-width:100%;}
   font-style:italic;
   color:var(--navy-deep);
   font-size:1.02rem;
+  flex:1 1 260px;
+}
+
+/* DECORATION, NOT NAVIGATION. No link, no button, no tab stop, and
+   aria-hidden so a screen reader is not offered four dead words.
+   Do not turn these into controls: they would go nowhere. */
+.hq-arc{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  /* Phone: the arc has wrapped below the quote, so it spreads across the
+     full width instead of hugging one edge. Desktop pushes it right. */
+  width:100%;
+  justify-content:space-around;
+  padding-left:4px;
+}
+.hq-step{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  min-width:56px;
+}
+.hq-icon{
+  width:24px;height:24px;
+  color:var(--navy-soft);
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.hq-icon svg{width:100%;height:100%;}
+.hq-label{
+  font-family:var(--font-display);
+  font-size:0.78rem;
+  font-weight:600;
+  color:var(--muted);
 }
 
 
@@ -979,6 +1040,7 @@ img{max-width:100%;}
 
 /* Tablet: two skill cards per row, side-by-side hero. */
 @media (min-width:620px){
+  .hq-arc{width:auto;margin-left:auto;justify-content:flex-start;}
   :root{
     --gutter:24px;
     --sentence-size:1.22rem;
@@ -988,6 +1050,8 @@ img{max-width:100%;}
   .hero-inner{padding:26px 24px;}
   .home-hero{min-height:240px;}
   .hero-title{font-size:2.05rem;}
+  .brand-name{font-size:2.3rem;}
+  .brand-mark{width:58px;height:58px;flex:0 0 58px;}
 
   /* From here the photo fills the banner and the text overlays it. */
   .home-hero.has-photo .hero-photo{
@@ -996,24 +1060,23 @@ img{max-width:100%;}
     background-position:center 26%;
     border-bottom:0;
   }
+  /* THE SCRIM IS CONFINED TO THE TEXT AREA.
+     It previously washed across to 72%, which desaturated the boy's face
+     at ~56%. The headline ends around 45%, so the scrim is now fully
+     transparent by 54% and both children keep their natural contrast.
+     Widen this only if the text column widens with it. */
   .home-hero.has-photo .hero-scrim{
     display:block;
     position:absolute;inset:0;
-    background:linear-gradient(100deg,
-      rgba(255,255,255,0.97) 0%,
-      rgba(255,255,255,0.95) 30%,
-      rgba(255,255,255,0.72) 44%,
-      rgba(255,255,255,0.28) 58%,
-      rgba(255,255,255,0.04) 72%,
-      rgba(255,255,255,0) 100%);
+    background:linear-gradient(95deg,
+      rgba(255,255,255,0.99) 0%,
+      rgba(255,255,255,0.98) 30%,
+      rgba(255,255,255,0.90) 40%,
+      rgba(255,255,255,0.45) 48%,
+      rgba(255,255,255,0.10) 52%,
+      rgba(255,255,255,0) 56%);
   }
-  /* The badge sits top-right, over the brightest part of the photo, so
-     it gets its own small pill rather than relying on the scrim. */
-  .home-hero.has-photo .hero-badge{
-    background:rgba(255,255,255,0.92);
-    border-radius:var(--radius-md);
-    padding:8px 12px;
-  }
+
   .stage{padding:24px 22px;}
   .skill-intro{padding:24px 22px;}
   .activity-body,.skill-body{gap:20px;}
@@ -1035,18 +1098,10 @@ img{max-width:100%;}
   }
   .home-hero{min-height:300px;}
   .hero-text{flex:0 1 52%;margin-top:auto;margin-bottom:auto;}
-  /* The badge sits bottom-right, not top-right as the reference shows.
-     The reference had a blank whiteboard in that corner; this photograph
-     has a child's head there, and a label across a face is worse than a
-     small placement change. Wordmark top-left, badge bottom-right still
-     reads as a balanced banner, and nothing is obscured. */
-  .hero-badge{
-    flex:0 0 auto;
-    margin-top:auto;
-    margin-left:auto;
-    align-items:flex-end;
-    text-align:right;
-  }
+  /* The badge stays in the text column at every width. The reference put
+     it top-right over a blank whiteboard; this photograph has a child
+     there, and no corner of it is reliably clear. Keeping it under the
+     sub-line guarantees clear space and keeps it legible. */
   .hero-title{font-size:2.3rem;}
   .ss-parts{flex-direction:row;align-items:stretch;}
   .ss-part{flex:1 1 0;}
