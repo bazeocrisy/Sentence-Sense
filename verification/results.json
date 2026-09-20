@@ -386,7 +386,7 @@
   {
    "r": "PASS",
    "name": "4.8 the reference carries the word lists",
-   "detail": "35 chips"
+   "detail": "26 chips"
   },
   {
    "r": "PASS",
@@ -511,7 +511,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕Maya names who does the action. Look again for the word tha"
+   "detail": "✕puppy names who we are talking about. A verb can tell what "
   },
   {
    "r": "PASS",
@@ -521,7 +521,7 @@
   {
    "r": "PASS",
    "name": "6.3 second wrong gives the stronger clue",
-   "detail": "Remember: ask yourself, What happened?"
+   "detail": "Remember: a verb can also tell what someone or something is."
   },
   {
    "r": "PASS",
@@ -531,7 +531,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. opens tells what Maya does, so opens"
+   "detail": "Let's find it together. is tells what the puppy is, so is is"
   },
   {
    "r": "PASS",

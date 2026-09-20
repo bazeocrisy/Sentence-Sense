@@ -962,6 +962,31 @@ img{max-width:100%;}
   color:var(--verb-ink);
 }
 
+/* The fallback path, inside the callout. Separated by a hairline and set
+   smaller than the question above it, so the order reads: try the question
+   first, and only then reach for this. */
+.lc-fallback{
+  border-top:1px solid var(--verb-edge);
+  padding-top:11px;
+  margin-top:2px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.lc-fallback-label{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1rem;
+  color:var(--navy-deep);
+}
+.lc-fallback .chip{font-weight:700;color:var(--verb-ink);border-color:var(--verb-edge);}
+
+/* Per-skill, like every other coloured element. */
+.screen-learn[data-topic="subject"] .lc-fallback{border-top-color:var(--subject-edge);}
+.screen-learn[data-topic="subject"] .lc-fallback .chip{color:var(--subject-ink);border-color:var(--subject-edge);}
+.screen-learn[data-topic="noun"] .lc-fallback{border-top-color:var(--noun-edge);}
+.screen-learn[data-topic="noun"] .lc-fallback .chip{color:var(--noun-ink);border-color:var(--noun-edge);}
+.screen-learn[data-topic="adjective"] .lc-fallback{border-top-color:var(--adjective-edge);}
+.screen-learn[data-topic="adjective"] .lc-fallback .chip{color:var(--adjective-ink);border-color:var(--adjective-edge);}
+
 /* ---------- THE REPEATABLE THINKING ROUTINE ---------- */
 .lesson-routine{
   counter-reset:rt;

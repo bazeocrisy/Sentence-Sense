@@ -93,6 +93,20 @@
         c.appendChild(wrap);
       }
 
+      /* The second path, when the first question comes back empty. It lives
+         INSIDE the callout because it is part of the one strategy, not a
+         separate idea -- and it is visually quieter than the question above
+         it, because it is the fallback and not the first thing to try. It
+         reuses the same `.chip` the rest of the step already uses. */
+      if (block.callout.fallback) {
+        const fb = make("div", "lc-fallback");
+        fb.appendChild(make("p", "lc-fallback-label", block.callout.fallback.label));
+        const row = make("div", "chip-row");
+        block.callout.fallback.chips.forEach(w => row.appendChild(make("span", "chip", w)));
+        fb.appendChild(row);
+        c.appendChild(fb);
+      }
+
       host.appendChild(c);
     }
 

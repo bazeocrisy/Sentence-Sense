@@ -172,15 +172,35 @@ window.SS_LEARN_CONTENT = {
            comes first. The endings below are support, not the method. */
         callout: {
           title: "Ask yourself:",
-          big: ["What happened?", "What is happening?"]
+          big: ["What happened?", "What is happening?"],
+
+          /* THE SECOND PATH, and the lesson is wrong without it.
+
+             "What is it?" teaches that a verb tells what something DOES or
+             what something IS. The question above only finds the DOES half:
+             nothing "happens" in "The dog is happy." A child given only that
+             question would stall on the very being verb the previous step
+             had just taught them.
+
+             Kept deliberately small -- one line and five words. It is a
+             fallback for when the first question comes back empty, not a
+             second lesson. */
+          fallback: {
+            label: "No action? Look for a being verb.",
+            chips: ["am", "is", "are", "was", "were"]
+          }
         },
 
         /* Deliberately demoted from prose to chips: they are patterns to
            recognise, not steps to follow. */
         groups: [
-          { label: "Some end in -s",   chips: ["runs", "plays", "throws"] },
-          { label: "Some end in -ed",  chips: ["jumped", "played", "walked"] },
-          { label: "Some end in -ing", chips: ["running", "playing", "walking"] }
+          /* "ACTION VERBS", not just "verbs". The endings belong to action
+             verbs only -- being verbs have none of them -- and plenty of
+             non-verbs share them. "students" ends in -s and is a distractor
+             in this very lesson's Let me try question. */
+          { label: "Some action verbs end in -s",   chips: ["runs", "plays", "throws"] },
+          { label: "Some action verbs end in -ed",  chips: ["jumped", "played", "walked"] },
+          { label: "Some action verbs end in -ing", chips: ["running", "playing", "walking"] }
         ],
 
         warning: "These endings are clues. They are not rules. Read the sentence to make sure."
@@ -279,32 +299,32 @@ window.SS_LEARN_CONTENT = {
             choices: [
               { text: "playful", feedback: "playful tells what kind of dog it is. It describes the dog. Look again for the word that tells what happened." },
               { text: "dog", feedback: "dog names who did the action. Look again for the word that tells what the dog did." },
-              { text: "jumped", correct: true, feedback: "Nice thinking! jumped is the verb because it tells what the dog did." },
-              { text: "log", feedback: "log names a thing in the sentence. Look again for the word that tells what happened." }
+              { text: "fallen", feedback: "fallen tells what kind of log it is. It describes the log, even though it ends in -en. An ending is only a clue. Look again for the word that tells what happened." },
+              { text: "jumped", correct: true, feedback: "Nice thinking! jumped is the verb because it tells what the dog did." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. jumped tells what the dog did, so jumped is the verb." },
           /* Q2 -- stage 1 */
           { stage: 0,
-            sentence: { words: ["Our", "baseball", "team", "practices", "before", "the", "Saturday", "game."] },
+            sentence: { words: ["Our", "baseball", "team", "practices", "before", "the", "Saturday", "games."] },
             question: "Which word tells what happens?",
             choices: [
-              { text: "baseball", feedback: "baseball tells what kind of team it is. It describes the team. Look again for the word that tells what happened." },
+              { text: "Saturday", feedback: "Saturday tells when the games happen. Look again for the word that tells what the team does." },
               { text: "team", feedback: "team names who does the action. Look again for the word that tells what the team does." },
-              { text: "practices", correct: true, feedback: "You found it! practices tells what the team does." },
-              { text: "game", feedback: "game names a thing that happens on Saturday. Look again for the word that tells what happened." }
+              { text: "games", feedback: "games names the things the team gets ready for. It ends in -s, but an ending is only a clue. Look again for the word that tells what happens." },
+              { text: "practices", correct: true, feedback: "Nice thinking! practices is the verb because it tells what the team does." }
             ],
-            clue: "Remember: ask yourself, What happened?",
+            clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. practices tells what the team does, so practices is the verb." },
           /* Q3 -- stage 1 */
           { stage: 0,
             sentence: { words: ["The", "brown", "rabbit", "hopped", "across", "the", "grassy", "field."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "brown", feedback: "brown tells what color the rabbit is. It describes the rabbit. Look again for the word that tells what happened." },
+              { text: "brown", feedback: "brown tells what colour the rabbit is. It describes the rabbit. Look again for the word that tells what happened." },
               { text: "rabbit", feedback: "rabbit names who did the action. Look again for the word that tells what the rabbit did." },
-              { text: "hopped", correct: true, feedback: "Great job! hopped tells what the rabbit did." },
-              { text: "field", feedback: "field names a place. Look again for the word that tells what happened." }
+              { text: "hopped", correct: true, feedback: "Nice thinking! hopped is the verb because it tells what the rabbit did." },
+              { text: "field", feedback: "field names a place in the sentence. Look again for the word that tells what happened." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. hopped tells what the rabbit did, so hopped is the verb." },
@@ -314,33 +334,33 @@ window.SS_LEARN_CONTENT = {
             question: "Which word tells what happens?",
             choices: [
               { text: "Maya", feedback: "Maya names who does the action. Look again for the word that tells what Maya does." },
-              { text: "opens", correct: true, feedback: "That's the verb! opens tells what Maya does." },
-              { text: "colorful", feedback: "colorful tells what kind of notebook it is. It describes the notebook. Look again for the word that tells what happened." },
-              { text: "notebook", feedback: "notebook names a thing. Look again for the word that tells what happened." }
+              { text: "colorful", feedback: "colorful tells what kind of notebook it is. It describes the notebook. Look again for the word that tells what happens." },
+              { text: "opens", correct: true, feedback: "Nice thinking! opens is the verb because it tells what Maya does." },
+              { text: "notebook", feedback: "notebook names a thing in the sentence. Look again for the word that tells what happens." }
             ],
-            clue: "Remember: ask yourself, What happened?",
+            clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. opens tells what Maya does, so opens is the verb." },
-          /* Q5 -- stage 1 */
+          /* Q5 BEING -- stage 1 */
           { stage: 0,
-            sentence: { words: ["The", "hungry", "puppy", "carried", "its", "blue", "toy", "upstairs."] },
-            question: "Which word tells what happened?",
+            sentence: { words: ["The", "friendly", "puppy", "is", "happy", "in", "its", "new", "home."] },
+            question: "Which word is the verb in this sentence?",
             choices: [
-              { text: "hungry", feedback: "hungry tells what kind of puppy it is. It describes the puppy. Look again for the word that tells what happened." },
-              { text: "puppy", feedback: "puppy names who did the action. Look again for the word that tells what the puppy did." },
-              { text: "carried", correct: true, feedback: "Nice thinking! carried tells what the puppy did." },
-              { text: "toy", feedback: "toy names a thing. Look again for the word that tells what happened." }
+              { text: "puppy", feedback: "puppy names who we are talking about. A verb can tell what someone does OR what someone is. Look again for the word that tells what the puppy is." },
+              { text: "is", correct: true, feedback: "Nice thinking! is is the verb because it tells what the puppy is." },
+              { text: "happy", feedback: "happy tells how the puppy feels. It describes the puppy. Look again for the word that tells what the puppy is." },
+              { text: "home", feedback: "home names a place. Look again for the word that tells what the puppy is." }
             ],
-            clue: "Remember: ask yourself, What happened?",
-            reveal: "Let's find it together. carried tells what the puppy did, so carried is the verb." },
+            clue: "Remember: a verb can also tell what someone or something is.",
+            reveal: "Let's find it together. is tells what the puppy is, so is is the verb." },
           /* Q6 -- stage 2 */
           { stage: 1,
             sentence: { words: ["The", "talented", "pitcher", "threw", "the", "baseball", "toward", "home", "plate."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "talented", feedback: "talented tells what kind of pitcher it is. It describes the pitcher. Look again for the word that tells what happened." },
+              { text: "talented", feedback: "talented tells what kind of pitcher he is. It describes the pitcher, even though it ends in -ed. An ending is only a clue. Look again for the word that tells what happened." },
               { text: "pitcher", feedback: "pitcher names who did the action. Look again for the word that tells what the pitcher did." },
-              { text: "threw", correct: true, feedback: "You found it! threw tells what the pitcher did." },
-              { text: "baseball", feedback: "baseball names a thing. Look again for the word that tells what happened." }
+              { text: "threw", correct: true, feedback: "Nice thinking! threw is the verb because it tells what the pitcher did." },
+              { text: "baseball", feedback: "baseball names the thing that was thrown. Look again for the word that tells what happened." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. threw tells what the pitcher did, so threw is the verb." },
@@ -349,34 +369,34 @@ window.SS_LEARN_CONTENT = {
             sentence: { words: ["Several", "noisy", "birds", "gather", "beside", "the", "school", "playground."] },
             question: "Which word tells what happens?",
             choices: [
-              { text: "noisy", feedback: "noisy tells what kind of birds they are. It describes the birds. Look again for the word that tells what happened." },
-              { text: "birds", feedback: "birds names who does the action. Look again for the word that tells what the birds do." },
-              { text: "gather", correct: true, feedback: "Great job! gather tells what the birds do." },
-              { text: "playground", feedback: "playground names a place. Look again for the word that tells what happened." }
+              { text: "noisy", feedback: "noisy tells what kind of birds they are. It describes the birds. Look again for the word that tells what happens." },
+              { text: "birds", feedback: "birds names who does the action. It ends in -s, but an ending is only a clue. Look again for the word that tells what the birds do." },
+              { text: "gather", correct: true, feedback: "Nice thinking! gather is the verb because it tells what the birds do." },
+              { text: "playground", feedback: "playground names a place. Look again for the word that tells what happens." }
             ],
-            clue: "Remember: ask yourself, What happened?",
+            clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. gather tells what the birds do, so gather is the verb." },
-          /* Q8 -- stage 2 */
+          /* Q8 BEING -- stage 2 */
           { stage: 1,
-            sentence: { words: ["The", "bright", "yellow", "bus", "stopped", "near", "our", "neighborhood."] },
-            question: "Which word tells what happened?",
+            sentence: { words: ["The", "long", "hallways", "are", "quiet", "after", "the", "final", "bell."] },
+            question: "Which word is the verb in this sentence?",
             choices: [
-              { text: "yellow", feedback: "yellow tells what color the bus is. It describes the bus. Look again for the word that tells what happened." },
-              { text: "bus", feedback: "bus names the thing we are talking about. Look again for the word that tells what the bus did." },
-              { text: "stopped", correct: true, feedback: "Nice thinking! stopped tells what the bus did." },
-              { text: "neighborhood", feedback: "neighborhood names a place. Look again for the word that tells what happened." }
+              { text: "hallways", feedback: "hallways names the places we are talking about. It ends in -s, but an ending is only a clue. Look again for the word that tells what the hallways are." },
+              { text: "are", correct: true, feedback: "Nice thinking! are is the verb because it tells what the hallways are." },
+              { text: "quiet", feedback: "quiet tells how the hallways sound. It describes the hallways. Look again for the word that tells what the hallways are." },
+              { text: "bell", feedback: "bell names a thing in the sentence. Look again for the word that tells what the hallways are." }
             ],
-            clue: "Remember: ask yourself, What happened?",
-            reveal: "Let's find it together. stopped tells what the bus did, so stopped is the verb." },
+            clue: "Remember: a verb can also tell what someone or something is.",
+            reveal: "Let's find it together. are tells what the hallways are, so are is the verb." },
           /* Q9 -- stage 2 */
           { stage: 1,
-            sentence: { words: ["Jordan", "packed", "his", "clean", "uniform", "before", "baseball", "practice."] },
+            sentence: { words: ["Jordan", "packed", "his", "clean", "uniform", "before", "soccer", "practice."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "Jordan", feedback: "Jordan names who did the action. Look again for the word that tells what Jordan did." },
+              { text: "packed", correct: true, feedback: "Nice thinking! packed is the verb because it tells what Jordan did." },
               { text: "clean", feedback: "clean tells what kind of uniform it is. It describes the uniform. Look again for the word that tells what happened." },
-              { text: "packed", correct: true, feedback: "You found it! packed tells what Jordan did." },
-              { text: "uniform", feedback: "uniform names a thing. Look again for the word that tells what happened." }
+              { text: "uniform", feedback: "uniform names a thing in the sentence. Look again for the word that tells what happened." },
+              { text: "practice", feedback: "practice names an event here, not something that happened. The same word can be a verb in another sentence, so always read the whole sentence. Look again for the word that tells what Jordan did." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. packed tells what Jordan did, so packed is the verb." },
@@ -385,21 +405,21 @@ window.SS_LEARN_CONTENT = {
             sentence: { words: ["The", "young", "artist", "paints", "a", "colorful", "picture", "for", "the", "hallway."] },
             question: "Which word tells what happens?",
             choices: [
-              { text: "young", feedback: "young tells what kind of artist it is. It describes the artist. Look again for the word that tells what happened." },
+              { text: "young", feedback: "young tells what kind of artist she is. It describes the artist. Look again for the word that tells what happens." },
               { text: "artist", feedback: "artist names who does the action. Look again for the word that tells what the artist does." },
-              { text: "paints", correct: true, feedback: "That's the verb! paints tells what the artist does." },
-              { text: "picture", feedback: "picture names a thing. Look again for the word that tells what happened." }
+              { text: "paints", correct: true, feedback: "Nice thinking! paints is the verb because it tells what the artist does." },
+              { text: "picture", feedback: "picture names the thing being made. Look again for the word that tells what happens." }
             ],
-            clue: "Remember: ask yourself, What happened?",
+            clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. paints tells what the artist does, so paints is the verb." },
           /* Q11 -- stage 3 */
           { stage: 2,
             sentence: { words: ["After", "lunch,", "the", "students", "carried", "their", "projects", "into", "the", "classroom."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "students", feedback: "students names who did the action. Look again for the word that tells what the students did." },
-              { text: "projects", feedback: "projects names the things the students had. Look again for the word that tells what happened." },
-              { text: "carried", correct: true, feedback: "Nice work! carried tells what the students did." },
+              { text: "students", feedback: "students names who did the action. It ends in -s, but an ending is only a clue. Look again for the word that tells what the students did." },
+              { text: "carried", correct: true, feedback: "Nice thinking! carried is the verb because it tells what the students did." },
+              { text: "projects", feedback: "projects names the things the students moved. It ends in -s, but an ending is only a clue. Look again for the word that tells what happened." },
               { text: "classroom", feedback: "classroom names a place. Look again for the word that tells what happened." }
             ],
             clue: "Remember: ask yourself, What happened?",
@@ -411,8 +431,8 @@ window.SS_LEARN_CONTENT = {
             choices: [
               { text: "curious", feedback: "curious tells what kind of squirrel it is. It describes the squirrel. Look again for the word that tells what happened." },
               { text: "squirrel", feedback: "squirrel names who did the action. Look again for the word that tells what the squirrel did." },
-              { text: "climbed", correct: true, feedback: "You found it! climbed tells what the squirrel did." },
-              { text: "tree", feedback: "tree names a thing. Look again for the word that tells what happened." }
+              { text: "climbed", correct: true, feedback: "Nice thinking! climbed is the verb because it tells what the squirrel did." },
+              { text: "tree", feedback: "tree names the thing that was climbed. Look again for the word that tells what happened." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. climbed tells what the squirrel did, so climbed is the verb." },
@@ -421,97 +441,97 @@ window.SS_LEARN_CONTENT = {
             sentence: { words: ["During", "practice,", "the", "catcher", "blocked", "the", "bouncing", "baseball."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "practice", feedback: "practice names when this happened. It does not tell what happened. Look again for the word that tells what happened." },
+              { text: "practice", feedback: "practice tells when this happened. It names an event, not an action. The same word can be a verb in another sentence. Look again for the word that tells what the catcher did." },
               { text: "catcher", feedback: "catcher names who did the action. Look again for the word that tells what the catcher did." },
-              { text: "blocked", correct: true, feedback: "Great sentence checking! blocked tells what the catcher did." },
-              { text: "baseball", feedback: "baseball names a thing. Look again for the word that tells what happened." }
+              { text: "blocked", correct: true, feedback: "Nice thinking! blocked is the verb because it tells what the catcher did." },
+              { text: "bouncing", feedback: "bouncing describes the baseball. It ends in -ing, but an ending is only a clue. Look again for the word that tells what the catcher did." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. blocked tells what the catcher did, so blocked is the verb." },
-          /* Q14 -- stage 3 */
+          /* Q14 BEING -- stage 3 */
           { stage: 2,
-            sentence: { words: ["The", "silver", "airplane", "crosses", "the", "cloudy", "sky", "before", "sunset."] },
-            question: "Which word tells what happens?",
+            sentence: { words: ["After", "the", "storm,", "the", "wide", "fields", "were", "full", "of", "water."] },
+            question: "Which word is the verb in this sentence?",
             choices: [
-              { text: "silver", feedback: "silver tells what color the airplane is. It describes the airplane. Look again for the word that tells what happened." },
-              { text: "airplane", feedback: "airplane names the thing we are talking about. Look again for the word that tells what the airplane does." },
-              { text: "crosses", correct: true, feedback: "That's the verb! crosses tells what the airplane does." },
-              { text: "sky", feedback: "sky names a place the airplane flies through. Look again for the word that tells what happened." }
+              { text: "storm", feedback: "storm names what happened before this. Look again for the word that tells what the fields were." },
+              { text: "fields", feedback: "fields names the places we are talking about. It ends in -s, but an ending is only a clue. Look again for the word that tells what the fields were." },
+              { text: "were", correct: true, feedback: "Nice thinking! were is the verb because it tells what the fields were." },
+              { text: "full", feedback: "full tells how much water the fields held. It describes the fields. Look again for the word that tells what the fields were." }
             ],
-            clue: "Remember: ask yourself, What happened?",
-            reveal: "Let's find it together. crosses tells what the airplane does, so crosses is the verb." },
+            clue: "Remember: a verb can also tell what someone or something is.",
+            reveal: "Let's find it together. were tells what the fields were, so were is the verb." },
           /* Q15 -- stage 3 */
           { stage: 2,
             sentence: { words: ["On", "Friday,", "our", "class", "visited", "the", "local", "science", "museum."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "class", feedback: "class names who did the action. Look again for the word that tells what the class did." },
-              { text: "visited", correct: true, feedback: "Nice thinking! visited tells what the class did." },
-              { text: "local", feedback: "local tells which museum it is. It describes the museum. Look again for the word that tells what happened." },
-              { text: "museum", feedback: "museum names a place. Look again for the word that tells what happened." }
+              { text: "class", feedback: "class names who did the action. It ends in -s, but an ending is only a clue. Look again for the word that tells what the class did." },
+              { text: "visited", correct: true, feedback: "Nice thinking! visited is the verb because it tells what the class did." },
+              { text: "local", feedback: "local tells what kind of museum it is. It describes the museum. Look again for the word that tells what happened." },
+              { text: "museum", feedback: "museum names the place that was visited. Look again for the word that tells what happened." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. visited tells what the class did, so visited is the verb." },
-          /* Q16 -- stage 4 */
+          /* Q16 BEING -- stage 4 */
           { stage: 3,
-            sentence: { words: ["The", "classroom", "is", "quiet", "after", "the", "morning", "announcements."] },
+            sentence: { words: ["The", "whole", "classroom", "was", "quiet", "after", "the", "long", "morning", "announcements."] },
             question: "Which word is the verb in this sentence?",
             choices: [
-              { text: "classroom", feedback: "classroom names a place. A verb can tell what someone or something does OR is. Look again for the word that tells what someone or something is." },
-              { text: "is", correct: true, feedback: "You found it! is is the verb. Not every verb shows an action. Some verbs tell what someone or something is." },
-              { text: "quiet", feedback: "quiet tells how the classroom feels. It describes the classroom. A verb can tell what something is. Look again for the word that tells what someone or something is." },
-              { text: "announcements", feedback: "announcements names things that happened in the morning. A verb can tell what something is. Look again for the word that tells what someone or something is." }
+              { text: "classroom", feedback: "classroom names a place. A verb can tell what something does OR what something is. Look again for the word that tells what the classroom was." },
+              { text: "was", correct: true, feedback: "Nice thinking! was is the verb because it tells what the classroom was." },
+              { text: "quiet", feedback: "quiet tells how the classroom sounded. It describes the classroom. Look again for the word that tells what the classroom was." },
+              { text: "announcements", feedback: "announcements names things that happened earlier. It ends in -s, but an ending is only a clue. Look again for the word that tells what the classroom was." }
             ],
             clue: "Remember: a verb can also tell what someone or something is.",
-            reveal: "Let's find it together. is tells what the classroom is, so is is the verb." },
-          /* Q17 -- stage 4 */
+            reveal: "Let's find it together. was tells what the classroom was, so was is the verb." },
+          /* Q17 wording fixed -- stage 4 */
           { stage: 3,
-            sentence: { words: ["The", "muddy", "shoes", "rested", "beside", "the", "back", "door."] },
-            question: "Which word is the verb in this sentence?",
+            sentence: { words: ["The", "muddy", "shoes", "rested", "beside", "the", "back", "door", "all", "afternoon."] },
+            question: "Which word tells what happened?",
             choices: [
+              { text: "shoes", feedback: "shoes names the things we are talking about. It ends in -s, but an ending is only a clue. Look again for the word that tells what the shoes did." },
               { text: "muddy", feedback: "muddy tells what kind of shoes they are. It describes the shoes. Look again for the word that tells what happened." },
-              { text: "shoes", feedback: "shoes names the things we are talking about. Look again for the word that tells what the shoes did." },
-              { text: "rested", correct: true, feedback: "Great job! rested tells what the shoes did." },
-              { text: "door", feedback: "door names a thing. Look again for the word that tells what happened." }
+              { text: "rested", correct: true, feedback: "Nice thinking! rested is the verb because it tells what the shoes did." },
+              { text: "afternoon", feedback: "afternoon tells when this happened. Look again for the word that tells what happened." }
             ],
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. rested tells what the shoes did, so rested is the verb." },
-          /* Q18 -- stage 4 */
+          /* Q18 BEING -- stage 4 */
           { stage: 3,
-            sentence: { words: ["Those", "tall", "buildings", "are", "visible", "from", "the", "highway."] },
+            sentence: { words: ["Those", "tall", "glass", "buildings", "are", "visible", "from", "the", "new", "highway."] },
             question: "Which word is the verb in this sentence?",
             choices: [
-              { text: "tall", feedback: "tall tells what kind of buildings they are. It describes the buildings. A verb can tell what something is. Look again for the word that tells what someone or something is." },
-              { text: "buildings", feedback: "buildings names the things we are talking about. A verb can tell what something is. Look again for the word that tells what someone or something is." },
-              { text: "are", correct: true, feedback: "Nice thinking! are is the verb. It tells what the buildings are." },
-              { text: "highway", feedback: "highway names a place. A verb can tell what something is. Look again for the word that tells what someone or something is." }
+              { text: "tall", feedback: "tall tells what kind of buildings they are. It describes the buildings. Look again for the word that tells what the buildings are." },
+              { text: "buildings", feedback: "buildings names the things we are talking about. It ends in -s, but an ending is only a clue. Look again for the word that tells what the buildings are." },
+              { text: "are", correct: true, feedback: "Nice thinking! are is the verb because it tells what the buildings are." },
+              { text: "highway", feedback: "highway names a place. Look again for the word that tells what the buildings are." }
             ],
             clue: "Remember: a verb can also tell what someone or something is.",
             reveal: "Let's find it together. are tells what the buildings are, so are is the verb." },
-          /* Q19 -- stage 4 */
+          /* Q19 BEING am -- stage 4 */
           { stage: 3,
-            sentence: { words: ["The", "players", "were", "ready", "before", "the", "final", "inning."] },
+            sentence: { words: ["I", "am", "always", "ready", "for", "the", "spelling", "test", "on", "Friday", "morning."] },
             question: "Which word is the verb in this sentence?",
             choices: [
-              { text: "players", feedback: "players names who we are talking about. A verb can tell what someone is. Look again for the word that tells what someone or something is." },
-              { text: "were", correct: true, feedback: "You found it! were is the verb. It tells what the players were." },
-              { text: "ready", feedback: "ready tells how the players felt. It describes the players. A verb can tell what someone is. Look again for the word that tells what someone or something is." },
-              { text: "inning", feedback: "inning names a part of the game. A verb can tell what someone is. Look again for the word that tells what someone or something is." }
+              { text: "ready", feedback: "ready tells how I feel about the test. It describes me. Look again for the word that tells what I am." },
+              { text: "am", correct: true, feedback: "Nice thinking! am is the verb because it tells what I am." },
+              { text: "spelling", feedback: "spelling tells what kind of test it is. It ends in -ing, but an ending is only a clue. Look again for the word that tells what I am." },
+              { text: "test", feedback: "test names the thing on Friday. Look again for the word that tells what I am." }
             ],
             clue: "Remember: a verb can also tell what someone or something is.",
-            reveal: "Let's find it together. were tells what the players were, so were is the verb." },
+            reveal: "Let's find it together. am tells what I am, so am is the verb." },
           /* Q20 -- stage 4 */
           { stage: 3,
-            sentence: { words: ["Our", "new", "library", "was", "busy", "during", "family", "reading", "night."] },
-            question: "Which word is the verb in this sentence?",
+            sentence: { words: ["During", "family", "reading", "night,", "our", "library", "welcomed", "many", "new", "visitors."] },
+            question: "Which word tells what happened?",
             choices: [
-              { text: "new", feedback: "new tells what kind of library it is. It describes the library. A verb can tell what something is. Look again for the word that tells what someone or something is." },
-              { text: "library", feedback: "library names a place. A verb can tell what something is. Look again for the word that tells what someone or something is." },
-              { text: "was", correct: true, feedback: "Great job! was is the verb. It tells what the library was." },
-              { text: "night", feedback: "night names when this happened. A verb can tell what something is. Look again for the word that tells what someone or something is." }
+              { text: "reading", feedback: "reading tells what kind of night it was. It ends in -ing, but an ending is only a clue. Look again for the word that tells what happened." },
+              { text: "library", feedback: "library names who did the welcoming. Look again for the word that tells what the library did." },
+              { text: "welcomed", correct: true, feedback: "Nice thinking! welcomed is the verb because it tells what the library did." },
+              { text: "visitors", feedback: "visitors names the people who came. It ends in -s, but an ending is only a clue. Look again for the word that tells what happened." }
             ],
-            clue: "Remember: a verb can also tell what someone or something is.",
-            reveal: "Let's find it together. was tells what the library was, so was is the verb." }
+            clue: "Remember: ask yourself, What happened?",
+            reveal: "Let's find it together. welcomed tells what the library did, so welcomed is the verb." }
         ]
       },
 
@@ -523,12 +543,19 @@ window.SS_LEARN_CONTENT = {
         sections: [
           { heading: "What it is", lines: ["A verb tells what someone or something does or is."] },
           { heading: "How to find it", lines: ["Ask: What happened?", "Or ask: What is happening?"] },
-          { heading: "Verbs that show action", chips: ["run", "jump", "play", "throw", "catch", "read", "climb", "walk", "write", "talk", "help", "carry"] },
-          { heading: "Verbs that tell what something is", chips: ["am", "is", "are", "was", "were", "be", "been", "being"] },
-          { heading: "Common verbs to remember", chips: ["have", "has", "had", "do", "does", "did"] },
-          { heading: "Clue: verbs ending in -s", chips: ["runs", "plays", "throws"] },
-          { heading: "Clue: verbs ending in -ed", chips: ["jumped", "played", "walked"] },
-          { heading: "Clue: verbs ending in -ing", chips: ["running", "playing", "walking"] },
+          /* Build 1.4.0 cleanup. This panel is OPTIONAL SUPPORT for a child
+             who is stuck -- not a second lesson. Three "Clue: verbs ending
+             in -s / -ed / -ing" lists were removed: they repeated the chip
+             groups shown directly above the panel, and their wording
+             predated the action-verb distinction, so they implied those
+             endings identify every verb. They do not -- being verbs carry
+             none of them.
+
+             What is left is the reference a child cannot work out for
+             themselves: which words ARE being verbs. */
+          { heading: "Action verbs \u2014 what someone DOES", chips: ["run", "jump", "play", "throw", "catch", "read", "climb", "walk", "write", "talk", "help", "carry"] },
+          { heading: "Being verbs \u2014 what someone IS", chips: ["am", "is", "are", "was", "were", "be", "been", "being"] },
+          { heading: "Other verbs you will see a lot", chips: ["have", "has", "had", "do", "does", "did"] },
           {
             heading: "See it in a sentence",
             sentence: {
@@ -562,7 +589,11 @@ window.SS_LEARN_CONTENT = {
             }
           }
         ],
-        reminder: "These endings are clues. Read the sentence to make sure."
+        /* No reminder for Verb. The contrast directly above already closes
+           with "Same word, two different jobs. That is why an ending is a
+           clue, not a rule." -- a reminder here said the same thing a third
+           time, after the heading and the close. renderReference() skips an
+           absent reminder. */
       }
     },
 
