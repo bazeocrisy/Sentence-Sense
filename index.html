@@ -28,43 +28,64 @@
          ============================================================ -->
     <section class="screen screen-home" id="screen-home" aria-labelledby="home-heading" hidden>
 
-      <!-- The hero band. The photograph is optional by design: if
-           assets/images/sentence-sense-hero.png is absent the band falls
-           back to a clean tinted panel and Home still reads correctly.
-           See SENTENCE-SENSE-HANDOFF.md section 5. -->
-      <header class="home-hero">
-        <div class="hero-text">
-          <p class="brand">
-            <span class="brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false">
-                <path d="M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5"
-                      fill="none" stroke="currentColor" stroke-width="1.7"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span class="brand-name"><span class="bn-1">Sentence</span> <span class="bn-2">Sense</span></span>
+      <!-- THE CLASSROOM BANNER.
+
+           The photograph is optional AT RUNTIME, not at build time.
+           js/app.js probes assets/images/sentence-sense-hero.png and adds
+           .has-photo only if it actually loads, so dropping the file in is
+           the entire installation step — no code change, no CSS edit.
+
+           Until then the banner renders a designed fallback in the same
+           composition: wordmark and headline left, standards badge right.
+           The layout does not move when the photo arrives.
+
+           The photo must carry NO baked-in text. The wordmark, the headline
+           and the badge below are live text drawn over it. -->
+      <header class="home-hero" id="home-hero">
+        <div class="hero-photo" aria-hidden="true"></div>
+        <div class="hero-scrim" aria-hidden="true"></div>
+
+        <div class="hero-inner">
+          <div class="hero-text">
+            <p class="brand">
+              <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5"
+                        fill="none" stroke="currentColor" stroke-width="1.7"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="brand-name"><span class="bn-1">Sentence</span> <span class="bn-2">Sense</span></span>
+            </p>
+            <h1 id="home-heading" class="hero-title" tabindex="-1">Build stronger sentences.</h1>
+            <p class="hero-sub">Choose a skill to start learning.</p>
+          </div>
+
+          <!-- Non-interactive. Not a link, not a control, not a grade picker. -->
+          <p class="hero-badge">
+            <span class="hb-grade">3rd Grade ELA</span>
+            <span class="hb-line">Aligned with Georgia Grade 3 ELA Standards</span>
           </p>
-          <h1 id="home-heading" class="hero-title" tabindex="-1">Build stronger sentences.</h1>
-          <p class="hero-sub">Choose a skill to start learning.</p>
-        </div>
-        <!-- The reserved image area. Until an approved photograph exists it
-             shows the product's own idea: one sentence read plainly, then the
-             same sentence with its parts named. Built by js/app.js from
-             SS_LEARN_CONTENT.heroDemo. -->
-        <div class="hero-image">
-          <div class="hero-demo" id="hero-demo"></div>
         </div>
       </header>
 
       <div class="home-main">
-        <h2 class="section-title">Choose a skill</h2>
+        <div class="section-head">
+          <h2 class="section-title">Choose a skill</h2>
+          <p class="section-sub">Build the parts. Create better sentences.</p>
+        </div>
 
         <!-- The four skill cards are built from js/data/learn-content.js
              by js/app.js. Adding a skill is a content change. -->
         <ul class="skill-grid" id="skill-grid"></ul>
       </div>
 
-      <p class="home-standards">Aligned with Georgia Grade 3 ELA Standards</p>
+      <!-- The closing strip. Decoration only: no link, no control, no tab
+           stop. Kept to one line so it cannot compete with the four cards. -->
+      <aside class="home-quote">
+        <span class="hq-mark" aria-hidden="true">&ldquo;</span>
+        <p class="hq-text">Better sentences today. Brighter opportunities tomorrow.</p>
+      </aside>
     </section>
 
 

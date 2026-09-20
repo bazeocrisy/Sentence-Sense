@@ -11,6 +11,17 @@ Every word a child can read, and where it lives. All of it is in `js/data/learn-
 | 3 | Noun | Names a person, place, thing, or idea. | book | The cat sat on the mat. (**cat**) | placeholder | placeholder |
 | 4 | Adjective | Describes a noun. | pencil | The loud dog barked. (**loud**) | placeholder | placeholder |
 
+## Fixed Home copy
+
+| Element | Text |
+|---|---|
+| Headline | Build stronger sentences. |
+| Sub-line | Choose a skill to start learning. |
+| Badge | 3rd Grade ELA / Aligned with Georgia Grade 3 ELA Standards |
+| Section head | Choose a skill |
+| Section sub | Build the parts. Create better sentences. |
+| Closing quote | Better sentences today. Brighter opportunities tomorrow. |
+
 ## Learn content per skill
 
 | Skill | What is it? | How do I find it? | Show me | Let me try |
@@ -67,8 +78,8 @@ Every question carries per-choice feedback, a second-attempt clue and a third-at
 
 ## Content preserved but NOT routed in 1.4.0
 
-- **Complete Subject** — full four-block lesson, Try It question and study material retained for future migration (brief section 11H).
-- **Predicate** — full four-block lesson, Try It question and study material retained for future migration (brief section 11H).
+- **Complete Subject** — full four-block lesson, Try It question and study material retained for future migration.
+- **Predicate** — full four-block lesson, Try It question and study material retained for future migration.
 
 ## Authored in this build
 

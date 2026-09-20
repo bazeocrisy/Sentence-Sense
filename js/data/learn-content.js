@@ -84,28 +84,6 @@ window.SS_LEARN_CONTENT = {
      card fields documented on `verb`. No rendering code changes. */
   homeOrder: ["verb", "subject", "noun", "adjective"],
 
-  /* Build 1.4.0 — the Home hero demonstration.
-
-     The hero band reserves space for an approved photograph that has not
-     been supplied. Rather than leave a grey box that reads as a failed
-     image, the space shows the clearest possible statement of what this
-     product does: one sentence, read plainly, then the same sentence with
-     its four parts named.
-
-     It renders through the SAME component and the SAME plain-to-marked
-     pair as any teaching sentence, so it cannot drift from its own source
-     and it teaches the visual language the lessons use. It is replaced
-     outright when assets/images/sentence-sense-hero.png arrives. */
-  heroDemo: {
-    words: ["The", "curious", "student", "wrote", "a", "clear", "sentence."],
-    marks: [
-      { start: 1, end: 1, kind: "adjective", label: "ADJECTIVE" },
-      { start: 2, end: 2, kind: "subject",   label: "SUBJECT" },
-      { start: 3, end: 3, kind: "verb",      label: "VERB" },
-      { start: 6, end: 6, kind: "noun",      label: "NOUN" }
-    ]
-  },
-
   topics: {
 
     /* ===================================================== */

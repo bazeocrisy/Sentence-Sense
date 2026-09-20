@@ -172,7 +172,7 @@
    "h": 720,
    "screen": "home",
    "overflow": 0,
-   "scrollable": false,
+   "scrollable": true,
    "below": 0,
    "falseBottom": false,
    "tiny": 0
@@ -205,7 +205,7 @@
    "h": 768,
    "screen": "home",
    "overflow": 0,
-   "scrollable": false,
+   "scrollable": true,
    "below": 0,
    "falseBottom": false,
    "tiny": 0

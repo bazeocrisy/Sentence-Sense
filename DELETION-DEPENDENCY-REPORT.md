@@ -69,8 +69,6 @@ was fetched by nobody.
 
 | File | Status |
 |---|---|
-| `assets/images/logo.png` (972 KB) | **Now unreferenced.** The cartoon-mascot lockup contradicts the Build 1.4.0 art direction (brief sections 3 and 29), so the new Home does not use it. Brief section 23 authorised deleting one specific asset and this is not it, so it was left in place. **Needs an owner decision.** |
-| `assets/images/logo-512.png` (304 KB) | Same. Now unreferenced. |
 | `assets/images/favicon.png` | Still referenced by `index.html`. Kept. |
 | `js/data/learn-content.js` — `complete-subject` and `predicate` | Kept in full. Brief section 11H requires preserving usable content for future migration. Not routed to, not deleted. |
 | `studyGuide` objects | Kept. They are the audited source of the chip lists and the same-word contrast that are now surfaced inside LEARN. |

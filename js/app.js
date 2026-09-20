@@ -57,11 +57,15 @@
      skill is always named in text beside it.
      ========================================================= */
   const ICONS = {
-    /* Verb is MOTION, not a person. An earlier pass drew a running figure
-       here; at 24px it read as a stick person, which this product does not
-       do anywhere. An arrow leaving speed lines says "something is
-       happening" without drawing anybody. */
-    run: 'M4 12h12 M11.5 7.2 16.8 12l-5.3 4.8 M3 7.4h4.6 M2 16.6h4.6 M19.4 9.2v5.6 M22 10.6v2.8',
+    /* Verb: a running figure with motion lines, matching the approved
+       reference. An earlier pass replaced this with an abstract arrow,
+       reading brief section 30 ("do not draw people") as covering icons.
+       The owner clarified that the reference image is the intended
+       appearance, so the figure is restored. Section 30 governs
+       ILLUSTRATION -- the hero photograph and character art -- not a
+       pictogram, and section 7 specifies a person/group icon for Subject,
+       so glyph-level figures were always in scope. */
+    run: 'M14.1 5.6a1.9 1.9 0 1 0 0-3.8 1.9 1.9 0 0 0 0 3.8z M12.6 7.1 9.9 8.6l-1.2 3.2 M12.6 7.1l2.6 1.6.6 3.5-3.4 2.1.6 4.2-1.4 3.4 M12.4 14.3l3.9 1.4 1.4 3.6 M15.2 8.7l2.7 1.5 3-.6 M2.4 8.2h4.2 M1.2 12.1h3.8 M2.9 16h3.4',
     people: 'M12 11.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2z M5.6 12.4a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.4 12.4a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M6.4 19.5c0-3.1 2.5-5.4 5.6-5.4s5.6 2.3 5.6 5.4 M1.8 18.2c0-2.3 1.5-4 3.8-4.2 M22.2 18.2c0-2.3-1.5-4-3.8-4.2',
     book: 'M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5',
     pencil: 'M7.3 19.4 3 20.9l1.4-4.3L16.2 4.8l3 3zM16.2 4.8l2-2a2.1 2.1 0 0 1 3 3l-2 2M4.4 16.6l3 2.8'
@@ -113,19 +117,35 @@
      is exactly one tab stop and one click target per skill and the
      child learns a single rule: "I press this button to start."
      ========================================================= */
-  /* The hero demonstration. Rendered through the shared component from
-     content, so the plain pass and the marked pass cannot drift apart --
-     the same guarantee every teaching sentence gets. Purely presentational:
-     it is not a control and carries nothing a child must act on. */
-  function buildHero() {
-    const host = el("hero-demo");
-    if (!host || !C.heroDemo) return;
-    clear(host);
-    S.renderTeachingSentence(host, C.heroDemo);
+  /* THE BANNER PHOTOGRAPH — optional, and detected at runtime.
+
+     The approved classroom photograph is supplied separately. Rather than
+     hard-code it and break the page when it is absent, the banner probes
+     for it and only paints it if it genuinely loads. Dropping the file at
+     the path below is therefore the ENTIRE installation step: no code
+     change, no CSS edit, no rebuild.
+
+     The probe uses an Image object rather than a CSS background so the
+     failure is HANDLED -- `onerror` fires, the class is never added, and
+     the designed fallback stays. The one cost is a single 404 in the
+     network log while no photo exists, which the harness knows about and
+     excludes by path (see verification/guard.js check 1.3).
+
+     The photo must carry NO baked-in text: the wordmark, headline and
+     badge are live text drawn over it. */
+  const HERO_PHOTO = "assets/images/sentence-sense-hero.png";
+
+  function probeHeroPhoto() {
+    const hero = el("home-hero");
+    if (!hero) return;
+    const img = new Image();
+    img.onload = () => hero.classList.add("has-photo");
+    img.onerror = () => { /* No photo yet. The fallback banner stands. */ };
+    img.src = HERO_PHOTO;
   }
 
   function buildHome() {
-    buildHero();
+    probeHeroPhoto();
 
     const grid = el("skill-grid");
     clear(grid);

@@ -1,6 +1,6 @@
 {
  "build": "Build 1.4.0",
- "pass": 199,
+ "pass": 204,
  "fail": 0,
  "results": [
   {
@@ -86,7 +86,7 @@
   {
    "r": "PASS",
    "name": "2.9 a quiet Georgia alignment line is present",
-   "detail": "Aligned with Georgia Grade 3 ELA Standards"
+   "detail": "\n            3rd Grade ELA\n            Aligned with Georgia Grade 3 ELA Standards\n          "
   },
   {
    "r": "PASS",
@@ -96,6 +96,31 @@
   {
    "r": "PASS",
    "name": "2.11 no more than four grammar skills are offered",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "2.12 the classroom banner is present",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "2.13 no broken image is ever rendered",
+   "detail": "no photo yet; designed fallback in use"
+  },
+  {
+   "r": "PASS",
+   "name": "2.14 the section head matches the reference",
+   "detail": "Choose a skill / Build the parts. Create better sentences."
+  },
+  {
+   "r": "PASS",
+   "name": "2.15 the closing quote strip is present",
+   "detail": "Better sentences today. Brighter opportunities tomorrow."
+  },
+  {
+   "r": "PASS",
+   "name": "2.16 the quote strip is decoration, not navigation",
    "detail": ""
   },
   {
@@ -371,7 +396,7 @@
   {
    "r": "PASS",
    "name": "5.9 choice order is shuffled at render time (D-29)",
-   "detail": "11 distinct orders in 12 renders"
+   "detail": "10 distinct orders in 12 renders"
   },
   {
    "r": "PASS",
@@ -381,7 +406,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕playful tells what kind of dog it is. It describes the dog."
+   "detail": "✕brown tells what color the rabbit is. It describes the rabb"
   },
   {
    "r": "PASS",
@@ -401,7 +426,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. jumped tells what the dog did, so ju"
+   "detail": "Let's find it together. hopped tells what the rabbit did, so"
   },
   {
    "r": "PASS",
@@ -551,7 +576,7 @@
   {
    "r": "PASS",
    "name": "10.4 ending punctuation stays on the word's own line (M-02)",
-   "detail": "sentence. dy=0.0"
+   "detail": "book. dy=0.0"
   },
   {
    "r": "PASS",
@@ -791,7 +816,7 @@
   {
    "r": "PASS",
    "name": "11.home.laptop-1280 no false bottom",
-   "detail": "0 below fold, scrollable=false"
+   "detail": "0 below fold, scrollable=true"
   },
   {
    "r": "PASS",
@@ -836,7 +861,7 @@
   {
    "r": "PASS",
    "name": "11.home.laptop-1366 no false bottom",
-   "detail": "0 below fold, scrollable=false"
+   "detail": "0 below fold, scrollable=true"
   },
   {
    "r": "PASS",

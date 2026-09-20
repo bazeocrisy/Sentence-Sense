@@ -2,9 +2,9 @@
 
 9 viewports x 3 screens = 27 samples. Chrome emulation only (L-02): no physical device was used.
 
-A **false bottom** is a page that does NOT scroll while a required control sits below the fold, i.e. unreachable. A page that scrolls normally is not a false bottom — brief section 27 explicitly accepts phone scrolling.
+A **false bottom** is a page that does NOT scroll while a required control sits below the fold, i.e. unreachable. A page that scrolls normally is not a false bottom.
 
-| Viewport | Screen | H-overflow | Scrolls | Controls below fold | False bottom | Text <12px |
+| Viewport | Screen | H-overflow | Scrolls | Below fold | False bottom | Text <12px |
 |---|---|---|---|---|---|---|
 | phone-375 (375x667) | home | 0px | yes | 3 | no | 0 |
 | phone-375 (375x667) | skill | 0px | no | 0 | no | 0 |
@@ -21,10 +21,10 @@ A **false bottom** is a page that does NOT scroll while a required control sits 
 | laptop-1024 (1024x768) | home | 0px | yes | 2 | no | 0 |
 | laptop-1024 (1024x768) | skill | 0px | no | 0 | no | 0 |
 | laptop-1024 (1024x768) | practice | 0px | no | 0 | no | 0 |
-| laptop-1280 (1280x720) | home | 0px | no | 0 | no | 0 |
+| laptop-1280 (1280x720) | home | 0px | yes | 0 | no | 0 |
 | laptop-1280 (1280x720) | skill | 0px | no | 0 | no | 0 |
 | laptop-1280 (1280x720) | practice | 0px | no | 0 | no | 0 |
-| laptop-1366 (1366x768) | home | 0px | no | 0 | no | 0 |
+| laptop-1366 (1366x768) | home | 0px | yes | 0 | no | 0 |
 | laptop-1366 (1366x768) | skill | 0px | no | 0 | no | 0 |
 | laptop-1366 (1366x768) | practice | 0px | no | 0 | no | 0 |
 | desktop-1440 (1440x900) | home | 0px | no | 0 | no | 0 |
@@ -38,7 +38,7 @@ A **false bottom** is a page that does NOT scroll while a required control sits 
 
 - horizontal overflow: **0** of 27
 - false bottoms: **0** of 27
-- samples containing text under 12px: **0** of 27
+- samples with text under 12px: **0** of 27
 
 ## Skill grid columns
 
@@ -52,4 +52,4 @@ Same cards, same content, every size. No separate mobile interface.
 
 ## Tap targets
 
-Every visible control measured at least 44px tall (check 9.10). The floor set in the stylesheet is 48px.
+Every visible control measured at least 44px tall (check 9.10); the stylesheet floor is 48px.

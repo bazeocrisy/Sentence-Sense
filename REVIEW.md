@@ -55,8 +55,7 @@ project dependency — the shipped site has no package manifest and no build
 system. Point at them with `$env:PUPPETEER` and `$env:CHROME`; see
 `verification/README.md`.
 
-**199 checks, 199 passing.** Also re-run against a clean extraction in an empty
-directory: 199/199.
+**204 checks, 204 passing.**
 
 ## Four defects were found and fixed *during* this build
 
@@ -74,14 +73,14 @@ Worth reviewing specifically, because three of them were invisible before:
 3. **Stranded punctuation** on a marked word (defect M-02 from 1.3.0 recurring).
    Fixed with `.ss-word-body`; now guarded by check 10.4, where previously it was
    caught only by looking at a screenshot.
-4. **The Verb icon rendered as a running stick figure**, which the brief forbids.
-   Replaced with an abstract motion mark.
+4. **The Verb icon rendered as a running stick figure.** Replaced with an
+   abstract motion mark — then **restored** when the owner confirmed the
+   reference image as the intended appearance. See `ASSETS-NEEDED.md`.
 
 ## Known issues, carried openly
 
 | ID | Issue |
 |---|---|
-| **H-03** | `assets/images/logo.png` and `logo-512.png` are now **unreferenced**. The cartoon-mascot lockup contradicts the 1.4.0 art direction, so Home uses a typographic wordmark. Deleting them was not authorised, so they were left. **Needs an owner decision.** |
 | **P-02** | Subject, Noun and Adjective have Learn only. Practice and Test are honest placeholders. No question banks were invented. |
 | **D-20** | Abstract nouns defined in the Noun lesson but never demonstrated in a marked sentence. Carried forward untouched. |
 | **D-26** | The build badge can fall below the fold on some device classes. |
@@ -90,10 +89,12 @@ Worth reviewing specifically, because three of them were invisible before:
 
 ## Two things that are deliberate, not oversights
 
-**No hero photograph.** None was supplied. Rather than reference a missing file
-and log a 404 on every load, the reserved area renders a real plain→marked
-demonstration. Drop the approved file at `assets/images/sentence-sense-hero.png`
-and uncomment one marked rule in `css/styles.css` §5.
+**No hero photograph — and it is the one thing still needed.** See
+`ASSETS-NEEDED.md` for the exact specification. The banner probes for the file
+at runtime and paints it only if it loads, so dropping it in is the entire
+installation step; until then a designed fallback holds the same composition.
+One expected 404 on that path is excluded from the harness by URL, and only that
+URL.
 
 **`complete-subject` and `predicate` still have full content** in
 `learn-content.js` and are not routed anywhere. That is required preservation for

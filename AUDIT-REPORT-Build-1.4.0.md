@@ -6,7 +6,7 @@
 **Baseline code version:** Build 1.3.0, confirmed from `js/app.js`, not from the branch name
 **Scope:** Simplified product redesign — skill-first navigation
 **Date:** 2026-09-20
-**Harness:** `verification/guard.js` — **199 checks, 199 PASS, 0 FAIL**
+**Harness:** `verification/guard.js` — **204 checks, 204 PASS, 0 FAIL**
 
 ---
 
@@ -92,8 +92,8 @@ Checks 2.1–2.11.
 | Short purpose statement | "Build stronger sentences." / "Choose a skill to start learning." |
 | Exactly four core skill cards | 4 — Verb, Subject, Noun, Adjective (check 2.1, 2.2) |
 | One obvious action per card | One `<button>` per card; the card is not a second control (2.7, 2.8) |
-| Optional hero image | Reserved area present; see below |
-| Subtle Georgia alignment footer | One non-interactive line (2.9) |
+| Optional hero image | Banner takes a supplied photo at runtime; designed fallback until then (checks 2.12, 2.13) |
+| Subtle Georgia alignment footer | Non-interactive badge in the banner (2.9) |
 
 **Forbidden furniture: none present.** Check 2.10 string-searches the rendered
 Home for achievements, progress, settings, login, profile, avatar, today's goal,
@@ -111,30 +111,50 @@ noun." not "What describes the noun?". The mockup's quote band and its
 Learn/Practice/Improve/Grow icon strip were **not** built: §4 forbids quote bands
 and persistent navigation.
 
-### The hero image
+### The classroom banner
 
-No approved photograph exists. Per §5 the band was built with a reserved image
-area, a neutral treatment and a documented path, and Home works without it.
+**Home was rebuilt to the approved reference image after the owner confirmed it
+as the intended appearance.** The first delivery had followed the written brief
+where it contradicted the reference (§4: "The written brief overrides the image
+whenever they differ"), which produced a correct-to-brief but wrong-to-intent
+Home. Three of those calls were reversed on instruction:
 
-The reserved area shows the plain→marked pair on one sentence naming all four
-skills. **It makes no network request** — referencing a missing file would log a
-404 on every child's load, which §37 forbids. To enable a photograph: drop the
-file at `assets/images/sentence-sense-hero.png` and uncomment the marked rule in
-`css/styles.css` §5.
+| Reference shows | Brief said | Resolution |
+|---|---|---|
+| Photo banner, two children | §5 / §30: do not invent or generate a human image | Banner built to take a supplied photograph |
+| Bottom quote strip | §4: "DO NOT copy … quote bands" | Built, on owner instruction |
+| Running-person Verb icon | §30: no stick figures | Restored |
+| `Learn · Practice · Improve · Grow` icon row | §4: no persistent navigation | **Not built** — reads as navigation, would go nowhere. Needs a decision. |
+
+The standards line moved from a footer line into the banner badge, as the
+reference shows, rather than appearing twice.
+
+**The photograph is optional at RUNTIME, not at build time.** `js/app.js` probes
+the path with an `Image` object and paints it only on a successful load, so
+dropping the file in is the entire installation step. Verified both ways during
+this build: with a throwaway file present the class applied, the layer painted,
+the scrim activated and there were **0 console errors and 0 404s**; the throwaway
+was then deleted, because no invented artwork ships.
+
+While no photo exists there is exactly one expected 404 on that path, excluded by
+the harness **by URL and only that URL** (checks 1.2, 1.3), so a genuinely
+missing asset still fails the build.
 
 **A first pass rendered the reserved area as two grey bars and read as a failed
 image load.** It was replaced after screenshot inspection (§29).
 
 ### Art direction
 
-**No people are drawn anywhere.** The four icons are clean vector symbols.
+**No illustration of people is authored in this project.** The banner photograph
+is a supplied asset. The four skill icons are pictograms.
 
-**An early pass drew the Verb icon as a running figure.** At 24px it read as a
-stick person, which §30 forbids and §5 forbids again. It was caught by
-inspecting a phone screenshot and replaced with an arrow leaving motion lines —
-motion without anybody in it, which is what §7 asks for. Subject keeps a
-group-of-figures glyph because §7 explicitly specifies a person/group icon for
-it, and it renders as clean silhouettes rather than stick figures.
+**The Verb icon is a running figure with motion lines, matching the reference.**
+An earlier pass replaced it with an abstract arrow, reading §30 ("do not draw
+people") as covering icons. The owner clarified that the reference is the
+intended appearance, so it was restored. §30 governs illustration — the hero
+photograph and character art — and §7 specifies a person/group icon for Subject,
+so glyph-level figures were always in scope. That earlier substitution is
+recorded here as a misread of the brief, not as a defect in the code.
 
 ---
 
@@ -360,14 +380,24 @@ traversal guard compared it against an absolute `path.resolve(".")`. **Every
 request under the project's own documented command returned 403.** Any relative
 root failed; only an absolute one worked. It now resolves `ROOT` once.
 
-### Why this is qualified
+### Why this was qualified, and how it was resolved
 
-**H-03 is open and needs an owner decision.** `assets/images/logo.png` (972 KB)
-and `logo-512.png` (304 KB) are **now unreferenced**. The existing lockup is a
+**H-03 was raised as open and has since been closed on owner approval.**
+`assets/images/logo.png` (972 KB) and `logo-512.png` (304 KB) were left in place
+at first delivery: both had become unreferenced, because the existing lockup is a
 cartoon mascot pencil with bubble lettering — exactly what §3 forbids and §29
-says to reject a build over — so the new Home uses a typographic wordmark
-instead. §23 authorised deleting one specific asset and these are not it, so
-they were left in place rather than deleted without approval.
+says to reject a build over — and the new Home uses a typographic wordmark
+instead. §23 authorised deleting one specific asset and these were not it, so
+they were not deleted without approval.
+
+**The owner approved the deletion and both files were removed** in a follow-up
+commit, after a second repo-wide search re-confirmed zero references from
+`index.html`, `css/` or `js/`. `assets/images/favicon.png` is now the only image
+asset in the project and is still referenced. Total asset weight fell from
+3.0 MB at baseline to 8.7 KB.
+
+The verdict for this area is therefore **PASS** as of that commit. The table in
+§1 records the state at first delivery and is left as written.
 
 ---
 
@@ -410,7 +440,6 @@ content is carried forward unchanged.
 |---|---|---|
 | **D-20** | Abstract nouns defined in the Noun lesson but never demonstrated in a marked sentence or asked about. Carried forward untouched. | 3 |
 | **D-26** | The build badge can fall below the fold on some device classes. Deployment metadata, not instruction. | 4 |
-| **H-03** | `logo.png` and `logo-512.png` now unreferenced. Needs an owner decision. | 4 |
 | **P-02** | Subject, Noun and Adjective have Learn only. Honest placeholders until banks are approved. | 3 |
 
 **Standing limitations:** L-02 simulated devices only · L-03 no projector · L-04

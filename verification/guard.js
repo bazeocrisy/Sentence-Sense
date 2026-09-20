@@ -115,10 +115,27 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
 
   const pageErrors = [], consoleErrors = [], failedRequests = [];
+  const OPTIONAL = /sentence-sense-hero/;
   page.on("pageerror", e => pageErrors.push(String(e)));
-  page.on("console", m => { if (m.type() === "error") consoleErrors.push(m.text()); });
-  page.on("requestfailed", r => failedRequests.push(r.url()));
-  page.on("response", r => { if (r.status() >= 400) failedRequests.push(r.status() + " " + r.url()); });
+  page.on("console", m => {
+    if (m.type() !== "error") return;
+    /* The optional banner photo logs a console 404 as well as a network
+       one while no photo has been supplied. Excluded by the URL the
+       message points at -- never by message text, which would hide every
+       404 in the product. */
+    const from = (m.location() && m.location().url) || "";
+    if (OPTIONAL.test(from)) return;
+    consoleErrors.push(m.text() + (from ? "  <- " + from : ""));
+  });
+  /* The banner photograph is OPTIONAL BY DESIGN. js/app.js probes for it
+     and paints it only if it loads, so while no photo has been supplied
+     there is exactly one expected 404 on that path. It is excluded here by
+     path -- and only that path -- so a real missing asset still fails.
+     Once the photo is supplied this exclusion simply never matches. */
+  page.on("requestfailed", r => { if (!OPTIONAL.test(r.url())) failedRequests.push(r.url()); });
+  page.on("response", r => {
+    if (r.status() >= 400 && !OPTIONAL.test(r.url())) failedRequests.push(r.status() + " " + r.url());
+  });
 
   await page.goto(BASE, { waitUntil: "networkidle0" });
   await sleep(250);
@@ -164,7 +181,15 @@ async function answerCorrect(page, choiceSel, dataProbe) {
                                     c.getAttribute("role") === "button" || c.onclick),
       title: document.querySelector(".hero-title").textContent,
       sub: document.querySelector(".hero-sub").textContent,
-      standards: document.querySelector(".home-standards").textContent,
+      standards: document.querySelector(".hero-badge").textContent,
+      sectionTitle: document.querySelector(".section-title").textContent,
+      sectionSub: document.querySelector(".section-sub").textContent,
+      quote: document.querySelector(".home-quote .hq-text").textContent,
+      quoteInteractive: !!document.querySelector(".home-quote a, .home-quote button, .home-quote [tabindex]"),
+      hasBanner: !!document.getElementById("home-hero"),
+      hasPhotoLayer: !!document.querySelector(".hero-photo"),
+      photoPainted: document.getElementById("home-hero").classList.contains("has-photo"),
+      brokenImg: Array.from(document.images).filter(i => i.complete && i.naturalWidth === 0).length,
       text: txt
     };
   });
@@ -194,6 +219,19 @@ async function answerCorrect(page, choiceSel, dataProbe) {
 
   ok("2.11 no more than four grammar skills are offered",
     !/complete subject|predicate|pronoun|adverb|preposition/i.test(home.text));
+
+  /* --- the approved reference composition --- */
+  ok("2.12 the classroom banner is present", home.hasBanner && home.hasPhotoLayer);
+  ok("2.13 no broken image is ever rendered", home.brokenImg === 0,
+    home.photoPainted ? "photo supplied and painted" : "no photo yet; designed fallback in use");
+  ok("2.14 the section head matches the reference",
+    home.sectionTitle === "Choose a skill" &&
+    home.sectionSub === "Build the parts. Create better sentences.",
+    home.sectionTitle + " / " + home.sectionSub);
+  ok("2.15 the closing quote strip is present",
+    /better sentences today/i.test(home.quote), home.quote);
+  ok("2.16 the quote strip is decoration, not navigation",
+    home.quoteInteractive === false);
 
   await shot(page, "desktop-01-home");
 
@@ -647,8 +685,17 @@ async function answerCorrect(page, choiceSel, dataProbe) {
      visual line. This defect shipped in 1.3.0 and was caught only by
      looking at a screenshot, so it gets a real check now. Compare the
      TOP of the word against the top of its punctuation -- if the full
-     stop has wrapped to its own row, the tops differ. */
+     stop has wrapped to its own row, the tops differ.
+
+     Measured on Noun LEARN "Show me": "The student read a book." marks
+     the FINAL word, so the chip carries the full stop -- the exact shape
+     that broke. Verb's example marks "kicked" mid-sentence and so cannot
+     exercise this at all, which is why the check is run here. */
   await goHome(page);
+  await clickStart(page, "noun");
+  await clickActivity(page, "learn");
+  await page.click("#learn-next"); await sleep(60);
+  await page.click("#learn-next"); await sleep(90);
   const punct = await page.evaluate(() => {
     const out = [];
     document.querySelectorAll(".ss-word.is-marked").forEach(w => {
@@ -662,7 +709,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   });
   ok("10.4 ending punctuation stays on the word's own line (M-02)",
     punct.length > 0 && punct.every(x => x.dy < 4),
-    punct.map(x => x.word + " dy=" + x.dy.toFixed(1)).join(", ") || "no marked punctuation on Home");
+    punct.map(x => x.word + " dy=" + x.dy.toFixed(1)).join(", ") || "NO marked punctuation found on this screen");
 
   const prev = await page.evaluate(() => {
     const C = window.SS_LEARN_CONTENT;

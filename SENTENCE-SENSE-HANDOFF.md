@@ -57,7 +57,7 @@ Current: **Build 1.4.0**. It must match in four places, and the audit checks all
 | `js/practice.js` | **NEW 1.4.0** — the shared PRACTICE question engine | 370 |
 | `js/data/learn-content.js` | All content for all six topics, plus card fields | 1053 |
 | `assets/images/favicon.png` | Referenced by `index.html` |
-| `assets/images/logo.png`, `logo-512.png` | **UNREFERENCED since 1.4.0** — see §11 |
+| ~~`assets/images/logo.png`, `logo-512.png`~~ | **DELETED in 1.4.0.** Unreferenced; the cartoon-mascot lockup contradicted the art direction. See §11 H-03. |
 | `assets/reference/home-screen-mockup.png` | The approved style reference. Not loaded by the site. |
 | `verification/serve.js` · `verification/guard.js` | Dev harness. Not part of the site. |
 | `AUDIT-REPORT-Build-1.4.0.md` | The current build audit — and the only one |
@@ -87,9 +87,10 @@ The child chooses **what** before **how**. The mode-first portal of Builds
 | **Noun** | Names a person, place, thing, or idea. | coming next | coming next |
 | **Adjective** | Describes a noun. | coming next | coming next |
 
-Home contains: the wordmark, "Build stronger sentences.", "Choose a skill to
-start learning.", the four cards, a hero demonstration, and one quiet
-non-interactive line reading *Aligned with Georgia Grade 3 ELA Standards*.
+Home contains: the banner (wordmark, "Build stronger sentences.", "Choose a
+skill to start learning.", and a non-interactive *3rd Grade ELA / Aligned with
+Georgia Grade 3 ELA Standards* badge), the `Choose a skill` head with its
+subtitle, the four cards, and a one-line closing quote strip.
 
 Home contains **no** achievements, progress dashboard, settings, login, profile,
 avatar, goal widget, points, coins, streaks, leaderboard, or a fifth skill. A
@@ -98,19 +99,33 @@ harness check enforces that list by string search.
 **The card is a container; the button is the only control.** Exactly one tab
 stop and one click target per skill, so the child learns a single rule.
 
-### The hero band
+### The classroom banner
 
-No approved photograph exists yet. Rather than a grey box that reads as a failed
-image, the reserved area shows the product's own idea: the plain → marked pair
-on one sentence, naming all four skills at once. It renders through the shared
-component from `SS_LEARN_CONTENT.heroDemo`, so it obeys the exact-match rule like
-any teaching sentence. It is hidden below 620px so it can never push the four
-real choices off a phone screen.
+Home opens with a full-width banner carrying the wordmark and headline on the
+left and the standards badge on the right, then `Choose a skill` with its
+subtitle, the four cards, and a one-line closing quote strip. This matches the
+approved reference image.
 
-**To use a photograph:** drop the approved file at
-`assets/images/sentence-sense-hero.png` and uncomment the marked rule in
-`css/styles.css` §5. Nothing else changes. The band deliberately makes **no
-network request** today — a missing file would log a 404 on every load.
+**The photograph is optional AT RUNTIME.** `js/app.js` probes
+`assets/images/sentence-sense-hero.png` with an `Image` object and adds
+`.has-photo` only if it genuinely loads. **Dropping the file in is the entire
+installation step** — no code change, no CSS edit. Until then the banner renders
+a designed fallback in the SAME composition, so nothing moves when the photo
+arrives, and no broken image box is ever shown.
+
+**The photo must carry no baked-in text.** The wordmark, headline and badge are
+live text drawn over it, behind a gradient scrim that keeps them legible over an
+unpredictable photograph. Baked-in text would double up and collide at phone
+widths.
+
+While no photo exists there is exactly **one expected 404** on that path. The
+harness excludes it *by URL* and only that URL (checks 1.2, 1.3), so a genuinely
+missing asset still fails. Supplying the photo makes the exclusion moot.
+
+The closing quote strip is decoration: no link, no control, no tab stop. The
+reference pairs the quote with a Learn/Practice/Improve/Grow icon row; **that row
+is deliberately not built**, because it reads as navigation and tapping it would
+go nowhere. It needs an owner decision.
 
 ### Skill screen — ONE component, all four skills
 
@@ -257,9 +272,13 @@ on a screen that cannot scroll, and every screen here can scroll.
 **Short viewports shrink spacing, never targets.** Type and the 48px tap-target
 floor are the last things to give way.
 
-**No artwork of people anywhere.** The four skill icons are clean vector symbols.
-Verb is an arrow with motion lines — an early pass drew a running figure, which
-read as a stick person at 24px and was replaced.
+**No ILLUSTRATION of people is authored here** — the banner photograph is a
+supplied asset, not drawn. The four skill icons are pictograms, and Verb is a
+running figure with motion lines, matching the approved reference. An earlier
+pass replaced it with an abstract arrow after reading the no-people rule as
+covering icons; the owner clarified that the reference image is the intended
+appearance, and Subject was always specified as a person/group icon, so
+glyph-level figures were in scope all along.
 
 ---
 
@@ -304,7 +323,6 @@ the plain→marked exact match, and a 9-viewport responsive matrix.
 |---|---|---|
 | **D-20** | **OPEN.** Abstract nouns are defined in the Noun lesson but never demonstrated inside a marked sentence and never asked about. Content gap, carried forward untouched. | 3 |
 | **D-26** | **OPEN / DEFERRED.** The build badge can fall below the fold on some device classes. Deployment metadata, not instructional content. | 4 |
-| **H-03** | **OPEN — needs owner decision.** `assets/images/logo.png` (972 KB) and `logo-512.png` (304 KB) are **now unreferenced**. The cartoon-mascot lockup contradicts the 1.4.0 art direction, so Home uses a typographic wordmark instead. Brief §23 authorised deleting one specific asset and this is not it, so they were left in place. | 4 |
 | **P-02** | **OPEN — product decision.** Subject, Noun and Adjective have Learn only. Their Practice and Test are honest placeholders until banks are approved. | 3 |
 
 ### Closed in Build 1.4.0
@@ -316,6 +334,7 @@ the plain→marked exact match, and a 9-viewport responsive matrix.
 | **P-01** | **CLOSED.** The 20-question Verb bank is reachable normally at Home → Verb → Practice. `?verb=classic` is removed. |
 | **H-01** | **CLOSED.** All five superseded audits deleted. |
 | **H-02** | **CLOSED.** `assets/Sentence-Sense_logo.png` (1.7 MB, unreferenced) deleted. |
+| **H-03** | **CLOSED.** `assets/images/logo.png` (972 KB) and `logo-512.png` (304 KB) deleted on owner approval. Both were unreferenced: the cartoon-mascot lockup contradicted the 1.4.0 art direction and Home uses a typographic wordmark. `favicon.png` is the only image asset left and is still referenced. **No brand image asset now exists** — see §13. |
 | **N-01** | **CLOSED.** `verification/serve.js` returned 403 for every request under its own documented command. |
 | **N-02** | **CLOSED.** `:focus-visible` used `box-shadow` and was overridden by `.btn-start`'s own shadow — the primary button had no visible focus ring. Now drawn with `outline`. |
 | **N-03** | **CLOSED.** M-02 recurrence: ending punctuation on a marked word wrapped to its own line. Fixed with `.ss-word-body`; now guarded by check 10.4. |
@@ -371,8 +390,11 @@ discrepancy **before** editing.
 ## 13. NEXT — NOT STARTED
 
 - **Testing with an actual third grader (L-05).** Nothing else matters as much.
-- **An owner decision on H-03** — the two unreferenced logo files, and whether a
-  new brand lockup asset is coming.
+- **A brand lockup asset, if one is wanted.** The old logo files were deleted and
+  the wordmark is now live text (navy + green) beside an inline book glyph. That
+  is deliberate and scales cleanly, but it means **no raster brand asset exists**
+  for anywhere outside the site — a README, an app icon, a printed sheet.
+  `favicon.png` is unchanged and still the old mark.
 - **An approved hero photograph** at `assets/images/sentence-sense-hero.png`.
 - **Approved question banks** for Subject, Noun and Adjective, in the same shape
   as the Verb bank. The Practice engine already runs any topic that has one.
