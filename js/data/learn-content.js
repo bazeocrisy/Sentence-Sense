@@ -123,39 +123,84 @@ window.SS_LEARN_CONTENT = {
 
       definition: {
         title: "What is a verb?",
-        text: "A verb tells what someone or something does or is.",
-        list: [
-          "Doing words: run, jump, play, throw, catch",
-          "Being words: is, are"
-        ],
-        note: "Most verbs show action. A few verbs do not show action. They tell what someone or something is, like in The dog is small.",
-        sentence: {
-          words: ["The", "player", "kicked", "the", "ball."],
-          marks: [{ start: 2, end: 2, kind: "verb", label: "VERB" }]
-        }
+
+        /* The whole definition in two scannable halves. DOES and IS are the
+           two ideas a child has to hold, so they are the two things the eye
+           lands on first. */
+        callout: {
+          title: "A verb tells\u2026",
+          rows: [
+            { key: "DOES", text: "what someone or something does" },
+            { key: "IS",   text: "what someone or something is" }
+          ]
+        },
+
+        /* One clear action verb and one clear being verb, side by side, so
+           both kinds are met in the same breath. */
+        contrast: {
+          heading: "Both of these are verbs",
+          rows: [
+            {
+              sentence: {
+                words: ["The", "player", "kicked", "the", "ball."],
+                marks: [{ start: 2, end: 2, kind: "verb", label: "VERB" }]
+              },
+              text: "kicked tells what the player DOES."
+            },
+            {
+              sentence: {
+                /* NOT "tired": the being-verb rule from Build 1.2.6 bars any
+                   -ed/-en adjective after a being verb, because "is tired"
+                   also reads as a passive verb phrase and the answer stops
+                   being unambiguous. "happy" is on the approved list. */
+                words: ["The", "dog", "is", "happy."],
+                marks: [{ start: 2, end: 2, kind: "verb", label: "VERB" }]
+              },
+              text: "is tells what the dog IS."
+            }
+          ]
+        },
+
+        note: "Most verbs show action. A few do not \u2014 they tell what someone or something is."
       },
 
       clue: {
-        title: "A clue for finding the verb",
-        text: "Ask yourself: What happened? Or: What is happening?",
-        list: [
-          "Some verbs end in -s: runs, plays, throws",
-          "Some verbs end in -ed: jumped, played, walked",
-          "Some verbs end in -ing: running, playing, walking"
+        title: "How do I find the verb?",
+
+        /* THE STRATEGY IS THE LESSON. It is the one thing a child should
+           carry out of this step, so it is the largest thing on it and it
+           comes first. The endings below are support, not the method. */
+        callout: {
+          title: "Ask yourself:",
+          big: ["What happened?", "What is happening?"]
+        },
+
+        /* Deliberately demoted from prose to chips: they are patterns to
+           recognise, not steps to follow. */
+        groups: [
+          { label: "Some end in -s",   chips: ["runs", "plays", "throws"] },
+          { label: "Some end in -ed",  chips: ["jumped", "played", "walked"] },
+          { label: "Some end in -ing", chips: ["running", "playing", "walking"] }
         ],
+
         warning: "These endings are clues. They are not rules. Read the sentence to make sure."
       },
 
       example: {
         title: "Let's find the verb",
-        text: "Read the sentence and ask: What happened?",
         sentence: {
           words: ["The", "player", "kicked", "the", "ball."],
           marks: [{ start: 2, end: 2, kind: "verb", label: "VERB" }]
         },
-        points: [
-          "What happened? kicked.",
-          "kicked is the verb because it tells what the player did."
+
+        /* A REPEATABLE ROUTINE, not an explanation. Step 2 is the same
+           question the strategy step taught, so the child is practising the
+           method they were just given rather than watching a one-off. */
+        routine: [
+          "Read the sentence.",
+          "Ask: What happened?",
+          "Answer: kicked.",
+          "kicked is the verb."
         ]
       },
 

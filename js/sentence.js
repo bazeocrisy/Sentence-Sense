@@ -192,7 +192,9 @@
       r.appendChild(make("p", "contrast-text", row.text));
       wrap.appendChild(r);
     });
-    wrap.appendChild(make("p", "lesson-warning", contrast.close));
+    /* `close` is optional. Rendered unconditionally it produced an empty
+       warning box whenever a contrast had nothing to add. */
+    if (contrast.close) wrap.appendChild(make("p", "lesson-warning", contrast.close));
     host.appendChild(wrap);
   }
 

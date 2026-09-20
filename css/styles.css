@@ -602,6 +602,14 @@ img{max-width:100%;}
    is ~126px instead of the 206px it ran when everything was stacked, and
    the clue finally sits under the word it explains instead of beside it.
    Same three elements, same DOM order -- no markup change. */
+/* THE BANNER IS A LIGHT TINTED SURFACE, exactly like a homepage skill
+   card: skill tint, skill-coloured border, navy type, white icon chip.
+
+   An earlier attempt made this a solid saturated block. It read as a
+   darker, heavier redesign rather than an extension of the homepage, so
+   it was pulled back. THE HOMEPAGE IS THE SOURCE OF TRUTH: this screen
+   may be more focused, but it must never be darker or more saturated
+   than the page it came from. */
 .skill-hero{
   display:grid;
   grid-template-columns:auto 1fr;
@@ -610,7 +618,7 @@ img{max-width:100%;}
   column-gap:16px;
   row-gap:2px;
   text-align:left;
-  padding:14px 16px;
+  padding:16px 18px;
   border-radius:var(--radius-lg);
   border:1px solid var(--line);
   box-shadow:var(--shadow-card);
@@ -618,21 +626,25 @@ img{max-width:100%;}
 }
 /* The strongest accent on the screen: a SOLID skill-coloured chip with a
    white glyph. It is what makes the banner read as the skill's own. */
+/* The homepage icon language: a WHITE chip holding a coloured line
+   glyph, with a subtle border and a subtle shadow. Larger and a little
+   bolder than the homepage's, because this one introduces the whole
+   screen -- but the same language, not a stronger one. */
 .sh-glyph{
   grid-row:1 / 3;
   width:72px;height:72px;
   margin-bottom:0;
   border-radius:var(--radius-lg);
-  background:var(--navy);
-  border:0;
-  color:#fff;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--navy);
   display:inline-flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(18,58,107,0.22);
+  box-shadow:0 2px 6px rgba(18,58,107,0.10);
 }
 .sh-glyph svg{width:44px;height:44px;}
 /* Bolder strokes. The JS sets stroke-width as a presentation attribute,
    which CSS outranks, so the weight is tuned here and not in the shell. */
-.sh-glyph svg path{stroke-width:2.1;}
+.sh-glyph svg path{stroke-width:1.95;}
 .skill-title{grid-column:2;font-size:2rem;font-weight:800;color:var(--navy-deep);line-height:1.05;align-self:end;}
 .skill-ask-line{grid-column:2;color:var(--muted);font-size:1.08rem;align-self:start;}
 
@@ -650,30 +662,46 @@ img{max-width:100%;}
    --  page #F4F7FB  <  banner tint  <  card #FFFFFF, and the unavailable
    card sits outside the blue family entirely. They were previously all
    rgb(237,243,253), which is what made the screen read flat. */
+/* AN ACTIVE CARD IS A LIGHTLY TINTED SURFACE, the same tint the homepage
+   skill cards use, with a THIN skill-coloured top edge.
+
+   A pass that made these pure white was backwards -- the homepage cards
+   sit at 6% saturation and white is 0%, so the skill screen had less
+   colour than the page it was matching. A later pass over-corrected into
+   heavy saturated blocks. This is the middle: soft tint, thin accent.
+
+   The top edge is what says "active" without any text -- the unavailable
+   card is the one that does not have it. */
 .activity-card{
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:10px;
   text-align:center;
-  padding:22px 18px;
+  padding:20px 18px 22px;
   background:var(--card);
   border:1px solid var(--line);
+  border-top:3px solid var(--navy);
   border-radius:var(--radius-lg);
   box-shadow:var(--shadow-card);
   transition:box-shadow .15s ease, transform .15s ease;
 }
 .activity-card:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);}
 
+/* The homepage icon language again: WHITE chip, coloured line glyph,
+   subtle border, subtle shadow. Bigger and slightly bolder than the
+   homepage's 60px/1.7 for hierarchy on this screen, but the same idea. */
 .activity-icon{
   width:68px;height:68px;flex:0 0 68px;
   border-radius:var(--radius-md);
-  background:var(--card);
+  background:#fff;
   border:1px solid var(--line);
+  color:var(--navy);
   display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(18,58,107,0.10);
 }
 .activity-icon svg{width:40px;height:40px;}
-.activity-icon svg path{stroke-width:2.05;}
+.activity-icon svg path{stroke-width:1.95;}
 
 .activity-name{font-size:1.4rem;font-weight:800;color:var(--navy-deep);}
 /* A fixed min-height so the three buttons line up across the row even
@@ -715,29 +743,105 @@ img{max-width:100%;}
 }
 
 /* --- Per-skill colour, carried over from the Home card --- */
-.screen-skill[data-topic="verb"] .skill-hero{background:var(--verb-tint);border-color:var(--verb-edge);}
-.screen-skill[data-topic="verb"] .sh-glyph{background:var(--verb-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--verb-ink) 32%, transparent);}
-.screen-skill[data-topic="verb"] .activity-card{background:var(--card);border-color:var(--verb-edge);}
-.screen-skill[data-topic="verb"] .activity-icon{color:var(--verb-ink);background:var(--verb-tint);border-color:var(--verb-edge);}
-.screen-skill[data-topic="verb"] .btn-activity{background:var(--verb-ink);border-color:var(--verb-ink);}
+/* VERB — the homepage formula: light tint, skill-coloured
+   border, coloured line glyph in a white chip, saturated button. The
+   BUTTON is the strongest colour element, exactly as on the homepage. */
+.screen-skill[data-topic="verb"] .skill-hero{
+  /* The banner sits a step CLOSER TO WHITE than the activity cards, so
+     the ladder reads page -> lighter banner -> stronger cards -> grey
+     Test. Same hue, same token, just lightened -- no new blue. The
+     plain tint below is the fallback where color-mix is unsupported. */
+  background:var(--verb-tint);
+  background:color-mix(in srgb, var(--verb-tint) 45%, #fff);
+  border-color:var(--verb-edge);
+}
+.screen-skill[data-topic="verb"] .sh-glyph{color:var(--verb-ink);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .activity-card{
+  background:var(--verb-tint);
+  border-color:var(--verb-edge);
+  border-top-color:var(--verb-ink);
+}
+.screen-skill[data-topic="verb"] .activity-icon{color:var(--verb-ink);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .btn-activity{
+  background:var(--verb-ink);
+  border-color:var(--verb-ink);
+  box-shadow:0 2px 7px color-mix(in srgb, var(--verb-ink) 30%, transparent);
+}
 
-.screen-skill[data-topic="subject"] .skill-hero{background:var(--subject-tint);border-color:var(--subject-edge);}
-.screen-skill[data-topic="subject"] .sh-glyph{background:var(--subject-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--subject-ink) 32%, transparent);}
-.screen-skill[data-topic="subject"] .activity-card{background:var(--card);border-color:var(--subject-edge);}
-.screen-skill[data-topic="subject"] .activity-icon{color:var(--subject-ink);background:var(--subject-tint);border-color:var(--subject-edge);}
-.screen-skill[data-topic="subject"] .btn-activity{background:var(--subject-ink);border-color:var(--subject-ink);}
+/* SUBJECT — the homepage formula: light tint, skill-coloured
+   border, coloured line glyph in a white chip, saturated button. The
+   BUTTON is the strongest colour element, exactly as on the homepage. */
+.screen-skill[data-topic="subject"] .skill-hero{
+  /* The banner sits a step CLOSER TO WHITE than the activity cards, so
+     the ladder reads page -> lighter banner -> stronger cards -> grey
+     Test. Same hue, same token, just lightened -- no new blue. The
+     plain tint below is the fallback where color-mix is unsupported. */
+  background:var(--subject-tint);
+  background:color-mix(in srgb, var(--subject-tint) 45%, #fff);
+  border-color:var(--subject-edge);
+}
+.screen-skill[data-topic="subject"] .sh-glyph{color:var(--subject-ink);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .activity-card{
+  background:var(--subject-tint);
+  border-color:var(--subject-edge);
+  border-top-color:var(--subject-ink);
+}
+.screen-skill[data-topic="subject"] .activity-icon{color:var(--subject-ink);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .btn-activity{
+  background:var(--subject-ink);
+  border-color:var(--subject-ink);
+  box-shadow:0 2px 7px color-mix(in srgb, var(--subject-ink) 30%, transparent);
+}
 
-.screen-skill[data-topic="noun"] .skill-hero{background:var(--noun-tint);border-color:var(--noun-edge);}
-.screen-skill[data-topic="noun"] .sh-glyph{background:var(--noun-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--noun-ink) 32%, transparent);}
-.screen-skill[data-topic="noun"] .activity-card{background:var(--card);border-color:var(--noun-edge);}
-.screen-skill[data-topic="noun"] .activity-icon{color:var(--noun-ink);background:var(--noun-tint);border-color:var(--noun-edge);}
-.screen-skill[data-topic="noun"] .btn-activity{background:var(--noun-ink);border-color:var(--noun-ink);}
+/* NOUN — the homepage formula: light tint, skill-coloured
+   border, coloured line glyph in a white chip, saturated button. The
+   BUTTON is the strongest colour element, exactly as on the homepage. */
+.screen-skill[data-topic="noun"] .skill-hero{
+  /* The banner sits a step CLOSER TO WHITE than the activity cards, so
+     the ladder reads page -> lighter banner -> stronger cards -> grey
+     Test. Same hue, same token, just lightened -- no new blue. The
+     plain tint below is the fallback where color-mix is unsupported. */
+  background:var(--noun-tint);
+  background:color-mix(in srgb, var(--noun-tint) 45%, #fff);
+  border-color:var(--noun-edge);
+}
+.screen-skill[data-topic="noun"] .sh-glyph{color:var(--noun-ink);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .activity-card{
+  background:var(--noun-tint);
+  border-color:var(--noun-edge);
+  border-top-color:var(--noun-ink);
+}
+.screen-skill[data-topic="noun"] .activity-icon{color:var(--noun-ink);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .btn-activity{
+  background:var(--noun-ink);
+  border-color:var(--noun-ink);
+  box-shadow:0 2px 7px color-mix(in srgb, var(--noun-ink) 30%, transparent);
+}
 
-.screen-skill[data-topic="adjective"] .skill-hero{background:var(--adjective-tint);border-color:var(--adjective-edge);}
-.screen-skill[data-topic="adjective"] .sh-glyph{background:var(--adjective-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--adjective-ink) 32%, transparent);}
-.screen-skill[data-topic="adjective"] .activity-card{background:var(--card);border-color:var(--adjective-edge);}
-.screen-skill[data-topic="adjective"] .activity-icon{color:var(--adjective-ink);background:var(--adjective-tint);border-color:var(--adjective-edge);}
-.screen-skill[data-topic="adjective"] .btn-activity{background:var(--adjective-ink);border-color:var(--adjective-ink);}
+/* ADJECTIVE — the homepage formula: light tint, skill-coloured
+   border, coloured line glyph in a white chip, saturated button. The
+   BUTTON is the strongest colour element, exactly as on the homepage. */
+.screen-skill[data-topic="adjective"] .skill-hero{
+  /* The banner sits a step CLOSER TO WHITE than the activity cards, so
+     the ladder reads page -> lighter banner -> stronger cards -> grey
+     Test. Same hue, same token, just lightened -- no new blue. The
+     plain tint below is the fallback where color-mix is unsupported. */
+  background:var(--adjective-tint);
+  background:color-mix(in srgb, var(--adjective-tint) 45%, #fff);
+  border-color:var(--adjective-edge);
+}
+.screen-skill[data-topic="adjective"] .sh-glyph{color:var(--adjective-ink);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .activity-card{
+  background:var(--adjective-tint);
+  border-color:var(--adjective-edge);
+  border-top-color:var(--adjective-ink);
+}
+.screen-skill[data-topic="adjective"] .activity-icon{color:var(--adjective-ink);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .btn-activity{
+  background:var(--adjective-ink);
+  border-color:var(--adjective-ink);
+  box-shadow:0 2px 7px color-mix(in srgb, var(--adjective-ink) 30%, transparent);
+}
 
 /* ==========================================================
    THE UNAVAILABLE CARD — NEUTRAL GREY, AND IT MUST WIN.
@@ -753,15 +857,23 @@ img{max-width:100%;}
    before "which skill", and it holds against all four skill colours.
    ========================================================== */
 .screen-skill .activity-card.is-soon{
-  background:#EEF0F4;
+  background:#EDEFF3;
+  /* NO coloured top edge. That single absence is what makes it read as
+     subordinate with the text removed -- the active cards all have one. */
   border:1px dashed #AEBCCE;
+  box-shadow:none;
+  /* Visually stepped back rather than merely a different fill. */
+  transform:scale(0.985);
+}
+.screen-skill .activity-card.is-soon:hover{
+  transform:scale(0.985);
   box-shadow:none;
 }
 .screen-skill .activity-card.is-soon .activity-icon{
   background:#F7F8FA;
-  border-color:#C9D2DE;
-  color:#67788F;
-  opacity:1;
+  border-color:#C7D0DC;
+  color:#68788E;
+  box-shadow:none;
 }
 /* Readability stays strong: #5A6B82 on #EEF0F4 is 5.1:1. */
 .screen-skill .activity-card.is-soon .activity-name{color:#41536C;}
@@ -802,6 +914,95 @@ img{max-width:100%;}
 .question-title{font-size:1.25rem;}
 
 .lesson-content{display:flex;flex-direction:column;gap:14px;}
+
+/* ---------- THE STEP'S ONE BIG IDEA ----------
+   Same visual language as the Skill screen: soft skill tint, skill-coloured
+   edge, navy type. It is the first and largest thing in the step so the
+   teaching instruction is what the eye lands on, not the supporting detail. */
+.lesson-callout{
+  background:var(--verb-tint);
+  border:1px solid var(--verb-edge);
+  border-left:4px solid var(--verb-ink);
+  border-radius:var(--radius-md);
+  padding:16px 18px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.lc-title{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1.12rem;
+  color:var(--navy-deep);
+}
+
+/* keyword beside its meaning -- the DOES / IS pair */
+.lc-rows{display:flex;flex-direction:column;gap:9px;}
+.lc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.lc-key{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:0.95rem;
+  letter-spacing:0.06em;
+  color:#fff;
+  background:var(--verb-ink);
+  border-radius:var(--radius-sm);
+  padding:5px 12px;
+  min-width:62px;
+  text-align:center;
+  flex:0 0 auto;
+}
+.lc-text{font-size:1.05rem;color:var(--text);flex:1 1 220px;}
+
+/* the strategy itself, set large */
+.lc-big{display:flex;flex-direction:column;gap:6px;}
+.lc-big-line{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:1.45rem;
+  line-height:1.2;
+  color:var(--verb-ink);
+}
+
+/* ---------- THE REPEATABLE THINKING ROUTINE ---------- */
+.lesson-routine{
+  counter-reset:rt;
+  display:flex;flex-direction:column;gap:8px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  padding:16px 18px;
+}
+.lesson-routine li{
+  counter-increment:rt;
+  position:relative;
+  padding-left:38px;
+  min-height:28px;
+  display:flex;align-items:center;
+  font-size:1.05rem;
+  color:var(--text);
+}
+.lesson-routine li::before{
+  content:counter(rt);
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:27px;height:27px;border-radius:50%;
+  background:var(--verb-ink);color:#fff;
+  font-family:var(--font-display);font-size:0.85rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* Per-skill: the callout and the routine take the topic colour, like every
+   other coloured element in the product. Verb is the default above. */
+.screen-learn[data-topic="subject"] .lesson-callout{background:var(--subject-tint);border-color:var(--subject-edge);border-left-color:var(--subject-ink);}
+.screen-learn[data-topic="subject"] .lc-key{background:var(--subject-ink);}
+.screen-learn[data-topic="subject"] .lc-big-line{color:var(--subject-ink);}
+.screen-learn[data-topic="subject"] .lesson-routine li::before{background:var(--subject-ink);}
+.screen-learn[data-topic="noun"] .lesson-callout{background:var(--noun-tint);border-color:var(--noun-edge);border-left-color:var(--noun-ink);}
+.screen-learn[data-topic="noun"] .lc-key{background:var(--noun-ink);}
+.screen-learn[data-topic="noun"] .lc-big-line{color:var(--noun-ink);}
+.screen-learn[data-topic="noun"] .lesson-routine li::before{background:var(--noun-ink);}
+.screen-learn[data-topic="adjective"] .lesson-callout{background:var(--adjective-tint);border-color:var(--adjective-edge);border-left-color:var(--adjective-ink);}
+.screen-learn[data-topic="adjective"] .lc-key{background:var(--adjective-ink);}
+.screen-learn[data-topic="adjective"] .lc-big-line{color:var(--adjective-ink);}
+.screen-learn[data-topic="adjective"] .lesson-routine li::before{background:var(--adjective-ink);}
 .lesson-text{font-size:1.05rem;max-width:var(--read-max);}
 .lesson-note,.lesson-warning{
   font-size:0.95rem;color:var(--muted);max-width:var(--read-max);

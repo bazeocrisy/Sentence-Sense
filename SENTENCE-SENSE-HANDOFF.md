@@ -262,14 +262,56 @@ question its own key keeps the invariant intact.
 
 ---
 
+## 7b. THE BEING-VERB RULE — PERMANENT, FROM BUILD 1.2.6
+
+> After a being verb, use a plain adjective with **no participle form** —
+> `busy`, `quiet`, `happy`, `ready`, `full`, `empty`, `proud`.
+> **Never** `crowded`, `excited`, `broken`, `finished`, `tired`, `frozen`.
+
+A word ending `-ed` or `-en` after a being verb can be read as a past
+participle, which turns `is <word>` into a passive verb phrase and makes the
+answer ambiguous. `The dog is tired.` has two defensible readings — *tired* as
+a description, or *is tired* as a passive verb phrase — so a child asked to
+find "the verb" has no single right answer. `The dog is happy.` has one.
+
+This rule came from Build 1.2.6. **It was dropped from the handoff during the
+1.4.0 rewrite** and restored here when a Learn example was about to ship
+`is tired`. It governs every being-verb sentence in the product, not only the
+ones in the question bank.
+
+---
+
 ## 8. THE PLAIN → MARKED RULE
 
-Wherever a sentence carries any annotation, the same sentence is shown twice:
-**READ IT** plain, then **SEE HOW IT WORKS** annotated.
+**READ IT** plain, then **SEE HOW IT WORKS** annotated — rendered by
+`renderTeachingSentence()` from a single `words` array.
+
+### When the pair is required — clarified by the owner in 1.4.0
+
+The pair is for **explicit demonstration**, not decoration on every example:
+
+> Use plain → marked where the lesson is *showing the child how to find it*.
+> Do not force it onto every marked example when doing so would overfill the
+> step or flatten the lesson's hierarchy.
+
+In the Verb lesson that means:
+
+| Step | Treatment |
+|---|---|
+| **What is it?** | Two short marked examples, **marked-only**. They illustrate *that* both kinds exist; they are not a worked example. |
+| **How do I find it?** | No sentence — the strategy and the clues. |
+| **Show me** | **The full pair belongs here**, with the numbered routine. This is the demonstration. |
+| **Let me try** | Plain sentence only, because marking it would give the answer away. |
+
+This was a deliberate decision, not an oversight. Do not "restore" the pair to
+the What is it? examples.
+
+### What has not changed
 
 Both passes render from the **same `words` array**, so the plain pass cannot add,
 remove, reorder or re-punctuate a word. **Never introduce a separate plain-text
 string for a sentence** — that is the one change that would let them drift.
+Check 10.1 enforces the exact match on the Show me pair.
 
 Home card previews render through the same component and the same inclusive
 range shape, so a card cannot drift from its source either.

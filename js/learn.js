@@ -61,6 +61,41 @@
   function renderBlock(host, block) {
     if (!block) return;
 
+    /* THE CALLOUT COMES FIRST AND IS THE LARGEST THING IN THE STEP.
+
+       Each Learn step has exactly one idea a child should leave with. Before
+       this, that idea was a paragraph among other paragraphs and nothing on
+       the screen said which one mattered. A step may carry at most one
+       callout; if a second is ever added, the step has two main ideas and
+       the content is wrong, not the renderer.
+
+       Two shapes, both content-driven:
+         rows : a keyword chip beside its meaning   (WHAT IS IT -- DOES / IS)
+         big  : the strategy itself, set large      (HOW DO I FIND IT) */
+    if (block.callout) {
+      const c = make("div", "lesson-callout");
+      if (block.callout.title) c.appendChild(make("p", "lc-title", block.callout.title));
+
+      if (block.callout.rows) {
+        const list = make("ul", "lc-rows");
+        block.callout.rows.forEach(r => {
+          const item = make("li", "lc-row");
+          item.appendChild(make("span", "lc-key", r.key));
+          item.appendChild(make("span", "lc-text", r.text));
+          list.appendChild(item);
+        });
+        c.appendChild(list);
+      }
+
+      if (block.callout.big) {
+        const wrap = make("div", "lc-big");
+        block.callout.big.forEach(line => wrap.appendChild(make("p", "lc-big-line", line)));
+        c.appendChild(wrap);
+      }
+
+      host.appendChild(c);
+    }
+
     if (block.text) host.appendChild(make("p", "lesson-text", block.text));
 
     if (block.steps) {
@@ -91,6 +126,18 @@
     if (block.warning) host.appendChild(make("p", "lesson-warning", block.warning));
 
     if (block.sentence) S.renderTeachingSentence(host, block.sentence);
+
+    /* THE THINKING ROUTINE, and it renders AFTER the sentence on purpose:
+       step 1 is "Read the sentence", so the sentence has to already be on
+       screen. `steps` renders BEFORE the sentence and is used that way by
+       other topics, which is why this is its own key rather than a reorder
+       of the shared one -- reordering `steps` would have moved Subject's
+       and Predicate's lists too. */
+    if (block.routine) {
+      const ol = make("ol", "lesson-routine");
+      block.routine.forEach(line => ol.appendChild(make("li", null, line)));
+      host.appendChild(ol);
+    }
 
     if (block.points) {
       const ul = make("ul", "lesson-points");
