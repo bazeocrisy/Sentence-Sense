@@ -223,8 +223,14 @@ img{max-width:100%;}
 }
 .btn:active,.nav-btn:active{transform:translateY(1px);}
 
-/* The primary action. One per screen. */
-.btn-next,.btn-start{
+/* The primary action. One per screen.
+
+   .btn-activity IS LISTED HERE ON PURPOSE. It was previously styled only
+   by the per-skill background rules, so it never picked up this white
+   colour and fell back to the user-agent default `buttontext` -- pure
+   BLACK on a #1B4FA8 ground, measured at 2.73:1, well under AA. Any new
+   solid button must join this selector, not re-declare its own colour. */
+.btn-next,.btn-start,.btn-activity{
   background:var(--navy);
   color:#fff;
   border-color:var(--navy);
@@ -232,6 +238,12 @@ img{max-width:100%;}
 }
 .btn-next:hover:not(:disabled),
 .btn-start:hover:not(:disabled){background:var(--navy-deep);}
+
+/* Both spans inherit, so the label and the arrow are white together. A
+   white label beside a dark arrow was the other half of the same bug. */
+.btn-next .btn-label,.btn-next .btn-arrow,
+.btn-start .btn-label,.btn-start .btn-arrow,
+.btn-activity .btn-label,.btn-activity .btn-arrow{color:#fff;}
 
 .btn:disabled{
   background:#E3E9F2;color:#8395AE;border-color:#E3E9F2;
@@ -579,28 +591,50 @@ img{max-width:100%;}
 .brand-sm .brand-name{font-size:1.06rem;line-height:1;}
 
 /* --- The skill's identity, carried over from its Home card --- */
+/* Compact: the icon grew but the padding and the gaps shrank, so the
+   band is shorter overall while reading as more confident. */
+/* A ROW, not a stack. Stacked, the band ran 206px tall for an icon and
+   two short lines, which is what made it feel oversized. Side by side it
+   is ~120px, the icon can stay large, and the title sits next to the clue
+   it belongs with instead of above it. Same three elements, same order. */
+/* A two-column GRID rather than a row: the icon spans both rows on the
+   left, the title sits above the clue on the right. Side by side the band
+   is ~126px instead of the 206px it ran when everything was stacked, and
+   the clue finally sits under the word it explains instead of beside it.
+   Same three elements, same DOM order -- no markup change. */
 .skill-hero{
-  display:flex;
-  flex-direction:column;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  grid-template-rows:auto auto;
   align-items:center;
-  gap:8px;
-  text-align:center;
-  padding:20px 18px;
+  column-gap:16px;
+  row-gap:2px;
+  text-align:left;
+  padding:14px 16px;
   border-radius:var(--radius-lg);
   border:1px solid var(--line);
   box-shadow:var(--shadow-card);
   background:var(--card);
 }
+/* The strongest accent on the screen: a SOLID skill-coloured chip with a
+   white glyph. It is what makes the banner read as the skill's own. */
 .sh-glyph{
-  width:74px;height:74px;
+  grid-row:1 / 3;
+  width:72px;height:72px;
+  margin-bottom:0;
   border-radius:var(--radius-lg);
-  background:var(--card);
-  border:1px solid var(--line);
+  background:var(--navy);
+  border:0;
+  color:#fff;
   display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(18,58,107,0.22);
 }
-.sh-glyph svg{width:42px;height:42px;}
-.skill-title{font-size:2rem;font-weight:800;color:var(--navy-deep);}
-.skill-ask-line{color:var(--muted);font-size:1.08rem;}
+.sh-glyph svg{width:44px;height:44px;}
+/* Bolder strokes. The JS sets stroke-width as a presentation attribute,
+   which CSS outranks, so the weight is tuned here and not in the shell. */
+.sh-glyph svg path{stroke-width:2.1;}
+.skill-title{grid-column:2;font-size:2rem;font-weight:800;color:var(--navy-deep);line-height:1.05;align-self:end;}
+.skill-ask-line{grid-column:2;color:var(--muted);font-size:1.08rem;align-self:start;}
 
 /* --- The three activity cards --- */
 /* Phone: stacked. Desktop: three equal columns. The same three cards and
@@ -611,6 +645,11 @@ img{max-width:100%;}
   gap:14px;
 }
 
+/* An ACTIVE card is the brightest surface on the screen: white, lifted,
+   with a skill-coloured edge. The four surfaces are deliberately distinct
+   --  page #F4F7FB  <  banner tint  <  card #FFFFFF, and the unavailable
+   card sits outside the blue family entirely. They were previously all
+   rgb(237,243,253), which is what made the screen read flat. */
 .activity-card{
   display:flex;
   flex-direction:column;
@@ -627,13 +666,14 @@ img{max-width:100%;}
 .activity-card:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);}
 
 .activity-icon{
-  width:60px;height:60px;flex:0 0 60px;
+  width:68px;height:68px;flex:0 0 68px;
   border-radius:var(--radius-md);
   background:var(--card);
   border:1px solid var(--line);
   display:inline-flex;align-items:center;justify-content:center;
 }
-.activity-icon svg{width:34px;height:34px;}
+.activity-icon svg{width:40px;height:40px;}
+.activity-icon svg path{stroke-width:2.05;}
 
 .activity-name{font-size:1.4rem;font-weight:800;color:var(--navy-deep);}
 /* A fixed min-height so the three buttons line up across the row even
@@ -641,21 +681,13 @@ img{max-width:100%;}
 .activity-line{color:var(--muted);font-size:1rem;min-height:1.6em;}
 
 .btn-activity{width:100%;margin-top:auto;font-size:1.05rem;}
+.btn-activity:hover:not(:disabled){filter:brightness(0.92);}
 
 /* --- An activity with no engine yet --- */
 /* Visibly unavailable: muted ground, dashed edge, no lift on hover, and a
    written "Coming next" that is NOT a control. Nothing here is pressable,
    because pressing it would go nowhere. */
-/* The unavailable card stays NEUTRAL even though its siblings carry the
-   skill tint, so "not ready" reads before "which skill". */
-.screen-skill .activity-card.is-soon{
-  /* A clearly NEUTRAL grey, not the skill tint, and a visible dashed edge.
-     The first version used --line-soft, which is within a few points of
-     the verb tint, so the unavailable card read as just another blue card. */
-  background:#EFF1F5;
-  border:1px dashed #B9C5D6;
-  box-shadow:none;
-}
+
 .activity-card.is-soon:hover{transform:none;box-shadow:none;}
 .activity-card.is-soon .activity-icon{background:transparent;color:var(--muted);opacity:0.7;}
 .activity-card.is-soon .activity-name{color:var(--muted);}
@@ -684,32 +716,61 @@ img{max-width:100%;}
 
 /* --- Per-skill colour, carried over from the Home card --- */
 .screen-skill[data-topic="verb"] .skill-hero{background:var(--verb-tint);border-color:var(--verb-edge);}
-.screen-skill[data-topic="verb"] .sh-glyph{color:var(--verb-ink);border-color:var(--verb-edge);}
-.screen-skill[data-topic="verb"] .activity-card{background:var(--verb-tint);border-color:var(--verb-edge);}
-.screen-skill[data-topic="verb"] .activity-icon{color:var(--verb-ink);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .sh-glyph{background:var(--verb-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--verb-ink) 32%, transparent);}
+.screen-skill[data-topic="verb"] .activity-card{background:var(--card);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .activity-icon{color:var(--verb-ink);background:var(--verb-tint);border-color:var(--verb-edge);}
 .screen-skill[data-topic="verb"] .btn-activity{background:var(--verb-ink);border-color:var(--verb-ink);}
 
 .screen-skill[data-topic="subject"] .skill-hero{background:var(--subject-tint);border-color:var(--subject-edge);}
-.screen-skill[data-topic="subject"] .sh-glyph{color:var(--subject-ink);border-color:var(--subject-edge);}
-.screen-skill[data-topic="subject"] .activity-card{background:var(--subject-tint);border-color:var(--subject-edge);}
-.screen-skill[data-topic="subject"] .activity-icon{color:var(--subject-ink);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .sh-glyph{background:var(--subject-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--subject-ink) 32%, transparent);}
+.screen-skill[data-topic="subject"] .activity-card{background:var(--card);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .activity-icon{color:var(--subject-ink);background:var(--subject-tint);border-color:var(--subject-edge);}
 .screen-skill[data-topic="subject"] .btn-activity{background:var(--subject-ink);border-color:var(--subject-ink);}
 
 .screen-skill[data-topic="noun"] .skill-hero{background:var(--noun-tint);border-color:var(--noun-edge);}
-.screen-skill[data-topic="noun"] .sh-glyph{color:var(--noun-ink);border-color:var(--noun-edge);}
-.screen-skill[data-topic="noun"] .activity-card{background:var(--noun-tint);border-color:var(--noun-edge);}
-.screen-skill[data-topic="noun"] .activity-icon{color:var(--noun-ink);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .sh-glyph{background:var(--noun-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--noun-ink) 32%, transparent);}
+.screen-skill[data-topic="noun"] .activity-card{background:var(--card);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .activity-icon{color:var(--noun-ink);background:var(--noun-tint);border-color:var(--noun-edge);}
 .screen-skill[data-topic="noun"] .btn-activity{background:var(--noun-ink);border-color:var(--noun-ink);}
 
 .screen-skill[data-topic="adjective"] .skill-hero{background:var(--adjective-tint);border-color:var(--adjective-edge);}
-.screen-skill[data-topic="adjective"] .sh-glyph{color:var(--adjective-ink);border-color:var(--adjective-edge);}
-.screen-skill[data-topic="adjective"] .activity-card{background:var(--adjective-tint);border-color:var(--adjective-edge);}
-.screen-skill[data-topic="adjective"] .activity-icon{color:var(--adjective-ink);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .sh-glyph{background:var(--adjective-ink);box-shadow:0 4px 14px color-mix(in srgb, var(--adjective-ink) 32%, transparent);}
+.screen-skill[data-topic="adjective"] .activity-card{background:var(--card);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .activity-icon{color:var(--adjective-ink);background:var(--adjective-tint);border-color:var(--adjective-edge);}
 .screen-skill[data-topic="adjective"] .btn-activity{background:var(--adjective-ink);border-color:var(--adjective-ink);}
 
-/* A muted card keeps the skill's colour off its icon, so "unavailable"
-   reads before "which skill". */
-.screen-skill .activity-card.is-soon .activity-icon{color:var(--muted);}
+/* ==========================================================
+   THE UNAVAILABLE CARD — NEUTRAL GREY, AND IT MUST WIN.
+
+   These rules sit AFTER the per-skill block on purpose. Specificity is
+   a TIE -- .screen-skill[data-topic="verb"] .activity-card and
+   .screen-skill .activity-card.is-soon are both (0,3,0) -- so source
+   order decides. Declared earlier, the skill tint won and the Test card
+   rendered rgb(237,243,253): pixel-identical to an active card. Do not
+   move this block above the per-skill rules.
+
+   The grey is outside the blue family entirely, so "not ready" reads
+   before "which skill", and it holds against all four skill colours.
+   ========================================================== */
+.screen-skill .activity-card.is-soon{
+  background:#EEF0F4;
+  border:1px dashed #AEBCCE;
+  box-shadow:none;
+}
+.screen-skill .activity-card.is-soon .activity-icon{
+  background:#F7F8FA;
+  border-color:#C9D2DE;
+  color:#67788F;
+  opacity:1;
+}
+/* Readability stays strong: #5A6B82 on #EEF0F4 is 5.1:1. */
+.screen-skill .activity-card.is-soon .activity-name{color:#41536C;}
+.screen-skill .activity-card.is-soon .activity-line{color:#5A6B82;}
+.screen-skill .activity-card.is-soon .activity-soon{
+  background:#FFFFFF;
+  border:1px dashed #AEBCCE;
+  color:#4E5F77;
+}
 
 /* Per-skill accent on the activity screens. */
 /* ---------- 6b. LEARN: STEP LINE AND CONTENT ---------- */

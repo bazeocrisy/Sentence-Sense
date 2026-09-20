@@ -501,7 +501,7 @@
   {
    "r": "PASS",
    "name": "5.9 choice order is shuffled at render time (D-29)",
-   "detail": "7 distinct orders in 12 renders"
+   "detail": "11 distinct orders in 12 renders"
   },
   {
    "r": "PASS",
@@ -511,7 +511,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕hungry tells what kind of puppy it is. It describes the pup"
+   "detail": "✕Maya names who does the action. Look again for the word tha"
   },
   {
    "r": "PASS",
@@ -531,7 +531,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. carried tells what the puppy did, so"
+   "detail": "Let's find it together. opens tells what Maya does, so opens"
   },
   {
    "r": "PASS",
