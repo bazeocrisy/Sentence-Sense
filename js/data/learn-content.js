@@ -1,11 +1,28 @@
 /* =========================================================
-   Sentence Sense — Learn content (Build 1.1.1)
+   Sentence Sense — skill content (Build 1.4.0)
 
    THIS FILE HOLDS EDUCATIONAL CONTENT ONLY.
    No rendering, no navigation, no application logic. Every
-   definition, clue, example, Study Guide and Try It question a
-   child sees in Learn Mode lives here and nowhere else, so the
-   grammar can be audited on its own.
+   definition, clue, example, reference note and question a child
+   sees lives here and nowhere else, so the grammar can be audited
+   on its own.
+
+   Build 1.4.0 kept every word of the teaching content that earlier
+   builds audited and added six card fields per skill (see `verb`).
+   Adding a skill is a content change; no rendering code changes.
+
+   The four LEARN states read these blocks in this order:
+     WHAT IS IT?      -> definition
+     HOW DO I FIND IT? -> clue, plus the reference chips and the
+                          same-word contrast folded out of the
+                          retired Study Guide modal
+     SHOW ME          -> example
+     LET ME TRY       -> learnTry, or tryIt where a topic has one
+
+   `studyGuide` is no longer rendered as a modal. Its useful
+   sections are surfaced inside HOW DO I FIND IT as plain content;
+   the object is kept because it is the audited source of those
+   chip lists and the contrast.
 
    ---------------------------------------------------------
    SENTENCE SPEC
@@ -51,8 +68,43 @@ window.SS_LEARN_CONTENT = {
   },
 
   /* Topic order matches the strategy: verb first, then subject,
-     complete subject, predicate, nouns, adjectives. */
+     complete subject, predicate, nouns, adjectives.
+
+     Build 1.4.0: `order` is now the ARCHIVE order — every topic whose
+     teaching content exists in this file, including the two that the
+     redesign does not surface. It is no longer a navigation list. */
   order: ["verb", "subject", "complete-subject", "predicate", "noun", "adjective"],
+
+  /* Build 1.4.0 — THE FOUR HOME SKILLS, in the order Home shows them.
+     Deliberately small (brief section 6). complete-subject and predicate
+     keep all of their content below, untouched, ready to migrate when a
+     later build approves them; they are simply not routed to.
+
+     To add a fifth skill, add its key here and give its topic the six
+     card fields documented on `verb`. No rendering code changes. */
+  homeOrder: ["verb", "subject", "noun", "adjective"],
+
+  /* Build 1.4.0 — the Home hero demonstration.
+
+     The hero band reserves space for an approved photograph that has not
+     been supplied. Rather than leave a grey box that reads as a failed
+     image, the space shows the clearest possible statement of what this
+     product does: one sentence, read plainly, then the same sentence with
+     its four parts named.
+
+     It renders through the SAME component and the SAME plain-to-marked
+     pair as any teaching sentence, so it cannot drift from its own source
+     and it teaches the visual language the lessons use. It is replaced
+     outright when assets/images/sentence-sense-hero.png arrives. */
+  heroDemo: {
+    words: ["The", "curious", "student", "wrote", "a", "clear", "sentence."],
+    marks: [
+      { start: 1, end: 1, kind: "adjective", label: "ADJECTIVE" },
+      { start: 2, end: 2, kind: "subject",   label: "SUBJECT" },
+      { start: 3, end: 3, kind: "verb",      label: "VERB" },
+      { start: 6, end: 6, kind: "noun",      label: "NOUN" }
+    ]
+  },
 
   topics: {
 
@@ -64,6 +116,32 @@ window.SS_LEARN_CONTENT = {
       badge: "kicked",
       card: "Find what happens.",
       color: "verb",
+
+      /* ---- Build 1.4.0 card fields. These six drive the Home card and the
+         shared Skill screen for EVERY skill, so a new skill is content, not
+         code (brief section 20).
+
+           ask      : the child clue. One short question, shown on the Home
+                      card and again under the title on the Skill screen.
+           icon     : a key into the icon set in js/app.js. Clean vector
+                      symbols only -- never a character drawing.
+           preview  : the small preview sentence on the Home card. `start`
+                      and `end` are an inclusive word range, exactly like a
+                      `marks` entry, so the highlighted span obeys the same
+                      plain-to-marked discipline as a full teaching sentence.
+                      Named `preview`, NOT `example`: every topic already has
+                      an `example` lesson block and a duplicate key would
+                      silently overwrite it.
+           practice : "bank" -> run this topic's tryItBank.
+                      "soon" -> the honest placeholder. Never a fake.
+           test     : "soon" for every skill in 1.4.0. No Test engine exists
+                      and none is faked (brief section 17).
+         ---- */
+      ask: "What is happening?",
+      icon: "run",
+      preview: { words: ["The", "boy", "runs", "fast."], start: 2, end: 2 },
+      practice: "bank",
+      test: "soon",
 
       definition: {
         title: "What is a verb?",
@@ -100,6 +178,32 @@ window.SS_LEARN_CONTENT = {
         points: [
           "What happened? kicked.",
           "kicked is the verb because it tells what the player did."
+        ]
+      },
+
+      /* Build 1.4.0 — LET ME TRY, the closing state of the Verb LEARN lesson.
+         Learn ends with ONE guided example (brief section 12). The 20-question
+         bank below is a different activity on a different screen now: Practice.
+
+         This is deliberately named `learnTry`, not `tryIt`. Build 1.2.7 closed
+         D-33 with the rule "a topic with a bank must NOT also have a tryIt",
+         because the old single engine read both in the same step and a topic
+         carrying both had two competing sources of truth. Learn and Practice
+         are separate components in 1.4.0, so a topic legitimately needs one
+         question in Learn and a bank in Practice -- but the D-33 invariant is
+         kept literally true by giving the Learn question its own key. A topic
+         still must never carry both `tryIt` and `tryItBank`. */
+      learnTry: {
+        title: "Let me try",
+        sentence: {
+          words: ["The", "curious", "students", "studied", "the", "old", "map."]
+        },
+        question: "Which word tells what happened?",
+        choices: [
+          { text: "curious", feedback: "curious tells what kind of students they are. It describes them. Look again for the word that tells what happened." },
+          { text: "students", feedback: "students names who did the action. Ask yourself: what did the students do?" },
+          { text: "studied", correct: true, feedback: "Nice thinking! studied is the verb because it tells what the students did." },
+          { text: "map", feedback: "map names a thing in the sentence. Look again for the word that tells what happened." }
         ]
       },
 
@@ -448,6 +552,12 @@ window.SS_LEARN_CONTENT = {
       card: "Find who or what.",
       color: "subject",
 
+      ask: "Who or what?",
+      icon: "people",
+      preview: { words: ["The", "dog", "chased", "the", "ball."], start: 0, end: 1 },
+      practice: "soon",
+      test: "soon",
+
       definition: {
         title: "What is a subject?",
         text: "The subject tells who or what the sentence is about.",
@@ -721,6 +831,12 @@ window.SS_LEARN_CONTENT = {
       card: "Name a person, place, thing, or idea.",
       color: "noun",
 
+      ask: "Names a person, place, thing, or idea.",
+      icon: "book",
+      preview: { words: ["The", "cat", "sat", "on", "the", "mat."], start: 1, end: 1 },
+      practice: "soon",
+      test: "soon",
+
       definition: {
         title: "What is a noun?",
         text: "A noun names a person, place, thing, or idea.",
@@ -814,6 +930,12 @@ window.SS_LEARN_CONTENT = {
       badge: "red",
       card: "Describe a noun.",
       color: "adjective",
+
+      ask: "Describes a noun.",
+      icon: "pencil",
+      preview: { words: ["The", "loud", "dog", "barked."], start: 1, end: 1 },
+      practice: "soon",
+      test: "soon",
 
       definition: {
         title: "What is an adjective?",

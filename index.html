@@ -3,309 +3,247 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sentence Sense — Find it. Ask it. Understand it.</title>
-  <meta name="description" content="Sentence Sense helps elementary students understand how a whole sentence works: verbs, subjects, predicates, nouns, and adjectives.">
+  <title>Sentence Sense — Build stronger sentences.</title>
+  <meta name="description" content="Sentence Sense helps third-grade students understand how a sentence works: verbs, subjects, nouns and adjectives.">
+  <meta name="theme-color" content="#123A6B">
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
   <a class="skip-link" href="#main">Skip to content</a>
-  <h1 class="visually-hidden">Sentence Sense — learn how a whole sentence works</h1>
 
   <div class="app-shell" id="main">
 
-    <!-- ================= HOME (Build 1.2 portal) =================
-         PORTAL = CHOICE. This screen has one job: help the child pick a
-         mode. All teaching lives inside the modes. -->
+    <!-- ============================================================
+         HOME — CHOOSE THE SKILL FIRST.
+
+         Build 1.4.0 retired the mode-first portal. Home now shows the
+         brand, one short purpose statement, and exactly four skill
+         cards. Nothing else: no progress, no achievements, no settings,
+         no profile, no goal widget, no points, no streak.
+         ============================================================ -->
     <section class="screen screen-home" id="screen-home" aria-labelledby="home-heading" hidden>
 
-      <div class="home-decor" aria-hidden="true">
-        <span class="hd-blob hd-blob-left"></span>
-        <span class="hd-blob hd-blob-right"></span>
-        <span class="hd-hills"></span>
-      </div>
-
-      <!-- The graphical logo IS the brand name: it already reads "Sentence
-           Sense", so there is no plain-text wordmark beside it. The logo is the
-           header's anchor and the tagline is its only companion. -->
-      <header class="home-header">
-        <img class="home-logo" src="assets/images/logo.png"
-             srcset="assets/images/logo-512.png 512w, assets/images/logo.png 1024w"
-             sizes="(max-width:640px) 128px, (max-width:1180px) 150px, 178px"
-             alt="Sentence Sense" width="1024" height="768">
-        <span class="home-tagline">See how sentences work.</span>
+      <!-- The hero band. The photograph is optional by design: if
+           assets/images/sentence-sense-hero.png is absent the band falls
+           back to a clean tinted panel and Home still reads correctly.
+           See SENTENCE-SENSE-HANDOFF.md section 5. -->
+      <header class="home-hero">
+        <div class="hero-text">
+          <p class="brand">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5"
+                      fill="none" stroke="currentColor" stroke-width="1.7"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="brand-name"><span class="bn-1">Sentence</span> <span class="bn-2">Sense</span></span>
+          </p>
+          <h1 id="home-heading" class="hero-title" tabindex="-1">Build stronger sentences.</h1>
+          <p class="hero-sub">Choose a skill to start learning.</p>
+        </div>
+        <!-- The reserved image area. Until an approved photograph exists it
+             shows the product's own idea: one sentence read plainly, then the
+             same sentence with its parts named. Built by js/app.js from
+             SS_LEARN_CONTENT.heroDemo. -->
+        <div class="hero-image">
+          <div class="hero-demo" id="hero-demo"></div>
+        </div>
       </header>
 
       <div class="home-main">
-        <p class="home-eyebrow"><span>Welcome!</span></p>
-        <h2 id="home-heading" class="home-title" tabindex="-1">What would you like to do today?</h2>
-        <p class="home-sub">Choose a mode to get started.</p>
+        <h2 class="section-title">Choose a skill</h2>
 
-        <ul class="mode-grid">
-          <li class="mode-card mode-learn" data-mode="learn">
-            <span class="mode-icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M32 20c-6-5-14-6-22-4v32c8-2 16-1 22 4 6-5 14-6 22-4V16c-8-2-16-1-22 4z" fill="#FFFFFF"/><path d="M32 20v32"/><path d="M16 25h9M16 32h9M39 25h9M39 32h9" stroke-width="2.6"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
-            </span>
-            <h3 class="mode-name">Learn</h3>
-            <p class="mode-desc">Learn the parts of a sentence step by step.</p>
-            <button type="button" class="mode-btn" data-mode="learn">Start Learning <span aria-hidden="true">&rarr;</span></button>
-          </li>
-          <li class="mode-card mode-practice" data-mode="practice">
-            <span class="mode-icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M20 52l-7 2 2-7L42 20l5 5z" fill="#FFD84D"/><path d="M42 20l4-4a3.5 3.5 0 015 5l-4 4z" fill="#FF9648"/><path d="M15 47l5 5"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
-            </span>
-            <h3 class="mode-name">Practice</h3>
-            <p class="mode-desc">Build your skills with practice.</p>
-            <button type="button" class="mode-btn" data-mode="practice">Start Practicing <span aria-hidden="true">&rarr;</span></button>
-          </li>
-          <li class="mode-card mode-breakdown" data-mode="breakdown">
-            <span class="mode-icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M32 12a15 15 0 00-9 27v5h18v-5a15 15 0 00-9-27z" fill="#FFD84D"/><path d="M26 49h12M28 54h8" stroke-width="3"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
-            </span>
-            <h3 class="mode-name">Break It Down</h3>
-            <p class="mode-desc">Take a sentence apart.</p>
-            <button type="button" class="mode-btn" data-mode="breakdown">Start Breaking Down <span aria-hidden="true">&rarr;</span></button>
-          </li>
-          <li class="mode-card mode-test" data-mode="test">
-            <span class="mode-icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" focusable="false"><g fill="none" stroke="#12325B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><rect x="14" y="12" width="36" height="42" rx="5" fill="#FFFFFF"/><path d="M25 12h14v6H25z" fill="#C9B8F5"/><path d="M22 30l4 4 7-8M22 43l4 4 7-8" stroke="#2FA457" stroke-width="3.4"/><path d="M38 32h9M38 45h9" stroke-width="2.6"/></g><g class="ic-ray" stroke-linecap="round" stroke-width="4"><path d="M9 12 L4 7"/><path d="M55 12 L60 7"/><path d="M32 6 L32 1"/></g></svg>
-            </span>
-            <h3 class="mode-name">Test</h3>
-            <p class="mode-desc">See what you know.</p>
-            <button type="button" class="mode-btn" data-mode="test">Start Test <span aria-hidden="true">&rarr;</span></button>
-          </li>
-        </ul>
+        <!-- The four skill cards are built from js/data/learn-content.js
+             by js/app.js. Adding a skill is a content change. -->
+        <ul class="skill-grid" id="skill-grid"></ul>
       </div>
 
-      <p class="home-note">Better sentences.<br>A brighter you!</p>
-      <p class="home-cheer">You got this!</p>
+      <p class="home-standards">Aligned with Georgia Grade 3 ELA Standards</p>
     </section>
 
-    <!-- ================= LEARN: TOPIC SELECTION ================= -->
-    <section class="screen screen-topics" id="screen-topics" aria-labelledby="topics-heading" hidden>
-      <header class="app-header header-learn">
-        <div class="ph-brand">
-          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
-          <span class="ph-name">Sentence Sense</span>
-        </div>
-        <span class="ph-mode-tag">Learn</span>
-        <span class="ph-spacer" aria-hidden="true"></span>
-        <button type="button" class="nav-btn nav-home" id="topics-home"><span aria-hidden="true">&#127968;</span> Home</button>
+
+    <!-- ============================================================
+         SKILL — ONE SHARED SCREEN FOR ALL FOUR SKILLS.
+         Title, clue and the three activities are all filled by
+         js/app.js from content. There is no per-skill layout.
+         ============================================================ -->
+    <section class="screen screen-skill" id="screen-skill" aria-labelledby="skill-heading" data-topic="" hidden>
+      <header class="app-header">
+        <button type="button" class="nav-btn nav-back" id="skill-back">
+          <span aria-hidden="true">&larr;</span> Home
+        </button>
+        <span class="header-tag" id="skill-tag"></span>
+        <button type="button" class="nav-btn nav-home" id="skill-home">Home</button>
       </header>
 
-      <div class="topics-body">
-        <h2 id="topics-heading" class="stage-title" tabindex="-1">What do you want to learn?</h2>
-        <p class="topics-sub">Choose a topic to start learning.</p>
+      <div class="skill-body">
+        <div class="skill-intro">
+          <h2 id="skill-heading" class="skill-title" tabindex="-1"></h2>
+          <p class="skill-ask-line" id="skill-ask-line"></p>
+        </div>
 
-        <!-- Topic cards are built from js/data/learn-content.js -->
-        <div class="card-grid topic-grid" id="topic-grid"></div>
-
-        <section class="strategy-box" aria-labelledby="strategy-heading">
-          <h3 class="strategy-heading" id="strategy-heading"></h3>
-          <ol class="strategy-list" id="strategy-list"></ol>
-          <p class="strategy-note" id="strategy-note"></p>
-        </section>
+        <div class="activity-list" id="activity-list"></div>
       </div>
-
-      <footer class="activity-foot">
-        <button type="button" class="nav-btn nav-back" id="topics-back"><span aria-hidden="true">&larr;</span> Back</button>
-      </footer>
     </section>
 
-    <!-- ================= LEARN: LESSON =================
-         One lesson runner for all six topics. Its content comes
-         from js/data/learn-content.js through js/learn.js. -->
-    <section class="screen screen-lesson" id="screen-lesson" aria-labelledby="lesson-heading" data-topic="" hidden>
-      <header class="app-header header-lesson">
-        <div class="ph-brand">
-          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
-          <span class="ph-name">Sentence Sense</span>
-        </div>
-        <span class="ph-mode-tag" id="lesson-topic-tag"></span>
-        <span class="ph-spacer" aria-hidden="true"></span>
-        <button type="button" class="nav-btn guide-btn" id="lesson-guide"><span aria-hidden="true">&#128218;</span> Study Guide</button>
-        <button type="button" class="nav-btn nav-home" id="lesson-home"><span aria-hidden="true">&#127968;</span> Home</button>
+
+    <!-- ============================================================
+         LEARN — the shared four-state lesson.
+         WHAT IS IT? / HOW DO I FIND IT? / SHOW ME / LET ME TRY
+         ============================================================ -->
+    <section class="screen screen-learn" id="screen-learn" aria-labelledby="learn-heading" data-topic="" hidden>
+      <header class="app-header">
+        <button type="button" class="nav-btn nav-back" id="learn-back">
+          <span aria-hidden="true">&larr;</span> Back
+        </button>
+        <span class="header-tag" id="learn-skill-tag"></span>
+        <button type="button" class="nav-btn nav-home" id="learn-home">Home</button>
       </header>
 
-      <div class="lesson-body">
-        <ol class="lesson-progress" id="lesson-progress" aria-label="Lesson steps">
-          <li data-step="0">Definition</li>
-          <li class="lp-arrow" aria-hidden="true">&rarr;</li>
-          <li data-step="1">Clue</li>
-          <li class="lp-arrow" aria-hidden="true">&rarr;</li>
-          <li data-step="2">Example</li>
-          <li class="lp-arrow" aria-hidden="true">&rarr;</li>
-          <li data-step="3">Try It</li>
-        </ol>
+      <div class="activity-body">
+        <ol class="step-line" id="learn-steps" aria-label="Lesson steps"></ol>
 
-        <div class="stage lesson-stage">
-          <div class="lesson-step" id="lesson-step">
-            <h2 class="lesson-title" id="lesson-heading" tabindex="-1"></h2>
-            <div class="lesson-content" id="lesson-content"></div>
+        <div class="stage" id="learn-stage">
+          <h2 class="activity-title" id="learn-heading" tabindex="-1"></h2>
+          <div class="lesson-content" id="learn-content"></div>
 
-            <div class="tryit" id="tryit" hidden>
-              <!-- Build 1.2.5: guided-bank header. Shown only when the topic has a
-                   question bank; the single-question topics never see it. -->
-              <div class="tryit-head" id="tryit-head" hidden>
-                <p class="tryit-count" id="tryit-count"></p>
-                <p class="tryit-stage" id="tryit-stage"></p>
-                <p class="tryit-stage-desc" id="tryit-stage-desc"></p>
-              </div>
-              <div class="sentence-host" id="tryit-sentence"></div>
-              <p class="tryit-question" id="tryit-question"></p>
-              <div class="tryit-choices" id="tryit-choices" role="group" aria-labelledby="tryit-question"></div>
-              <p class="tryit-feedback" id="tryit-feedback" role="status" aria-live="polite" hidden></p>
-            </div>
-          </div>
-
-          <!-- Build 1.2.5: stage milestone. Encouragement between stages --
-               no score, no points, no streak. -->
-          <div class="lesson-milestone" id="lesson-milestone" hidden>
-            <p class="ms-mark" id="ms-mark" aria-hidden="true"></p>
-            <h2 class="lesson-title" id="ms-title" tabindex="-1"></h2>
-            <p class="ms-line" id="ms-line"></p>
-            <p class="ms-next" id="ms-next"></p>
-            <div class="done-buttons">
-              <button type="button" class="nav-btn next-btn" id="ms-continue">Keep Going</button>
-              <button type="button" class="nav-btn" id="ms-topics">All Topics</button>
-              <button type="button" class="nav-btn" id="ms-home"><span aria-hidden="true">&#127968;</span> Home</button>
-            </div>
-          </div>
-
-          <div class="lesson-done" id="lesson-done" hidden>
-            <p class="done-mark" aria-hidden="true">&#127881;</p>
-            <h2 class="lesson-title" id="done-title" tabindex="-1"></h2>
-            <!-- Build 1.2.3: a named badge the child earned. No points,
-                 no streak, nothing stored. -->
-            <div class="done-badge" id="done-badge"></div>
-            <p class="done-recap" id="done-recap"></p>
-            <div class="done-buttons">
-              <button type="button" class="nav-btn next-btn" id="done-next"></button>
-              <button type="button" class="nav-btn" id="done-again">Learn this again</button>
-              <button type="button" class="nav-btn" id="done-topics">All Topics</button>
-              <button type="button" class="nav-btn" id="done-home"><span aria-hidden="true">&#127968;</span> Home</button>
-            </div>
+          <div class="try-block" id="learn-try" hidden>
+            <div class="sentence-host" id="try-sentence"></div>
+            <p class="question" id="try-question"></p>
+            <div class="choices" id="try-choices" role="group" aria-labelledby="try-question"></div>
+            <p class="answer-feedback" id="try-feedback" role="status" aria-live="polite" hidden></p>
           </div>
         </div>
 
-        <div class="lesson-controls" id="lesson-controls">
-          <button type="button" class="nav-btn" id="lesson-prev"><span aria-hidden="true">&larr;</span> Back</button>
-          <button type="button" class="nav-btn next-btn" id="lesson-next">Next <span aria-hidden="true">&rarr;</span></button>
-        </div>
-      </div>
-
-      <footer class="activity-foot">
-        <button type="button" class="nav-btn nav-back" id="lesson-topics"><span aria-hidden="true">&larr;</span> All Topics</button>
-      </footer>
-    </section>
-
-    <!-- ================= LEARN: VERB MISSION (Build 1.3.0) =================
-         "Sentence Detectives" — the illustrated Verb prototype.
-
-         This screen belongs to js/mission.js and to Verb alone. The five
-         other topics never reach it: they still run the four-step lesson
-         in #screen-lesson above, whose markup is unchanged.
-
-         Almost everything inside .mission-card is built in JavaScript,
-         because the card changes shape between a worked example, a word
-         hunt, a verb swap and the recap. What stays in the HTML is the
-         furniture that must exist before any card renders: the heading
-         that receives focus on entry, the progress rail, the one primary
-         action, and the live region for coaching feedback. -->
-    <section class="screen screen-mission" id="screen-mission" aria-labelledby="mission-heading" hidden>
-      <header class="app-header header-mission">
-        <div class="ph-brand">
-          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
-          <span class="ph-name">Sentence Sense</span>
-        </div>
-        <span class="ph-mode-tag">Verb <span class="ph-tag-sub">Sentence Detectives</span></span>
-        <span class="ph-spacer" aria-hidden="true"></span>
-        <button type="button" class="nav-btn guide-btn" id="mission-guide"><span aria-hidden="true">&#128218;</span> Study Guide</button>
-        <button type="button" class="nav-btn nav-home" id="mission-home"><span aria-hidden="true">&#127968;</span> Home</button>
-      </header>
-
-      <div class="mission-body">
-        <!-- Visible progress through a short mission. Five named stops,
-             never a score, a percentage or a count of right answers. -->
-        <ol class="mission-rail" id="mission-rail" aria-label="Mission steps"></ol>
-
-        <div class="mission-stage">
-          <h2 class="mission-title" id="mission-heading" tabindex="-1"></h2>
-          <div class="mission-card" id="mission-card"></div>
+        <div class="controls" id="learn-controls">
+          <button type="button" class="nav-btn" id="learn-prev">
+            <span aria-hidden="true">&larr;</span> Back
+          </button>
+          <button type="button" class="btn btn-next" id="learn-next">Next</button>
         </div>
 
-        <!-- ONE primary action. Its label always says what it will do. -->
-        <div class="mission-controls" id="mission-controls">
-          <div class="mission-extra" id="mission-extra" hidden></div>
-          <p class="mission-hint" id="mission-hint" hidden></p>
-          <div class="mission-buttons">
-            <button type="button" class="nav-btn" id="mission-prev"><span aria-hidden="true">&larr;</span> Back</button>
-            <button type="button" class="nav-btn next-btn" id="mission-next"></button>
+        <div class="done-panel" id="learn-done" hidden>
+          <p class="done-mark" aria-hidden="true">&#127881;</p>
+          <h2 class="done-title" id="learn-done-title" tabindex="-1"></h2>
+          <p class="done-recap" id="learn-done-recap"></p>
+          <div class="done-buttons">
+            <button type="button" class="btn btn-next" id="learn-done-practice"></button>
+            <button type="button" class="nav-btn" id="learn-done-again">Learn this again</button>
+            <button type="button" class="nav-btn" id="learn-done-skill">Back to skill</button>
+            <button type="button" class="nav-btn" id="learn-done-home">Home</button>
           </div>
         </div>
       </div>
-
-      <footer class="activity-foot">
-        <button type="button" class="nav-btn nav-back" id="mission-topics"><span aria-hidden="true">&larr;</span> All Topics</button>
-      </footer>
     </section>
 
-    <!-- ================= MODE DESTINATION =================
-         One shared destination screen. Its title, colour and text come
-         from the MODES config in js/app.js, so each learning engine can
-         replace its own section later without touching this shell. -->
-    <section class="screen screen-mode" id="screen-mode" aria-labelledby="mode-heading" data-mode="" hidden>
-      <header class="app-header header-mode">
-        <div class="ph-brand">
-          <span class="ph-mark" aria-hidden="true"><span class="ph-mark-glyph">S</span></span>
-          <span class="ph-name">Sentence Sense</span>
-        </div>
-        <span class="ph-mode-tag" id="mode-tag"></span>
-        <span class="ph-spacer" aria-hidden="true"></span>
-        <button type="button" class="nav-btn nav-home" id="mode-home"><span aria-hidden="true">&#127968;</span> Home</button>
+
+    <!-- ============================================================
+         PRACTICE — the shared question engine.
+         A skill reaches this screen only if its content carries a
+         question bank. Everything inside is filled by js/practice.js.
+         ============================================================ -->
+    <section class="screen screen-practice" id="screen-practice" aria-labelledby="practice-heading" data-topic="" hidden>
+      <header class="app-header">
+        <button type="button" class="nav-btn nav-back" id="practice-back">
+          <span aria-hidden="true">&larr;</span> Back
+        </button>
+        <span class="header-tag" id="practice-skill-tag"></span>
+        <button type="button" class="nav-btn nav-home" id="practice-home">Home</button>
       </header>
 
-      <div class="mode-body">
-        <div class="stage mode-stage">
-          <p class="mode-stage-icon" id="mode-icon" aria-hidden="true"></p>
-          <h2 id="mode-heading" class="stage-title" tabindex="-1"></h2>
-          <p class="coming-soon">Coming in a future build.</p>
-          <p class="coming-note" id="mode-note"></p>
+      <div class="activity-body">
+
+        <div id="practice-stage-wrap">
+          <div class="practice-head">
+            <p class="practice-count" id="practice-count"></p>
+            <p class="practice-stage" id="practice-stage"></p>
+            <p class="practice-stage-desc" id="practice-stage-desc"></p>
+            <div class="practice-track"><span class="practice-bar" id="practice-bar"></span></div>
+          </div>
+
+          <div class="stage">
+            <h2 class="activity-title question-title" id="practice-heading" tabindex="-1"></h2>
+            <div class="sentence-host" id="practice-sentence"></div>
+            <div class="choices" id="practice-choices" role="group" aria-labelledby="practice-heading"></div>
+            <p class="answer-feedback" id="practice-feedback" role="status" aria-live="polite" hidden></p>
+          </div>
+        </div>
+
+        <div class="controls" id="practice-controls">
+          <button type="button" class="nav-btn" id="practice-clue">Need a clue?</button>
+          <button type="button" class="btn btn-next" id="practice-next">Next</button>
+        </div>
+
+        <div class="done-panel" id="practice-milestone" hidden>
+          <p class="done-mark" id="pm-mark" aria-hidden="true"></p>
+          <h2 class="done-title" id="pm-title" tabindex="-1"></h2>
+          <p class="done-recap" id="pm-line"></p>
+          <p class="done-next" id="pm-next"></p>
+          <div class="done-buttons">
+            <button type="button" class="btn btn-next" id="pm-continue">Keep going</button>
+            <button type="button" class="nav-btn" id="pm-skill">Back to skill</button>
+            <button type="button" class="nav-btn" id="pm-home">Home</button>
+          </div>
+        </div>
+
+        <div class="done-panel" id="practice-done" hidden>
+          <p class="done-mark" aria-hidden="true">&#127881;</p>
+          <h2 class="done-title" id="practice-done-title" tabindex="-1"></h2>
+          <p class="done-recap" id="practice-done-recap"></p>
+          <div class="done-buttons">
+            <button type="button" class="btn btn-next" id="practice-done-again">Practise again</button>
+            <button type="button" class="nav-btn" id="practice-done-skill">Back to skill</button>
+            <button type="button" class="nav-btn" id="practice-done-home">Home</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         COMING NEXT — the honest placeholder.
+         Used by Practice for skills with no approved bank, and by Test
+         for every skill. It never imitates the activity it stands in
+         for, and it always offers the thing that does exist.
+         ============================================================ -->
+    <section class="screen screen-soon" id="screen-soon" aria-labelledby="soon-heading" data-topic="" hidden>
+      <header class="app-header">
+        <button type="button" class="nav-btn nav-back" id="soon-back">
+          <span aria-hidden="true">&larr;</span> Back
+        </button>
+        <span class="header-tag" id="soon-tag"></span>
+        <button type="button" class="nav-btn nav-home" id="soon-home">Home</button>
+      </header>
+
+      <div class="activity-body">
+        <div class="stage soon-stage">
+          <h2 class="activity-title" id="soon-heading" tabindex="-1"></h2>
+          <p class="soon-note" id="soon-note"></p>
+          <div class="done-buttons">
+            <button type="button" class="btn btn-next" id="soon-learn"></button>
+          </div>
         </div>
       </div>
-
-      <footer class="activity-foot">
-        <button type="button" class="nav-btn nav-back" id="mode-back"><span aria-hidden="true">&larr;</span> Back</button>
-      </footer>
     </section>
 
     <p class="build-badge" id="build-badge" aria-label="Application version"></p>
 
   </div>
 
-  <!-- Study Guide panel: contextual to a Learn topic, never a home mode. -->
-  <div class="guide-overlay" id="guide-overlay" hidden>
-    <div class="guide-panel" id="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
-      <div class="guide-head">
-        <h2 class="guide-title" id="guide-title" tabindex="-1"></h2>
-        <button type="button" class="nav-btn" id="guide-close">Close <span aria-hidden="true">&#10005;</span></button>
-      </div>
-      <div class="guide-body" id="guide-body" tabindex="0"></div>
-    </div>
-  </div>
-
+  <!-- Load order matters. Content, then the shared sentence renderer the
+       components depend on, then the two activity components, then the
+       shell -- js/app.js calls init() on both and must load last. -->
   <script src="js/data/learn-content.js"></script>
-  <!-- Build 1.3.0 — the Verb mission. Three additive files: original
-       inline-SVG artwork, the mission's own content, and its engine.
-       They must load before js/app.js, which calls SS_MISSION.init(). -->
-  <script src="js/scenes.js"></script>
-  <script src="js/data/mission-verb.js"></script>
+  <script src="js/sentence.js"></script>
   <script src="js/learn.js"></script>
-  <script src="js/mission.js"></script>
+  <script src="js/practice.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

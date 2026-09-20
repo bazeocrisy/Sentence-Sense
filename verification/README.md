@@ -1,80 +1,58 @@
-# Verification — Build 1.3.0
+# Sentence Sense — verification harness (Build 1.4.0)
 
-Testing evidence for the Verb "Sentence Detectives" prototype.
-See `../AUDIT-REPORT-Build-1.3.0.md` for the full write-up.
+Two files. Neither is part of the site; nothing in `index.html` loads them.
 
-## Contents
-
-| Path | What it is |
+| File | Role |
 |---|---|
-| `missionguard.js` | The harness. 114 checks driving real Chrome through `puppeteer-core`. |
-| `serve.js` | Minimal static file server, so the app is tested over HTTP rather than `file://`. |
-| `results.json` | Raw machine-readable output: every check name, PASS/FAIL and detail. |
-| `responsive-matrix.json` | 56 measurements — 14 viewports × 4 card shapes. Scroll height, fold overhang, whether content straddles the fold, sentence row count, rendered font size, header→rail gap. |
-| `screenshots/` | 33 captures at three form factors, plus regression shots of the untouched screens. |
+| `serve.js` | Minimal static server for the harness |
+| `guard.js`  | The Build 1.4.0 audit harness — 199 checks |
 
-## Result
-
-**114 checks, 114 passing, 0 failing.**
-
-| Responsive measure | Result |
-|---|---|
-| Horizontal overflow | 0 of 56 samples |
-| False-bottom states | **0** |
-| Below-fold primary action | 8 of 56 — all phones, all with visible continuation |
-| Desktop / laptop / tablet (≥1024×600) | 0 below-fold |
-| Header→rail gap | 14px, constant at every viewport |
-| Non-monotonic width pairs | 0 |
-
-All measurements and screenshots were taken with the **real Baloo 2 and Nunito
-webfonts loaded** (`document.fonts.status = "loaded"`), which closes standing
-limitation L-01 for this build.
-
-## Re-running it
-
-Needs Node and Chrome. `puppeteer-core` is not vendored — install it anywhere and
-point `NODE_PATH` at it, or `npm i puppeteer-core` in a scratch directory and run
-from there. The harness expects Chrome at
-`C:\Program Files\Google\Chrome\Application\chrome.exe`; edit the `CHROME`
-constant if yours is elsewhere.
+## Run
 
 ```powershell
-# terminal 1 — serve the repo
-node verification/serve.js . 8347
-
-# terminal 2 — run the checks and write fresh screenshots
-node verification/missionguard.js ./out
+cd C:\Sentence-Sense
+node verification/serve.js . 8347      # terminal 1
+node verification/guard.js ./out       # terminal 2
 ```
 
-Exit code is 0 when everything passes, 1 when any check fails, 2 if the harness
-itself errors.
+`guard.js` needs **puppeteer-core** and a local **Chrome**. Neither is a project
+dependency: the shipped site has no package manifest and no build system. Install
+puppeteer-core outside the repository and point at it:
 
-## What the screenshots show
+```powershell
+$env:PUPPETEER = "C:\somewhere\node_modules\puppeteer-core"
+$env:CHROME    = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+$env:BASE      = "http://127.0.0.1:8347/"
+```
 
-`desktop-*` is 1440×900, `laptop-short-*` is 1366×768, `phone-*` is 390×844.
+Output: `<out>/results.json`, `<out>/responsive.json`, `<out>/screenshots/`.
+Exit code is 0 only when every check passes.
 
-The numbered sequence walks the mission in order: briefing → watch (before and
-after the reveal) → find (including a wrong answer, so the teaching feedback is
-visible) → explore (empty, verb A, verb B) → solve (no picture, then the "why"
-question) → extend (being verb model and practice, verb phrase taught, asked,
-partial, complete) → case closed → study guide.
+## What it guards
 
-Four regression captures show screens this build did not touch:
-`desktop-23-home-unchanged`, `desktop-24-topics-unchanged`,
-`desktop-25-noun-lesson-unchanged`, and
-`desktop-26-classic-verb-bank-still-works` — the original 20-question bank
-reached through `?verb=classic`.
+1. load integrity and the build number
+2. Home: exactly four skills, and none of the forbidden furniture
+3. the shared Skill screen, across all four skills
+4. Verb LEARN, all four states
+5. Verb PRACTICE: 20 questions, 4 stages, both shuffles
+6. feedback escalation and the third-attempt reveal
+7. mission retirement and query-route removal
+8. state leakage between skills and between entries
+9. keyboard, focus and accessibility
+10. the plain to marked exact-match rule, including stranded punctuation
+11. responsive: 9 viewports, overflow, false bottoms, tiny type
 
-`desktop-22-reduced-motion-watch` is the same reveal with
-`prefers-reduced-motion: reduce` emulated: no replay button, no animation, and
-the teaching intact.
+## Harness rules learned the hard way
 
-## Note on scope
-
-These checks cover the mission and the regression surface around it. The
-pre-1.3.0 harnesses (`bankguard.js`, `respguard.js`, `stateguard.js`, `bank.js`,
-`func.js`, `q20.js`, `exact.js`, `checks.js`, `place.js`) are described in the
-handoff as living outside the project and are **not in this repository**, so they
-could not be run. `missionguard.js` reimplements respguard's CSS lint rule and
-place.js's header→rail gap rule, but it is not a substitute for running the
-originals.
+- **Choice buttons are shuffled.** Select by `dataset.ci`, never by position and
+  never by rendered text.
+- **`.ss-words` is `align-items:flex-end`**, so a marked chip and a plain word
+  have different `top` values on one visual line. Count row wraps by BOTTOMS.
+- **Do not force-enable an advance button** to jump to a later state. That skips
+  the state the next screen depends on. Walk the product.
+- **Measure focus through the keyboard.** A programmatic `.focus()` does not
+  reliably match `:focus-visible`. The first version of check 9.6 used one and
+  passed a button that had no visible focus ring at all. A test that cannot fail
+  is not evidence.
+- **`serve.js` needs an absolute ROOT.** Fixed in 1.4.0 — it previously returned
+  403 for every request under its own documented command.

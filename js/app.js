@@ -1,74 +1,94 @@
 /* =========================================================
-   Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.3.0 — SHELL + HOME PORTAL + LEARN MODE ROUTING.
+   Sentence Sense — shell (Build 1.4.0)
 
    Every approved push increments this visible build number so the live
    GitHub Pages site can be verified after it refreshes.
 
-   This file remains the shell: it shows one screen at a time and
-   owns Home / Back / Escape. Learn Mode itself lives in js/learn.js
-   and its content in js/data/learn-content.js.
+   THE PRODUCT MODEL, AS OF 1.4.0
+   ------------------------------
+   ONE SCREEN. ONE SKILL. ONE OBVIOUS THING TO DO.
 
-   What this file does:
-     - shows one screen at a time (home, mode destination)
-     - carries the four approved modes in a single MODES config
-     - handles Back / Home navigation and focus
-     - stamps the build number in the footer badge
+   Build 1.3.0 asked the child to choose a MODE first (Learn, Practice,
+   Break It Down, Test) and then a topic. That is retired. The child now
+   chooses the SKILL first:
 
-   What this file deliberately does NOT do:
-     - no lesson, practice, break-it-down or test engine
-     - no sentence content, answer keys or scoring
-     - no storage, no network calls, no external services
+     HOME -> SKILL -> LEARN | PRACTICE | TEST -> ACTIVITY
 
-   Architecture note for later builds: educational content will live
-   in its own data module (planned: js/data/), separate from this
-   shell, so sentences and answer keys can be audited on their own.
-   No content exists in Build 1.0.
+   Difficulty comes from the SENTENCE, never from the interface.
+
+   WHAT THIS FILE OWNS
+     - the four Home skill cards, built from content
+     - the shared Skill screen, used by all four skills
+     - screen switching, Home / Back, Escape
+     - the "coming next" placeholder, used honestly
+     - the four skill icons (clean vector symbols, never characters)
+     - the build badge
+
+   WHAT IT DELIBERATELY DOES NOT OWN
+     - no lesson, question, answer or feedback text -- all of that lives
+       in js/data/learn-content.js
+     - no storage, no network calls, no external services, no accounts,
+       no score, no timer, no streak
    ========================================================= */
 
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.3.0";
+  const BUILD_NUMBER = "Build 1.4.0";
 
-  /* ---------- Approved modes (home screen shows exactly these four) ---------- */
-  /* Build 1.1: "learn" is no longer a placeholder — the Learn card now
-     opens the Learn topic screen. The other three are unchanged. */
-  const MODES = {
-    practice: {
-      tag: "Practice",
-      icon: "✏️",
-      title: "Practice",
-      note: "Practice will let you work on one sentence skill at a time, with help when you need it."
-    },
-    breakdown: {
-      tag: "Break It Down",
-      icon: "🔍",
-      title: "Break It Down",
-      note: "Break It Down will take one whole sentence apart with you, step by step, so you can see how all the parts work together."
-    },
-    test: {
-      tag: "Test",
-      icon: "🏆",
-      title: "Test",
-      note: "Test will let you answer sentence questions on your own, with no hints, and then show you how you did."
-    }
-  };
-
-  /* Build 1.3.0: "mission" is the Verb prototype's own screen. Adding it
-     here is all the shell needs to know about it -- showScreen() hides
-     every other screen by name, so an unregistered screen would stay
-     visible underneath the one being opened. */
-  const SCREENS = ["home", "topics", "lesson", "mission", "mode"];
+  const C = window.SS_LEARN_CONTENT;
+  const S = window.SS_SENTENCE;
+  const make = S.make;
+  const clear = S.clear;
   const el = id => document.getElementById(id);
 
-  /* ---------- State ---------- */
+  const SCREENS = ["home", "skill", "learn", "practice", "soon"];
+
   const state = {
-    screen: "home",   // "home" | "topics" | "lesson" | "mode"
-    mode: null        // null | a key of MODES
+    screen: "home",   // one of SCREENS
+    skill: null       // null, or a key of C.topics
   };
 
-  /* ---------- Screen switching ---------- */
+  /* =========================================================
+     ICONS
+     Clean vector symbols only: a motion mark, a group of figures, an
+     open book, a pencil. These are SYMBOLS, not character drawings --
+     no faces, no mascots, no stick people. Each is decorative; the
+     skill is always named in text beside it.
+     ========================================================= */
+  const ICONS = {
+    /* Verb is MOTION, not a person. An earlier pass drew a running figure
+       here; at 24px it read as a stick person, which this product does not
+       do anywhere. An arrow leaving speed lines says "something is
+       happening" without drawing anybody. */
+    run: 'M4 12h12 M11.5 7.2 16.8 12l-5.3 4.8 M3 7.4h4.6 M2 16.6h4.6 M19.4 9.2v5.6 M22 10.6v2.8',
+    people: 'M12 11.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2z M5.6 12.4a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.4 12.4a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M6.4 19.5c0-3.1 2.5-5.4 5.6-5.4s5.6 2.3 5.6 5.4 M1.8 18.2c0-2.3 1.5-4 3.8-4.2 M22.2 18.2c0-2.3-1.5-4-3.8-4.2',
+    book: 'M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5',
+    pencil: 'M7.3 19.4 3 20.9l1.4-4.3L16.2 4.8l3 3zM16.2 4.8l2-2a2.1 2.1 0 0 1 3 3l-2 2M4.4 16.6l3 2.8'
+  };
+
+  function iconNode(key) {
+    const span = make("span", "skill-icon");
+    span.setAttribute("aria-hidden", "true");
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("focusable", "false");
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", ICONS[key] || ICONS.book);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "currentColor");
+    path.setAttribute("stroke-width", "1.7");
+    path.setAttribute("stroke-linecap", "round");
+    path.setAttribute("stroke-linejoin", "round");
+    svg.appendChild(path);
+    span.appendChild(svg);
+    return span;
+  }
+
+  /* =========================================================
+     SCREENS
+     ========================================================= */
   function showScreen(name) {
     SCREENS.forEach(s => {
       const node = el("screen-" + s);
@@ -78,83 +98,227 @@
     window.scrollTo(0, 0);
   }
 
-  /* Build 1.1.1 (D-07): Home used to leave keyboard focus on a button inside
-     the screen it had just hidden. It now moves focus to the Home heading,
-     matching what the Learn screens already do on entry. `moveFocus` is
-     false on the initial call from init(), so nothing steals focus on load. */
+  /* `moveFocus` is false on the initial call from init(), so nothing
+     steals focus on load. Otherwise Home moves focus to its heading
+     rather than leaving it on a button inside a screen just hidden. */
   function goHome(moveFocus) {
-    state.mode = null;
-    el("screen-mode").dataset.mode = "";
-    if (window.SS_LEARN) window.SS_LEARN.closeGuide();
-    if (window.SS_MISSION) window.SS_MISSION.stopSpeech();
+    state.skill = null;
     showScreen("home");
     if (moveFocus !== false) el("home-heading").focus();
   }
 
-  function openMode(key) {
-    /* Build 1.1: Learn has a real destination now. */
-    if (key === "learn") { window.SS_LEARN.openTopics(); return; }
-
-    const mode = MODES[key];
-    if (!mode) return;
-
-    state.mode = key;
-    el("screen-mode").dataset.mode = key;
-    el("mode-tag").textContent = mode.tag;
-    el("mode-icon").textContent = mode.icon;
-    el("mode-heading").textContent = mode.title;
-    el("mode-note").textContent = mode.note;
-
-    showScreen("mode");
-    // Move focus to the new screen's heading so keyboard and screen-reader
-    // users land where the sighted user is looking.
-    el("mode-heading").focus();
+  /* =========================================================
+     HOME — exactly four skill cards, built from content.
+     The card is a container; the BUTTON is the only control, so there
+     is exactly one tab stop and one click target per skill and the
+     child learns a single rule: "I press this button to start."
+     ========================================================= */
+  /* The hero demonstration. Rendered through the shared component from
+     content, so the plain pass and the marked pass cannot drift apart --
+     the same guarantee every teaching sentence gets. Purely presentational:
+     it is not a control and carries nothing a child must act on. */
+  function buildHero() {
+    const host = el("hero-demo");
+    if (!host || !C.heroDemo) return;
+    clear(host);
+    S.renderTeachingSentence(host, C.heroDemo);
   }
 
-  /* ---------- Build badge ---------- */
+  function buildHome() {
+    buildHero();
+
+    const grid = el("skill-grid");
+    clear(grid);
+
+    C.homeOrder.forEach(key => {
+      const t = C.topics[key];
+      if (!t) return;
+
+      const card = make("li", "skill-card skill-" + t.color);
+
+      const head = make("div", "skill-card-head");
+      head.appendChild(iconNode(t.icon));
+      head.appendChild(make("h3", "skill-name", t.name));
+      card.appendChild(head);
+
+      card.appendChild(make("p", "skill-ask", t.ask));
+
+      const preview = make("div", "skill-preview");
+      S.renderPreview(preview, t.preview, t.color);
+      card.appendChild(preview);
+
+      const btn = make("button", "btn btn-start");
+      btn.type = "button";
+      btn.dataset.skill = key;
+      btn.appendChild(make("span", "btn-label", "Start"));
+      const arrow = make("span", "btn-arrow", "→");
+      arrow.setAttribute("aria-hidden", "true");
+      btn.appendChild(arrow);
+      /* The visible label is just "Start", which is right for a child
+         reading one card. A screen reader hears every button on the
+         screen in a row, so each needs to name its own skill. */
+      btn.setAttribute("aria-label", "Start " + t.name + ". " + t.ask);
+      btn.addEventListener("click", () => openSkill(key));
+      card.appendChild(btn);
+
+      grid.appendChild(card);
+    });
+  }
+
+  /* =========================================================
+     SKILL SCREEN — one component, all four skills.
+     Learn / Practice / Test. Test is shown so the structure is clear,
+     and says honestly that it is coming next. It is never faked and
+     never a second copy of Practice.
+     ========================================================= */
+  const ACTIVITIES = [
+    { key: "learn",    name: "Learn",    line: "Show me how" },
+    { key: "practice", name: "Practice", line: "Let me try with help" },
+    { key: "test",     name: "Test",     line: "Let me do it myself" }
+  ];
+
+  function activityReady(topic, key) {
+    if (key === "learn") return true;
+    if (key === "practice") return topic.practice === "bank";
+    return false;   /* no Test engine exists in 1.4.0 */
+  }
+
+  function openSkill(key) {
+    const t = C.topics[key];
+    if (!t) return;
+    state.skill = key;
+
+    el("screen-skill").dataset.topic = t.color;
+    el("skill-heading").textContent = t.name;
+    el("skill-ask-line").textContent = t.ask;
+    el("skill-tag").textContent = t.name;
+
+    const host = el("activity-list");
+    clear(host);
+
+    ACTIVITIES.forEach(a => {
+      const ready = activityReady(t, a.key);
+      const btn = make("button", "activity-btn" + (ready ? "" : " is-soon"));
+      btn.type = "button";
+      btn.dataset.activity = a.key;
+
+      const textCol = make("span", "activity-text");
+      textCol.appendChild(make("span", "activity-name", a.name));
+      textCol.appendChild(make("span", "activity-line", a.line));
+      btn.appendChild(textCol);
+
+      if (ready) {
+        const arrow = make("span", "activity-arrow", "→");
+        arrow.setAttribute("aria-hidden", "true");
+        btn.appendChild(arrow);
+        btn.setAttribute("aria-label", a.name + " " + t.name + ". " + a.line);
+      } else {
+        /* An honest label, written where the child reads -- not only in
+           the placeholder screen they reach after pressing. */
+        btn.appendChild(make("span", "activity-soon", "Coming next"));
+        btn.setAttribute("aria-label", a.name + " " + t.name + ". Coming next.");
+      }
+
+      btn.addEventListener("click", () => openActivity(key, a.key));
+      host.appendChild(btn);
+    });
+
+    showScreen("skill");
+    el("skill-heading").focus();
+  }
+
+  /* =========================================================
+     ACTIVITY ROUTING
+     ========================================================= */
+  function openActivity(skillKey, activityKey) {
+    const t = C.topics[skillKey];
+    if (!t) return;
+    state.skill = skillKey;
+
+    if (activityKey === "learn") {
+      window.SS_LEARN.start(skillKey);
+      return;
+    }
+
+    if (activityKey === "practice" && window.SS_PRACTICE.hasBank(skillKey)) {
+      window.SS_PRACTICE.start(skillKey);
+      return;
+    }
+
+    showSoon(skillKey, activityKey);
+  }
+
+  /* The honest placeholder. It says what is missing and offers the thing
+     that does exist, rather than pretending or dead-ending. */
+  function showSoon(skillKey, activityKey) {
+    const t = C.topics[skillKey];
+    const isTest = (activityKey === "test");
+
+    el("screen-soon").dataset.topic = t.color;
+    el("soon-tag").textContent = t.name;
+    el("soon-heading").textContent = isTest
+      ? "Test mode is coming next."
+      : "Practice for this skill is coming next.";
+    el("soon-note").textContent = isTest
+      ? "When it is ready, Test will let you find " + t.name.toLowerCase() +
+        "s on your own, with no hints."
+      : "When it is ready, Practice will give you " + t.name.toLowerCase() +
+        " questions with help whenever you need it.";
+
+    /* Learn always exists, so there is always a real next step. */
+    const toLearn = el("soon-learn");
+    toLearn.textContent = "Learn " + t.name;
+
+    showScreen("soon");
+    el("soon-heading").focus();
+  }
+
+  /* =========================================================
+     BUILD BADGE
+     ========================================================= */
   function renderBuildBadge() {
     el("build-badge").textContent = "Sentence Sense — " + BUILD_NUMBER;
   }
 
-  /* ---------- Init ---------- */
+  /* =========================================================
+     INIT
+     ========================================================= */
   function init() {
-    /* Build 1.2 home portal — ONE interaction model, not two.
-       The button inside each card is the only navigation control. The card is
-       a plain container: no click handler, not focusable, no role="button".
-       That gives exactly one tab stop and one click target per mode, so the
-       child learns a single rule: "I press this button to start." */
-    Array.from(document.querySelectorAll(".mode-grid .mode-btn")).forEach(btn => {
-      btn.addEventListener("click", () => openMode(btn.dataset.mode));
-    });
+    buildHome();
+    renderBuildBadge();
 
-    /* Wrapped so the click Event is never passed as goHome's argument. */
-    el("mode-back").addEventListener("click", () => goHome());
-    el("mode-home").addEventListener("click", () => goHome());
+    el("skill-back").addEventListener("click", () => goHome());
+    el("skill-home").addEventListener("click", () => goHome());
 
-    /* Escape steps back one level: it closes the Study Guide first, then
-       leaves a lesson for the topic list, then returns Home. */
+    el("soon-back").addEventListener("click",
+      () => openSkill(state.skill));
+    el("soon-home").addEventListener("click", () => goHome());
+    el("soon-learn").addEventListener("click",
+      () => openActivity(state.skill, "learn"));
+
+    /* Escape steps back one level: an activity returns to its skill,
+       a skill returns Home. */
     document.addEventListener("keydown", e => {
       if (e.key !== "Escape") return;
-      if (window.SS_LEARN && window.SS_LEARN.guideIsOpen()) { window.SS_LEARN.closeGuide(); return; }
-      /* Build 1.3.0: the mission steps back to the topic list exactly as a
-         lesson does, and stops any read-aloud on the way out so a sentence
-         is not still being spoken over the next screen. */
-      if (state.screen === "mission") {
-        if (window.SS_MISSION) window.SS_MISSION.stopSpeech();
-        window.SS_LEARN.openTopics();
+      if (state.screen === "learn" || state.screen === "practice" ||
+          state.screen === "soon") {
+        openSkill(state.skill);
         return;
       }
-      if (state.screen === "lesson") { window.SS_LEARN.openTopics(); return; }
-      if (state.screen === "topics" || state.screen === "mode") goHome();
+      if (state.screen === "skill") goHome();
     });
 
-    /* The shell exposes only what Learn Mode needs: screen switching
-       and Home. Learn owns everything inside its own screens. */
-    window.SS_SHELL = { showScreen, goHome };
-    if (window.SS_LEARN) window.SS_LEARN.init();
-    if (window.SS_MISSION) window.SS_MISSION.init();
+    /* The shell exposes only what the activity components need. */
+    window.SS_SHELL = {
+      showScreen: showScreen,
+      goHome: goHome,
+      openSkill: openSkill,
+      openActivity: openActivity
+    };
 
-    renderBuildBadge();
+    if (window.SS_LEARN) window.SS_LEARN.init();
+    if (window.SS_PRACTICE) window.SS_PRACTICE.init();
+
     goHome(false);
   }
 
@@ -162,11 +326,12 @@
 
   /* ---------- Audit hook (read-only, development) ---------- */
   window.__sentenceSense = {
-    BUILD_NUMBER,
-    state,
-    MODES,
-    openMode,
-    goHome,
-    showScreen
+    BUILD_NUMBER: BUILD_NUMBER,
+    state: state,
+    SCREENS: SCREENS,
+    openSkill: openSkill,
+    openActivity: openActivity,
+    goHome: goHome,
+    showScreen: showScreen
   };
 })();
