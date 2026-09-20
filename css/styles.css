@@ -568,98 +568,150 @@ img{max-width:100%;}
 
 
 /* ---------- 6. SKILL SCREEN ---------- */
-.skill-intro{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-card);
-  padding:20px 18px;
-  border-left:5px solid var(--navy);
-}
-.skill-title{font-size:1.85rem;font-weight:800;color:var(--navy-deep);}
-.skill-ask-line{color:var(--muted);font-size:1.08rem;margin-top:4px;}
+/* The skill screen is a smaller Home: the same wordmark, the same card
+   shapes, the same button, and the skill's own colour carried over from
+   the card the child just pressed. It should feel like the same product,
+   not a plain menu. */
 
-.activity-list{display:flex;flex-direction:column;gap:12px;}
+.header-brand{justify-content:space-between;}
+.brand-sm{margin-bottom:0;gap:9px;}
+.brand-sm .brand-mark{width:30px;height:30px;flex:0 0 30px;}
+.brand-sm .brand-name{font-size:1.06rem;line-height:1;}
 
-.activity-btn{
+/* --- The skill's identity, carried over from its Home card --- */
+.skill-hero{
   display:flex;
+  flex-direction:column;
   align-items:center;
+  gap:8px;
+  text-align:center;
+  padding:20px 18px;
+  border-radius:var(--radius-lg);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-card);
+  background:var(--card);
+}
+.sh-glyph{
+  width:74px;height:74px;
+  border-radius:var(--radius-lg);
+  background:var(--card);
+  border:1px solid var(--line);
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.sh-glyph svg{width:42px;height:42px;}
+.skill-title{font-size:2rem;font-weight:800;color:var(--navy-deep);}
+.skill-ask-line{color:var(--muted);font-size:1.08rem;}
+
+/* --- The three activity cards --- */
+/* Phone: stacked. Desktop: three equal columns. The same three cards and
+   the same words at every width. */
+.activity-grid{
+  display:grid;
+  grid-template-columns:1fr;
   gap:14px;
-  width:100%;
-  min-height:76px;
-  padding:16px 18px;
+}
+
+.activity-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  text-align:center;
+  padding:22px 18px;
   background:var(--card);
   border:1px solid var(--line);
   border-radius:var(--radius-lg);
   box-shadow:var(--shadow-card);
-  cursor:pointer;
-  text-align:left;
-  font-family:var(--font-body);
-  transition:box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  transition:box-shadow .15s ease, transform .15s ease;
 }
-.activity-btn:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);}
+.activity-card:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);}
 
-.activity-text{display:flex;flex-direction:column;gap:2px;margin-right:auto;}
-.activity-name{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:1.2rem;
-  color:var(--navy-deep);
-}
-.activity-line{color:var(--muted);font-size:0.97rem;}
-
-.activity-arrow{
-  font-size:1.3rem;
-  color:var(--navy);
-  flex:0 0 auto;
-}
-
-/* The honest placeholder, written where the child reads -- not hidden
-   behind a press. It is visibly quieter than a real activity, and it
-   never imitates one. */
-.activity-btn.is-soon{
-  background:var(--line-soft);
-  box-shadow:none;
-  border-style:dashed;
-}
-.activity-btn.is-soon:hover{transform:none;box-shadow:none;}
-.activity-btn.is-soon .activity-name{color:var(--muted);}
-.activity-soon{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:0.78rem;
-  letter-spacing:0.07em;
-  text-transform:uppercase;
-  color:var(--muted);
+.activity-icon{
+  width:60px;height:60px;flex:0 0 60px;
+  border-radius:var(--radius-md);
   background:var(--card);
   border:1px solid var(--line);
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.activity-icon svg{width:34px;height:34px;}
+
+.activity-name{font-size:1.4rem;font-weight:800;color:var(--navy-deep);}
+/* A fixed min-height so the three buttons line up across the row even
+   though the explanations are different lengths. */
+.activity-line{color:var(--muted);font-size:1rem;min-height:1.6em;}
+
+.btn-activity{width:100%;margin-top:auto;font-size:1.05rem;}
+
+/* --- An activity with no engine yet --- */
+/* Visibly unavailable: muted ground, dashed edge, no lift on hover, and a
+   written "Coming next" that is NOT a control. Nothing here is pressable,
+   because pressing it would go nowhere. */
+/* The unavailable card stays NEUTRAL even though its siblings carry the
+   skill tint, so "not ready" reads before "which skill". */
+.screen-skill .activity-card.is-soon{
+  /* A clearly NEUTRAL grey, not the skill tint, and a visible dashed edge.
+     The first version used --line-soft, which is within a few points of
+     the verb tint, so the unavailable card read as just another blue card. */
+  background:#EFF1F5;
+  border:1px dashed #B9C5D6;
+  box-shadow:none;
+}
+.activity-card.is-soon:hover{transform:none;box-shadow:none;}
+.activity-card.is-soon .activity-icon{background:transparent;color:var(--muted);opacity:0.7;}
+.activity-card.is-soon .activity-name{color:var(--muted);}
+
+.activity-soon{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:auto;
+  padding:12px 18px;
+  min-height:var(--tap);
   border-radius:var(--radius-pill);
-  padding:6px 12px;
+  background:var(--card);
+  border:1px dashed #B9C5D6;
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:0.92rem;
+  color:var(--muted);
+}
+.soon-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold, #C08A1E);
+  background:#C08A1E;
   flex:0 0 auto;
 }
 
-.soon-stage{align-items:flex-start;}
-.soon-note{color:var(--muted);max-width:var(--read-max);}
+/* --- Per-skill colour, carried over from the Home card --- */
+.screen-skill[data-topic="verb"] .skill-hero{background:var(--verb-tint);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .sh-glyph{color:var(--verb-ink);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .activity-card{background:var(--verb-tint);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .activity-icon{color:var(--verb-ink);border-color:var(--verb-edge);}
+.screen-skill[data-topic="verb"] .btn-activity{background:var(--verb-ink);border-color:var(--verb-ink);}
 
-/* Per-skill accent on every activity screen header strip. */
-.screen-skill[data-topic="verb"] .skill-intro,
-.screen-learn[data-topic="verb"] .stage,
-.screen-practice[data-topic="verb"] .stage,
-.screen-soon[data-topic="verb"] .stage{border-left:5px solid var(--verb-ink);}
-.screen-skill[data-topic="subject"] .skill-intro,
-.screen-learn[data-topic="subject"] .stage,
-.screen-practice[data-topic="subject"] .stage,
-.screen-soon[data-topic="subject"] .stage{border-left:5px solid var(--subject-ink);}
-.screen-skill[data-topic="noun"] .skill-intro,
-.screen-learn[data-topic="noun"] .stage,
-.screen-practice[data-topic="noun"] .stage,
-.screen-soon[data-topic="noun"] .stage{border-left:5px solid var(--noun-ink);}
-.screen-skill[data-topic="adjective"] .skill-intro,
-.screen-learn[data-topic="adjective"] .stage,
-.screen-practice[data-topic="adjective"] .stage,
-.screen-soon[data-topic="adjective"] .stage{border-left:5px solid var(--adjective-ink);}
+.screen-skill[data-topic="subject"] .skill-hero{background:var(--subject-tint);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .sh-glyph{color:var(--subject-ink);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .activity-card{background:var(--subject-tint);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .activity-icon{color:var(--subject-ink);border-color:var(--subject-edge);}
+.screen-skill[data-topic="subject"] .btn-activity{background:var(--subject-ink);border-color:var(--subject-ink);}
 
+.screen-skill[data-topic="noun"] .skill-hero{background:var(--noun-tint);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .sh-glyph{color:var(--noun-ink);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .activity-card{background:var(--noun-tint);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .activity-icon{color:var(--noun-ink);border-color:var(--noun-edge);}
+.screen-skill[data-topic="noun"] .btn-activity{background:var(--noun-ink);border-color:var(--noun-ink);}
 
+.screen-skill[data-topic="adjective"] .skill-hero{background:var(--adjective-tint);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .sh-glyph{color:var(--adjective-ink);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .activity-card{background:var(--adjective-tint);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .activity-icon{color:var(--adjective-ink);border-color:var(--adjective-edge);}
+.screen-skill[data-topic="adjective"] .btn-activity{background:var(--adjective-ink);border-color:var(--adjective-ink);}
+
+/* A muted card keeps the skill's colour off its icon, so "unavailable"
+   reads before "which skill". */
+.screen-skill .activity-card.is-soon .activity-icon{color:var(--muted);}
+
+/* Per-skill accent on the activity screens. */
 /* ---------- 6b. LEARN: STEP LINE AND CONTENT ---------- */
 .step-line{
   display:flex;
@@ -1047,6 +1099,8 @@ img{max-width:100%;}
     --sentence-label:0.76rem;
   }
   .skill-grid{grid-template-columns:1fr 1fr;}
+  .activity-grid{grid-template-columns:repeat(3,1fr);}
+  .skill-body{max-width:940px;}
   .hero-inner{padding:26px 24px;}
   .home-hero{min-height:240px;}
   .hero-title{font-size:2.05rem;}
@@ -1078,7 +1132,7 @@ img{max-width:100%;}
   }
 
   .stage{padding:24px 22px;}
-  .skill-intro{padding:24px 22px;}
+  .skill-hero{padding:26px 22px;}
   .activity-body,.skill-body{gap:20px;}
   .done-buttons .btn,.done-buttons .nav-btn{flex:0 1 auto;}
 }
@@ -1115,6 +1169,7 @@ img{max-width:100%;}
    so this is deliberately not set lower. */
 @media (min-width:1080px){
   .skill-grid{grid-template-columns:repeat(4,1fr);}
+  .activity-grid{grid-template-columns:repeat(3,1fr);}
   .screen{padding-block:24px 10px;}
   .choices{grid-template-columns:repeat(2,minmax(0,1fr));}
   .choices.is-wide{grid-template-columns:repeat(2,minmax(0,1fr));}
@@ -1166,5 +1221,5 @@ img{max-width:100%;}
     transition-duration:0.001ms !important;
     scroll-behavior:auto !important;
   }
-  .skill-card:hover,.activity-btn:hover{transform:none;}
+  .skill-card:hover,.activity-card:hover{transform:none;}
 }

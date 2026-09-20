@@ -5,7 +5,7 @@ Two files. Neither is part of the site; nothing in `index.html` loads them.
 | File | Role |
 |---|---|
 | `serve.js` | Minimal static server for the harness |
-| `guard.js`  | The Build 1.4.0 audit harness — 199 checks |
+| `guard.js`  | The Build 1.4.0 audit harness — 234 checks |
 
 ## Run
 
@@ -32,7 +32,7 @@ Exit code is 0 only when every check passes.
 
 1. load integrity and the build number
 2. Home: exactly four skills, and none of the forbidden furniture
-3. the shared Skill screen, across all four skills
+3. the shared Skill screen across all four skills: wordmark, skill icon, three activity cards, exactly one way home, and an unavailable activity that is labelled and is NOT a control
 4. Verb LEARN, all four states
 5. Verb PRACTICE: 20 questions, 4 stages, both shuffles
 6. feedback escalation and the third-attempt reveal

@@ -133,21 +133,37 @@
          js/app.js from content. There is no per-skill layout.
          ============================================================ -->
     <section class="screen screen-skill" id="screen-skill" aria-labelledby="skill-heading" data-topic="" hidden>
-      <header class="app-header">
+      <!-- ONE way back. This screen previously carried both a "Back to Home"
+           and a "Home" button, which did exactly the same thing. -->
+      <header class="app-header header-brand">
         <button type="button" class="nav-btn nav-back" id="skill-back">
           <span aria-hidden="true">&larr;</span> Home
         </button>
-        <span class="header-tag" id="skill-tag"></span>
-        <button type="button" class="nav-btn nav-home" id="skill-home">Home</button>
+        <p class="brand brand-sm">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5"
+                    fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="brand-name">
+            <span class="bn-1">Sentence</span>
+            <span class="bn-2">Sense</span>
+          </span>
+        </p>
       </header>
 
       <div class="skill-body">
-        <div class="skill-intro">
+        <!-- The skill's own identity, carried over from its Home card: the
+             same icon, the same colour, the same clue. -->
+        <div class="skill-hero">
+          <span class="skill-hero-icon" id="skill-hero-icon"></span>
           <h2 id="skill-heading" class="skill-title" tabindex="-1"></h2>
           <p class="skill-ask-line" id="skill-ask-line"></p>
         </div>
 
-        <div class="activity-list" id="activity-list"></div>
+        <ul class="activity-grid" id="activity-list"></ul>
       </div>
     </section>
 
@@ -265,32 +281,6 @@
       </div>
     </section>
 
-
-    <!-- ============================================================
-         COMING NEXT — the honest placeholder.
-         Used by Practice for skills with no approved bank, and by Test
-         for every skill. It never imitates the activity it stands in
-         for, and it always offers the thing that does exist.
-         ============================================================ -->
-    <section class="screen screen-soon" id="screen-soon" aria-labelledby="soon-heading" data-topic="" hidden>
-      <header class="app-header">
-        <button type="button" class="nav-btn nav-back" id="soon-back">
-          <span aria-hidden="true">&larr;</span> Back
-        </button>
-        <span class="header-tag" id="soon-tag"></span>
-        <button type="button" class="nav-btn nav-home" id="soon-home">Home</button>
-      </header>
-
-      <div class="activity-body">
-        <div class="stage soon-stage">
-          <h2 class="activity-title" id="soon-heading" tabindex="-1"></h2>
-          <p class="soon-note" id="soon-note"></p>
-          <div class="done-buttons">
-            <button type="button" class="btn btn-next" id="soon-learn"></button>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <p class="build-badge" id="build-badge" aria-label="Application version"></p>
 

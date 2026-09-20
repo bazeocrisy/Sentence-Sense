@@ -1,6 +1,6 @@
 {
  "build": "Build 1.4.0",
- "pass": 214,
+ "pass": 234,
  "fail": 0,
  "results": [
   {
@@ -145,13 +145,38 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Verb Test is honestly marked coming next",
+   "name": "3.4 Verb Test is visibly unavailable and labelled",
+   "detail": "Coming next"
+  },
+  {
+   "r": "PASS",
+   "name": "3.4b Verb every activity card carries a large icon",
    "detail": ""
   },
   {
    "r": "PASS",
+   "name": "3.4c Verb each activity keeps its short explanation",
+   "detail": "Show me how | Let me try with help | Let me do it myself"
+  },
+  {
+   "r": "PASS",
    "name": "3.5 Verb Practice availability is honest",
-   "detail": "real bank"
+   "detail": "real bank, has control"
+  },
+  {
+   "r": "PASS",
+   "name": "3.7 Verb Skill screen carries the Sentence Sense wordmark",
+   "detail": "Sentence Sense"
+  },
+  {
+   "r": "PASS",
+   "name": "3.8 Verb Skill screen shows the skill's own icon",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "3.9 Verb Skill screen has exactly ONE way home",
+   "detail": "1 home control(s)"
   },
   {
    "r": "PASS",
@@ -175,13 +200,38 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Subject Test is honestly marked coming next",
+   "name": "3.4 Subject Test is visibly unavailable and labelled",
+   "detail": "Coming next"
+  },
+  {
+   "r": "PASS",
+   "name": "3.4b Subject every activity card carries a large icon",
    "detail": ""
   },
   {
    "r": "PASS",
+   "name": "3.4c Subject each activity keeps its short explanation",
+   "detail": "Show me how | Let me try with help | Let me do it myself"
+  },
+  {
+   "r": "PASS",
    "name": "3.5 Subject Practice availability is honest",
-   "detail": "coming next"
+   "detail": "coming next, no control"
+  },
+  {
+   "r": "PASS",
+   "name": "3.7 Subject Skill screen carries the Sentence Sense wordmark",
+   "detail": "Sentence Sense"
+  },
+  {
+   "r": "PASS",
+   "name": "3.8 Subject Skill screen shows the skill's own icon",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "3.9 Subject Skill screen has exactly ONE way home",
+   "detail": "1 home control(s)"
   },
   {
    "r": "PASS",
@@ -205,13 +255,38 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Noun Test is honestly marked coming next",
+   "name": "3.4 Noun Test is visibly unavailable and labelled",
+   "detail": "Coming next"
+  },
+  {
+   "r": "PASS",
+   "name": "3.4b Noun every activity card carries a large icon",
    "detail": ""
   },
   {
    "r": "PASS",
+   "name": "3.4c Noun each activity keeps its short explanation",
+   "detail": "Show me how | Let me try with help | Let me do it myself"
+  },
+  {
+   "r": "PASS",
    "name": "3.5 Noun Practice availability is honest",
-   "detail": "coming next"
+   "detail": "coming next, no control"
+  },
+  {
+   "r": "PASS",
+   "name": "3.7 Noun Skill screen carries the Sentence Sense wordmark",
+   "detail": "Sentence Sense"
+  },
+  {
+   "r": "PASS",
+   "name": "3.8 Noun Skill screen shows the skill's own icon",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "3.9 Noun Skill screen has exactly ONE way home",
+   "detail": "1 home control(s)"
   },
   {
    "r": "PASS",
@@ -235,13 +310,38 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Adjective Test is honestly marked coming next",
+   "name": "3.4 Adjective Test is visibly unavailable and labelled",
+   "detail": "Coming next"
+  },
+  {
+   "r": "PASS",
+   "name": "3.4b Adjective every activity card carries a large icon",
    "detail": ""
   },
   {
    "r": "PASS",
+   "name": "3.4c Adjective each activity keeps its short explanation",
+   "detail": "Show me how | Let me try with help | Let me do it myself"
+  },
+  {
+   "r": "PASS",
    "name": "3.5 Adjective Practice availability is honest",
-   "detail": "coming next"
+   "detail": "coming next, no control"
+  },
+  {
+   "r": "PASS",
+   "name": "3.7 Adjective Skill screen carries the Sentence Sense wordmark",
+   "detail": "Sentence Sense"
+  },
+  {
+   "r": "PASS",
+   "name": "3.8 Adjective Skill screen shows the skill's own icon",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "3.9 Adjective Skill screen has exactly ONE way home",
+   "detail": "1 home control(s)"
   },
   {
    "r": "PASS",
@@ -401,7 +501,7 @@
   {
    "r": "PASS",
    "name": "5.9 choice order is shuffled at render time (D-29)",
-   "detail": "9 distinct orders in 12 renders"
+   "detail": "7 distinct orders in 12 renders"
   },
   {
    "r": "PASS",
@@ -411,7 +511,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕playful tells what kind of dog it is. It describes the dog."
+   "detail": "✕hungry tells what kind of puppy it is. It describes the pup"
   },
   {
    "r": "PASS",
@@ -431,7 +531,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. jumped tells what the dog did, so ju"
+   "detail": "Let's find it together. carried tells what the puppy did, so"
   },
   {
    "r": "PASS",
@@ -616,7 +716,7 @@
   {
    "r": "PASS",
    "name": "11.skill.phone-375 no false bottom",
-   "detail": "0 below fold, scrollable=false"
+   "detail": "0 below fold, scrollable=true"
   },
   {
    "r": "PASS",
@@ -666,7 +766,7 @@
   {
    "r": "PASS",
    "name": "11.skill.phone-390 no false bottom",
-   "detail": "0 below fold, scrollable=false"
+   "detail": "0 below fold, scrollable=true"
   },
   {
    "r": "PASS",
@@ -716,7 +816,7 @@
   {
    "r": "PASS",
    "name": "11.skill.phone-430 no false bottom",
-   "detail": "0 below fold, scrollable=false"
+   "detail": "0 below fold, scrollable=true"
   },
   {
    "r": "PASS",

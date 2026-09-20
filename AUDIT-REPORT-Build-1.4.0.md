@@ -6,7 +6,7 @@
 **Baseline code version:** Build 1.3.0, confirmed from `js/app.js`, not from the branch name
 **Scope:** Simplified product redesign — skill-first navigation
 **Date:** 2026-09-20
-**Harness:** `verification/guard.js` — **214 checks, 214 PASS, 0 FAIL**
+**Harness:** `verification/guard.js` — **234 checks, 234 PASS, 0 FAIL**
 
 ---
 
@@ -65,7 +65,7 @@ The mode-first portal is retired. The product model is now:
 HOME → SKILL → LEARN | PRACTICE | TEST → ACTIVITY
 ```
 
-Five screens replace the previous six plus a modal. The Sentence Detectives
+Four screens replace the previous six plus a modal. The Sentence Detectives
 mission — twelve cards, five named stops, a progress rail, scene swapping,
 read-aloud and animation — is gone entirely. What remains is one sentence, one
 question, one obvious action.
@@ -198,9 +198,24 @@ recorded here as a misread of the brief, not as a defect in the code.
 
 Checks 3.1–3.6, run against **all four skills**.
 
-One `#screen-skill` serves every skill. Title, child clue, colour identity and
-the three activity rows are filled from content by `openSkill()`. There is no
-per-skill layout and no per-skill branch in the renderer.
+One `#screen-skill` serves every skill. Title, child clue, icon, colour identity
+and the three activity cards are filled from content by `openSkill()`. There is
+no per-skill layout and no per-skill branch in the renderer.
+
+**Redesigned after review as a smaller Home** (checks 3.4–3.9): the wordmark, the
+skill's own icon and colour carried over from the card the child pressed, a
+tinted hero band, and three activity cards with large icons, titles, their
+existing short explanations and homepage-consistent buttons. Three across from
+620px, stacked on phones, content top-aligned.
+
+Two structural corrections came out of that pass:
+
+- **The duplicate Home button was removed.** The screen carried "Back to Home"
+  and "Home", which did the same thing. Check 3.9 enforces exactly one.
+- **An unavailable activity is no longer a control**, and the `#screen-soon`
+  placeholder screen it used to route to was deleted as dead architecture. The
+  card itself is neutral, dashed and labelled **Coming next**. A dead button is
+  worse than no button: it invites a tap and answers with silence.
 
 **Reusability is real, and it is measured.** Adding a fifth skill means adding a
 key to `homeOrder` and giving the topic six card fields plus four lesson blocks.

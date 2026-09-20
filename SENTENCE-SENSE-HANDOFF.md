@@ -49,13 +49,13 @@ Current: **Build 1.4.0**. It must match in four places, and the audit checks all
 
 | File | Role | Lines |
 |---|---|---|
-| `index.html` | Five screens: home, skill, learn, practice, coming-next | 249 |
-| `css/styles.css` | Every style, phone-first, numbered sections 1–13 | 1019 |
-| `js/app.js` | Shell: Home, the shared Skill screen, routing, icons, build badge | 337 |
+| `index.html` | Four screens: home, skill, learn, practice | 298 |
+| `css/styles.css` | Every style, phone-first, numbered sections 1–13 | 1225 |
+| `js/app.js` | Shell: Home, the shared Skill screen, routing, icons, build badge | 353 |
 | `js/sentence.js` | **NEW 1.4.0** — the shared sentence renderer | 226 |
 | `js/learn.js` | The shared four-state LEARN component | 385 |
 | `js/practice.js` | **NEW 1.4.0** — the shared PRACTICE question engine | 370 |
-| `js/data/learn-content.js` | All content for all six topics, plus card fields | 1053 |
+| `js/data/learn-content.js` | All content for all six topics, plus card fields | 1031 |
 | `assets/images/favicon.png` | Referenced by `index.html` |
 | `assets/images/sentence-sense-hero.jpg` | The classroom banner photograph. 2048×768, 169 KB. |
 | ~~`assets/images/logo.png`, `logo-512.png`~~ | **DELETED in 1.4.0.** Unreferenced; the cartoon-mascot lockup contradicted the art direction. See §11 H-03. |
@@ -151,9 +151,27 @@ phones.
 
 ### Skill screen — ONE component, all four skills
 
-Title, child clue and the three activities are filled from content. There is no
-per-skill layout. Test is shown so the structure is clear and is marked
-**Coming next** where the child reads, not only after a press.
+It is a smaller Home, deliberately: the same wordmark, the same card shapes, the
+same button, and **the skill's own icon and colour carried over from the card the
+child just pressed**, so they can see where they have arrived.
+
+A tinted hero band names the skill and repeats its clue, then three activity
+cards — Learn, Practice, Test — each with a large icon, its title and its short
+explanation. Three across from 620px, stacked on phones, content top-aligned.
+
+**ONE way back.** The screen previously carried a "Back to Home" button *and* a
+"Home" button that did exactly the same thing. Check **3.9** now enforces that
+there is exactly one.
+
+**An unavailable activity is not a control.** Its card is neutral grey with a
+dashed edge, a muted icon and a written **Coming next** label — and nothing to
+press. A dead button that goes nowhere is worse than no button: it invites a tap
+and answers with silence. Check **3.4** enforces the label *and* the absence of a
+control.
+
+**The "coming next" SCREEN was removed.** Once an unavailable activity stopped
+being a control, nothing routed to that screen and it was dead architecture. Its
+HTML, CSS, routing and handlers are gone.
 
 ---
 

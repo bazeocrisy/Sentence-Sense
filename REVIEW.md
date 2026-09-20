@@ -33,7 +33,7 @@ HOME → SKILL → LEARN | PRACTICE | TEST → ACTIVITY
 
 | File | Role |
 |---|---|
-| `index.html` | Five screens: home, skill, learn, practice, coming-next |
+| `index.html` | Four screens: home, skill, learn, practice |
 | `css/styles.css` | All styles, phone-first, sections 1–13 |
 | `js/app.js` | Shell: Home, shared Skill screen, routing, icons, build badge |
 | `js/sentence.js` | **NEW** — the one sentence renderer everything uses |
@@ -55,7 +55,7 @@ project dependency — the shipped site has no package manifest and no build
 system. Point at them with `$env:PUPPETEER` and `$env:CHROME`; see
 `verification/README.md`.
 
-**214 checks, 214 passing.**
+**234 checks, 234 passing.**
 
 ## Four defects were found and fixed *during* this build
 

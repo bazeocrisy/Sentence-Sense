@@ -78,8 +78,11 @@ async function clickStart(page, skill) {
 }
 async function clickActivity(page, key) {
   await page.evaluate(k => {
-    const b = Array.from(document.querySelectorAll("#activity-list .activity-btn"))
+    /* Only an AVAILABLE activity has a button. An unavailable one is a
+       card with a written label and nothing to press. */
+    const b = Array.from(document.querySelectorAll("#activity-list .btn-activity"))
       .find(x => x.dataset.activity === k);
+    if (!b) throw new Error("no control for activity: " + k);
     b.click();
   }, key);
   await sleep(100);
@@ -254,23 +257,51 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       title: document.getElementById("skill-heading").textContent,
       ask: document.getElementById("skill-ask-line").textContent,
       topic: document.getElementById("screen-skill").dataset.topic,
-      acts: Array.from(document.querySelectorAll("#activity-list .activity-btn"))
-        .map(b => ({
-          key: b.dataset.activity,
-          name: b.querySelector(".activity-name").textContent,
-          soon: b.classList.contains("is-soon")
+      /* The wordmark is set on two lines, so its textContent carries the
+         markup's newline and indentation. Collapse whitespace before
+         comparing -- not strip it, which would read "SentenceSense". */
+      wordmark: (() => {
+        const n = document.querySelector("#screen-skill .brand-name");
+        return n ? n.textContent.split(/\s+/).filter(Boolean).join(" ") : null;
+      })(),
+      heroIcon: !!document.querySelector("#skill-hero-icon svg"),
+      homeControls: Array.from(document.querySelectorAll("#screen-skill button"))
+        .filter(b => /home/i.test(b.textContent)).length,
+      acts: Array.from(document.querySelectorAll("#activity-list .activity-card"))
+        .map(c => ({
+          key: (c.className.match(/act-([a-z]+)/) || [])[1],
+          name: c.querySelector(".activity-name").textContent,
+          line: c.querySelector(".activity-line").textContent,
+          soon: c.classList.contains("is-soon"),
+          hasButton: !!c.querySelector(".btn-activity"),
+          soonLabel: c.querySelector(".activity-soon") ? c.querySelector(".activity-soon").textContent.trim() : null,
+          icon: !!c.querySelector(".activity-icon svg")
         }))
     }));
     ok(`3.1 ${name} opens the shared Skill screen`, s.screen === "skill" && s.title === name, s.title);
     ok(`3.2 ${name} shows its own child clue`, s.ask === ask, s.ask);
     ok(`3.3 ${name} offers Learn, Practice and Test`,
       s.acts.map(a => a.key).join(",") === "learn,practice,test", s.acts.map(a => a.key).join(","));
-    ok(`3.4 ${name} Test is honestly marked coming next`,
-      s.acts.find(a => a.key === "test").soon === true);
-    const practiceSoon = s.acts.find(a => a.key === "practice").soon;
+    const testCard = s.acts.find(a => a.key === "test");
+    ok(`3.4 ${name} Test is visibly unavailable and labelled`,
+      testCard.soon === true && testCard.hasButton === false &&
+      /coming next/i.test(testCard.soonLabel || ""), testCard.soonLabel);
+    ok(`3.4b ${name} every activity card carries a large icon`,
+      s.acts.every(a => a.icon === true));
+    ok(`3.4c ${name} each activity keeps its short explanation`,
+      s.acts.map(a => a.line).join(" | ") ===
+      "Show me how | Let me try with help | Let me do it myself",
+      s.acts.map(a => a.line).join(" | "));
+    const pc = s.acts.find(a => a.key === "practice");
     ok(`3.5 ${name} Practice availability is honest`,
-      key === "verb" ? practiceSoon === false : practiceSoon === true,
-      key === "verb" ? "real bank" : "coming next");
+      key === "verb" ? (pc.soon === false && pc.hasButton === true)
+                     : (pc.soon === true && pc.hasButton === false),
+      key === "verb" ? "real bank, has control" : "coming next, no control");
+    ok(`3.7 ${name} Skill screen carries the Sentence Sense wordmark`,
+      s.wordmark === "Sentence Sense", s.wordmark);
+    ok(`3.8 ${name} Skill screen shows the skill's own icon`, s.heroIcon === true);
+    ok(`3.9 ${name} Skill screen has exactly ONE way home`,
+      s.homeControls === 1, s.homeControls + " home control(s)");
     ok(`3.6 ${name} carries its own colour identity`, s.topic === key, s.topic);
     if (key === "verb") await shot(page, "desktop-02-skill-verb");
     if (key === "subject") await shot(page, "desktop-07-skill-subject");
@@ -655,7 +686,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
 
   /* tap targets */
   const targets = await page.evaluate(() => {
-    const sel = ".btn, .nav-btn, .choice-btn, .activity-btn";
+    const sel = ".btn, .nav-btn, .choice-btn, .btn-activity, .activity-soon";
     return Array.from(document.querySelectorAll(sel))
       .filter(n => n.offsetParent !== null)
       .map(n => ({ t: n.textContent.trim().slice(0, 18), h: Math.round(n.getBoundingClientRect().height) }))
