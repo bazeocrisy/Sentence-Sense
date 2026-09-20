@@ -119,7 +119,7 @@ window.SS_LEARN_CONTENT = {
       icon: "run",
       preview: { words: ["The", "boy", "runs", "fast."], start: 2, end: 2 },
       practice: "bank",
-      test: "soon",
+      test: "bank",
 
       definition: {
         title: "What is a verb?",
@@ -536,6 +536,174 @@ window.SS_LEARN_CONTENT = {
       },
 
 
+      /* =====================================================
+         VERB TEST -- 12 scored questions, 8 action / 4 being.
+
+         Test MEASURES. It gives no hint, no retry, no clue and no
+         correctness feedback until the child submits. Each question
+         therefore carries no per-choice coaching -- only `why`, which
+         the results review shows AFTER submission and nowhere else.
+
+         `band` drives the shuffle: questions are reordered WITHIN a
+         band and never across bands, so every sitting runs easy ->
+         medium -> hard while answer positions still move.
+
+         `type` drives the two subscales. A strong action score must
+         not hide weak being-verb understanding, so mastery needs all
+         three thresholds below, not just the overall one.
+         ===================================================== */
+      testBank: {
+        intro: "12 questions. No hints this time \u2014 you've got this.",
+        confirm: "You answered all 12. Ready to see how you did?",
+        mastery: { overall: 10, action: 7, being: 3 },
+
+        /* Wording is CONTENT, never engine strings. */
+        guidance: {
+          mastered:  "You've got verbs. You found the verb in almost every sentence.",
+          beingWeak: "Your action verbs are strong. Review being verbs, then try again.",
+          actionWeak:"You know being verbs well. Review action verbs, then try again.",
+          almost:    "Almost there. You know verbs well \u2014 a few tricky ones to go.",
+          keepGoing: "Keep going. Review Learn, then try Practice again."
+        },
+
+        questions: [
+          /* ---------- BAND 1 -- confidence ---------- */
+          /* T1 */
+          { band: 0, type: "action",
+            sentence: { words: ["The", "farmer", "planted", "corn", "in", "the", "wide", "field."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "farmer" },
+              { text: "planted", correct: true },
+              { text: "corn" },
+              { text: "field" }
+            ],
+            why: "planted tells what the farmer did." },
+          /* T2 */
+          { band: 0, type: "being",
+            sentence: { words: ["My", "new", "library", "book", "is", "funny."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "new" },
+              { text: "book" },
+              { text: "is", correct: true },
+              { text: "funny" }
+            ],
+            why: "is tells what the book is. A verb can tell what something IS, not only what it does." },
+          /* T3 */
+          { band: 0, type: "action",
+            sentence: { words: ["Our", "teacher", "reads", "a", "story", "every", "afternoon."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "teacher" },
+              { text: "reads", correct: true },
+              { text: "story" },
+              { text: "afternoon" }
+            ],
+            why: "reads tells what the teacher does." },
+          /* T4 */
+          { band: 0, type: "being",
+            sentence: { words: ["The", "twins", "are", "ready", "for", "school."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "twins" },
+              { text: "are", correct: true },
+              { text: "ready" },
+              { text: "school" }
+            ],
+            why: "are tells what the twins are. twins ends in -s, but it names who we are talking about." },
+          /* ---------- BAND 2 -- lures ---------- */
+          /* T5 */
+          { band: 1, type: "action",
+            sentence: { words: ["The", "cheering", "crowd", "clapped", "for", "the", "winning", "team."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "cheering" },
+              { text: "crowd" },
+              { text: "clapped", correct: true },
+              { text: "winning" }
+            ],
+            why: "clapped tells what the crowd did. cheering and winning end in -ing, but they describe the crowd and the team." },
+          /* T6 */
+          { band: 1, type: "action",
+            sentence: { words: ["The", "children", "watch", "the", "sunset", "from", "the", "porch."] },
+            question: "Which word tells what is happening?",
+            choices: [
+              { text: "children" },
+              { text: "watch", correct: true },
+              { text: "sunset" },
+              { text: "porch" }
+            ],
+            why: "watch tells what the children do. A watch can also be a thing you wear, so always read the whole sentence." },
+          /* T7 */
+          { band: 1, type: "being",
+            sentence: { words: ["The", "park", "was", "empty", "after", "the", "heavy", "rains."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "park" },
+              { text: "was", correct: true },
+              { text: "empty" },
+              { text: "rains" }
+            ],
+            why: "was tells what the park was. rains ends in -s, but here it names the heavy rain that fell." },
+          /* T8 */
+          { band: 1, type: "action",
+            sentence: { words: ["My", "older", "brother", "carefully", "washed", "those", "striped", "glasses."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "brother" },
+              { text: "washed", correct: true },
+              { text: "striped" },
+              { text: "glasses" }
+            ],
+            why: "washed tells what the brother did. striped ends in -ed too, but it describes the glasses." },
+          /* ---------- BAND 3 -- reasoning ---------- */
+          /* T9 */
+          { band: 2, type: "action",
+            sentence: { words: ["At", "the", "campsite,", "the", "campers", "planned", "their", "next", "hike."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "campers" },
+              { text: "planned", correct: true },
+              { text: "campsite" },
+              { text: "hike" }
+            ],
+            why: "planned tells what the campers did. hike can be a verb in another sentence, but here it names the thing they planned." },
+          /* T10 */
+          { band: 2, type: "being",
+            sentence: { words: ["The", "gardeners", "were", "proud", "of", "their", "growing", "vegetables."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "gardeners" },
+              { text: "were", correct: true },
+              { text: "proud" },
+              { text: "growing" }
+            ],
+            why: "were tells what the gardeners were. growing ends in -ing, but it describes the vegetables." },
+          /* T11 */
+          { band: 2, type: "action",
+            sentence: { words: ["After", "the", "bell,", "the", "students", "study", "their", "spelling", "words."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "students" },
+              { text: "study", correct: true },
+              { text: "spelling" },
+              { text: "words" }
+            ],
+            why: "study tells what the students do. spelling ends in -ing, but it tells what kind of words they are." },
+          /* T12 */
+          { band: 2, type: "action",
+            sentence: { words: ["The", "old", "lighthouse", "on", "the", "rocky", "cliffs", "guided", "the", "passing", "ships."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "cliffs" },
+              { text: "guided", correct: true },
+              { text: "passing" },
+              { text: "ships" }
+            ],
+            why: "guided tells what the lighthouse did. passing ends in -ing, but it describes the ships." }
+        ]
+      },
       recap: "A verb tells what someone or something does or is. Ask: What happened?",
 
       studyGuide: {

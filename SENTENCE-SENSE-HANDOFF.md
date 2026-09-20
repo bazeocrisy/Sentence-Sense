@@ -7,6 +7,43 @@
 
 ---
 
+## 0. VERB STATUS — THE REFERENCE IMPLEMENTATION
+
+| | |
+|---|---|
+| **Learn** | **LOCKED** |
+| **Practice** | **LOCKED** |
+| **Test** | **LOCKED** |
+| **Forensic audit** | **PASSED** — `FORENSIC-AUDIT-VERB-TEST.md` |
+
+**Verb is the reference implementation for Subject, Noun and Adjective.**
+
+Build the remaining three against Verb, not against an idea of what they
+should be. In particular, copy these decisions rather than re-deriving them:
+
+- **Learn teaches, Practice coaches, Test measures.** Those are three
+  different jobs and they must not blur. Practice escalates help on a wrong
+  answer; Test gives none at all. That is why `js/practice.js` and
+  `js/test.js` are separate engines and must stay separate.
+- **Whatever Learn teaches, Practice must coach and Test must measure.**
+  Verb's being verbs were taught, then barely practised, then crammed into
+  the last stage. The alignment matrix in the forensic audit is the check
+  that catches this; run it for every new skill.
+- **Every concept in a Test must already be taught.** A stative verb reached
+  the Verb Test draft and had to be removed: a child taught only DOES and IS
+  had no route to it.
+- **Mastery is a conjunction, not an average.** A strong score on one half
+  must never hide a weak score on the other.
+- **A green harness is not proof.** Two of the four Verb Test defects were
+  invisible to every automated check and were found by looking at rendered
+  screenshots. Always look.
+
+Adding a skill should be a CONTENT change. Subject, Noun and Adjective each
+need a `tryItBank`, a `testBank`, and their `practice` / `test` flags set to
+`"bank"`. No code change is required for any of it.
+
+---
+
 ## 1. WHAT THIS PROJECT IS
 
 Sentence Sense teaches an elementary student — target **3rd grade, ages 8–10** —
@@ -55,6 +92,7 @@ Current: **Build 1.4.0**. It must match in four places, and the audit checks all
 | `js/sentence.js` | **NEW 1.4.0** — the shared sentence renderer | 226 |
 | `js/learn.js` | The shared four-state LEARN component | 385 |
 | `js/practice.js` | **NEW 1.4.0** — the shared PRACTICE question engine | 370 |
+| `js/test.js` | **NEW 1.4.0** — the shared TEST engine. Separate from Practice on purpose. | 400 |
 | `js/data/learn-content.js` | All content for all six topics, plus card fields | 1031 |
 | `assets/images/favicon.png` | Referenced by `index.html` |
 | `assets/images/sentence-sense-hero.jpg` | The classroom banner photograph. 2048×768, 169 KB. |
@@ -65,8 +103,8 @@ Current: **Build 1.4.0**. It must match in four places, and the audit checks all
 | `SENTENCE-SENSE-HANDOFF.md` | This file |
 
 Script load order in `index.html` matters:
-`learn-content` → `sentence` → `learn` → `practice` → `app`.
-`js/app.js` calls `SS_LEARN.init()` and `SS_PRACTICE.init()` and must load last.
+`learn-content` → `sentence` → `learn` → `practice` → `test` → `app`.
+`js/app.js` calls `init()` on all three components and must load last.
 
 ---
 
@@ -83,7 +121,7 @@ The child chooses **what** before **how**. The mode-first portal of Builds
 
 | Skill | Child clue | Practice | Test |
 |---|---|---|---|
-| **Verb** | What is happening? | 20-question bank | coming next |
+| **Verb** | What is happening? | 20-question bank | **12-question test** |
 | **Subject** | Who or what? | coming next | coming next |
 | **Noun** | Names a person, place, thing, or idea. | coming next | coming next |
 | **Adjective** | Describes a noun. | coming next | coming next |
@@ -226,6 +264,41 @@ marked wrong.
 A skill runs Practice only if its content carries a `tryItBank`. Otherwise it
 gets the honest placeholder. **No bank was invented for Subject, Noun or
 Adjective.**
+
+---
+
+## 6b. TEST — 12 questions, measured, no help
+
+**Home → Verb → Test.** A separate engine, `js/test.js`, because Practice and
+Test are defined by opposite behaviour and the one thing that makes Practice
+valuable is the one thing a test must never do.
+
+**During the test there is no hint, no clue, no retry, no escalation and no
+correctness signal of any kind.** A selected choice carries `.is-picked` and
+`aria-pressed` and nothing else — never a colour, icon or label that differs
+between a right and a wrong choice. Harness check 13.12 compares every
+unpicked choice's computed style and attributes and fails if any of them
+distinguishes the answer.
+
+| | |
+|---|---|
+| Questions | 12 — 8 action, 4 being |
+| Bands | Q1–4 confidence · Q5–8 lures · Q9–12 reasoning |
+| Shuffle | **within each band only**, never across — so every sitting runs easy → medium → hard |
+| Mastery | overall ≥ 10 **and** action ≥ 7 **and** being ≥ 3 |
+| Flow | intro → 12 questions → submit confirmation → results → optional review |
+
+**Back re-opens an earlier question and allows a change**, which is ordinary
+test-taking rather than a hint. Teaching returns only in the review, after
+submission.
+
+**The celebration is gated on mastery.** A party popper over "Keep going"
+congratulates a child for a score they did not earn. Checks 13.22–13.27 drive
+seven scoring cases through the real UI and assert the mark, the mastery state
+and the guidance text together.
+
+**Nothing is persisted.** No score, no timer, no storage. Leaving and
+returning starts a clean test; Try again is a full reset.
 
 ---
 
@@ -372,7 +445,7 @@ node verification/serve.js . 8347      # terminal 1
 node verification/guard.js ./out       # terminal 2 — needs puppeteer-core + Chrome
 ```
 
-`verification/guard.js` — **199 checks, 199 passing** — replaces the retired
+`verification/guard.js` — **267 checks, 267 passing** — replaces the retired
 `missionguard.js`. It guards load integrity, Home's four skills and its
 forbidden furniture, the shared Skill screen across all four skills, all four
 Learn states, the 20-question bank with both shuffles, feedback escalation and

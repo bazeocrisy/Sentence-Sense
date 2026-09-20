@@ -1,6 +1,6 @@
 {
  "build": "Build 1.4.0",
- "pass": 234,
+ "pass": 255,
  "fail": 0,
  "results": [
   {
@@ -145,8 +145,8 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Verb Test is visibly unavailable and labelled",
-   "detail": "Coming next"
+   "name": "3.4 Verb Test availability is honest",
+   "detail": "real bank, has control"
   },
   {
    "r": "PASS",
@@ -200,8 +200,8 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Subject Test is visibly unavailable and labelled",
-   "detail": "Coming next"
+   "name": "3.4 Subject Test availability is honest",
+   "detail": "coming next, no control"
   },
   {
    "r": "PASS",
@@ -255,8 +255,8 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Noun Test is visibly unavailable and labelled",
-   "detail": "Coming next"
+   "name": "3.4 Noun Test availability is honest",
+   "detail": "coming next, no control"
   },
   {
    "r": "PASS",
@@ -310,8 +310,8 @@
   },
   {
    "r": "PASS",
-   "name": "3.4 Adjective Test is visibly unavailable and labelled",
-   "detail": "Coming next"
+   "name": "3.4 Adjective Test availability is honest",
+   "detail": "coming next, no control"
   },
   {
    "r": "PASS",
@@ -511,7 +511,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕puppy names who we are talking about. A verb can tell what "
+   "detail": "✕Maya names who does the action. Look again for the word tha"
   },
   {
    "r": "PASS",
@@ -521,7 +521,7 @@
   {
    "r": "PASS",
    "name": "6.3 second wrong gives the stronger clue",
-   "detail": "Remember: a verb can also tell what someone or something is."
+   "detail": "Remember: ask yourself, What is happening?"
   },
   {
    "r": "PASS",
@@ -531,7 +531,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. is tells what the puppy is, so is is"
+   "detail": "Let's find it together. opens tells what Maya does, so opens"
   },
   {
    "r": "PASS",
@@ -687,6 +687,111 @@
    "r": "PASS",
    "name": "10.3 every Home preview renders its source word array exactly",
    "detail": "verb:The boy runs fast. | subject:The dog chased the ball. | noun:The cat sat on the mat. | adjective:The loud dog barked."
+  },
+  {
+   "r": "PASS",
+   "name": "13.1 Verb Test opens on its intro panel",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.2 the intro says there are no hints",
+   "detail": "12 questions. No hints this time — you've got this."
+  },
+  {
+   "r": "PASS",
+   "name": "13.3 the test is 12 questions",
+   "detail": "12"
+  },
+  {
+   "r": "PASS",
+   "name": "13.4 band order is preserved (no cross-band shuffle)",
+   "detail": "0,0,0,0,1,1,1,1,2,2,2,2"
+  },
+  {
+   "r": "PASS",
+   "name": "13.5 first question shows 1 of 12",
+   "detail": "Question 1 of 12"
+  },
+  {
+   "r": "PASS",
+   "name": "13.6 Next is disabled before a choice is made",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.7 Back is disabled on the first question",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.8 four choices, none carrying a verdict",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.9 selecting marks exactly one choice as picked",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.10 the picked choice is announced as pressed, not as correct",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.11 Next unlocks once a choice exists",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.12 no styling, label or attribute distinguishes the correct choice",
+   "detail": "0 questions leaked"
+  },
+  {
+   "r": "PASS",
+   "name": "13.13 the correct answer occupies more than one position",
+   "detail": "{\"0\":2,\"1\":2,\"2\":5,\"3\":3}"
+  },
+  {
+   "r": "PASS",
+   "name": "13.14 finishing 12 reaches the submit confirmation, not the results",
+   "detail": "You answered all 12. Ready to see how you did?"
+  },
+  {
+   "r": "PASS",
+   "name": "13.15 results appear only after submitting",
+   "detail": "2 of 12"
+  },
+  {
+   "r": "PASS",
+   "name": "13.16 both subscales are shown",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.17 guidance is written and non-punitive",
+   "detail": "Keep going. Review Learn, then try Practice again."
+  },
+  {
+   "r": "PASS",
+   "name": "13.18 the answer review stays closed until asked for",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.19 review opens with one item per question and an explanation each",
+   "detail": "12 items"
+  },
+  {
+   "r": "PASS",
+   "name": "13.20 Try again resets to a clean, unanswered test",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.21 the test stores nothing",
+   "detail": ""
   },
   {
    "r": "PASS",

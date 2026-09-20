@@ -283,9 +283,16 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     ok(`3.3 ${name} offers Learn, Practice and Test`,
       s.acts.map(a => a.key).join(",") === "learn,practice,test", s.acts.map(a => a.key).join(","));
     const testCard = s.acts.find(a => a.key === "test");
-    ok(`3.4 ${name} Test is visibly unavailable and labelled`,
-      testCard.soon === true && testCard.hasButton === false &&
-      /coming next/i.test(testCard.soonLabel || ""), testCard.soonLabel);
+    /* Test is available exactly where a test bank exists. Verb has one
+       as of this build; the other three do not, and must still read as
+       honestly unavailable rather than as a dead control. */
+    const testReady = (key === "verb");
+    ok(`3.4 ${name} Test availability is honest`,
+      testReady
+        ? (testCard.soon === false && testCard.hasButton === true)
+        : (testCard.soon === true && testCard.hasButton === false &&
+           /coming next/i.test(testCard.soonLabel || "")),
+      testReady ? "real bank, has control" : "coming next, no control");
     ok(`3.4b ${name} every activity card carries a large icon`,
       s.acts.every(a => a.icon === true));
     ok(`3.4c ${name} each activity keeps its short explanation`,
@@ -758,6 +765,236 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   });
   ok("10.3 every Home preview renders its source word array exactly",
     prev.every(p => p.ok), prev.map(p => p.k + ":" + p.rendered).join(" | "));
+
+  /* ===== 13. VERB TEST =====
+     Test MEASURES. The checks that matter most here are the negative
+     ones: that nothing on screen tells the child whether they are
+     right before they submit. */
+  await goHome(page);
+  await clickStart(page, "verb");
+  await clickActivity(page, "test");
+
+  const t0 = await page.evaluate(() => ({
+    screen: document.getElementById("screen-test").hidden ? null : "test",
+    intro: !document.getElementById("test-intro").hidden,
+    introLine: document.getElementById("test-intro-line").textContent,
+    st: window.SS_TEST.state()
+  }));
+  ok("13.1 Verb Test opens on its intro panel", t0.screen === "test" && t0.intro);
+  ok("13.2 the intro says there are no hints", /no hints/i.test(t0.introLine), t0.introLine);
+  ok("13.3 the test is 12 questions", t0.st.total === 12, t0.st.total);
+
+  /* band integrity: order must never cross a band boundary */
+  const bands = await page.evaluate(() => {
+    const qs = window.SS_LEARN_CONTENT.topics.verb.testBank.questions;
+    return window.SS_TEST.state().order.map(i => qs[i].band);
+  });
+  ok("13.4 band order is preserved (no cross-band shuffle)",
+    bands.join(",") === "0,0,0,0,1,1,1,1,2,2,2,2", bands.join(","));
+
+  await page.click("#test-start"); await sleep(150);
+  const t1 = await page.evaluate(() => ({
+    count: document.getElementById("test-count").textContent,
+    nextDisabled: document.getElementById("test-next").disabled,
+    prevDisabled: document.getElementById("test-prev").disabled,
+    choices: document.querySelectorAll("#test-choices .choice-btn").length,
+    noVerdict: !document.querySelector("#test-choices .is-right, #test-choices .is-wrong")
+  }));
+  ok("13.5 first question shows 1 of 12", /question 1 of 12/i.test(t1.count), t1.count);
+  ok("13.6 Next is disabled before a choice is made", t1.nextDisabled === true);
+  ok("13.7 Back is disabled on the first question", t1.prevDisabled === true);
+  ok("13.8 four choices, none carrying a verdict", t1.choices === 4 && t1.noVerdict);
+
+  /* selecting must mark the choice as PICKED and nothing more */
+  await page.evaluate(() => document.querySelectorAll("#test-choices .choice-btn")[0].click());
+  await sleep(120);
+  const t2 = await page.evaluate(() => {
+    const bs = Array.from(document.querySelectorAll("#test-choices .choice-btn"));
+    const picked = bs.filter(b => b.classList.contains("is-picked"));
+    return {
+      pickedCount: picked.length,
+      pressed: picked[0] && picked[0].getAttribute("aria-pressed"),
+      verdictClass: bs.some(b => /is-right|is-wrong/.test(b.className)),
+      nextEnabled: !document.getElementById("test-next").disabled,
+      answered: window.SS_TEST.state().answers.filter(a => a !== null).length
+    };
+  });
+  ok("13.9 selecting marks exactly one choice as picked", t2.pickedCount === 1);
+  ok("13.10 the picked choice is announced as pressed, not as correct",
+    t2.pressed === "true" && t2.verdictClass === false);
+  ok("13.11 Next unlocks once a choice exists", t2.nextEnabled && t2.answered === 1);
+
+  /* ANSWER LEAKAGE: walk all 12 and prove nothing correlates with
+     correctness before submission.
+
+     The test is RE-ENTERED first, deliberately. Check 13.9 above left a
+     choice picked on question 1, and a picked choice is *supposed* to
+     look different -- that is the selected state. Probing it without a
+     reset measured the child's own mark and reported a false leak. Only
+     UNPICKED choices are comparable. */
+  await goHome(page);
+  await clickStart(page, "verb");
+  await clickActivity(page, "test");
+  await page.click("#test-start"); await sleep(150);
+  let tLeak = 0; const tPos = {};
+  for (let i = 0; i < 12; i++) {
+    const probe = await page.evaluate(() => {
+      const st = window.SS_TEST.state();
+      const qs = window.SS_LEARN_CONTENT.topics.verb.testBank.questions;
+      const q = qs[st.order[st.pos]];
+      const ci = q.choices.findIndex(c => c.correct);
+      const bs = Array.from(document.querySelectorAll("#test-choices .choice-btn"));
+      const idx = bs.findIndex(b => Number(b.dataset.ci) === ci);
+      const shapes = bs.filter(b => !b.classList.contains("is-picked")).map(b => {
+        const cs = getComputedStyle(b);
+        return [cs.backgroundColor, cs.color, cs.borderTopColor, cs.fontWeight,
+                b.className, b.getAttribute("aria-label") || "",
+                b.getAttribute("title") || "", b.disabled].join("|");
+      });
+      /* every choice must be indistinguishable except for its text */
+      const uniq = new Set(shapes);
+      return { idx: idx, identical: uniq.size <= 1, n: bs.length };
+    });
+    tPos[probe.idx] = (tPos[probe.idx] || 0) + 1;
+    if (!probe.identical || probe.n !== 4) tLeak++;
+    await page.evaluate(() => document.querySelectorAll("#test-choices .choice-btn")[0].click());
+    await sleep(70);
+    await page.click("#test-next"); await sleep(110);
+  }
+  ok("13.12 no styling, label or attribute distinguishes the correct choice",
+    tLeak === 0, tLeak + " questions leaked");
+  ok("13.13 the correct answer occupies more than one position",
+    Object.keys(tPos).length >= 2, JSON.stringify(tPos));
+
+  const t3 = await page.evaluate(() => ({
+    confirm: !document.getElementById("test-confirm").hidden,
+    line: document.getElementById("test-confirm-line").textContent,
+    resultsHidden: document.getElementById("test-results").hidden
+  }));
+  ok("13.14 finishing 12 reaches the submit confirmation, not the results",
+    t3.confirm && t3.resultsHidden, t3.line);
+
+  await page.click("#test-submit"); await sleep(200);
+  const t4 = await page.evaluate(() => ({
+    results: !document.getElementById("test-results").hidden,
+    score: document.getElementById("test-score").textContent,
+    rows: document.querySelectorAll("#test-subscores .score-row").length,
+    guidance: document.getElementById("test-guidance").textContent,
+    reviewHidden: document.getElementById("test-review").hidden,
+    st: window.SS_TEST.state()
+  }));
+  ok("13.15 results appear only after submitting", t4.results, t4.score);
+  ok("13.16 both subscales are shown", t4.rows === 2);
+  ok("13.17 guidance is written and non-punitive",
+    t4.guidance.length > 10 && !/fail|wrong|bad/i.test(t4.guidance), t4.guidance);
+  ok("13.18 the answer review stays closed until asked for", t4.reviewHidden === true);
+
+  await page.click("#test-review-btn"); await sleep(150);
+  const t5 = await page.evaluate(() => ({
+    open: !document.getElementById("test-review").hidden,
+    items: document.querySelectorAll("#test-review .review-item").length,
+    why: document.querySelectorAll("#test-review .review-why").length
+  }));
+  ok("13.19 review opens with one item per question and an explanation each",
+    t5.open && t5.items === 12 && t5.why === 12, t5.items + " items");
+
+  /* retest must be a clean slate */
+  await page.click("#test-again"); await sleep(200);
+  const t6 = await page.evaluate(() => ({
+    st: window.SS_TEST.state(),
+    intro: !document.getElementById("test-intro").hidden,
+    resultsHidden: document.getElementById("test-results").hidden
+  }));
+  ok("13.20 Try again resets to a clean, unanswered test",
+    t6.intro && t6.resultsHidden && t6.st.result === null &&
+    t6.st.answers.every(a => a === null) && t6.st.pos === 0);
+
+  /* CELEBRATION IS GATED ON MASTERY.
+
+     A party popper over "Keep going" congratulates a child for a score
+     they did not earn. The mark must be the ONLY .done-mark inside
+     #test-results, and it must be hidden unless all three mastery
+     thresholds are met -- scoped to the test panel, because Learn
+     completion, Practice completion and the Practice milestone all use
+     .done-mark legitimately and must keep theirs. */
+  const marks = await page.evaluate(() => ({
+    inTest: document.querySelectorAll("#test-results .done-mark").length,
+    inLearn: document.querySelectorAll("#learn-done .done-mark").length,
+    inPractice: document.querySelectorAll("#practice-done .done-mark").length,
+    inMilestone: document.querySelectorAll("#practice-milestone .done-mark").length,
+    dupIds: (() => {
+      const ids = Array.from(document.querySelectorAll("[id]")).map(n => n.id);
+      return ids.filter((x, i) => ids.indexOf(x) !== i);
+    })()
+  }));
+  ok("13.22 exactly one celebration element exists in Test results",
+    marks.inTest === 1, marks.inTest);
+  ok("13.23 the other .done-mark users are untouched",
+    marks.inLearn === 1 && marks.inPractice === 1 && marks.inMilestone === 1,
+    "learn=" + marks.inLearn + " practice=" + marks.inPractice + " milestone=" + marks.inMilestone);
+  ok("13.24 no duplicate ids anywhere in the document",
+    marks.dupIds.length === 0, marks.dupIds.join(",") || "none");
+
+  /* Drive the real UI to a chosen score and read the rendered panel. */
+  async function testTo(nA, nB) {
+    await page.evaluate(() => window.SS_SHELL.openActivity("verb", "test"));
+    await sleep(170);
+    await page.click("#test-start"); await sleep(110);
+    let a = nA, bq = nB;
+    for (let i = 0; i < 12; i++) {
+      const w = await page.evaluate(() => {
+        const st = window.SS_TEST.state();
+        const q = window.SS_LEARN_CONTENT.topics.verb.testBank.questions[st.order[st.pos]];
+        return { type: q.type, correct: q.choices.findIndex(c => c.correct),
+                 wrong: q.choices.findIndex(c => !c.correct) };
+      });
+      let ci;
+      if (w.type === "action") { ci = a > 0 ? w.correct : w.wrong; if (a > 0) a--; }
+      else { ci = bq > 0 ? w.correct : w.wrong; if (bq > 0) bq--; }
+      await page.evaluate(c => Array.from(document.querySelectorAll("#test-choices .choice-btn"))
+        .find(x => Number(x.dataset.ci) === c).click(), ci);
+      await sleep(40);
+      await page.click("#test-next"); await sleep(65);
+    }
+    await page.click("#test-submit"); await sleep(170);
+    return page.evaluate(() => {
+      const m = document.querySelector("#test-results .done-mark");
+      const st = window.SS_TEST.state();
+      return { visible: !!(m && m.offsetParent !== null),
+               mastered: st.result.mastered,
+               overall: st.result.overall, action: st.result.action, being: st.result.being,
+               guidance: document.getElementById("test-guidance").textContent };
+    });
+  }
+
+  const CASES = [
+    ["12/12", 8, 4, true,  /got verbs/i],
+    ["10/12 a7 b3", 7, 3, true,  /got verbs/i],
+    ["10/12 a8 b2", 8, 2, false, /action verbs are strong/i],
+    ["10/12 a6 b4", 6, 4, false, /being verbs well/i],
+    ["9/12", 6, 3, false, /almost there/i],
+    ["7/12", 5, 2, false, /keep going/i],
+    ["0/12", 0, 0, false, /keep going/i]
+  ];
+  let cel = 0, gd = 0;
+  for (const [label, nA, nB, expectMastery, msg] of CASES) {
+    const r = await testTo(nA, nB);
+    const markOK = (r.visible === expectMastery);
+    const stateOK = (r.mastered === expectMastery);
+    const msgOK = msg.test(r.guidance);
+    if (!markOK || !stateOK) cel++;
+    if (!msgOK) gd++;
+    ok("13.25 " + label.padEnd(12) + " mastery=" + (r.mastered ? "YES" : "no ") +
+       " celebration=" + (r.visible ? "visible" : "hidden"),
+      markOK && stateOK && msgOK,
+      r.overall + "/12 a" + r.action + " b" + r.being);
+  }
+  ok("13.26 the celebration tracks mastery in all seven cases", cel === 0, cel + " mismatches");
+  ok("13.27 guidance matches the expected message in all seven cases", gd === 0, gd + " mismatches");
+
+  /* nothing persisted */
+  const t7 = await page.evaluate(() => ({ l: localStorage.length, s: sessionStorage.length }));
+  ok("13.21 the test stores nothing", t7.l === 0 && t7.s === 0);
 
   /* ===== 11. RESPONSIVE ===== */
   const VIEWPORTS = [

@@ -45,7 +45,7 @@
   /* Build 1.4.0: the "coming next" SCREEN was removed. An unavailable
      activity is now labelled on its own card and is not a control, so
      nothing routed to that screen and it became dead architecture. */
-  const SCREENS = ["home", "skill", "learn", "practice"];
+  const SCREENS = ["home", "skill", "learn", "practice", "test"];
 
   const state = {
     screen: "home",   // one of SCREENS
@@ -209,7 +209,10 @@
   function activityReady(topic, key) {
     if (key === "learn") return true;
     if (key === "practice") return topic.practice === "bank";
-    return false;   /* no Test engine exists in 1.4.0 */
+    /* Test is available exactly when the skill has an approved test bank.
+       Adding one is a content change; no code change is needed here. */
+    if (key === "test") return topic.test === "bank";
+    return false;
   }
 
   function openSkill(key) {
@@ -291,6 +294,11 @@
       return;
     }
 
+    if (activityKey === "test" && window.SS_TEST && window.SS_TEST.hasBank(skillKey)) {
+      window.SS_TEST.start(skillKey);
+      return;
+    }
+
     /* Every other case is an activity with no engine yet. Its card is not
        a control, so this is unreachable from the UI and is a guard only. */
   }
@@ -317,7 +325,8 @@
        a skill returns Home. */
     document.addEventListener("keydown", e => {
       if (e.key !== "Escape") return;
-      if (state.screen === "learn" || state.screen === "practice") {
+      if (state.screen === "learn" || state.screen === "practice" ||
+          state.screen === "test") {
         openSkill(state.skill);
         return;
       }
@@ -334,6 +343,7 @@
 
     if (window.SS_LEARN) window.SS_LEARN.init();
     if (window.SS_PRACTICE) window.SS_PRACTICE.init();
+    if (window.SS_TEST) window.SS_TEST.init();
 
     goHome(false);
   }

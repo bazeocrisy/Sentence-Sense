@@ -1331,6 +1331,93 @@ img{max-width:100%;}
 #practice-clue{margin-right:auto;}
 
 
+/* ---------- 9b. TEST ----------
+   Same visual system as Practice; one critical difference.
+
+   A SELECTED CHOICE MEANS ONLY "this is the one I picked". It must
+   never read as correct or incorrect, so it uses the NAVY/skill outline
+   -- deliberately not the green .is-right or the orange .is-wrong that
+   Practice uses. Do not add a tick, a cross, a colour or a label here.
+   Correctness does not exist on this screen until the child submits. */
+.test-intro{align-items:flex-start;gap:14px;}
+.test-intro-line{color:var(--muted);font-size:1.08rem;max-width:var(--read-max);}
+.test-intro .btn-next{min-width:190px;}
+
+.choice-btn.is-picked{
+  border-color:var(--navy);
+  background:var(--page);
+  color:var(--navy-deep);
+  box-shadow:inset 0 0 0 1px var(--navy);
+}
+.screen-test[data-topic="verb"] .choice-btn.is-picked{border-color:var(--verb-ink);background:var(--verb-tint);box-shadow:inset 0 0 0 1px var(--verb-ink);}
+.screen-test[data-topic="subject"] .choice-btn.is-picked{border-color:var(--subject-ink);background:var(--subject-tint);box-shadow:inset 0 0 0 1px var(--subject-ink);}
+.screen-test[data-topic="noun"] .choice-btn.is-picked{border-color:var(--noun-ink);background:var(--noun-tint);box-shadow:inset 0 0 0 1px var(--noun-ink);}
+.screen-test[data-topic="adjective"] .choice-btn.is-picked{border-color:var(--adjective-ink);background:var(--adjective-tint);box-shadow:inset 0 0 0 1px var(--adjective-ink);}
+
+/* --- Results --- */
+.test-score{font-size:2.4rem;}
+.score-rows{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;}
+/* The row WRAPS. With a fixed label and a fixed count, eight dots did not
+   fit at 375px and pushed .score-count 1px past the viewport. Wrapping
+   costs nothing on a wide screen and removes the overflow on a narrow
+   one; the dots stay legible rather than being shrunk. */
+.score-row{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;}
+.score-label{
+  font-family:var(--font-display);font-weight:700;font-size:1rem;
+  color:var(--navy-deep);flex:0 1 118px;text-align:left;
+}
+.score-dots{display:flex;gap:5px;flex:1 1 auto;flex-wrap:wrap;min-width:0;}
+.score-dot{
+  width:13px;height:13px;border-radius:50%;
+  background:var(--line);border:1px solid #C9D5E6;
+}
+.score-dot.is-on{background:var(--green);border-color:var(--green-deep);}
+.score-count{
+  font-family:var(--font-display);font-weight:700;font-size:0.95rem;
+  color:var(--muted);flex:0 0 auto;margin-left:auto;text-align:right;
+}
+
+/* Narrow widths: the label takes its own line so BOTH rows lay out the
+   same way. Without this the 8-dot action row wrapped and the 4-dot being
+   row did not, and the two counts landed on different lines. */
+@media (max-width:460px){
+  .score-label{flex:1 1 100%;}
+  .score-dots{flex:0 1 auto;}
+  .score-count{margin-left:auto;}
+}
+
+/* --- Post-submission review. The only place correctness appears. --- */
+.test-review{
+  display:flex;flex-direction:column;gap:12px;
+  width:100%;margin-top:16px;text-align:left;
+}
+.review-item{
+  background:var(--card);border:1px solid var(--line);
+  border-left:4px solid var(--wrong-edge);
+  border-radius:var(--radius-md);padding:14px 16px;
+  display:flex;flex-direction:column;gap:9px;
+}
+.review-item.is-right{border-left-color:var(--right-edge);}
+.review-head{display:flex;align-items:baseline;gap:10px;}
+.review-n{
+  font-family:var(--font-display);font-weight:700;font-size:0.82rem;
+  color:#fff;background:var(--navy-soft);border-radius:50%;
+  width:24px;height:24px;flex:0 0 24px;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.review-q{font-family:var(--font-display);font-weight:700;color:var(--navy-deep);font-size:1rem;}
+.review-answers{display:flex;flex-wrap:wrap;gap:10px;}
+.review-yours,.review-correct{
+  display:inline-flex;align-items:baseline;gap:7px;
+  border-radius:var(--radius-sm);padding:6px 11px;font-size:0.97rem;
+}
+.review-yours.is-right{background:var(--right-tint);border:1px solid var(--right-edge);}
+.review-yours.is-wrong{background:var(--wrong-tint);border:1px solid var(--wrong-edge);}
+.review-correct{background:var(--right-tint);border:1px solid var(--right-edge);}
+.ra-label{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:700;}
+.ra-word{font-family:var(--font-display);font-weight:700;color:var(--navy-deep);}
+.review-why{color:var(--muted);font-size:0.97rem;}
+
 /* ---------- 10. COMPLETION PANELS ---------- */
 .done-panel{
   background:var(--card);
