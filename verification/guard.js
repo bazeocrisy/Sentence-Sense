@@ -224,6 +224,11 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   ok("2.12 the classroom banner is present", home.hasBanner && home.hasPhotoLayer);
   ok("2.13 no broken image is ever rendered", home.brokenImg === 0,
     home.photoPainted ? "photo supplied and painted" : "no photo yet; designed fallback in use");
+  /* The photograph IS supplied as of this build, so the harness now asserts
+     it loads rather than merely tolerating its absence. If it is ever
+     removed this turns red instead of silently falling back. */
+  ok("2.13b the banner photograph loads and is painted", home.photoPainted === true,
+    home.photoPainted ? "has-photo applied" : "PHOTO MISSING — fallback in use");
   ok("2.14 the section head matches the reference",
     home.sectionTitle === "Choose a skill" &&
     home.sectionSub === "Build the parts. Create better sentences.",
@@ -746,6 +751,26 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       const m = await page.evaluate(() => {
         const de = document.documentElement;
         const overflow = de.scrollWidth - de.clientWidth;
+        /* Banner legibility: the headline must never sit on top of the
+           photograph without something lifting it. On the phone layout the
+           text is stacked below the photo (no overlap); above 620px it
+           overlays and the scrim must be painted. Measured, not assumed. */
+        const hero = document.getElementById("home-hero");
+        let heroText = null;
+        if (hero && !document.getElementById("screen-home").hidden) {
+          const photo = hero.querySelector(".hero-photo");
+          const scrim = hero.querySelector(".hero-scrim");
+          const title = hero.querySelector(".hero-title");
+          const pv = photo ? getComputedStyle(photo).display !== "none" : false;
+          const sv = scrim ? getComputedStyle(scrim).display !== "none" : false;
+          const pr = photo ? photo.getBoundingClientRect() : null;
+          const tr = title ? title.getBoundingClientRect() : null;
+          const overlaps = (pv && pr && tr)
+            ? !(tr.top >= pr.bottom - 1 || tr.bottom <= pr.top + 1)
+            : false;
+          heroText = { photoVisible: pv, scrimVisible: sv, overlaps: overlaps,
+                       legible: !overlaps || sv };
+        }
         /* A false bottom: the page does not scroll, yet a required control
            sits below the fold and is therefore unreachable. */
         const scrollable = de.scrollHeight > de.clientHeight + 1;
@@ -761,7 +786,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
           overflow, scrollable,
           below: below.length,
           falseBottom: (!scrollable && below.length > 0),
-          tiny
+          tiny, heroText
         };
       });
       respRows.push({ viewport: label, w, h, screen: screenName, ...m });
@@ -769,6 +794,11 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       ok(`11.${screenName}.${label} no false bottom`, m.falseBottom === false,
         m.below + " below fold, scrollable=" + m.scrollable);
       ok(`11.${screenName}.${label} no text under 12px`, m.tiny === 0, m.tiny);
+      if (m.heroText) {
+        ok(`11.${screenName}.${label} banner headline stays legible over the photo`,
+          m.heroText.legible === true,
+          m.heroText.overlaps ? (m.heroText.scrimVisible ? "overlay + scrim" : "OVERLAPS WITH NO SCRIM") : "stacked, no overlap");
+      }
     }
   }
 

@@ -133,7 +133,7 @@
 
      The photo must carry NO baked-in text: the wordmark, headline and
      badge are live text drawn over it. */
-  const HERO_PHOTO = "assets/images/sentence-sense-hero.png";
+  const HERO_PHOTO = "assets/images/sentence-sense-hero.jpg";
 
   function probeHeroPhoto() {
     const hero = el("home-hero");

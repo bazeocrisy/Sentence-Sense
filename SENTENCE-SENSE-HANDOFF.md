@@ -57,6 +57,7 @@ Current: **Build 1.4.0**. It must match in four places, and the audit checks all
 | `js/practice.js` | **NEW 1.4.0** — the shared PRACTICE question engine | 370 |
 | `js/data/learn-content.js` | All content for all six topics, plus card fields | 1053 |
 | `assets/images/favicon.png` | Referenced by `index.html` |
+| `assets/images/sentence-sense-hero.jpg` | The classroom banner photograph. 2048×768, 169 KB. |
 | ~~`assets/images/logo.png`, `logo-512.png`~~ | **DELETED in 1.4.0.** Unreferenced; the cartoon-mascot lockup contradicted the art direction. See §11 H-03. |
 | `assets/reference/home-screen-mockup.png` | The approved style reference. Not loaded by the site. |
 | `verification/serve.js` · `verification/guard.js` | Dev harness. Not part of the site. |
@@ -106,21 +107,35 @@ left and the standards badge on the right, then `Choose a skill` with its
 subtitle, the four cards, and a one-line closing quote strip. This matches the
 approved reference image.
 
-**The photograph is optional AT RUNTIME.** `js/app.js` probes
-`assets/images/sentence-sense-hero.png` with an `Image` object and adds
-`.has-photo` only if it genuinely loads. **Dropping the file in is the entire
-installation step** — no code change, no CSS edit. Until then the banner renders
-a designed fallback in the SAME composition, so nothing moves when the photo
-arrives, and no broken image box is ever shown.
+**The photograph is supplied and installed:**
+`assets/images/sentence-sense-hero.jpg`, 2048 × 768 (8:3), 169 KB, no baked-in
+text. `js/app.js` probes it with an `Image` object and adds `.has-photo` only
+once it genuinely loads, so the page can never show a broken image box and a
+replacement is a drop-in with no code change. Check **2.13b** asserts it loads.
 
-**The photo must carry no baked-in text.** The wordmark, headline and badge are
-live text drawn over it, behind a gradient scrim that keeps them legible over an
-unpredictable photograph. Baked-in text would double up and collide at phone
-widths.
+**Two layouts, on purpose.** Both children sit in the right half of the frame,
+so one layout could not serve both screens:
 
-While no photo exists there is exactly **one expected 404** on that path. The
-harness excludes it *by URL* and only that URL (checks 1.2, 1.3), so a genuinely
-missing asset still fails. Supplying the photo makes the exclusion moot.
+- **Phone (< 620px): the photo is a BAND ABOVE THE TEXT.** An 8:3 banner at
+  358px wide is only 134px tall; overlaying type there leaves the children tiny
+  *and* the text cramped. Stacked, the children get real height and the wordmark
+  sits on solid ground, so legibility never depends on the photograph.
+- **≥ 620px: the photo fills the banner and the text overlays it**, behind a
+  left-to-right white scrim that keeps navy type above WCAG AA.
+
+This is measured, not assumed: check
+`11.home.<viewport> banner headline stays legible over the photo` reports
+*stacked, no overlap* on the three phone widths and *overlay + scrim* on the six
+larger ones, and fails if text ever overlaps the photo with no scrim.
+
+**Any replacement photo must carry no baked-in text.** The wordmark, headline
+and badge are live text drawn over it; printed text would double up and collide
+at phone widths. See `ASSETS-NEEDED.md` for the full specification.
+
+**The standards badge sits bottom-right, not top-right as the reference shows.**
+The reference had a blank whiteboard in that corner; this photograph has a
+child's head there, and a label across a face is worse than a small placement
+change.
 
 The closing quote strip is decoration: no link, no control, no tab stop. The
 reference pairs the quote with a Learn/Practice/Improve/Grow icon row; **that row

@@ -55,7 +55,7 @@ project dependency — the shipped site has no package manifest and no build
 system. Point at them with `$env:PUPPETEER` and `$env:CHROME`; see
 `verification/README.md`.
 
-**204 checks, 204 passing.**
+**214 checks, 214 passing.**
 
 ## Four defects were found and fixed *during* this build
 
@@ -89,12 +89,12 @@ Worth reviewing specifically, because three of them were invisible before:
 
 ## Two things that are deliberate, not oversights
 
-**No hero photograph — and it is the one thing still needed.** See
-`ASSETS-NEEDED.md` for the exact specification. The banner probes for the file
-at runtime and paints it only if it loads, so dropping it in is the entire
-installation step; until then a designed fallback holds the same composition.
-One expected 404 on that path is excluded from the harness by URL, and only that
-URL.
+**The hero photograph is supplied and installed** —
+`assets/images/sentence-sense-hero.jpg`, 2048×768, 169 KB, no baked-in text. The
+banner uses two layouts: stacked band above the text on phones, overlay behind a
+scrim at 620px and up, because both children sit in the right half of the frame.
+Legibility is measured at all nine viewports, not assumed. See
+`ASSETS-NEEDED.md`.
 
 **`complete-subject` and `predicate` still have full content** in
 `learn-content.js` and are not routed anywhere. That is required preservation for

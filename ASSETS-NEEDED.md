@@ -1,89 +1,70 @@
-# ASSETS NEEDED — Build 1.4.0
+# ASSETS — Build 1.4.0
 
-One asset is missing. The site is complete and fully tested without it; supplying
-it is the last step to matching the approved reference image exactly.
-
-**I cannot produce this file.** It is a photograph of real children, and this
-project does not author illustrations of people.
-
----
-
-## 1. The classroom banner photograph — REQUIRED for full reference match
+## 1. Classroom banner photograph — ✅ SUPPLIED AND INSTALLED
 
 | | |
 |---|---|
-| **Path** | `assets/images/sentence-sense-hero.png` (or `.jpg` — see note 4) |
-| **Content** | Two students at a desk in a bright classroom, as in `assets/reference/home-screen-mockup.png` |
-| **Dimensions** | ~2400 × 900 px — a 8:3 landscape crop |
-| **Weight** | Under ~400 KB optimized. It is the largest thing on the page. |
-| **Format** | PNG, or JPG at quality ~82 (a photograph compresses far better as JPG) |
+| **Path** | `assets/images/sentence-sense-hero.jpg` |
+| **Dimensions** | 2048 × 768 — exactly 8:3 |
+| **Weight** | 169 KB |
+| **Baked-in text** | None. Correct. |
 
-### Four things that matter more than the picture itself
+Installed and verified: check **2.13b** asserts the photograph actually loads and
+is painted, and the banner-legibility check passes at all nine viewports.
 
-**1. NO BAKED-IN TEXT. This is the important one.**
-The page draws the wordmark, the headline, the sub-line and the standards badge
-as **live text** over the photograph. Anything printed into the pixels will
-double up with that text, will not scale, cannot be changed without a new export,
-and will collide at phone widths.
+The probe path in `js/app.js` is `.jpg`, matching the supplied file. A photograph
+compresses far better as JPG than PNG, so the extension is also the right choice.
 
-So the supplied photo must **not** contain:
+### How it is laid out — two layouts, on purpose
 
-- the "Sentence Sense" wordmark or tagline
-- the "3rd Grade ELA / Georgia Standards Aligned" badge
-- the handwritten "Good Sentences Create Big Opportunities"
-- the "LEARN PRACTICE IMPROVE SUCCEED" poster
-- the "READ PRACTICE GROW BELIEVE" book stack
+Both children sit in the **right half** of the frame (faces at roughly 56% and
+83% across), so a single layout could not serve both screens.
 
-Those elements belong to the mockup as a *composition study*. The live page
-reproduces the ones that are approved, as text.
+**Phone (below 620px) — the photo is a BAND ABOVE THE TEXT.** An 8:3 banner at
+358px wide is only 134px tall; overlaying navy type on that would leave the
+children tiny *and* the text cramped. Stacked, the children get real height and
+the wordmark sits on solid ground, so legibility never depends on what the
+photograph happens to be doing behind it. The crop is biased right
+(`background-position: 88% 30%`), which throws away the calm left third of the
+classroom — the part carrying no subject — and keeps both faces.
 
-**2. Keep the children right-of-centre.**
-The left ~45% of the banner sits under the wordmark and headline. A subject
-placed left will be covered by the legibility scrim. Faces should land in the
-right half.
+**620px and up — the photo fills the banner and the text overlays it**, as the
+reference shows, behind a left-to-right white scrim that keeps navy type above
+WCAG AA over an unpredictable photograph.
 
-**3. The left edge should be relatively plain.**
-A gradient scrim lightens the left side so navy text stays above WCAG AA over an
-unpredictable photograph. The calmer that region, the better the type reads.
+Harness check `11.home.<viewport> banner headline stays legible over the photo`
+measures this rather than assuming it: it reports *stacked, no overlap* on the
+three phone widths and *overlay + scrim* on the six larger ones, and fails if
+text ever overlaps the photo with no scrim painted.
 
-**4. Optional second file for phones.**
-`assets/images/sentence-sense-hero-portrait.png`, ~1200 × 1200 px. An 8:3 crop
-loses both faces on a narrow screen. Without this the phone banner simply shows
-the designed fallback, which is why it is optional rather than required.
+### One deliberate deviation from the reference
 
-### Installing it
+**The standards badge sits bottom-right, not top-right.** The reference image had
+a blank whiteboard in that corner; this photograph has a child's head there, and
+a label across a face is worse than a small placement change. Wordmark top-left,
+badge bottom-right still reads as a balanced banner and nothing is obscured.
 
-Drop the file at the path above. **That is the entire installation step.**
+Say the word if you would rather have it top-right and accept the overlap.
 
-`js/app.js` probes for it with an `Image` object and adds `.has-photo` only when
-it genuinely loads. No code change, no CSS edit, no rebuild. Until the file
-exists the banner renders a designed fallback in the *same composition*, so
-nothing shifts when the photo arrives, and a broken image box is never shown.
+### Optional, still not supplied
 
-Verified during this build with a throwaway file: the class applied, the layer
-painted, the scrim activated, and there were **0 console errors and 0 404s**. The
-throwaway was then deleted.
-
-### Why the current mockup cannot be used directly
-
-`assets/reference/home-screen-mockup.png` is a flattened composite — the logo,
-the badge, the handwriting and the card layout are all baked into one raster. It
-cannot be cropped into a usable banner, because the text comes with it.
+`assets/images/sentence-sense-hero-portrait.png` — ~1200 × 1200. Not needed: the
+stacked phone layout already keeps both children large and clear, which is what
+the portrait crop would have solved. Listed only for completeness.
 
 ---
 
 ## 2. Brand lockup — OPTIONAL, not blocking
 
-The wordmark is currently **live text**: "Sentence" in navy, "Sense" in green,
-beside an inline SVG book glyph. It scales perfectly, weighs nothing, and matches
-the reference closely.
+The wordmark is **live text**: "Sentence" in navy, "Sense" in green, beside an
+inline SVG book glyph. It scales perfectly and weighs nothing.
 
 The previous raster logos (`logo.png`, `logo-512.png`) were deleted in this
 build: both had become unreferenced, and the cartoon-mascot pencil lockup
 contradicted the product's art direction.
 
-That means **no raster brand asset exists** for use outside the site — a README
-header, an app icon, a printed sheet. If one is wanted, supply:
+So **no raster brand asset exists** for use outside the site — a README header,
+an app icon, a printed sheet. If one is wanted:
 
 `assets/images/wordmark.png` — ~1200 × 400 px, transparent background.
 
@@ -96,8 +77,8 @@ a separate, cosmetic decision.
 
 The reference pairs the bottom quote with a **`Learn · Practice · Improve · Grow`
 icon row**. That row was **not built**: it reads as persistent navigation, and
-tapping it would go nowhere, which is the kind of interface element the product
-brief rules out.
+tapping it would go nowhere, which is the kind of element the product brief rules
+out.
 
 If you want it as **non-interactive decoration** — four small glyphs with labels,
 no links, no tab stops — say so and it is a short change. No asset is required;

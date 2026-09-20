@@ -286,6 +286,7 @@ img{max-width:100%;}
 .home-hero{
   position:relative;
   overflow:hidden;
+  flex-direction:column;
   border-radius:var(--radius-lg);
   border:1px solid var(--line);
   box-shadow:var(--shadow-card);
@@ -297,29 +298,47 @@ img{max-width:100%;}
   display:flex;
 }
 
-/* THE PHOTOGRAPH LAYER.
+/* THE PHOTOGRAPH.
    Painted only when js/app.js has PROVED the file loads, by adding
-   .has-photo. Absent the asset this rule never applies and no broken
-   image box is ever shown. Drop the file in and it appears. */
-.hero-photo{position:absolute;inset:0;}
+   .has-photo. Absent the asset the rules never apply, no broken image
+   box is shown, and the designed fallback stands.
+
+   TWO LAYOUTS, because one does not serve both screens:
+
+   PHONE -- the photo is a BAND ABOVE THE TEXT, in normal flow. An 8:3
+   banner at 358px wide is only 134px tall; overlaying navy text on that
+   leaves the children tiny AND the text cramped. Stacking gives the
+   children real height and puts the wordmark on solid ground, so
+   legibility never depends on what the photo happens to be doing.
+
+   >=620px -- the photo fills the banner and the text sits over it
+   behind a scrim, as the reference shows.
+
+   The source is 2048x768 (8:3). Both children sit in the RIGHT half:
+   faces at roughly 56% and 83% across. Every background-position below
+   is chosen to keep both of them in frame at that viewport. */
+.hero-photo{display:none;}
+
+/* Phone: a stacked band. `background-position-x` biased right so the
+   narrow crop keeps both faces; the calm left third of the classroom is
+   what gets cropped away, which is the part carrying no subject. */
 .home-hero.has-photo .hero-photo{
-  background-image:url("../assets/images/sentence-sense-hero.png");
+  display:block;
+  order:-1;
+  width:100%;
+  aspect-ratio:2 / 1;
+  max-height:230px;
+  background-image:url("../assets/images/sentence-sense-hero.jpg");
   background-size:cover;
-  background-position:center right;
+  background-position:88% 30%;
+  border-bottom:1px solid var(--line);
 }
 
-/* The legibility scrim. Live text sits over a photograph whose contrast
-   cannot be predicted, so the left side is always darkened enough for the
-   wordmark and headline to clear WCAG AA. Only drawn with the photo. */
-.hero-scrim{position:absolute;inset:0;}
-.home-hero.has-photo .hero-scrim{
-  background:linear-gradient(100deg,
-    rgba(255,255,255,0.97) 0%,
-    rgba(255,255,255,0.93) 34%,
-    rgba(255,255,255,0.55) 52%,
-    rgba(255,255,255,0.10) 70%,
-    rgba(255,255,255,0) 100%);
-}
+/* The legibility scrim, desktop only. Live text sits over a photograph
+   whose local contrast cannot be predicted, so the left side is lifted
+   until navy type clears WCAG AA against it. On the phone layout the
+   text is on the card, not the photo, so no scrim is needed. */
+.hero-scrim{display:none;}
 
 .hero-inner{
   position:relative;
@@ -969,6 +988,32 @@ img{max-width:100%;}
   .hero-inner{padding:26px 24px;}
   .home-hero{min-height:240px;}
   .hero-title{font-size:2.05rem;}
+
+  /* From here the photo fills the banner and the text overlays it. */
+  .home-hero.has-photo .hero-photo{
+    position:absolute;inset:0;
+    order:0;aspect-ratio:auto;max-height:none;
+    background-position:center 26%;
+    border-bottom:0;
+  }
+  .home-hero.has-photo .hero-scrim{
+    display:block;
+    position:absolute;inset:0;
+    background:linear-gradient(100deg,
+      rgba(255,255,255,0.97) 0%,
+      rgba(255,255,255,0.95) 30%,
+      rgba(255,255,255,0.72) 44%,
+      rgba(255,255,255,0.28) 58%,
+      rgba(255,255,255,0.04) 72%,
+      rgba(255,255,255,0) 100%);
+  }
+  /* The badge sits top-right, over the brightest part of the photo, so
+     it gets its own small pill rather than relying on the scrim. */
+  .home-hero.has-photo .hero-badge{
+    background:rgba(255,255,255,0.92);
+    border-radius:var(--radius-md);
+    padding:8px 12px;
+  }
   .stage{padding:24px 22px;}
   .skill-intro{padding:24px 22px;}
   .activity-body,.skill-body{gap:20px;}
@@ -983,16 +1028,21 @@ img{max-width:100%;}
      children in the photograph. */
   .hero-inner{
     flex-direction:row;
-    align-items:flex-start;
+    align-items:stretch;
     gap:28px;
     padding:30px 28px;
     min-height:260px;
   }
   .home-hero{min-height:300px;}
   .hero-text{flex:0 1 52%;margin-top:auto;margin-bottom:auto;}
+  /* The badge sits bottom-right, not top-right as the reference shows.
+     The reference had a blank whiteboard in that corner; this photograph
+     has a child's head there, and a label across a face is worse than a
+     small placement change. Wordmark top-left, badge bottom-right still
+     reads as a balanced banner, and nothing is obscured. */
   .hero-badge{
     flex:0 0 auto;
-    margin-top:0;
+    margin-top:auto;
     margin-left:auto;
     align-items:flex-end;
     text-align:right;
@@ -1039,6 +1089,7 @@ img{max-width:100%;}
   .stage{padding:16px 16px;gap:12px;}
   .hero-inner{padding:16px 16px;}
   .home-hero{min-height:0;}
+  .home-hero.has-photo .hero-photo{max-height:150px;}
   .done-panel{padding:18px 16px;}
 }
 

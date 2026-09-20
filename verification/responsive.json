@@ -8,42 +8,56 @@
    "screen": "home",
    "overflow": 0,
    "scrollable": true,
+   "below": 4,
+   "falseBottom": false,
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": false,
+    "overlaps": false,
+    "legible": true
+   }
+  },
+  {
+   "viewport": "phone-375",
+   "w": 375,
+   "h": 667,
+   "screen": "skill",
+   "overflow": 0,
+   "scrollable": false,
+   "below": 0,
+   "falseBottom": false,
+   "tiny": 0,
+   "heroText": null
+  },
+  {
+   "viewport": "phone-375",
+   "w": 375,
+   "h": 667,
+   "screen": "practice",
+   "overflow": 0,
+   "scrollable": false,
+   "below": 0,
+   "falseBottom": false,
+   "tiny": 0,
+   "heroText": null
+  },
+  {
+   "viewport": "phone-390",
+   "w": 390,
+   "h": 844,
+   "screen": "home",
+   "overflow": 0,
+   "scrollable": true,
    "below": 3,
    "falseBottom": false,
-   "tiny": 0
-  },
-  {
-   "viewport": "phone-375",
-   "w": 375,
-   "h": 667,
-   "screen": "skill",
-   "overflow": 0,
-   "scrollable": false,
-   "below": 0,
-   "falseBottom": false,
-   "tiny": 0
-  },
-  {
-   "viewport": "phone-375",
-   "w": 375,
-   "h": 667,
-   "screen": "practice",
-   "overflow": 0,
-   "scrollable": false,
-   "below": 0,
-   "falseBottom": false,
-   "tiny": 0
-  },
-  {
-   "viewport": "phone-390",
-   "w": 390,
-   "h": 844,
-   "screen": "home",
-   "overflow": 0,
-   "scrollable": true,
-   "below": 2,
-   "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": false,
+    "overlaps": false,
+    "legible": true
+   }
   },
   {
    "viewport": "phone-390",
@@ -54,7 +68,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "phone-390",
@@ -65,7 +80,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "phone-430",
@@ -74,9 +90,15 @@
    "screen": "home",
    "overflow": 0,
    "scrollable": true,
-   "below": 2,
+   "below": 3,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": false,
+    "overlaps": false,
+    "legible": true
+   }
   },
   {
    "viewport": "phone-430",
@@ -87,7 +109,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "phone-430",
@@ -98,7 +121,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "tablet-820",
@@ -109,7 +133,13 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": true,
+    "overlaps": true,
+    "legible": true
+   }
   },
   {
    "viewport": "tablet-820",
@@ -120,7 +150,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "tablet-820",
@@ -131,7 +162,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "laptop-1024",
@@ -142,7 +174,13 @@
    "scrollable": true,
    "below": 2,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": true,
+    "overlaps": true,
+    "legible": true
+   }
   },
   {
    "viewport": "laptop-1024",
@@ -153,7 +191,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "laptop-1024",
@@ -164,7 +203,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "laptop-1280",
@@ -175,7 +215,13 @@
    "scrollable": true,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": true,
+    "overlaps": true,
+    "legible": true
+   }
   },
   {
    "viewport": "laptop-1280",
@@ -186,7 +232,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "laptop-1280",
@@ -197,7 +244,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "laptop-1366",
@@ -208,7 +256,13 @@
    "scrollable": true,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": true,
+    "overlaps": true,
+    "legible": true
+   }
   },
   {
    "viewport": "laptop-1366",
@@ -219,7 +273,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "laptop-1366",
@@ -230,7 +285,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "desktop-1440",
@@ -241,7 +297,13 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": true,
+    "overlaps": true,
+    "legible": true
+   }
   },
   {
    "viewport": "desktop-1440",
@@ -252,7 +314,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "desktop-1440",
@@ -263,7 +326,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "desktop-1920",
@@ -274,7 +338,13 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": {
+    "photoVisible": true,
+    "scrimVisible": true,
+    "overlaps": true,
+    "legible": true
+   }
   },
   {
    "viewport": "desktop-1920",
@@ -285,7 +355,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   },
   {
    "viewport": "desktop-1920",
@@ -296,7 +367,8 @@
    "scrollable": false,
    "below": 0,
    "falseBottom": false,
-   "tiny": 0
+   "tiny": 0,
+   "heroText": null
   }
  ]
 }

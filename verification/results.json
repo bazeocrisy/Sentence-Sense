@@ -1,6 +1,6 @@
 {
  "build": "Build 1.4.0",
- "pass": 204,
+ "pass": 214,
  "fail": 0,
  "results": [
   {
@@ -106,7 +106,12 @@
   {
    "r": "PASS",
    "name": "2.13 no broken image is ever rendered",
-   "detail": "no photo yet; designed fallback in use"
+   "detail": "photo supplied and painted"
+  },
+  {
+   "r": "PASS",
+   "name": "2.13b the banner photograph loads and is painted",
+   "detail": "has-photo applied"
   },
   {
    "r": "PASS",
@@ -396,7 +401,7 @@
   {
    "r": "PASS",
    "name": "5.9 choice order is shuffled at render time (D-29)",
-   "detail": "10 distinct orders in 12 renders"
+   "detail": "11 distinct orders in 12 renders"
   },
   {
    "r": "PASS",
@@ -406,7 +411,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕brown tells what color the rabbit is. It describes the rabb"
+   "detail": "✕baseball tells what kind of team it is. It describes the te"
   },
   {
    "r": "PASS",
@@ -426,7 +431,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. hopped tells what the rabbit did, so"
+   "detail": "Let's find it together. practices tells what the team does, "
   },
   {
    "r": "PASS",
@@ -591,12 +596,17 @@
   {
    "r": "PASS",
    "name": "11.home.phone-375 no false bottom",
-   "detail": "3 below fold, scrollable=true"
+   "detail": "4 below fold, scrollable=true"
   },
   {
    "r": "PASS",
    "name": "11.home.phone-375 no text under 12px",
    "detail": "0"
+  },
+  {
+   "r": "PASS",
+   "name": "11.home.phone-375 banner headline stays legible over the photo",
+   "detail": "stacked, no overlap"
   },
   {
    "r": "PASS",
@@ -636,12 +646,17 @@
   {
    "r": "PASS",
    "name": "11.home.phone-390 no false bottom",
-   "detail": "2 below fold, scrollable=true"
+   "detail": "3 below fold, scrollable=true"
   },
   {
    "r": "PASS",
    "name": "11.home.phone-390 no text under 12px",
    "detail": "0"
+  },
+  {
+   "r": "PASS",
+   "name": "11.home.phone-390 banner headline stays legible over the photo",
+   "detail": "stacked, no overlap"
   },
   {
    "r": "PASS",
@@ -681,12 +696,17 @@
   {
    "r": "PASS",
    "name": "11.home.phone-430 no false bottom",
-   "detail": "2 below fold, scrollable=true"
+   "detail": "3 below fold, scrollable=true"
   },
   {
    "r": "PASS",
    "name": "11.home.phone-430 no text under 12px",
    "detail": "0"
+  },
+  {
+   "r": "PASS",
+   "name": "11.home.phone-430 banner headline stays legible over the photo",
+   "detail": "stacked, no overlap"
   },
   {
    "r": "PASS",
@@ -735,6 +755,11 @@
   },
   {
    "r": "PASS",
+   "name": "11.home.tablet-820 banner headline stays legible over the photo",
+   "detail": "overlay + scrim"
+  },
+  {
+   "r": "PASS",
    "name": "11.skill.tablet-820 no horizontal overflow",
    "detail": "0px"
   },
@@ -777,6 +802,11 @@
    "r": "PASS",
    "name": "11.home.laptop-1024 no text under 12px",
    "detail": "0"
+  },
+  {
+   "r": "PASS",
+   "name": "11.home.laptop-1024 banner headline stays legible over the photo",
+   "detail": "overlay + scrim"
   },
   {
    "r": "PASS",
@@ -825,6 +855,11 @@
   },
   {
    "r": "PASS",
+   "name": "11.home.laptop-1280 banner headline stays legible over the photo",
+   "detail": "overlay + scrim"
+  },
+  {
+   "r": "PASS",
    "name": "11.skill.laptop-1280 no horizontal overflow",
    "detail": "0px"
   },
@@ -867,6 +902,11 @@
    "r": "PASS",
    "name": "11.home.laptop-1366 no text under 12px",
    "detail": "0"
+  },
+  {
+   "r": "PASS",
+   "name": "11.home.laptop-1366 banner headline stays legible over the photo",
+   "detail": "overlay + scrim"
   },
   {
    "r": "PASS",
@@ -915,6 +955,11 @@
   },
   {
    "r": "PASS",
+   "name": "11.home.desktop-1440 banner headline stays legible over the photo",
+   "detail": "overlay + scrim"
+  },
+  {
+   "r": "PASS",
    "name": "11.skill.desktop-1440 no horizontal overflow",
    "detail": "0px"
   },
@@ -957,6 +1002,11 @@
    "r": "PASS",
    "name": "11.home.desktop-1920 no text under 12px",
    "detail": "0"
+  },
+  {
+   "r": "PASS",
+   "name": "11.home.desktop-1920 banner headline stays legible over the photo",
+   "detail": "overlay + scrim"
   },
   {
    "r": "PASS",

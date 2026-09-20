@@ -6,7 +6,7 @@
 **Baseline code version:** Build 1.3.0, confirmed from `js/app.js`, not from the branch name
 **Scope:** Simplified product redesign — skill-first navigation
 **Date:** 2026-09-20
-**Harness:** `verification/guard.js` — **204 checks, 204 PASS, 0 FAIL**
+**Harness:** `verification/guard.js` — **214 checks, 214 PASS, 0 FAIL**
 
 ---
 
@@ -92,7 +92,7 @@ Checks 2.1–2.11.
 | Short purpose statement | "Build stronger sentences." / "Choose a skill to start learning." |
 | Exactly four core skill cards | 4 — Verb, Subject, Noun, Adjective (check 2.1, 2.2) |
 | One obvious action per card | One `<button>` per card; the card is not a second control (2.7, 2.8) |
-| Optional hero image | Banner takes a supplied photo at runtime; designed fallback until then (checks 2.12, 2.13) |
+| Hero image | Supplied classroom photograph, installed and asserted to load (checks 2.12, 2.13, 2.13b) |
 | Subtle Georgia alignment footer | Non-interactive badge in the banner (2.9) |
 
 **Forbidden furniture: none present.** Check 2.10 string-searches the rendered
@@ -129,16 +129,31 @@ Home. Three of those calls were reversed on instruction:
 The standards line moved from a footer line into the banner badge, as the
 reference shows, rather than appearing twice.
 
-**The photograph is optional at RUNTIME, not at build time.** `js/app.js` probes
-the path with an `Image` object and paints it only on a successful load, so
-dropping the file in is the entire installation step. Verified both ways during
-this build: with a throwaway file present the class applied, the layer painted,
-the scrim activated and there were **0 console errors and 0 404s**; the throwaway
-was then deleted, because no invented artwork ships.
+**The photograph was supplied by the owner and is installed:**
+`assets/images/sentence-sense-hero.jpg`, 2048 × 768 (8:3), 169 KB, carrying no
+baked-in text — which was the part of the specification that actually mattered,
+since the wordmark, headline and badge are live text drawn over it.
 
-While no photo exists there is exactly one expected 404 on that path, excluded by
-the harness **by URL and only that URL** (checks 1.2, 1.3), so a genuinely
-missing asset still fails the build.
+`js/app.js` probes it with an `Image` object and paints it only on a successful
+load, so a replacement is a drop-in and a missing file can never render a broken
+image box. Check **2.13b** now asserts the photograph loads, rather than merely
+tolerating its absence as the previous pass did.
+
+**Two layouts, because one could not serve both screens.** Both children sit in
+the right half of the frame. Below 620px the photo is a band ABOVE the text — an
+8:3 banner at 358px wide is only 134px tall, and overlaying type there would
+leave the children tiny and the text cramped. At 620px and up the photo fills
+the banner and the text overlays it behind a white scrim, as the reference shows.
+
+This is measured at every viewport, not assumed: check
+`11.home.<viewport> banner headline stays legible over the photo` reports
+*stacked, no overlap* on the three phone widths and *overlay + scrim* on the six
+larger ones, and fails if text ever overlaps the photo with no scrim painted.
+
+**One deliberate deviation.** The standards badge sits bottom-right rather than
+top-right. The reference had a blank whiteboard in that corner; this photograph
+has a child's head there, and a label across a face is worse than a small
+placement change. Flagged for the owner rather than done silently.
 
 **A first pass rendered the reserved area as two grey bars and read as a failed
 image load.** It was replaced after screenshot inspection (§29).
