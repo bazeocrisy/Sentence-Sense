@@ -209,9 +209,9 @@
   function activityReady(topic, key) {
     if (key === "learn") return true;
     if (key === "practice") return topic.practice === "bank";
-    /* Test is available exactly when the skill has an approved test bank.
-       Adding one is a content change; no code change is needed here. */
-    if (key === "test") return topic.test === "bank";
+    /* Test is available exactly when the skill has an approved question
+       pool. Adding one is a content change; no code change is needed. */
+    if (key === "test") return topic.test === "pool";
     return false;
   }
 

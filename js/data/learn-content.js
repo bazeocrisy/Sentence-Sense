@@ -119,7 +119,7 @@ window.SS_LEARN_CONTENT = {
       icon: "run",
       preview: { words: ["The", "boy", "runs", "fast."], start: 2, end: 2 },
       practice: "bank",
-      test: "bank",
+      test: "pool",
 
       definition: {
         title: "What is a verb?",
@@ -537,25 +537,56 @@ window.SS_LEARN_CONTENT = {
 
 
       /* =====================================================
-         VERB TEST -- 12 scored questions, 8 action / 4 being.
+         VERB TEST POOL -- 48 curated questions, 32 action / 16 being.
+
+         PHASE 1. The Test no longer reshuffles a fixed set of 12; it
+         SAMPLES a balanced assessment from this pool, so repeated
+         sittings measure verbs rather than memory of the test.
+
+         This bank is the EDUCATIONAL SOURCE OF TRUTH. Sentences,
+         choices, answers, tags and `why` lines are owner-supplied and
+         approved as a unit. Do not reword, improve or extend them
+         while editing engine code.
 
          Test MEASURES. It gives no hint, no retry, no clue and no
          correctness feedback until the child submits. Each question
          therefore carries no per-choice coaching -- only `why`, which
          the results review shows AFTER submission and nowhere else.
 
-         `band` drives the shuffle: questions are reordered WITHIN a
-         band and never across bands, so every sitting runs easy ->
-         medium -> hard while answer positions still move.
+         `band` is 1 | 2 | 3 and drives both sampling and order:
+         questions are drawn per band and shuffled WITHIN a band, never
+         across, so every sitting runs easy -> medium -> hard.
 
          `type` drives the two subscales. A strong action score must
          not hide weak being-verb understanding, so mastery needs all
-         three thresholds below, not just the overall one.
+         three thresholds, not just the overall one.
+
+         `beingForm` is null for action questions and am|is|are|was|were
+         for being questions. `tags` name the concepts a question
+         exercises, so sampling can avoid a concept-poor test.
          ===================================================== */
-      testBank: {
-        intro: "12 questions. No hints this time \u2014 you've got this.",
-        confirm: "You answered all 12. Ready to see how you did?",
-        mastery: { overall: 10, action: 7, being: 3 },
+      testPool: {
+        /* {n} is replaced with the chosen question count. */
+        intro: "{n} questions. No hints this time \u2014 you've got this.",
+        confirm: "You answered all {n}. Ready to see how you did?",
+
+        /* CHILD-FACING lengths. 40 is implemented, harnessed and
+           audited, but stays out of this list until the pool reaches
+           ~80 questions: at 48 a 40-question sitting is 83% of the
+           pool and every Band-1 being question appears every time. */
+        sizes: [12, 20, 30],
+        sizesBuilt: [12, 20, 30, 40],
+
+        /* Thresholds are RATIOS so they scale with the chosen length.
+           [5,6] = 83.3% overall, [7,8] = 87.5% action, [3,4] = 75%
+           being -- the Build 1.4.0 standard, which at 12 questions
+           still resolves to exactly 10/12, 7/8 and 3/4. */
+        masteryRatio: {
+          overall: [5, 6],
+          action:  [7, 8],
+          being:   [3, 4],
+          almost:  [2, 3]
+        },
 
         /* Wording is CONTENT, never engine strings. */
         guidance: {
@@ -568,8 +599,8 @@ window.SS_LEARN_CONTENT = {
 
         questions: [
           /* ---------- BAND 1 -- confidence ---------- */
-          /* T1 */
-          { band: 0, type: "action",
+          { id: "V001", band: 1, type: "action", beingForm: null,
+            tags: ["action", "straightforward", "suffix-ed-answer"],
             sentence: { words: ["The", "farmer", "planted", "corn", "in", "the", "wide", "field."] },
             question: "Which word tells what happened?",
             choices: [
@@ -578,9 +609,9 @@ window.SS_LEARN_CONTENT = {
               { text: "corn" },
               { text: "field" }
             ],
-            why: "planted tells what the farmer did." },
-          /* T2 */
-          { band: 0, type: "being",
+            why: "planted tells what the farmer did. It is the action verb." },
+          { id: "V002", band: 1, type: "being", beingForm: "is",
+            tags: ["being", "straightforward"],
             sentence: { words: ["My", "new", "library", "book", "is", "funny."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -589,9 +620,9 @@ window.SS_LEARN_CONTENT = {
               { text: "is", correct: true },
               { text: "funny" }
             ],
-            why: "is tells what the book is. A verb can tell what something IS, not only what it does." },
-          /* T3 */
-          { band: 0, type: "action",
+            why: "is tells what the book is. funny describes the book." },
+          { id: "V003", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-s-answer", "straightforward"],
             sentence: { words: ["Our", "teacher", "reads", "a", "story", "every", "afternoon."] },
             question: "Which word tells what happens?",
             choices: [
@@ -600,9 +631,9 @@ window.SS_LEARN_CONTENT = {
               { text: "story" },
               { text: "afternoon" }
             ],
-            why: "reads tells what the teacher does." },
-          /* T4 */
-          { band: 0, type: "being",
+            why: "reads tells what the teacher does. It is the action verb." },
+          { id: "V004", band: 1, type: "being", beingForm: "are",
+            tags: ["being", "plural-s-lure"],
             sentence: { words: ["The", "twins", "are", "ready", "for", "school."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -611,10 +642,143 @@ window.SS_LEARN_CONTENT = {
               { text: "ready" },
               { text: "school" }
             ],
-            why: "are tells what the twins are. twins ends in -s, but it names who we are talking about." },
-          /* ---------- BAND 2 -- lures ---------- */
-          /* T5 */
-          { band: 1, type: "action",
+            why: "are tells what the twins are. twins names who the sentence is about." },
+          { id: "V005", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "straightforward"],
+            sentence: { words: ["The", "brown", "rabbit", "hopped", "across", "the", "grassy", "field."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "brown" },
+              { text: "rabbit" },
+              { text: "hopped", correct: true },
+              { text: "field" }
+            ],
+            why: "hopped tells what the rabbit did. It is the action verb." },
+          { id: "V006", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-s-answer", "straightforward"],
+            sentence: { words: ["Maya", "opens", "her", "colorful", "notebook", "during", "science", "class."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "Maya" },
+              { text: "colorful" },
+              { text: "opens", correct: true },
+              { text: "notebook" }
+            ],
+            why: "opens tells what Maya does. It is the action verb." },
+          { id: "V007", band: 1, type: "being", beingForm: "was",
+            tags: ["being", "straightforward"],
+            sentence: { words: ["The", "lunchbox", "was", "empty", "after", "recess."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "lunchbox" },
+              { text: "was", correct: true },
+              { text: "empty" },
+              { text: "recess" }
+            ],
+            why: "was tells what the lunchbox was. empty describes the lunchbox." },
+          { id: "V008", band: 1, type: "action", beingForm: null,
+            tags: ["action", "plural-s-lure"],
+            sentence: { words: ["Several", "birds", "gather", "near", "the", "feeder", "each", "morning."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "birds" },
+              { text: "gather", correct: true },
+              { text: "feeder" },
+              { text: "morning" }
+            ],
+            why: "gather tells what the birds do. birds names who is doing the action." },
+          { id: "V009", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "straightforward"],
+            sentence: { words: ["My", "sister", "packed", "her", "bag", "before", "school."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "sister" },
+              { text: "packed", correct: true },
+              { text: "bag" },
+              { text: "school" }
+            ],
+            why: "packed tells what the sister did. It is the action verb." },
+          { id: "V010", band: 1, type: "being", beingForm: "am",
+            tags: ["being", "straightforward"],
+            sentence: { words: ["I", "am", "ready", "for", "math", "class."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "I" },
+              { text: "am", correct: true },
+              { text: "ready" },
+              { text: "class" }
+            ],
+            why: "am tells what I am. ready describes how I am." },
+          { id: "V011", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-s-answer", "noun-verb-double-duty-lure"],
+            sentence: { words: ["The", "coach", "throws", "the", "ball", "during", "practice."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "coach" },
+              { text: "throws", correct: true },
+              { text: "ball" },
+              { text: "practice" }
+            ],
+            why: "throws tells what the coach does. practice is a thing in this sentence, not the action." },
+          { id: "V012", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "straightforward"],
+            sentence: { words: ["The", "small", "dog", "barked", "at", "the", "mail", "truck."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "dog" },
+              { text: "barked", correct: true },
+              { text: "mail" },
+              { text: "truck" }
+            ],
+            why: "barked tells what the dog did. It is the action verb." },
+          { id: "V013", band: 1, type: "being", beingForm: "is",
+            tags: ["being", "straightforward"],
+            sentence: { words: ["The", "hallway", "is", "quiet", "before", "the", "first", "bell."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "hallway" },
+              { text: "is", correct: true },
+              { text: "quiet" },
+              { text: "bell" }
+            ],
+            why: "is tells what the hallway is. quiet describes the hallway." },
+          { id: "V014", band: 1, type: "action", beingForm: null,
+            tags: ["action", "plural-s-lure"],
+            sentence: { words: ["The", "students", "carry", "books", "to", "the", "library."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "students" },
+              { text: "carry", correct: true },
+              { text: "books" },
+              { text: "library" }
+            ],
+            why: "carry tells what the students do. students and books are naming words, not the action." },
+          { id: "V015", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "straightforward"],
+            sentence: { words: ["The", "turtle", "crawled", "across", "the", "warm", "rock."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "turtle" },
+              { text: "crawled", correct: true },
+              { text: "warm" },
+              { text: "rock" }
+            ],
+            why: "crawled tells what the turtle did. It is the action verb." },
+          { id: "V016", band: 1, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "plural-s-lure"],
+            sentence: { words: ["The", "students", "stacked", "their", "folders", "beside", "the", "blue", "bin."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "students" },
+              { text: "stacked", correct: true },
+              { text: "folders" },
+              { text: "bin" }
+            ],
+            why: "stacked tells what the students did. students and folders name people or things." },
+
+          /* ---------- BAND 2 -- look closer ---------- */
+          { id: "V017", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "suffix-ing-lure"],
             sentence: { words: ["The", "cheering", "crowd", "clapped", "for", "the", "winning", "team."] },
             question: "Which word tells what happened?",
             choices: [
@@ -623,20 +787,9 @@ window.SS_LEARN_CONTENT = {
               { text: "clapped", correct: true },
               { text: "winning" }
             ],
-            why: "clapped tells what the crowd did. cheering and winning end in -ing, but they describe the crowd and the team." },
-          /* T6 */
-          { band: 1, type: "action",
-            sentence: { words: ["The", "children", "watch", "the", "sunset", "from", "the", "porch."] },
-            question: "Which word tells what is happening?",
-            choices: [
-              { text: "children" },
-              { text: "watch", correct: true },
-              { text: "sunset" },
-              { text: "porch" }
-            ],
-            why: "watch tells what the children do. A watch can also be a thing you wear, so always read the whole sentence." },
-          /* T7 */
-          { band: 1, type: "being",
+            why: "clapped tells what the crowd did. cheering and winning describe people in this sentence." },
+          { id: "V018", band: 2, type: "being", beingForm: "was",
+            tags: ["being", "plural-s-lure", "noun-verb-double-duty-lure"],
             sentence: { words: ["The", "park", "was", "empty", "after", "the", "heavy", "rains."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -645,21 +798,165 @@ window.SS_LEARN_CONTENT = {
               { text: "empty" },
               { text: "rains" }
             ],
-            why: "was tells what the park was. rains ends in -s, but here it names the heavy rain that fell." },
-          /* T8 */
-          { band: 1, type: "action",
-            sentence: { words: ["My", "older", "brother", "carefully", "washed", "those", "striped", "glasses."] },
+            why: "was tells what the park was. rains names something and is not the verb in this sentence." },
+          { id: "V019", band: 2, type: "action", beingForm: null,
+            tags: ["action", "noun-verb-double-duty-answer"],
+            sentence: { words: ["The", "children", "watch", "the", "sunset", "from", "the", "porch."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "children" },
+              { text: "watch", correct: true },
+              { text: "sunset" },
+              { text: "porch" }
+            ],
+            why: "watch tells what the children do. In this sentence, watch is the action verb." },
+          { id: "V020", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "suffix-ed-lure", "plural-s-lure"],
+            sentence: { words: ["The", "striped", "cat", "chased", "two", "birds", "across", "the", "yard."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "brother" },
-              { text: "washed", correct: true },
               { text: "striped" },
-              { text: "glasses" }
+              { text: "cat" },
+              { text: "chased", correct: true },
+              { text: "birds" }
             ],
-            why: "washed tells what the brother did. striped ends in -ed too, but it describes the glasses." },
-          /* ---------- BAND 3 -- reasoning ---------- */
-          /* T9 */
-          { band: 2, type: "action",
+            why: "chased tells what the cat did. striped describes the cat, and birds names what was chased." },
+          { id: "V021", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "noun-verb-double-duty-lure"],
+            sentence: { words: ["Jordan", "packed", "his", "clean", "uniform", "before", "soccer", "practice."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "packed", correct: true },
+              { text: "clean" },
+              { text: "uniform" },
+              { text: "practice" }
+            ],
+            why: "packed tells what Jordan did. practice is a thing in this sentence, not the action." },
+          { id: "V022", band: 2, type: "being", beingForm: "are",
+            tags: ["being", "plural-s-lure"],
+            sentence: { words: ["The", "long", "hallways", "are", "quiet", "after", "the", "final", "bell."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "hallways" },
+              { text: "are", correct: true },
+              { text: "quiet" },
+              { text: "bell" }
+            ],
+            why: "are tells what the hallways are. quiet describes the hallways." },
+          { id: "V023", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-s-answer"],
+            sentence: { words: ["The", "young", "artist", "paints", "a", "colorful", "picture", "for", "the", "hallway."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "young" },
+              { text: "artist" },
+              { text: "paints", correct: true },
+              { text: "picture" }
+            ],
+            why: "paints tells what the artist does. It is the action verb." },
+          { id: "V024", band: 2, type: "action", beingForm: null,
+            tags: ["action", "plural-s-lure"],
+            sentence: { words: ["Several", "noisy", "birds", "gather", "beside", "the", "school", "playground."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "noisy" },
+              { text: "birds" },
+              { text: "gather", correct: true },
+              { text: "playground" }
+            ],
+            why: "gather tells what the birds do. birds names who is doing the action." },
+          { id: "V025", band: 2, type: "being", beingForm: "is",
+            tags: ["being"],
+            sentence: { words: ["The", "proud", "captain", "is", "ready", "for", "the", "final", "game."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "captain" },
+              { text: "is", correct: true },
+              { text: "ready" },
+              { text: "game" }
+            ],
+            why: "is tells what the captain is. ready describes the captain." },
+          { id: "V026", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "suffix-ing-lure", "plural-s-lure"],
+            sentence: { words: ["The", "gardener", "watered", "the", "flowering", "plants", "before", "sunset."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "gardener" },
+              { text: "watered", correct: true },
+              { text: "flowering" },
+              { text: "plants" }
+            ],
+            why: "watered tells what the gardener did. flowering describes the plants." },
+          { id: "V027", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-s-answer"],
+            sentence: { words: ["Our", "class", "visits", "the", "science", "museum", "each", "spring."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "class" },
+              { text: "visits", correct: true },
+              { text: "museum" },
+              { text: "spring" }
+            ],
+            why: "visits tells what the class does. It is the action verb." },
+          { id: "V028", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-s-answer"],
+            sentence: { words: ["The", "baker", "mixes", "the", "batter", "in", "a", "large", "bowl."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "baker" },
+              { text: "mixes", correct: true },
+              { text: "batter" },
+              { text: "bowl" }
+            ],
+            why: "mixes tells what the baker does. It is the action verb." },
+          { id: "V029", band: 2, type: "being", beingForm: "was",
+            tags: ["being"],
+            sentence: { words: ["The", "backpack", "was", "full", "after", "the", "field", "trip."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "backpack" },
+              { text: "was", correct: true },
+              { text: "full" },
+              { text: "trip" }
+            ],
+            why: "was tells what the backpack was. full describes the backpack." },
+          { id: "V030", band: 2, type: "action", beingForm: null,
+            tags: ["action", "plural-s-lure", "noun-verb-double-duty-answer"],
+            sentence: { words: ["My", "cousins", "play", "cards", "after", "dinner."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "cousins" },
+              { text: "play", correct: true },
+              { text: "cards" },
+              { text: "dinner" }
+            ],
+            why: "play tells what the cousins do. In this sentence, play is the action verb." },
+          { id: "V031", band: 2, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "plural-s-lure"],
+            sentence: { words: ["The", "soccer", "players", "kicked", "the", "muddy", "ball", "across", "the", "field."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "players" },
+              { text: "kicked", correct: true },
+              { text: "muddy" },
+              { text: "field" }
+            ],
+            why: "kicked tells what the players did. players names who did the action." },
+          { id: "V032", band: 2, type: "being", beingForm: "are",
+            tags: ["being", "plural-s-lure"],
+            sentence: { words: ["Those", "windows", "are", "clean", "after", "the", "storm."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "windows" },
+              { text: "are", correct: true },
+              { text: "clean" },
+              { text: "storm" }
+            ],
+            why: "are tells what the windows are. clean describes the windows." },
+
+          /* ---------- BAND 3 -- strongest reasoning ---------- */
+          { id: "V033", band: 3, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "plural-s-lure", "noun-verb-double-duty-lure"],
             sentence: { words: ["At", "the", "campsite,", "the", "campers", "planned", "their", "next", "hike."] },
             question: "Which word tells what happened?",
             choices: [
@@ -668,9 +965,9 @@ window.SS_LEARN_CONTENT = {
               { text: "campsite" },
               { text: "hike" }
             ],
-            why: "planned tells what the campers did. hike can be a verb in another sentence, but here it names the thing they planned." },
-          /* T10 */
-          { band: 2, type: "being",
+            why: "planned tells what the campers did. hike is a thing in this sentence, not the action." },
+          { id: "V034", band: 3, type: "being", beingForm: "were",
+            tags: ["being", "plural-s-lure", "suffix-ing-lure"],
             sentence: { words: ["The", "gardeners", "were", "proud", "of", "their", "growing", "vegetables."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -679,9 +976,9 @@ window.SS_LEARN_CONTENT = {
               { text: "proud" },
               { text: "growing" }
             ],
-            why: "were tells what the gardeners were. growing ends in -ing, but it describes the vegetables." },
-          /* T11 */
-          { band: 2, type: "action",
+            why: "were tells what the gardeners were. growing describes the vegetables." },
+          { id: "V035", band: 3, type: "action", beingForm: null,
+            tags: ["action", "noun-verb-double-duty-answer", "plural-s-lure", "suffix-ing-lure"],
             sentence: { words: ["After", "the", "bell,", "the", "students", "study", "their", "spelling", "words."] },
             question: "Which word tells what happens?",
             choices: [
@@ -690,9 +987,9 @@ window.SS_LEARN_CONTENT = {
               { text: "spelling" },
               { text: "words" }
             ],
-            why: "study tells what the students do. spelling ends in -ing, but it tells what kind of words they are." },
-          /* T12 */
-          { band: 2, type: "action",
+            why: "study tells what the students do. spelling describes the words in this sentence." },
+          { id: "V036", band: 3, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "suffix-ing-lure", "plural-s-lure"],
             sentence: { words: ["The", "old", "lighthouse", "on", "the", "rocky", "cliffs", "guided", "the", "passing", "ships."] },
             question: "Which word tells what happened?",
             choices: [
@@ -701,7 +998,139 @@ window.SS_LEARN_CONTENT = {
               { text: "passing" },
               { text: "ships" }
             ],
-            why: "guided tells what the lighthouse did. passing ends in -ing, but it describes the ships." }
+            why: "guided tells what the lighthouse did. passing describes the ships." },
+          { id: "V037", band: 3, type: "action", beingForm: null,
+            tags: ["action", "noun-verb-double-duty-lure", "suffix-ed-answer", "suffix-ing-lure"],
+            sentence: { words: ["During", "practice,", "the", "catcher", "blocked", "the", "bouncing", "baseball."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "practice" },
+              { text: "catcher" },
+              { text: "blocked", correct: true },
+              { text: "bouncing" }
+            ],
+            why: "blocked tells what the catcher did. practice is a thing here, and bouncing describes the baseball." },
+          { id: "V038", band: 3, type: "being", beingForm: "was",
+            tags: ["being", "plural-s-lure"],
+            sentence: { words: ["The", "classroom", "was", "quiet", "during", "the", "long", "announcements."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "classroom" },
+              { text: "was", correct: true },
+              { text: "quiet" },
+              { text: "announcements" }
+            ],
+            why: "was tells what the classroom was. quiet describes the classroom." },
+          { id: "V039", band: 3, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer"],
+            sentence: { words: ["Near", "the", "fence,", "a", "curious", "squirrel", "climbed", "the", "tall", "oak", "tree."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "curious" },
+              { text: "squirrel" },
+              { text: "climbed", correct: true },
+              { text: "tree" }
+            ],
+            why: "climbed tells what the squirrel did. It is the action verb." },
+          { id: "V040", band: 3, type: "being", beingForm: "are",
+            tags: ["being", "plural-s-lure"],
+            sentence: { words: ["The", "science", "club", "members", "are", "ready", "for", "the", "regional", "fair."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "members" },
+              { text: "are", correct: true },
+              { text: "ready" },
+              { text: "fair" }
+            ],
+            why: "are tells what the club members are. ready describes the members." },
+          { id: "V041", band: 3, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-answer", "suffix-ing-lure", "plural-s-lure"],
+            sentence: { words: ["Before", "sunrise,", "the", "hikers", "packed", "their", "sleeping", "bags."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "hikers" },
+              { text: "packed", correct: true },
+              { text: "sleeping" },
+              { text: "bags" }
+            ],
+            why: "packed tells what the hikers did. sleeping describes the bags." },
+          { id: "V042", band: 3, type: "being", beingForm: "is",
+            tags: ["being", "plural-s-lure"],
+            sentence: { words: ["Our", "team", "captain", "is", "proud", "of", "the", "players."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "captain" },
+              { text: "is", correct: true },
+              { text: "proud" },
+              { text: "players" }
+            ],
+            why: "is tells what the captain is. proud describes the captain." },
+          { id: "V043", band: 3, type: "action", beingForm: null,
+            tags: ["action", "suffix-ed-lure", "suffix-ed-answer", "plural-s-lure"],
+            sentence: { words: ["The", "painted", "signs", "pointed", "visitors", "toward", "the", "entrance."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "painted" },
+              { text: "signs" },
+              { text: "pointed", correct: true },
+              { text: "visitors" }
+            ],
+            why: "pointed tells what the signs did. painted describes the signs." },
+          { id: "V044", band: 3, type: "action", beingForm: null,
+            tags: ["action", "noun-verb-double-duty-answer", "plural-s-lure"],
+            sentence: { words: ["During", "music", "class,", "the", "students", "practice", "their", "scales", "quietly."] },
+            question: "Which word tells what happens?",
+            choices: [
+              { text: "class" },
+              { text: "students" },
+              { text: "practice", correct: true },
+              { text: "scales" }
+            ],
+            why: "practice tells what the students do. In this sentence, practice is the action verb." },
+          { id: "V045", band: 3, type: "being", beingForm: "were",
+            tags: ["being", "plural-s-lure"],
+            sentence: { words: ["The", "shelves", "were", "full", "of", "library", "books", "after", "the", "delivery."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "shelves" },
+              { text: "were", correct: true },
+              { text: "full" },
+              { text: "books" }
+            ],
+            why: "were tells what the shelves were. full describes the shelves." },
+          { id: "V046", band: 3, type: "action", beingForm: null,
+            tags: ["action", "suffix-ing-lure", "suffix-ed-answer", "plural-s-lure"],
+            sentence: { words: ["The", "running", "water", "filled", "the", "campers\u2019", "bottles", "quickly."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "running" },
+              { text: "filled", correct: true },
+              { text: "campers" },
+              { text: "bottles" }
+            ],
+            why: "filled tells what the water did. running describes the water." },
+          { id: "V047", band: 3, type: "being", beingForm: "am",
+            tags: ["being", "suffix-ing-lure"],
+            sentence: { words: ["I", "am", "ready", "for", "the", "spelling", "challenge", "this", "morning."] },
+            question: "Which word is the verb in this sentence?",
+            choices: [
+              { text: "I" },
+              { text: "am", correct: true },
+              { text: "ready" },
+              { text: "spelling" }
+            ],
+            why: "am tells what I am. ready describes how I am." },
+          { id: "V048", band: 3, type: "action", beingForm: null,
+            tags: ["action", "suffix-ing-lure", "suffix-ed-lure", "suffix-ed-answer"],
+            sentence: { words: ["The", "marching", "band", "crossed", "the", "crowded", "field", "before", "halftime."] },
+            question: "Which word tells what happened?",
+            choices: [
+              { text: "marching" },
+              { text: "crowded" },
+              { text: "crossed", correct: true },
+              { text: "halftime" }
+            ],
+            why: "crossed tells what the band did. marching and crowded describe things in the sentence." }
         ]
       },
       recap: "A verb tells what someone or something does or is. Ask: What happened?",

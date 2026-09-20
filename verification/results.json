@@ -1,6 +1,6 @@
 {
  "build": "Build 1.4.0",
- "pass": 255,
+ "pass": 304,
  "fail": 0,
  "results": [
   {
@@ -501,7 +501,7 @@
   {
    "r": "PASS",
    "name": "5.9 choice order is shuffled at render time (D-29)",
-   "detail": "11 distinct orders in 12 renders"
+   "detail": "9 distinct orders in 12 renders"
   },
   {
    "r": "PASS",
@@ -511,7 +511,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕Maya names who does the action. Look again for the word tha"
+   "detail": "✕puppy names who we are talking about. A verb can tell what "
   },
   {
    "r": "PASS",
@@ -521,7 +521,7 @@
   {
    "r": "PASS",
    "name": "6.3 second wrong gives the stronger clue",
-   "detail": "Remember: ask yourself, What is happening?"
+   "detail": "Remember: a verb can also tell what someone or something is."
   },
   {
    "r": "PASS",
@@ -531,7 +531,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. opens tells what Maya does, so opens"
+   "detail": "Let's find it together. is tells what the puppy is, so is is"
   },
   {
    "r": "PASS",
@@ -700,98 +700,343 @@
   },
   {
    "r": "PASS",
-   "name": "13.3 the test is 12 questions",
+   "name": "13.3 the selector offers exactly the content-declared lengths",
+   "detail": "12,20,30 vs 12,20,30"
+  },
+  {
+   "r": "PASS",
+   "name": "13.4 40 is built and tested but NOT offered to the child",
+   "detail": "built=12,20,30,40 offered=12,20,30"
+  },
+  {
+   "r": "PASS",
+   "name": "13.5 the selector is numbers only -- no word implies difficulty",
+   "detail": "12,20,30"
+  },
+  {
+   "r": "PASS",
+   "name": "13.6 the shortest length is preselected",
+   "detail": ""
+  },
+  {
+   "r": "PASS",
+   "name": "13.7 the helper line says longer means more, not harder",
+   "detail": "Every test has the same mix of questions.\n            Longer just means more of them."
+  },
+  {
+   "r": "PASS",
+   "name": "13.8 every length button clears the 44px tap target",
+   "detail": "72x56 72x56 72x56"
+  },
+  {
+   "r": "PASS",
+   "name": "13.9 the intro copy interpolates the chosen count, leaving no {n}",
+   "detail": "12 questions. No hints this time — you've got this."
+  },
+  {
+   "r": "PASS",
+   "name": "13.10 the first sitting is the preselected length",
    "detail": "12"
   },
   {
    "r": "PASS",
-   "name": "13.4 band order is preserved (no cross-band shuffle)",
-   "detail": "0,0,0,0,1,1,1,1,2,2,2,2"
+   "name": "13.11 choosing 20 rebuilds the sitting at 20 questions",
+   "detail": "20"
   },
   {
    "r": "PASS",
-   "name": "13.5 first question shows 1 of 12",
+   "name": "13.12 only the chosen length stays selected",
+   "detail": "20"
+  },
+  {
+   "r": "PASS",
+   "name": "13.13 the intro and confirm copy both follow the chosen length",
+   "detail": "20 questions. No hints this time — you've got this."
+  },
+  {
+   "r": "PASS",
+   "name": "13.14.12 sampling at 12 is exact  [4(2A/2B) 4(3A/1B) 4(3A/1B)]",
+   "detail": "dup=0 crossBand=0 count=0 balance=0 cell=0 coverage=0  (60 draws)"
+  },
+  {
+   "r": "PASS",
+   "name": "13.14.20 sampling at 20 is exact  [7(4A/3B) 7(5A/2B) 6(4A/2B)]",
+   "detail": "dup=0 crossBand=0 count=0 balance=0 cell=0 coverage=0  (60 draws)"
+  },
+  {
+   "r": "PASS",
+   "name": "13.14.30 sampling at 30 is exact  [10(6A/4B) 10(7A/3B) 10(7A/3B)]",
+   "detail": "dup=0 crossBand=0 count=0 balance=0 cell=0 coverage=0  (60 draws)"
+  },
+  {
+   "r": "PASS",
+   "name": "13.14.40 sampling at 40 is exact  [14(9A/5B) 13(9A/4B) 13(9A/4B)]",
+   "detail": "dup=0 crossBand=0 count=0 balance=0 cell=0 coverage=0  (60 draws)"
+  },
+  {
+   "r": "PASS",
+   "name": "13.15 the first question opens with nothing selected and no hint control",
    "detail": "Question 1 of 12"
   },
   {
    "r": "PASS",
-   "name": "13.6 Next is disabled before a choice is made",
+   "name": "13.16 Next is disabled until an answer is chosen",
    "detail": ""
   },
   {
    "r": "PASS",
-   "name": "13.7 Back is disabled on the first question",
+   "name": "13.17 Back is disabled on the first question",
    "detail": ""
   },
   {
    "r": "PASS",
-   "name": "13.8 four choices, none carrying a verdict",
-   "detail": ""
-  },
-  {
-   "r": "PASS",
-   "name": "13.9 selecting marks exactly one choice as picked",
-   "detail": ""
-  },
-  {
-   "r": "PASS",
-   "name": "13.10 the picked choice is announced as pressed, not as correct",
-   "detail": ""
-  },
-  {
-   "r": "PASS",
-   "name": "13.11 Next unlocks once a choice exists",
-   "detail": ""
-  },
-  {
-   "r": "PASS",
-   "name": "13.12 no styling, label or attribute distinguishes the correct choice",
+   "name": "13.18 no styling, label or attribute distinguishes the correct choice",
    "detail": "0 questions leaked"
   },
   {
    "r": "PASS",
-   "name": "13.13 the correct answer occupies more than one position",
-   "detail": "{\"0\":2,\"1\":2,\"2\":5,\"3\":3}"
+   "name": "13.19 the correct answer occupies more than one position",
+   "detail": "{\"0\":3,\"1\":4,\"3\":5}"
   },
   {
    "r": "PASS",
-   "name": "13.14 finishing 12 reaches the submit confirmation, not the results",
+   "name": "13.20 finishing reaches the submit confirmation, not the results",
    "detail": "You answered all 12. Ready to see how you did?"
   },
   {
    "r": "PASS",
-   "name": "13.15 results appear only after submitting",
-   "detail": "2 of 12"
+   "name": "13.21 results appear only after submitting",
+   "detail": "3 of 12"
   },
   {
    "r": "PASS",
-   "name": "13.16 both subscales are shown",
-   "detail": ""
+   "name": "13.22 the score plaque carries the score and a spoken label",
+   "detail": "3 / of 12 / You scored 3 out of 12."
   },
   {
    "r": "PASS",
-   "name": "13.17 guidance is written and non-punitive",
+   "name": "13.23 both subscales render as bars, never one dot per question",
+   "detail": "2 rows, 0 dots"
+  },
+  {
+   "r": "PASS",
+   "name": "13.24 every subscale keeps a visible text score",
+   "detail": "2 of 8 | 1 of 4"
+  },
+  {
+   "r": "PASS",
+   "name": "13.25 the bars are decorative and identical in colour, so meaning is never colour-only",
+   "detail": "rgb(27, 79, 168) rgb(27, 79, 168)"
+  },
+  {
+   "r": "PASS",
+   "name": "13.26 guidance is written and non-punitive",
    "detail": "Keep going. Review Learn, then try Practice again."
   },
   {
    "r": "PASS",
-   "name": "13.18 the answer review stays closed until asked for",
+   "name": "13.27 the answer review stays closed until asked for",
    "detail": ""
   },
   {
    "r": "PASS",
-   "name": "13.19 review opens with one item per question and an explanation each",
-   "detail": "12 items"
+   "name": "13.28 review opens with one item per question and an explanation each",
+   "detail": "12 items, 12 explanations"
   },
   {
    "r": "PASS",
-   "name": "13.20 Try again resets to a clean, unanswered test",
+   "name": "13.29 starting a new test tears down the previous review completely",
+   "detail": "children=0 hidden=true button=\"See my answers\""
+  },
+  {
+   "r": "PASS",
+   "name": "13.30 no answer explanation exists anywhere in the DOM during a test",
+   "detail": "0 of 48 explanations found in #screen-test"
+  },
+  {
+   "r": "PASS",
+   "name": "13.31 nothing is written to localStorage",
+   "detail": "0"
+  },
+  {
+   "r": "PASS",
+   "name": "13.32 sessionStorage holds one key, and only recent question IDs",
+   "detail": "ss.test.recent.verb fields=ids,v"
+  },
+  {
+   "r": "PASS",
+   "name": "13.33 no score, name or personal data is stored",
+   "detail": "{\"v\":1,\"ids\":[\"V007\",\"V013\",\"V009\",\"V001\",\"V029\",\"V026\",\"V02"
+  },
+  {
+   "r": "PASS",
+   "name": "13.34.12 retest at 12 reuses only the minimum necessary  (avg 0/12 repeat, pool floor 0)",
+   "detail": "worst=0 floor=0 coverageSwaps=8 unexplainedRepeats=0 balanceBreaks=0"
+  },
+  {
+   "r": "PASS",
+   "name": "13.34.20 retest at 20 reuses only the minimum necessary  (avg 1/20 repeat, pool floor 1)",
+   "detail": "worst=1 floor=1 coverageSwaps=8 unexplainedRepeats=0 balanceBreaks=0"
+  },
+  {
+   "r": "PASS",
+   "name": "13.34.30 retest at 30 reuses only the minimum necessary  (avg 12/30 repeat, pool floor 12)",
+   "detail": "worst=12 floor=12 coverageSwaps=7 unexplainedRepeats=0 balanceBreaks=0"
+  },
+  {
+   "r": "PASS",
+   "name": "13.34.40 retest at 40 reuses only the minimum necessary  (avg 32/40 repeat, pool floor 32)",
+   "detail": "worst=32 floor=32 coverageSwaps=0 unexplainedRepeats=0 balanceBreaks=0"
+  },
+  {
+   "r": "PASS",
+   "name": "13.35 exactly one celebration element exists in Test results",
+   "detail": "1"
+  },
+  {
+   "r": "PASS",
+   "name": "13.36 the other .done-mark users are untouched",
+   "detail": "learn=1 practice=1 milestone=1"
+  },
+  {
+   "r": "PASS",
+   "name": "13.37 no duplicate ids anywhere in the document",
+   "detail": "none"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 12/12         mastery=YES celebration=visible primary=Back to Verb",
+   "detail": "12/12 a8 b4 thr 10/7/3"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 10/12 a7 b3   mastery=YES celebration=visible primary=Back to Verb",
+   "detail": "10/12 a7 b3 thr 10/7/3"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 10/12 a8 b2   mastery=no  celebration=hidden primary=Practice verbs",
+   "detail": "10/12 a8 b2 thr 10/7/3"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 10/12 a6 b4   mastery=no  celebration=hidden primary=Practice verbs",
+   "detail": "10/12 a6 b4 thr 10/7/3"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 9/12          mastery=no  celebration=hidden primary=Practice verbs",
+   "detail": "9/12 a6 b3 thr 10/7/3"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 7/12          mastery=no  celebration=hidden primary=Learn verbs",
+   "detail": "7/12 a5 b2 thr 10/7/3"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 0/12          mastery=no  celebration=hidden primary=Learn verbs",
+   "detail": "0/12 a0 b0 thr 10/7/3"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 20/20         mastery=YES celebration=visible primary=Back to Verb",
+   "detail": "20/20 a13 b7 thr 17/11/5"
+  },
+  {
+   "r": "PASS",
+   "name": "13.38 17/20 a13 b4  mastery=no  celebration=hidden primary=Practice verbs",
+   "detail": "17/20 a13 b4 thr 17/11/5"
+  },
+  {
+   "r": "PASS",
+   "name": "13.39 the celebration tracks mastery in all nine cases",
+   "detail": "0 mismatches"
+  },
+  {
+   "r": "PASS",
+   "name": "13.40 guidance matches the expected message in all nine cases",
+   "detail": "0 mismatches"
+  },
+  {
+   "r": "PASS",
+   "name": "13.41 the primary action follows the result, and Try again is never primary after a weak score",
+   "detail": "0 mismatches"
+  },
+  {
+   "r": "PASS",
+   "name": "13.42 Try again is offered only once the child has mastered",
+   "detail": "tier=mastered tertiary=Try again"
+  },
+  {
+   "r": "PASS",
+   "name": "13.43 Try again resets to a clean, unanswered test",
    "detail": ""
   },
   {
    "r": "PASS",
-   "name": "13.21 the test stores nothing",
-   "detail": ""
+   "name": "14.1 the integer threshold rule reproduces the Build 1.4.0 numbers at 12",
+   "detail": "10/7/3 (want 10/7/3)"
+  },
+  {
+   "r": "PASS",
+   "name": "14.2.12 mastery at 12 is reachable and correctly bounded  (overall>=10, action>=7/8, being>=3/4)",
+   "detail": "4 winning score pairs"
+  },
+  {
+   "r": "PASS",
+   "name": "14.2.20 mastery at 20 is reachable and correctly bounded  (overall>=17, action>=11/13, being>=5/7)",
+   "detail": "8 winning score pairs"
+  },
+  {
+   "r": "PASS",
+   "name": "14.2.30 mastery at 30 is reachable and correctly bounded  (overall>=25, action>=18/20, being>=8/10)",
+   "detail": "9 winning score pairs"
+  },
+  {
+   "r": "PASS",
+   "name": "14.2.40 mastery at 40 is reachable and correctly bounded  (overall>=33, action>=24/27, being>=10/13)",
+   "detail": "16 winning score pairs"
+  },
+  {
+   "r": "PASS",
+   "name": "14.3 a strong ACTION score can never hide weak BEING mastery",
+   "detail": "0 of 780 score pairs"
+  },
+  {
+   "r": "PASS",
+   "name": "14.4 a strong BEING score can never hide weak ACTION mastery",
+   "detail": "0 of 780 score pairs"
+  },
+  {
+   "r": "PASS",
+   "name": "14.5 the conjunction is doing real work, not a formality",
+   "detail": "36 score pairs pass on overall alone and are all correctly denied"
+  },
+  {
+   "r": "PASS",
+   "name": "14.6 an unanswered test at every length scores zero and never masters",
+   "detail": "12:0/12 20:0/20 30:0/30 40:0/40"
+  },
+  {
+   "r": "PASS",
+   "name": "14.7 all 48 sentences render intact -- the V046 possessive and every comma ride with their word and strand no punctuation",
+   "detail": "The running water filled the campers’ bottles quickly."
+  },
+  {
+   "r": "PASS",
+   "name": "14.8 the pool holds 48 questions with unique ids and unique sentences",
+   "detail": "48 / 48 ids / 48 sentences"
+  },
+  {
+   "r": "PASS",
+   "name": "14.9 the pool is 32 action and 16 being, with all five being forms",
+   "detail": "32A 16B, 5 forms"
+  },
+  {
+   "r": "PASS",
+   "name": "14.10 every question carries complete, valid metadata and a review explanation",
+   "detail": "48/48 explanations"
   },
   {
    "r": "PASS",

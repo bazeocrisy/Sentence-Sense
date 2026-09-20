@@ -307,6 +307,16 @@
 
         <div class="stage test-intro" id="test-intro">
           <h2 class="activity-title" id="test-heading" tabindex="-1"></h2>
+
+          <!-- Length, not difficulty. Numbers only: an adjective like
+               "Standard" or "Full Review" would imply the other lengths
+               are odd or incomplete. Buttons are built from content. -->
+          <p class="size-ask" id="test-size-ask">How many questions?</p>
+          <div class="size-select" id="test-sizes" role="group"
+               aria-labelledby="test-size-ask"></div>
+          <p class="size-note">Every test has the same mix of questions.
+            Longer just means more of them.</p>
+
           <p class="test-intro-line" id="test-intro-line"></p>
           <button type="button" class="btn btn-next" id="test-start">Start the test</button>
         </div>
@@ -343,13 +353,23 @@
           <!-- Shown only on mastery. A party popper above "Keep going"
                congratulates a child for a score they did not earn. -->
           <p class="done-mark" id="test-mark" aria-hidden="true" hidden>&#127881;</p>
-          <h2 class="done-title test-score" id="test-score" tabindex="-1"></h2>
+
+          <!-- The score is the focal point. The plaque is decoration; the
+               numbers inside it are the meaning, and aria-label carries
+               the whole sentence for assistive tech. -->
+          <div class="score-plaque" id="test-score" tabindex="-1" role="img">
+            <span class="score-value" id="test-score-value"></span>
+            <span class="score-of" id="test-score-of"></span>
+          </div>
+
           <div class="score-rows" id="test-subscores"></div>
           <p class="done-recap" id="test-guidance"></p>
           <div class="done-buttons">
+            <!-- Primary, secondary and tertiary are set by the result.
+                 "Try again" is the wrong primary after a weak score. -->
+            <button type="button" class="btn btn-next" id="test-primary"></button>
             <button type="button" class="nav-btn" id="test-review-btn">See my answers</button>
-            <button type="button" class="btn btn-next" id="test-again">Try again</button>
-            <button type="button" class="nav-btn" id="test-skill">Back to Verb</button>
+            <button type="button" class="nav-btn" id="test-tertiary"></button>
           </div>
           <div class="test-review" id="test-review" hidden></div>
         </div>

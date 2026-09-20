@@ -766,10 +766,15 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   ok("10.3 every Home preview renders its source word array exactly",
     prev.every(p => p.ok), prev.map(p => p.k + ":" + p.rendered).join(" | "));
 
-  /* ===== 13. VERB TEST =====
+  /* ===== 13. VERB TEST -- DYNAMIC POOL =====
+
      Test MEASURES. The checks that matter most here are the negative
      ones: that nothing on screen tells the child whether they are
-     right before they submit. */
+     right before they submit.
+
+     The test is no longer a fixed 12. It SAMPLES from a 48-question
+     pool, so these checks cover every built length, not just the one
+     the child sees first. */
   await goHome(page);
   await clickStart(page, "verb");
   await clickActivity(page, "test");
@@ -778,69 +783,152 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     screen: document.getElementById("screen-test").hidden ? null : "test",
     intro: !document.getElementById("test-intro").hidden,
     introLine: document.getElementById("test-intro-line").textContent,
+    note: document.querySelector("#test-intro .size-note").textContent,
+    sizeBtns: Array.from(document.querySelectorAll("#test-sizes .size-btn"))
+      .map(b => ({ text: b.textContent.trim(), picked: b.classList.contains("is-picked"),
+                   pressed: b.getAttribute("aria-pressed"),
+                   w: b.getBoundingClientRect().width, h: b.getBoundingClientRect().height })),
+    contentSizes: window.SS_LEARN_CONTENT.topics.verb.testPool.sizes,
+    built: window.SS_TEST.sizesBuilt("verb"),
     st: window.SS_TEST.state()
   }));
   ok("13.1 Verb Test opens on its intro panel", t0.screen === "test" && t0.intro);
   ok("13.2 the intro says there are no hints", /no hints/i.test(t0.introLine), t0.introLine);
-  ok("13.3 the test is 12 questions", t0.st.total === 12, t0.st.total);
+  ok("13.3 the selector offers exactly the content-declared lengths",
+    t0.sizeBtns.map(b => b.text).join(",") === t0.contentSizes.join(","),
+    t0.sizeBtns.map(b => b.text).join(",") + " vs " + t0.contentSizes.join(","));
+  ok("13.4 40 is built and tested but NOT offered to the child",
+    t0.built.indexOf(40) >= 0 && t0.contentSizes.indexOf(40) < 0,
+    "built=" + t0.built.join(",") + " offered=" + t0.contentSizes.join(","));
+  ok("13.5 the selector is numbers only -- no word implies difficulty",
+    t0.sizeBtns.every(b => /^[0-9]+$/.test(b.text)),
+    t0.sizeBtns.map(b => b.text).join(","));
+  ok("13.6 the shortest length is preselected",
+    t0.sizeBtns[0].picked && t0.sizeBtns[0].pressed === "true" &&
+    t0.sizeBtns.filter(b => b.picked).length === 1);
+  ok("13.7 the helper line says longer means more, not harder",
+    /same mix/i.test(t0.note) && /longer just means more/i.test(t0.note), t0.note.trim());
+  ok("13.8 every length button clears the 44px tap target",
+    t0.sizeBtns.every(b => b.w >= 44 && b.h >= 44),
+    t0.sizeBtns.map(b => Math.round(b.w) + "x" + Math.round(b.h)).join(" "));
+  ok("13.9 the intro copy interpolates the chosen count, leaving no {n}",
+    t0.introLine.indexOf("{n}") < 0 && t0.introLine.indexOf("12") === 0, t0.introLine);
+  ok("13.10 the first sitting is the preselected length",
+    t0.st.total === 12 && t0.st.size === 12, t0.st.total);
 
-  /* band integrity: order must never cross a band boundary */
-  const bands = await page.evaluate(() => {
-    const qs = window.SS_LEARN_CONTENT.topics.verb.testBank.questions;
-    return window.SS_TEST.state().order.map(i => qs[i].band);
+  /* Choosing a different length rebuilds the sitting and the copy. */
+  await page.evaluate(() => Array.from(document.querySelectorAll("#test-sizes .size-btn"))
+    .find(b => b.textContent.trim() === "20").click());
+  await sleep(120);
+  const tSel = await page.evaluate(() => ({
+    st: window.SS_TEST.state(),
+    intro: document.getElementById("test-intro-line").textContent,
+    confirm: document.getElementById("test-confirm-line").textContent,
+    picked: Array.from(document.querySelectorAll("#test-sizes .size-btn"))
+      .filter(b => b.classList.contains("is-picked")).map(b => b.textContent.trim())
+  }));
+  ok("13.11 choosing 20 rebuilds the sitting at 20 questions",
+    tSel.st.total === 20 && tSel.st.size === 20, tSel.st.total);
+  ok("13.12 only the chosen length stays selected",
+    tSel.picked.join(",") === "20", tSel.picked.join(","));
+  ok("13.13 the intro and confirm copy both follow the chosen length",
+    tSel.intro.indexOf("20 questions") === 0 && /all 20/.test(tSel.confirm),
+    tSel.intro);
+
+  /* Back to 12 for the interaction walk-through. */
+  await page.evaluate(() => Array.from(document.querySelectorAll("#test-sizes .size-btn"))
+    .find(b => b.textContent.trim() === "12").click());
+  await sleep(120);
+
+  /* ---- sampling integrity, every BUILT length including the gated 40 ---- */
+  const samp = await page.evaluate(() => {
+    const pool = window.SS_LEARN_CONTENT.topics.verb.testPool;
+    const byId = {}; pool.questions.forEach(q => { byId[q.id] = q; });
+    const FAM = {
+      "suffix-s": ["suffix-s-answer", "suffix-s-lure"],
+      "suffix-ed": ["suffix-ed-answer", "suffix-ed-lure"],
+      "suffix-ing": ["suffix-ing-lure"],
+      "plural-s": ["plural-s-lure"],
+      "double-duty": ["noun-verb-double-duty-answer", "noun-verb-double-duty-lure"]
+    };
+    const quota = n => ({
+      "suffix-s": Math.max(1, Math.round(n / 12)),
+      "suffix-ed": Math.max(2, Math.round(n / 4)),
+      "suffix-ing": Math.max(1, Math.round(n / 10)),
+      "plural-s": Math.max(2, Math.round(n / 5)),
+      "double-duty": Math.max(1, Math.round(n / 12))
+    });
+    const out = {};
+    window.SS_TEST.sizesBuilt("verb").forEach(n => {
+      const bp = window.SS_TEST.blueprintOf("verb", n);
+      let dup = 0, cross = 0, countBad = 0, balBad = 0, cellBad = 0, covBad = 0;
+      for (let r = 0; r < 60; r++) {
+        const ids = window.SS_TEST.sampleIds("verb", n, []);
+        if (ids.length !== n) countBad++;
+        if (new Set(ids).size !== ids.length) dup++;
+        const qs = ids.map(id => byId[id]);
+        for (let i = 1; i < qs.length; i++) if (qs[i].band < qs[i - 1].band) { cross++; break; }
+        const a = qs.filter(q => q.type === "action").length;
+        const b = qs.filter(q => q.type === "being").length;
+        const wantA = bp.action.reduce((x, y) => x + y, 0);
+        const wantB = bp.being.reduce((x, y) => x + y, 0);
+        if (a !== wantA || b !== wantB) balBad++;
+        [1, 2, 3].forEach((band, bi) => {
+          const cell = qs.filter(q => q.band === band);
+          if (cell.filter(q => q.type === "action").length !== bp.action[bi]) cellBad++;
+          if (cell.filter(q => q.type === "being").length !== bp.being[bi]) cellBad++;
+        });
+        const q2 = quota(n);
+        Object.keys(FAM).forEach(f => {
+          const held = qs.filter(q => FAM[f].some(t => q.tags.indexOf(t) >= 0)).length;
+          if (held < q2[f]) covBad++;
+        });
+      }
+      out[n] = { dup, cross, countBad, balBad, cellBad, covBad,
+                 bp: bp.T.map((t, i) => t + "(" + bp.action[i] + "A/" + bp.being[i] + "B)").join(" ") };
+    });
+    return out;
   });
-  ok("13.4 band order is preserved (no cross-band shuffle)",
-    bands.join(",") === "0,0,0,0,1,1,1,1,2,2,2,2", bands.join(","));
+  Object.keys(samp).forEach(n => {
+    const s = samp[n];
+    ok("13.14." + n + " sampling at " + n + " is exact  [" + s.bp + "]",
+      s.dup === 0 && s.cross === 0 && s.countBad === 0 &&
+      s.balBad === 0 && s.cellBad === 0 && s.covBad === 0,
+      "dup=" + s.dup + " crossBand=" + s.cross + " count=" + s.countBad +
+      " balance=" + s.balBad + " cell=" + s.cellBad + " coverage=" + s.covBad +
+      "  (60 draws)");
+  });
 
+  /* ---- the running test itself ---- */
   await page.click("#test-start"); await sleep(150);
   const t1 = await page.evaluate(() => ({
     count: document.getElementById("test-count").textContent,
     nextDisabled: document.getElementById("test-next").disabled,
     prevDisabled: document.getElementById("test-prev").disabled,
     choices: document.querySelectorAll("#test-choices .choice-btn").length,
-    noVerdict: !document.querySelector("#test-choices .is-right, #test-choices .is-wrong")
+    picked: document.querySelectorAll("#test-choices .choice-btn.is-picked").length,
+    hintish: document.querySelectorAll("#screen-test .hint-btn, #screen-test .clue, #screen-test .feedback").length
   }));
-  ok("13.5 first question shows 1 of 12", /question 1 of 12/i.test(t1.count), t1.count);
-  ok("13.6 Next is disabled before a choice is made", t1.nextDisabled === true);
-  ok("13.7 Back is disabled on the first question", t1.prevDisabled === true);
-  ok("13.8 four choices, none carrying a verdict", t1.choices === 4 && t1.noVerdict);
+  ok("13.15 the first question opens with nothing selected and no hint control",
+    /Question 1 of 12/.test(t1.count) && t1.choices === 4 &&
+    t1.picked === 0 && t1.hintish === 0, t1.count);
+  ok("13.16 Next is disabled until an answer is chosen", t1.nextDisabled === true);
+  ok("13.17 Back is disabled on the first question", t1.prevDisabled === true);
 
-  /* selecting must mark the choice as PICKED and nothing more */
-  await page.evaluate(() => document.querySelectorAll("#test-choices .choice-btn")[0].click());
-  await sleep(120);
-  const t2 = await page.evaluate(() => {
-    const bs = Array.from(document.querySelectorAll("#test-choices .choice-btn"));
-    const picked = bs.filter(b => b.classList.contains("is-picked"));
-    return {
-      pickedCount: picked.length,
-      pressed: picked[0] && picked[0].getAttribute("aria-pressed"),
-      verdictClass: bs.some(b => /is-right|is-wrong/.test(b.className)),
-      nextEnabled: !document.getElementById("test-next").disabled,
-      answered: window.SS_TEST.state().answers.filter(a => a !== null).length
-    };
-  });
-  ok("13.9 selecting marks exactly one choice as picked", t2.pickedCount === 1);
-  ok("13.10 the picked choice is announced as pressed, not as correct",
-    t2.pressed === "true" && t2.verdictClass === false);
-  ok("13.11 Next unlocks once a choice exists", t2.nextEnabled && t2.answered === 1);
+  /* ---- answer-leakage probe, driven through the real UI.
 
-  /* ANSWER LEAKAGE: walk all 12 and prove nothing correlates with
-     correctness before submission.
-
-     The test is RE-ENTERED first, deliberately. Check 13.9 above left a
-     choice picked on question 1, and a picked choice is *supposed* to
-     look different -- that is the selected state. Probing it without a
-     reset measured the child's own mark and reported a false leak. Only
-     UNPICKED choices are comparable. */
-  await goHome(page);
-  await clickStart(page, "verb");
-  await clickActivity(page, "test");
-  await page.click("#test-start"); await sleep(150);
+     The pointer is parked off-canvas first. :hover is a property of
+     where the mouse happens to sit, not of the answer -- leaving the
+     pointer over the page makes one arbitrary choice differ and reports
+     a leak that is not there. Verified: with the pointer parked on a
+     choice, the highlighted button was the WRONG answer in 2 of 3 runs,
+     so it tracked position, never correctness. ---- */
   let tLeak = 0; const tPos = {};
   for (let i = 0; i < 12; i++) {
+    await page.mouse.move(2, 2); await sleep(220);
     const probe = await page.evaluate(() => {
       const st = window.SS_TEST.state();
-      const qs = window.SS_LEARN_CONTENT.topics.verb.testBank.questions;
+      const qs = window.SS_LEARN_CONTENT.topics.verb.testPool.questions;
       const q = qs[st.order[st.pos]];
       const ci = q.choices.findIndex(c => c.correct);
       const bs = Array.from(document.querySelectorAll("#test-choices .choice-btn"));
@@ -861,9 +949,9 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     await sleep(70);
     await page.click("#test-next"); await sleep(110);
   }
-  ok("13.12 no styling, label or attribute distinguishes the correct choice",
+  ok("13.18 no styling, label or attribute distinguishes the correct choice",
     tLeak === 0, tLeak + " questions leaked");
-  ok("13.13 the correct answer occupies more than one position",
+  ok("13.19 the correct answer occupies more than one position",
     Object.keys(tPos).length >= 2, JSON.stringify(tPos));
 
   const t3 = await page.evaluate(() => ({
@@ -871,52 +959,165 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     line: document.getElementById("test-confirm-line").textContent,
     resultsHidden: document.getElementById("test-results").hidden
   }));
-  ok("13.14 finishing 12 reaches the submit confirmation, not the results",
+  ok("13.20 finishing reaches the submit confirmation, not the results",
     t3.confirm && t3.resultsHidden, t3.line);
 
-  await page.click("#test-submit"); await sleep(200);
-  const t4 = await page.evaluate(() => ({
-    results: !document.getElementById("test-results").hidden,
-    score: document.getElementById("test-score").textContent,
-    rows: document.querySelectorAll("#test-subscores .score-row").length,
-    guidance: document.getElementById("test-guidance").textContent,
-    reviewHidden: document.getElementById("test-review").hidden,
-    st: window.SS_TEST.state()
-  }));
-  ok("13.15 results appear only after submitting", t4.results, t4.score);
-  ok("13.16 both subscales are shown", t4.rows === 2);
-  ok("13.17 guidance is written and non-punitive",
+  await page.click("#test-submit"); await sleep(220);
+  const t4 = await page.evaluate(() => {
+    const rows = Array.from(document.querySelectorAll("#test-subscores .score-row"));
+    return {
+      results: !document.getElementById("test-results").hidden,
+      value: document.getElementById("test-score-value").textContent,
+      of: document.getElementById("test-score-of").textContent,
+      aria: document.getElementById("test-score").getAttribute("aria-label") || "",
+      rows: rows.length,
+      dots: document.querySelectorAll("#test-subscores .score-dot").length,
+      texts: rows.map(r => (r.querySelector(".score-count") || {}).textContent || ""),
+      tracks: rows.map(r => !!r.querySelector(".score-track .score-fill")),
+      fillHidden: rows.every(r => r.querySelector(".score-track")
+        .getAttribute("aria-hidden") === "true"),
+      fillColours: rows.map(r => getComputedStyle(r.querySelector(".score-fill")).backgroundColor),
+      guidance: document.getElementById("test-guidance").textContent,
+      reviewHidden: document.getElementById("test-review").hidden,
+      st: window.SS_TEST.state()
+    };
+  });
+  ok("13.21 results appear only after submitting", t4.results, t4.value + " " + t4.of);
+  ok("13.22 the score plaque carries the score and a spoken label",
+    /^[0-9]+$/.test(t4.value) && /^of 12$/.test(t4.of) && /out of 12/.test(t4.aria),
+    t4.value + " / " + t4.of + " / " + t4.aria);
+  ok("13.23 both subscales render as bars, never one dot per question",
+    t4.rows === 2 && t4.dots === 0 && t4.tracks.every(Boolean),
+    t4.rows + " rows, " + t4.dots + " dots");
+  ok("13.24 every subscale keeps a visible text score",
+    t4.texts.every(s => /^[0-9]+ of [0-9]+$/.test(s.trim())), t4.texts.join(" | "));
+  ok("13.25 the bars are decorative and identical in colour, so meaning is never colour-only",
+    t4.fillHidden && new Set(t4.fillColours).size === 1, t4.fillColours.join(" "));
+  ok("13.26 guidance is written and non-punitive",
     t4.guidance.length > 10 && !/fail|wrong|bad/i.test(t4.guidance), t4.guidance);
-  ok("13.18 the answer review stays closed until asked for", t4.reviewHidden === true);
+  ok("13.27 the answer review stays closed until asked for", t4.reviewHidden === true);
 
-  await page.click("#test-review-btn"); await sleep(150);
+  await page.click("#test-review-btn"); await sleep(180);
   const t5 = await page.evaluate(() => ({
     open: !document.getElementById("test-review").hidden,
     items: document.querySelectorAll("#test-review .review-item").length,
-    why: document.querySelectorAll("#test-review .review-why").length
+    why: Array.from(document.querySelectorAll("#test-review .review-why"))
+      .map(p => p.textContent.trim()).filter(s => s.length > 0).length
   }));
-  ok("13.19 review opens with one item per question and an explanation each",
-    t5.open && t5.items === 12 && t5.why === 12, t5.items + " items");
+  ok("13.28 review opens with one item per question and an explanation each",
+    t5.open && t5.items === 12 && t5.why === 12, t5.items + " items, " + t5.why + " explanations");
 
-  /* retest must be a clean slate */
-  await page.click("#test-again"); await sleep(200);
-  const t6 = await page.evaluate(() => ({
-    st: window.SS_TEST.state(),
-    intro: !document.getElementById("test-intro").hidden,
-    resultsHidden: document.getElementById("test-results").hidden
-  }));
-  ok("13.20 Try again resets to a clean, unanswered test",
-    t6.intro && t6.resultsHidden && t6.st.result === null &&
-    t6.st.answers.every(a => a === null) && t6.st.pos === 0);
+  /* REGRESSION, forensic audit defect D-A1.
 
-  /* CELEBRATION IS GATED ON MASTERY.
+     Leaving the review open and starting another test used to leave the
+     previous sitting's ANSWER EXPLANATIONS in the document for the whole
+     of the next test. #test-results is hidden, so nothing was visible and
+     nothing reached assistive tech -- but a Test engine whose first rule
+     is "no explanation before submission" must not keep one word of it in
+     the page, and at 30 questions the stale rows overlap the questions
+     being asked. The review is now torn down on every reset. */
+  await page.evaluate(() => window.SS_SHELL.openActivity("verb", "test"));
+  await sleep(220);
+  await page.click("#test-start"); await sleep(150);
+  const t5b = await page.evaluate(() => {
+    const pool = window.SS_LEARN_CONTENT.topics.verb.testPool.questions;
+    const st = window.SS_TEST.state();
+    const html = document.getElementById("screen-test").innerHTML;
+    const rev = document.getElementById("test-review");
+    return {
+      children: rev.children.length,
+      hidden: rev.hidden,
+      label: document.getElementById("test-review-btn").textContent.trim(),
+      thisWhy: html.indexOf(pool[st.order[st.pos]].why) >= 0,
+      anyWhy: pool.filter(q => html.indexOf(q.why) >= 0).length
+    };
+  });
+  ok("13.29 starting a new test tears down the previous review completely",
+    t5b.children === 0 && t5b.hidden === true && t5b.label === "See my answers",
+    "children=" + t5b.children + " hidden=" + t5b.hidden + " button=\"" + t5b.label + "\"");
+  ok("13.30 no answer explanation exists anywhere in the DOM during a test",
+    t5b.thisWhy === false && t5b.anyWhy === 0,
+    t5b.anyWhy + " of 48 explanations found in #screen-test");
+
+  /* ---- STORAGE. The test now remembers recent question IDs, and
+     nothing else. That list must never grow into scores or identity. ---- */
+  const t7 = await page.evaluate(() => {
+    const keys = Object.keys(sessionStorage);
+    let parsed = null;
+    try { parsed = JSON.parse(sessionStorage.getItem("ss.test.recent.verb")); } catch (e) {}
+    return { l: localStorage.length, keys: keys,
+             fields: parsed ? Object.keys(parsed).sort().join(",") : "",
+             ids: parsed && parsed.ids ? parsed.ids.length : -1,
+             allIds: parsed && parsed.ids
+               ? parsed.ids.every(x => /^V[0-9]{3}$/.test(x)) : false,
+             raw: sessionStorage.getItem("ss.test.recent.verb") || "" };
+  });
+  ok("13.31 nothing is written to localStorage", t7.l === 0, t7.l);
+  ok("13.32 sessionStorage holds one key, and only recent question IDs",
+    t7.keys.join(",") === "ss.test.recent.verb" && t7.fields === "ids,v" &&
+    t7.ids === 12 && t7.allIds, t7.keys.join(",") + " fields=" + t7.fields);
+  ok("13.33 no score, name or personal data is stored",
+    !/score|name|mastered|action|being|overall|email|user/i.test(t7.raw), t7.raw.slice(0, 60));
+
+  /* ---- RECENT-QUESTION AVOIDANCE, and that balance still wins ---- */
+  const av = await page.evaluate(() => {
+    const pool = window.SS_LEARN_CONTENT.topics.verb.testPool;
+    const byId = {}; pool.questions.forEach(q => { byId[q.id] = q; });
+    const out = {};
+    window.SS_TEST.sizesBuilt("verb").forEach(n => {
+      const bp = window.SS_TEST.blueprintOf("verb", n);
+      const wantA = bp.action.reduce((x, y) => x + y, 0);
+      const wantB = bp.being.reduce((x, y) => x + y, 0);
+      /* The structural floor: a cell cannot be fresher than its pool.
+         With `need` drawn last time out of `have` available, at least
+         need-(have-need) of them must come back. */
+      let floor = 0;
+      [1, 2, 3].forEach((band, bi) => {
+        ["action", "being"].forEach(type => {
+          const have = pool.questions.filter(q => q.band === band && q.type === type).length;
+          const need = (type === "being" ? bp.being : bp.action)[bi];
+          floor += Math.max(0, need - Math.max(0, have - need));
+        });
+      });
+
+      let repeats = 0, balBad = 0, worst = 0, unexplained = 0, swapsUsed = 0;
+      for (let r = 0; r < 40; r++) {
+        const first = window.SS_TEST.sampleIds("verb", n, []);
+        const det = window.SS_TEST.sampleDetail("verb", n, first);
+        const second = det.ids;
+        const rep = second.filter(id => first.indexOf(id) >= 0).length;
+        repeats += rep; if (rep > worst) worst = rep;
+        swapsUsed += det.swaps;
+        /* Every repeat must be accounted for: either the pool forced it,
+           or a named coverage repair bought it. Nothing in between. */
+        if (rep > floor + det.swaps) unexplained++;
+        const qs = second.map(id => byId[id]);
+        if (qs.filter(q => q.type === "action").length !== wantA) balBad++;
+        if (qs.filter(q => q.type === "being").length !== wantB) balBad++;
+        if (new Set(second).size !== n) balBad++;
+      }
+      out[n] = { avg: Math.round(repeats / 40 * 10) / 10, worst, balBad, floor, n,
+                 unexplained, swaps: swapsUsed };
+    });
+    return out;
+  });
+  Object.keys(av).forEach(n => {
+    const a = av[n];
+    ok("13.34." + n + " retest at " + n + " reuses only the minimum necessary" +
+       "  (avg " + a.avg + "/" + n + " repeat, pool floor " + a.floor + ")",
+      a.balBad === 0 && a.unexplained === 0,
+      "worst=" + a.worst + " floor=" + a.floor + " coverageSwaps=" + a.swaps +
+      " unexplainedRepeats=" + a.unexplained + " balanceBreaks=" + a.balBad);
+  });
+
+  /* ---- CELEBRATION IS GATED ON MASTERY.
 
      A party popper over "Keep going" congratulates a child for a score
      they did not earn. The mark must be the ONLY .done-mark inside
      #test-results, and it must be hidden unless all three mastery
      thresholds are met -- scoped to the test panel, because Learn
      completion, Practice completion and the Practice milestone all use
-     .done-mark legitimately and must keep theirs. */
+     .done-mark legitimately and must keep theirs. ---- */
   const marks = await page.evaluate(() => ({
     inTest: document.querySelectorAll("#test-results .done-mark").length,
     inLearn: document.querySelectorAll("#learn-done .done-mark").length,
@@ -927,24 +1128,31 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       return ids.filter((x, i) => ids.indexOf(x) !== i);
     })()
   }));
-  ok("13.22 exactly one celebration element exists in Test results",
+  ok("13.35 exactly one celebration element exists in Test results",
     marks.inTest === 1, marks.inTest);
-  ok("13.23 the other .done-mark users are untouched",
+  ok("13.36 the other .done-mark users are untouched",
     marks.inLearn === 1 && marks.inPractice === 1 && marks.inMilestone === 1,
     "learn=" + marks.inLearn + " practice=" + marks.inPractice + " milestone=" + marks.inMilestone);
-  ok("13.24 no duplicate ids anywhere in the document",
+  ok("13.37 no duplicate ids anywhere in the document",
     marks.dupIds.length === 0, marks.dupIds.join(",") || "none");
 
-  /* Drive the real UI to a chosen score and read the rendered panel. */
-  async function testTo(nA, nB) {
+  /* Drive the real UI to a chosen score at a chosen length and read the
+     rendered panel -- the mark, the state and the guidance together. */
+  async function testTo(size, nA, nB) {
     await page.evaluate(() => window.SS_SHELL.openActivity("verb", "test"));
-    await sleep(170);
-    await page.click("#test-start"); await sleep(110);
+    await sleep(190);
+    await page.evaluate(n => {
+      const b = Array.from(document.querySelectorAll("#test-sizes .size-btn"))
+        .find(x => x.textContent.trim() === String(n));
+      if (b && !b.classList.contains("is-picked")) b.click();
+    }, size);
+    await sleep(120);
+    await page.click("#test-start"); await sleep(120);
     let a = nA, bq = nB;
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < size; i++) {
       const w = await page.evaluate(() => {
         const st = window.SS_TEST.state();
-        const q = window.SS_LEARN_CONTENT.topics.verb.testBank.questions[st.order[st.pos]];
+        const q = window.SS_LEARN_CONTENT.topics.verb.testPool.questions[st.order[st.pos]];
         return { type: q.type, correct: q.choices.findIndex(c => c.correct),
                  wrong: q.choices.findIndex(c => !c.correct) };
       });
@@ -953,48 +1161,226 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       else { ci = bq > 0 ? w.correct : w.wrong; if (bq > 0) bq--; }
       await page.evaluate(c => Array.from(document.querySelectorAll("#test-choices .choice-btn"))
         .find(x => Number(x.dataset.ci) === c).click(), ci);
-      await sleep(40);
-      await page.click("#test-next"); await sleep(65);
+      await sleep(35);
+      await page.click("#test-next"); await sleep(55);
     }
-    await page.click("#test-submit"); await sleep(170);
+    await page.click("#test-submit"); await sleep(190);
     return page.evaluate(() => {
       const m = document.querySelector("#test-results .done-mark");
       const st = window.SS_TEST.state();
       return { visible: !!(m && m.offsetParent !== null),
-               mastered: st.result.mastered,
+               mastered: st.result.mastered, tier: st.result.tier,
                overall: st.result.overall, action: st.result.action, being: st.result.being,
+               thresholds: st.result.thresholds,
+               primary: document.getElementById("test-primary").textContent.trim(),
+               tertiary: document.getElementById("test-tertiary").textContent.trim(),
                guidance: document.getElementById("test-guidance").textContent };
     });
   }
 
   const CASES = [
-    ["12/12", 8, 4, true,  /got verbs/i],
-    ["10/12 a7 b3", 7, 3, true,  /got verbs/i],
-    ["10/12 a8 b2", 8, 2, false, /action verbs are strong/i],
-    ["10/12 a6 b4", 6, 4, false, /being verbs well/i],
-    ["9/12", 6, 3, false, /almost there/i],
-    ["7/12", 5, 2, false, /keep going/i],
-    ["0/12", 0, 0, false, /keep going/i]
+    ["12/12",       12, 8, 4, true,  /got verbs/i,               "Back to Verb",  "Try again"],
+    ["10/12 a7 b3", 12, 7, 3, true,  /got verbs/i,               "Back to Verb",  "Try again"],
+    ["10/12 a8 b2", 12, 8, 2, false, /action verbs are strong/i, "Practice verbs","Back to Verb"],
+    ["10/12 a6 b4", 12, 6, 4, false, /being verbs well/i,        "Practice verbs","Back to Verb"],
+    ["9/12",        12, 6, 3, false, /almost there/i,            "Practice verbs","Back to Verb"],
+    ["7/12",        12, 5, 2, false, /keep going/i,              "Learn verbs",   "Back to Verb"],
+    ["0/12",        12, 0, 0, false, /keep going/i,              "Learn verbs",   "Back to Verb"],
+    ["20/20",       20, 13, 7, true, /got verbs/i,               "Back to Verb",  "Try again"],
+    ["17/20 a13 b4",20, 13, 4, false,/action verbs are strong/i, "Practice verbs","Back to Verb"]
   ];
-  let cel = 0, gd = 0;
-  for (const [label, nA, nB, expectMastery, msg] of CASES) {
-    const r = await testTo(nA, nB);
+  let cel = 0, gd = 0, cta = 0;
+  for (const [label, size, nA, nB, expectMastery, msg, wantPrimary, wantTertiary] of CASES) {
+    const r = await testTo(size, nA, nB);
     const markOK = (r.visible === expectMastery);
     const stateOK = (r.mastered === expectMastery);
     const msgOK = msg.test(r.guidance);
+    const ctaOK = (r.primary === wantPrimary && r.tertiary === wantTertiary);
     if (!markOK || !stateOK) cel++;
     if (!msgOK) gd++;
-    ok("13.25 " + label.padEnd(12) + " mastery=" + (r.mastered ? "YES" : "no ") +
-       " celebration=" + (r.visible ? "visible" : "hidden"),
-      markOK && stateOK && msgOK,
-      r.overall + "/12 a" + r.action + " b" + r.being);
+    if (!ctaOK) cta++;
+    ok("13.38 " + label.padEnd(13) + " mastery=" + (r.mastered ? "YES" : "no ") +
+       " celebration=" + (r.visible ? "visible" : "hidden") + " primary=" + r.primary,
+      markOK && stateOK && msgOK && ctaOK,
+      r.overall + "/" + size + " a" + r.action + " b" + r.being +
+      " thr " + r.thresholds.overall + "/" + r.thresholds.action + "/" + r.thresholds.being);
   }
-  ok("13.26 the celebration tracks mastery in all seven cases", cel === 0, cel + " mismatches");
-  ok("13.27 guidance matches the expected message in all seven cases", gd === 0, gd + " mismatches");
+  ok("13.39 the celebration tracks mastery in all nine cases", cel === 0, cel + " mismatches");
+  ok("13.40 guidance matches the expected message in all nine cases", gd === 0, gd + " mismatches");
+  ok("13.41 the primary action follows the result, and Try again is never primary after a weak score",
+    cta === 0, cta + " mismatches");
 
-  /* nothing persisted */
-  const t7 = await page.evaluate(() => ({ l: localStorage.length, s: sessionStorage.length }));
-  ok("13.21 the test stores nothing", t7.l === 0 && t7.s === 0);
+  /* ---- Retest from a mastered result is a clean slate.
+
+     Driven from a MASTERED sitting on purpose: "Try again" is the
+     tertiary action only after mastery. After a weak score the tertiary
+     is "Back to Verb", because re-measuring without instruction in
+     between measures nothing. ---- */
+  const mastRun = await testTo(12, 8, 4);
+  ok("13.42 Try again is offered only once the child has mastered",
+    mastRun.mastered === true && mastRun.tertiary === "Try again",
+    "tier=" + mastRun.tier + " tertiary=" + mastRun.tertiary);
+  await page.click("#test-tertiary"); await sleep(220);
+  const t6 = await page.evaluate(() => ({
+    st: window.SS_TEST.state(),
+    intro: !document.getElementById("test-intro").hidden,
+    resultsHidden: document.getElementById("test-results").hidden
+  }));
+  ok("13.43 Try again resets to a clean, unanswered test",
+    t6.intro && t6.resultsHidden && t6.st.result === null &&
+    t6.st.answers.every(a => a === null) && t6.st.pos === 0);
+
+  /* ===== 14. DYNAMIC SCORING -- the arithmetic, not the pixels =====
+
+     Thresholds are ratios now. These checks prove the integer rule is
+     exact, that 12 questions still resolves to the Build 1.4.0 numbers,
+     and -- exhaustively, over every reachable score pair at every built
+     length -- that mastery can never be granted while a subscale is
+     weak. That last one is the permanent rule the whole design exists
+     to protect. */
+  const maths = await page.evaluate(() => {
+    const sizes = window.SS_TEST.sizesBuilt("verb");
+    const rhu = window.SS_TEST.thresholdOf;
+    const mr = window.SS_LEARN_CONTENT.topics.verb.testPool.masteryRatio;
+    const rows = {};
+    sizes.forEach(n => {
+      const bp = window.SS_TEST.blueprintOf("verb", n);
+      const A = bp.action.reduce((x, y) => x + y, 0);
+      const B = bp.being.reduce((x, y) => x + y, 0);
+      const tO = rhu(n, mr.overall), tA = rhu(A, mr.action), tB = rhu(B, mr.being);
+      let hidBeing = 0, hidAction = 0, pairs = 0, masteredPairs = 0, overallOnly = 0;
+      for (let a = 0; a <= A; a++) for (let b = 0; b <= B; b++) {
+        pairs++;
+        const m = (a + b) >= tO && a >= tA && b >= tB;
+        if (m) masteredPairs++;
+        if (m && b < tB) hidBeing++;
+        if (m && a < tA) hidAction++;
+        if ((a + b) >= tO && (a < tA || b < tB)) overallOnly++;
+      }
+      rows[n] = { A, B, tO, tA, tB, pairs, masteredPairs, hidBeing, hidAction, overallOnly,
+                  reachable: (A + B) >= tO && A >= tA && B >= tB };
+    });
+    return rows;
+  });
+  ok("14.1 the integer threshold rule reproduces the Build 1.4.0 numbers at 12",
+    maths[12].tO === 10 && maths[12].tA === 7 && maths[12].tB === 3,
+    maths[12].tO + "/" + maths[12].tA + "/" + maths[12].tB + " (want 10/7/3)");
+  Object.keys(maths).forEach(n => {
+    const m = maths[n];
+    ok("14.2." + n + " mastery at " + n + " is reachable and correctly bounded" +
+       "  (overall>=" + m.tO + ", action>=" + m.tA + "/" + m.A + ", being>=" + m.tB + "/" + m.B + ")",
+      m.reachable && m.masteredPairs > 0, m.masteredPairs + " winning score pairs");
+  });
+  let hid = 0, examined = 0, trap = 0;
+  Object.keys(maths).forEach(n => {
+    hid += maths[n].hidBeing + maths[n].hidAction;
+    examined += maths[n].pairs;
+    trap += maths[n].overallOnly;
+  });
+  ok("14.3 a strong ACTION score can never hide weak BEING mastery",
+    Object.keys(maths).every(n => maths[n].hidBeing === 0),
+    "0 of " + examined + " score pairs");
+  ok("14.4 a strong BEING score can never hide weak ACTION mastery",
+    Object.keys(maths).every(n => maths[n].hidAction === 0),
+    "0 of " + examined + " score pairs");
+  ok("14.5 the conjunction is doing real work, not a formality",
+    trap > 0 && hid === 0,
+    trap + " score pairs pass on overall alone and are all correctly denied");
+
+  /* The engine's own scorer, not a re-implementation of it. */
+  const live = await page.evaluate(() => {
+    const out = [];
+    window.SS_TEST.sizesBuilt("verb").forEach(n => {
+      const r = window.SS_TEST.scoreOf("verb", n, new Array(n).fill(null));
+      out.push({ n, overall: r.overall, total: r.total, mastered: r.mastered,
+                 tier: r.tier, sum: r.actionTotal + r.beingTotal });
+    });
+    return out;
+  });
+  ok("14.6 an unanswered test at every length scores zero and never masters",
+    live.every(r => r.overall === 0 && r.mastered === false &&
+                    r.tier === "keepGoing" && r.total === r.n && r.sum === r.n),
+    live.map(r => r.n + ":" + r.overall + "/" + r.total).join(" "));
+
+  /* ---- POSSESSIVE RENDERING. V046 carries campers' -- the apostrophe
+     must ride with its word and never strand on its own line. ---- */
+  const poss = await page.evaluate(() => {
+    const pool = window.SS_LEARN_CONTENT.topics.verb.testPool;
+    const host = document.createElement("div");
+    document.body.appendChild(host);
+    const bad = [];
+    let v046 = "";
+    pool.questions.forEach(q => {
+      host.innerHTML = "";
+      window.SS_SENTENCE.renderSentence(host, q.sentence);
+      const texts = Array.from(host.querySelectorAll(".ss-word")).map(w => w.textContent);
+      const joined = texts.join(" ").replace(/\s+/g, " ").trim();
+      if (q.id === "V046") v046 = joined;
+      /* a word made only of punctuation has been stranded from its word */
+      if (texts.some(t => t.trim() && /^[^A-Za-z0-9]+$/.test(t.trim()))) bad.push(q.id + ":stranded");
+      if (joined !== q.sentence.words.join(" ")) bad.push(q.id + ":mismatch");
+    });
+    host.remove();
+    return { bad: bad, v046: v046 };
+  });
+  ok("14.7 all 48 sentences render intact -- the V046 possessive and every " +
+     "comma ride with their word and strand no punctuation",
+    poss.bad.length === 0, poss.bad.join(" ") || poss.v046);
+
+  /* ---- The bank itself. The educational source of truth must stay
+     intact, so the harness re-validates it rather than trusting it. ---- */
+  const bank = await page.evaluate(() => {
+    const pool = window.SS_LEARN_CONTENT.topics.verb.testPool;
+    const qs = pool.questions;
+    const ids = qs.map(q => q.id);
+    const FORMS = ["am", "is", "are", "was", "were"];
+    const KNOWN = ["straightforward", "suffix-s-answer", "suffix-s-lure", "suffix-ed-answer",
+      "suffix-ed-lure", "suffix-ing-lure", "plural-s-lure", "noun-verb-double-duty-answer",
+      "noun-verb-double-duty-lure", "being", "action"];
+    const norm = w => String(w).replace(/^[^A-Za-z]+/, "").replace(/[^A-Za-z]+$/, "").toLowerCase();
+    let bad = [];
+    qs.forEach(q => {
+      const toks = q.sentence.words.map(norm);
+      const corr = q.choices.filter(c => c.correct);
+      if (q.choices.length !== 4) bad.push(q.id + ":choices");
+      if (corr.length !== 1) bad.push(q.id + ":correct");
+      if (new Set(q.choices.map(c => c.text.toLowerCase())).size !== 4) bad.push(q.id + ":dupChoice");
+      if (q.choices.some(c => toks.indexOf(norm(c.text)) < 0)) bad.push(q.id + ":notInSentence");
+      if ([1, 2, 3].indexOf(q.band) < 0) bad.push(q.id + ":band");
+      if (q.type !== "action" && q.type !== "being") bad.push(q.id + ":type");
+      if (q.type === "being") {
+        if (FORMS.indexOf(q.beingForm) < 0) bad.push(q.id + ":beingForm");
+        if (norm(corr[0].text) !== q.beingForm) bad.push(q.id + ":formMismatch");
+        if (/happened\?/.test(q.question)) bad.push(q.id + ":beingAskedHappened");
+      } else if (q.beingForm !== null) bad.push(q.id + ":actionHasForm");
+      if (!q.tags || q.tags.some(t => KNOWN.indexOf(t) < 0)) bad.push(q.id + ":tag");
+      if (!q.why || !q.why.length) bad.push(q.id + ":why");
+      /* being-verb safety: no -ed/-en word straight after a being verb */
+      if (q.type === "being") {
+        const at = toks.indexOf(q.beingForm);
+        const after = at >= 0 && toks[at + 1] ? toks[at + 1] : "";
+        if (/(ed|en)$/.test(after)) bad.push(q.id + ":beingSafety(" + after + ")");
+      }
+    });
+    return {
+      n: qs.length,
+      uniqueIds: new Set(ids).size,
+      uniqueSentences: new Set(qs.map(q => q.sentence.words.join(" ").toLowerCase())).size,
+      action: qs.filter(q => q.type === "action").length,
+      being: qs.filter(q => q.type === "being").length,
+      forms: FORMS.filter(f => qs.some(q => q.beingForm === f)).length,
+      whys: qs.filter(q => q.why && q.why.length).length,
+      bad: bad
+    };
+  });
+  ok("14.8 the pool holds 48 questions with unique ids and unique sentences",
+    bank.n === 48 && bank.uniqueIds === 48 && bank.uniqueSentences === 48,
+    bank.n + " / " + bank.uniqueIds + " ids / " + bank.uniqueSentences + " sentences");
+  ok("14.9 the pool is 32 action and 16 being, with all five being forms",
+    bank.action === 32 && bank.being === 16 && bank.forms === 5,
+    bank.action + "A " + bank.being + "B, " + bank.forms + " forms");
+  ok("14.10 every question carries complete, valid metadata and a review explanation",
+    bank.bad.length === 0 && bank.whys === 48, bank.bad.join(" ") || bank.whys + "/48 explanations");
 
   /* ===== 11. RESPONSIVE ===== */
   const VIEWPORTS = [

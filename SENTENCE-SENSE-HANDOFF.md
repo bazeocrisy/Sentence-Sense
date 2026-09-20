@@ -13,10 +13,11 @@
 |---|---|
 | **Learn** | **LOCKED** |
 | **Practice** | **LOCKED** |
-| **Test** | **LOCKED** |
-| **Forensic audit** | **PASSED** — `FORENSIC-AUDIT-VERB-TEST.md` |
+| **Dynamic Test** | **LOCKED** |
+| **Verb Test v1 forensic audit** | **PASSED** — `FORENSIC-AUDIT-VERB-TEST.md` |
+| **Dynamic Test forensic audit** | **PASSED** — `FORENSIC-AUDIT-VERB-DYNAMIC-TEST.md` |
 
-**Verb is the reference implementation for Subject, Noun and Adjective.**
+**Verb remains the reference implementation for Subject, Noun and Adjective.**
 
 Build the remaining three against Verb, not against an idea of what they
 should be. In particular, copy these decisions rather than re-deriving them:
@@ -34,13 +35,18 @@ should be. In particular, copy these decisions rather than re-deriving them:
   had no route to it.
 - **Mastery is a conjunction, not an average.** A strong score on one half
   must never hide a weak score on the other.
-- **A green harness is not proof.** Two of the four Verb Test defects were
+- **A test must sample, not repeat.** A fixed set of questions eventually
+  measures memory of the test rather than mastery of the skill. Verb draws a
+  balanced assessment from a larger curated pool — see §6b.
+- **A green harness is not proof.** Two of the four Verb Test v1 defects were
   invisible to every automated check and were found by looking at rendered
-  screenshots. Always look.
+  screenshots. The dynamic-Test defect D-A1 was invisible to every check that
+  existed and was found only by writing a probe for the invariant itself.
+  Always look, and always test the rule rather than its symptoms.
 
 Adding a skill should be a CONTENT change. Subject, Noun and Adjective each
-need a `tryItBank`, a `testBank`, and their `practice` / `test` flags set to
-`"bank"`. No code change is required for any of it.
+need a `tryItBank`, a `testPool`, and their `practice` / `test` flags set to
+`"bank"` and `"pool"`. No code change is required for any of it.
 
 ---
 
@@ -92,7 +98,7 @@ Current: **Build 1.4.0**. It must match in four places, and the audit checks all
 | `js/sentence.js` | **NEW 1.4.0** — the shared sentence renderer | 226 |
 | `js/learn.js` | The shared four-state LEARN component | 385 |
 | `js/practice.js` | **NEW 1.4.0** — the shared PRACTICE question engine | 370 |
-| `js/test.js` | **NEW 1.4.0** — the shared TEST engine. Separate from Practice on purpose. | 400 |
+| `js/test.js` | **NEW 1.4.0** — the shared TEST engine: pool sampling, dynamic scoring. Separate from Practice on purpose. | 446 |
 | `js/data/learn-content.js` | All content for all six topics, plus card fields | 1031 |
 | `assets/images/favicon.png` | Referenced by `index.html` |
 | `assets/images/sentence-sense-hero.jpg` | The classroom banner photograph. 2048×768, 169 KB. |
@@ -121,7 +127,7 @@ The child chooses **what** before **how**. The mode-first portal of Builds
 
 | Skill | Child clue | Practice | Test |
 |---|---|---|---|
-| **Verb** | What is happening? | 20-question bank | **12-question test** |
+| **Verb** | What is happening? | 20-question bank | **12 / 20 / 30 from a 48-question pool** |
 | **Subject** | Who or what? | coming next | coming next |
 | **Noun** | Names a person, place, thing, or idea. | coming next | coming next |
 | **Adjective** | Describes a noun. | coming next | coming next |
@@ -267,7 +273,7 @@ Adjective.**
 
 ---
 
-## 6b. TEST — 12 questions, measured, no help
+## 6b. TEST — a balanced sample from a 48-question pool
 
 **Home → Verb → Test.** A separate engine, `js/test.js`, because Practice and
 Test are defined by opposite behaviour and the one thing that makes Practice
@@ -276,29 +282,216 @@ valuable is the one thing a test must never do.
 **During the test there is no hint, no clue, no retry, no escalation and no
 correctness signal of any kind.** A selected choice carries `.is-picked` and
 `aria-pressed` and nothing else — never a colour, icon or label that differs
-between a right and a wrong choice. Harness check 13.12 compares every
-unpicked choice's computed style and attributes and fails if any of them
-distinguishes the answer.
+between a right and a wrong choice. The forensic audit compared 17 computed
+style properties, every attribute, every `dataset` key, `innerHTML`,
+`aria-label`, `title` and real keyboard focus across four choices on twelve
+questions and found them identical. Picking a wrong answer is
+indistinguishable from picking a right one.
+
+### The question pool
 
 | | |
 |---|---|
-| Questions | 12 — 8 action, 4 being |
-| Bands | Q1–4 confidence · Q5–8 lures · Q9–12 reasoning |
-| Shuffle | **within each band only**, never across — so every sitting runs easy → medium → hard |
-| Mastery | overall ≥ 10 **and** action ≥ 7 **and** being ≥ 3 |
-| Flow | intro → 12 questions → submit confirmation → results → optional review |
+| Questions | **48**, ids `V001`–`V048` |
+| Split | **32 action · 16 being** (66.7% / 33.3%) |
+| Bands | **1** confidence · **2** look closer · **3** strongest reasoning |
+| Per band | 16 each — b1 11A/5B · b2 11A/5B · b3 10A/6B |
+| Being forms | all five present — `am` 2 · `is` 4 · `are` 4 · `was` 4 · `were` 2 |
 
-**Back re-opens an earlier question and allows a change**, which is ordinary
-test-taking rather than a hint. Teaching returns only in the review, after
-submission.
+This bank is the **educational source of truth**. Sentences, choices, answers,
+tags and `why` lines are owner-supplied and approved as a unit. Do not reword,
+improve, extend or silently correct them while editing engine code. If content
+looks wrong, STOP, name the question id, and ask.
 
-**The celebration is gated on mastery.** A party popper over "Keep going"
-congratulates a child for a score they did not earn. Checks 13.22–13.27 drive
-seven scoring cases through the real UI and assert the mark, the mastery state
-and the guidance text together.
+### Child-facing test lengths
 
-**Nothing is persisted.** No score, no timer, no storage. Leaving and
-returning starts a clean test; Try again is a full reset.
+**12 · 20 · 30.** The child chooses; 12 is preselected. The selector shows
+numbers only. An adjective like *Standard* or *Full Review* would imply the
+other lengths are odd or incomplete, and longer must never read as harder —
+which is true here, because the band proportions and the action/being ratio
+are identical at every length. The helper line says so in as many words.
+
+### 40 IS BUILT AND MUST STAY HIDDEN
+
+The engine supports 40 and the harness and audit both cover it. **It is not
+offered to the child, and must not be until the pool grows to roughly 80
+fully audited questions.**
+
+At 48 questions a 40-question sitting consumes 83% of the pool and is partly
+deterministic: band 1 needs five being questions and the pool holds exactly
+five, so **V002, V004, V007, V010 and V013 appeared in all 3,000 audited
+draws**. Retest freshness collapses to 20% — 32 of 40 questions repeat. That
+is precisely the failure the dynamic Test was built to remove, so shipping 40
+would undo the work.
+
+Unlocking it is a one-array edit in content:
+`testPool.sizes` drives the selector, `testPool.sizesBuilt` drives the engine,
+harness and audit. Move `40` from the second to the first only after the pool
+expands. No code change is needed.
+
+### Sampling — blueprint first, randomness second
+
+- approximately **2/3 action, 1/3 being** at every length
+- **band 1 → band 2 → band 3**, always, so every sitting runs easy → hard
+- **shuffle WITHIN a band only**, never across
+- **no duplicate question inside one sitting**, ever
+- an exact per-band action/being cell count, not an average
+
+| Length | Band 1 | Band 2 | Band 3 | Action | Being |
+|---|---|---|---|---|---|
+| **12** | 4 (2A/2B) | 4 (3A/1B) | 4 (3A/1B) | 8 | 4 |
+| **20** | 7 (4A/3B) | 7 (5A/2B) | 6 (4A/2B) | 13 | 7 |
+| **30** | 10 (6A/4B) | 10 (7A/3B) | 10 (7A/3B) | 20 | 10 |
+| **40** *(gated)* | 14 (9A/5B) | 13 (9A/4B) | 13 (9A/4B) | 27 | 13 |
+
+The being remainder goes to the **earliest** band, never the last. Piling being
+verbs into band 3 would make the being subscale report weakness that is really
+band-3 difficulty. At 12 this reproduces the original fixed test exactly.
+
+A bounded coverage repair then tops up any thin concept family (suffix-s,
+suffix-ed, suffix-ing, plural-s, noun/verb double duty) by swapping within the
+same band+type cell, so the blueprint stays exact by construction. It is a
+floor, not the mechanism — the balanced draw met every quota unaided in 12,000
+audited draws.
+
+### Recent-question avoidance — sessionStorage, IDs only
+
+```
+ss.test.recent.verb   {"v":1,"ids":["V004","V016", ...]}
+```
+
+No score, no name, no timing, no personal data. Written at **submission**, so a
+child who opens a test and walks away does not burn the next sitting's
+freshness. Every read and write is wrapped: storage throws in some private
+modes, and a throw degrades to no avoidance, never to a broken test.
+
+**sessionStorage, deliberately not localStorage.** A classroom machine is
+shared. `localStorage` would carry one child's list into the next child's test;
+`sessionStorage` dies with the tab, which is the natural boundary of one
+sitting. Audited: a new tab starts clean.
+
+**BALANCE ALWAYS OVERRIDES FRESHNESS.** Each band+type cell is filled from
+fresh questions first and stale ones only after, so the blueprint count is met
+whether or not fresh questions remain. Reuse is therefore the minimum necessary
+by construction. Measured over 2,000 retests, every repeated question was
+either forced by the pool or paid for by a named coverage repair — zero
+unexplained reuse, zero balance breaks, zero duplicates.
+
+| Length | Repeat on retest (min/avg/max) | Pool floor | Fresh |
+|---|---|---|---|
+| 12 | 0 / 0.00 / 0 | 0 | **100%** |
+| 20 | 1 / 1.04 / 3 | 1 | **95%** |
+| 30 | 12 / 12.07 / 14 | 12 | **60%** |
+| 40 *(gated)* | 32 / 32.0 / 32 | 32 | 20% |
+
+### Scoring — ratios, not fixed counts
+
+Thresholds are **round-half-up integers**, computed with integer arithmetic and
+never floating point:
+
+```
+threshold(count, num, den) = floor((2 * num * count + den) / (2 * den))
+
+overall >= threshold(N, 5, 6)     83.3%   action >= threshold(A, 7, 8)   87.5%
+being   >= threshold(B, 3, 4)     75%     almost >= threshold(N, 2, 3)   66.7%
+```
+
+| Length | Overall | Action | Being |
+|---|---|---|---|
+| **12** | **10 of 12** | **7 of 8** | **3 of 4** |
+| **20** | **17 of 20** | **11 of 13** | **5 of 7** |
+| **30** | **25 of 30** | **18 of 20** | **8 of 10** |
+| **40** *(internal)* | **33 of 40** | **24 of 27** | **10 of 13** |
+
+At 12 the ratios resolve to exactly the Build 1.4.0 numbers, so nothing drifted
+when the fixed test became a dynamic one.
+
+> **MASTERY IS PERMANENTLY A CONJUNCTION.**
+> overall threshold **AND** action threshold **AND** being threshold.
+> A strong action score must never hide weak being-verb understanding, and a
+> strong being score must never hide weak action verbs.
+
+Proved exhaustively over **780 score pairs** across all four lengths: 36 pairs
+pass on the overall score alone while a subscale is weak, and all 36 are
+denied. Zero grant mastery with a weak subscale in either direction.
+
+**Known and accepted:** at 20 questions the overall bar also binds —
+`action 11 + being 5 = 16 < overall 17` — so exactly one score combination
+clears both subscale minimums and still misses mastery by one on overall. That
+is correct under "all three must be met" and is a property of integer rounding
+on small counts. **Do not alter scoring to smooth it.**
+
+### Results
+
+- a large **score plaque** — a count, never a percentage
+- an **Action verbs** bar and a **Being verbs** bar, each with its text score
+- a **guidance card** carrying the recommendation
+- **no per-question dots at any length** — 30 dots is noise and 40 unreadable
+- both bars use the **same fill colour** and their tracks are `aria-hidden`, so
+  meaning never rests on colour or width; the text score always carries it
+- no harsh failure styling at any score
+
+**The celebration is gated on mastery, permanently.** A party popper over
+"Keep going" congratulates a child for a score they did not earn.
+
+### Result CTA logic
+
+"Try again" is deliberately **not** the primary action after a weak score:
+re-measuring without instruction in between measures nothing and teaches
+nothing.
+
+| Result | Primary | Secondary | Tertiary |
+|---|---|---|---|
+| **Mastered** | Back to Verb | See my answers | Try again |
+| **Action weak** | **Practice verbs** | See my answers | Back to Verb |
+| **Being weak** | **Practice verbs** | See my answers | Back to Verb |
+| **Almost** | **Practice verbs** | See my answers | Back to Verb |
+| **Low overall** | **Learn verbs** | See my answers | Back to Verb |
+
+A subscale weakness means the concept is partly there but shaky, and Practice
+is the engine that coaches. A low overall means the model is not there yet, and
+Practice's hints would frustrate rather than help — so that child goes back to
+Learn. **There is no direct "Try again" after a weak result**, by design; the
+child returns through Verb, which is two taps and intentional.
+
+### Forensic defect D-A1 — stale review explanations
+
+Opening "See my answers" and then starting another test used to leave the
+previous sitting's review — every row and every answer explanation — in the
+document for the whole of the next test. `#test-results` is hidden, so nothing
+was ever visible and nothing reached assistive technology, but at 30 questions
+those stale explanations overlap the questions being asked.
+
+"It happens to be inside a hidden div" is a containment argument, not a
+compliance one. **`reset()` now calls `clearReview()`**, which empties the
+review host, restores `hidden` and resets the button label, on every path into
+a test.
+
+Permanent regression checks:
+
+- **13.29** — starting a new test tears down the previous review completely.
+- **13.30** — **no answer explanation exists anywhere in the DOM during a
+  test**, asserted by searching `#screen-test` for all 48 `why` strings and
+  requiring zero matches.
+
+13.30 is the check that should have existed from the start: it guards the
+invariant directly rather than one of the ways it can be broken. Write checks
+like that for Subject, Noun and Adjective.
+
+### Verification at the re-lock
+
+| | |
+|---|---|
+| Harness | **304 / 304 passing** |
+| Independent forensic checks | **96**, in programs that do not import the harness |
+| Bank field comparisons | **480 / 480 exact** against the approved source |
+| Sampling draws audited | 12,000 · retest simulations 2,000 · score pairs 780 |
+| Responsive | 4 widths × 12 states, 0 overflow / clipping / small tap target |
+| Content defects | **0** |
+
+**Nothing about a sitting is persisted except the recent-question IDs.** No
+score, no timer, no progress. Leaving and returning starts a clean test, and
+Try again is a full reset.
 
 ---
 
@@ -445,7 +638,7 @@ node verification/serve.js . 8347      # terminal 1
 node verification/guard.js ./out       # terminal 2 — needs puppeteer-core + Chrome
 ```
 
-`verification/guard.js` — **267 checks, 267 passing** — replaces the retired
+`verification/guard.js` — **304 checks, 304 passing** — replaces the retired
 `missionguard.js`. It guards load integrity, Home's four skills and its
 forbidden furniture, the shared Skill screen across all four skills, all four
 Learn states, the 20-question bank with both shuffles, feedback escalation and
