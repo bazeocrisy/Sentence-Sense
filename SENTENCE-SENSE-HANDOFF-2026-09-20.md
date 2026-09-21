@@ -34,14 +34,17 @@ The child chooses *what* before *how*.
 | | |
 |---|---|
 | **Branch** | `claude/build-1.4` |
-| **Branch HEAD** | `04c820d627e384b5ed265abe0eabc539d55e8cfb` |
-| **`origin/claude/build-1.4`** | `04c820d627e384b5ed265abe0eabc539d55e8cfb` — **matches** |
+| **Branch HEAD** | `8f958a2` (this handoff). Code state is `04c820d`. |
+| **`origin/claude/build-1.4`** | matches local |
 | **`main`** | `cc1f102924ad4bb74166b1ac056005c3854380e3` |
 | **`origin/main`** | `cc1f102924ad4bb74166b1ac056005c3854380e3` — **matches** |
-| **Working tree** | **clean** (before this handoff file was added) |
+| **Working tree** | **clean** |
 
-Last commit on the branch: **`04c820d` — Finalize Verb acceptance fixes for
-live testing.**
+Commits tonight: **`04c820d`** — Finalize Verb acceptance fixes for live
+testing; then **`8f958a2`** — Add dated handoff (documentation only).
+
+> **Because GitHub Pages serves this branch, a push here publishes to the
+> public URL. See section 3.**
 
 `main` has not been modified at any point in this project. Every commit has
 gone to `claude/build-1.4` only.
@@ -50,74 +53,88 @@ gone to `claude/build-1.4` only.
 
 ## 3. LIVE SITE STATUS
 
-> ## DEPLOYMENT WAS NOT COMPLETED TONIGHT.
+> ## BUILD 1.4.0 IS LIVE.
 >
-> The live site still serves **Build 1.2.7**. Build 1.4.0 — all of the Verb
-> work — is committed and pushed to `claude/build-1.4` but is **NOT public**.
+> Published via **Option B — the GitHub Pages source was repointed from
+> `main` to `claude/build-1.4`.** `main` was never modified and still sits at
+> `cc1f102924ad4bb74166b1ac056005c3854380e3`.
 
 | | |
 |---|---|
 | **Public URL** | **https://bazeocrisy.github.io/Sentence-Sense/** |
-| **Pages source** | **`main`, at repository root** |
-| **Live build number** | **Build 1.2.7** |
-| **Live verification** | **Not performed** — there was nothing new to verify |
-| **Rollback reference** | **`live-build-1.2.7`** → `cc1f102924ad4bb74166b1ac056005c3854380e3` (annotated tag, pushed to origin) |
+| **Pages source branch** | **`claude/build-1.4`**, at repository root |
+| **Live build number** | **Build 1.4.0** |
+| **Live verification** | **PASSED — 12 / 12 checks against the public URL** |
+| **`main`** | **untouched** at `cc1f102924ad4bb74166b1ac056005c3854380e3` |
+| **Rollback reference** | **`live-build-1.2.7`** → `cc1f102924ad4bb74166b1ac056005c3854380e3` (annotated tag, pushed) |
 
-### How the Pages source was determined
+### How this was confirmed, not assumed
 
-Not assumed — proven. There is no `.github/workflows` directory, no `gh-pages`
-branch (local or remote), no `/docs` folder, no `CNAME`, no `_config.yml`. The
-live `index.html` (14,645 bytes) and the live `js/app.js` are **byte-identical**
-to `main:index.html` and `main:js/app.js`.
+The live `js/app.js` is **byte-identical to `claude/build-1.4`**, not to
+`main`. `js/test.js` and `js/practice.js` both return HTTP 200 and **do not
+exist on `main`**. The classroom hero image returns 200. The build badge reads
+*Sentence Sense — Build 1.4.0*.
 
-**GitHub Pages serves `main` at root. There is exactly one Pages site on this
-repository.**
+### Live verification result — run against the public URL, not localhost
 
-### The consequence, and why nothing was deployed
+```
+public URL responds 200                              PASS
+Home loads with four skill cards                     PASS
+build badge reads Build 1.4.0                        PASS
+Verb skill screen offers three live activities       PASS
+Verb Learn opens                                     PASS
+Verb Practice opens with its 20-question bank        PASS
+Verb Test selector 12 / 20 / 30, 12 preselected      PASS
+40 remains hidden from the child                     PASS
+Test question 1 renders with four choices            PASS
+D-A1 holds live: no explanation text in the Test DOM PASS
+no failed network requests                           PASS
+no console / page errors                             PASS
 
-Publishing Build 1.4.0 requires changing what `main` points at. `main` has been
-explicitly protected by the owner in every message of this project, by exact
-SHA. The owner asked to see the precise action before it was taken, so it was
-presented and **not executed**. The session ended awaiting that approval.
+12 live checks, all pass
+```
 
-### The two routes, both still open
+### IMPORTANT — what serving from a branch means day to day
 
-**Option A — fast-forward `main`.** Verified: `main` *is* an ancestor of
-`claude/build-1.4`, so this is a clean fast-forward with no merge commit and no
-history rewrite. 13 commits move onto `main`.
+**Pages now rebuilds from `claude/build-1.4`.** Any future push to that branch
+publishes to the public URL automatically. Until the source is changed back,
+**a push to `claude/build-1.4` is a deployment.** Treat every commit on this
+branch as production until the owner decides otherwise.
+
+### Rollback
+
+**Preferred — no git operation, no force-push:**
+GitHub → **Settings → Pages → Build and deployment → Source: Deploy from a
+branch** → change the branch back to **`main`**, folder `/ (root)` → **Save**.
+The live URL returns to **Build 1.2.7** in roughly 1–2 minutes, because `main`
+still holds exactly that state.
+
+**If the branch itself must be rolled back** to the state before tonight's
+height and flow corrections:
 
 ```bash
 cd C:\Sentence-Sense
+git checkout claude/build-1.4
+git reset --hard 5ae91a2283d0ca4b88a2a54924e636c646ad2ebc
+git push origin claude/build-1.4 --force-with-lease
+```
+
+The `live-build-1.2.7` tag remains the permanent reference for the Build 1.2.7
+state. **Do not delete it.**
+
+### Option A — the route that was NOT taken
+
+Fast-forwarding `main` to the branch was prepared, verified as a clean
+fast-forward, and presented to the owner. It was **not executed**, and is no
+longer necessary: Option B reached the same public URL while leaving `main`
+untouched. If `main` is ever brought up to date deliberately:
+
+```bash
 git checkout main
-git merge --ff-only claude/build-1.4      # cc1f102 -> 04c820d
+git merge --ff-only claude/build-1.4
 git push origin main
 git checkout claude/build-1.4
 ```
-
-**Option B — repoint Pages, leaving `main` untouched.** *(Recommended. Requires
-the owner; Claude has no `gh` CLI and no API token.)*
-
-GitHub → **Settings → Pages → Build and deployment → Source: Deploy from a
-branch** → change branch `main` → `claude/build-1.4`, folder `/ (root)` →
-**Save**. Same public URL, Build 1.4.0 live, `main` never moves, and reverting
-is one dropdown flip rather than a force-push.
-
-### Exact rollback instructions (if Option A is used and must be undone)
-
-```bash
-cd C:\Sentence-Sense
-git checkout main
-git reset --hard live-build-1.2.7          # back to cc1f102
-git push origin main --force-with-lease
-git checkout claude/build-1.4
-```
-
-Live returns to Build 1.2.7 in roughly 1–2 minutes.
-**A rollback does not affect `claude/build-1.4`** — all Verb work stays safe on
-the branch and on the remote.
-
-If Option B is used, rollback is simply changing the Pages source branch back
-to `main`. No git operation at all.
 
 ---
 
@@ -409,8 +426,9 @@ git rev-parse HEAD                   # expect 04c820d... unless work resumed
 git rev-parse main                   # expect cc1f102... unless deployed
 git status
 ```
-**C.** Verify live site status — is it still Build 1.2.7, or was the deployment
-completed after this session ended?
+**C.** Verify live site status. **Build 1.4.0 was live at the end of this
+session**, served from `claude/build-1.4`. Confirm it still is, and confirm the
+Pages source has not been changed back:
 ```bash
 curl -s https://bazeocrisy.github.io/Sentence-Sense/js/app.js | Select-String BUILD_NUMBER
 ```
@@ -449,7 +467,8 @@ curl -s https://bazeocrisy.github.io/Sentence-Sense/js/app.js | Select-String BU
 
 ---
 
-*End of session 2026-09-20. Branch `claude/build-1.4` at
+*End of session 2026-09-20. Build 1.4.0 is LIVE, served from branch
+`claude/build-1.4` at
 `04c820d627e384b5ed265abe0eabc539d55e8cfb`. `main` untouched at
-`cc1f102924ad4bb74166b1ac056005c3854380e3`. Nothing deployed. Subject not
+`cc1f102924ad4bb74166b1ac056005c3854380e3`. Subject not
 started.*
