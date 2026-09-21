@@ -511,7 +511,7 @@
   {
    "r": "PASS",
    "name": "6.1 first wrong explains the word's job in THIS sentence",
-   "detail": "✕puppy names who we are talking about. A verb can tell what "
+   "detail": "✕playful tells what kind of dog it is. It describes the dog."
   },
   {
    "r": "PASS",
@@ -521,7 +521,7 @@
   {
    "r": "PASS",
    "name": "6.3 second wrong gives the stronger clue",
-   "detail": "Remember: a verb can also tell what someone or something is."
+   "detail": "Remember: ask yourself, What happened?"
   },
   {
    "r": "PASS",
@@ -531,7 +531,7 @@
   {
    "r": "PASS",
    "name": "6.5 third wrong reveals and explains",
-   "detail": "Let's find it together. is tells what the puppy is, so is is"
+   "detail": "Let's find it together. jumped tells what the dog did, so ju"
   },
   {
    "r": "PASS",
@@ -796,7 +796,7 @@
   {
    "r": "PASS",
    "name": "13.19 the correct answer occupies more than one position",
-   "detail": "{\"0\":3,\"1\":4,\"3\":5}"
+   "detail": "{\"0\":3,\"1\":4,\"2\":2,\"3\":3}"
   },
   {
    "r": "PASS",
@@ -866,7 +866,7 @@
   {
    "r": "PASS",
    "name": "13.33 no score, name or personal data is stored",
-   "detail": "{\"v\":1,\"ids\":[\"V007\",\"V013\",\"V009\",\"V001\",\"V029\",\"V026\",\"V02"
+   "detail": "{\"v\":1,\"ids\":[\"V002\",\"V003\",\"V001\",\"V010\",\"V031\",\"V023\",\"V01"
   },
   {
    "r": "PASS",
@@ -875,18 +875,18 @@
   },
   {
    "r": "PASS",
-   "name": "13.34.20 retest at 20 reuses only the minimum necessary  (avg 1/20 repeat, pool floor 1)",
-   "detail": "worst=1 floor=1 coverageSwaps=8 unexplainedRepeats=0 balanceBreaks=0"
+   "name": "13.34.20 retest at 20 reuses only the minimum necessary  (avg 1.1/20 repeat, pool floor 1)",
+   "detail": "worst=3 floor=1 coverageSwaps=15 unexplainedRepeats=0 balanceBreaks=0"
   },
   {
    "r": "PASS",
    "name": "13.34.30 retest at 30 reuses only the minimum necessary  (avg 12/30 repeat, pool floor 12)",
-   "detail": "worst=12 floor=12 coverageSwaps=7 unexplainedRepeats=0 balanceBreaks=0"
+   "detail": "worst=13 floor=12 coverageSwaps=8 unexplainedRepeats=0 balanceBreaks=0"
   },
   {
    "r": "PASS",
    "name": "13.34.40 retest at 40 reuses only the minimum necessary  (avg 32/40 repeat, pool floor 32)",
-   "detail": "worst=32 floor=32 coverageSwaps=0 unexplainedRepeats=0 balanceBreaks=0"
+   "detail": "worst=32 floor=32 coverageSwaps=1 unexplainedRepeats=0 balanceBreaks=0"
   },
   {
    "r": "PASS",
@@ -1296,7 +1296,7 @@
   {
    "r": "PASS",
    "name": "11.home.laptop-1280 no false bottom",
-   "detail": "0 below fold, scrollable=true"
+   "detail": "4 below fold, scrollable=true"
   },
   {
    "r": "PASS",
@@ -1306,7 +1306,7 @@
   {
    "r": "PASS",
    "name": "11.home.laptop-1280 banner headline stays legible over the photo",
-   "detail": "overlay + scrim"
+   "detail": "stacked, no overlap"
   },
   {
    "r": "PASS",

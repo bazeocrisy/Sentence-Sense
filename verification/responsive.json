@@ -213,13 +213,13 @@
    "screen": "home",
    "overflow": 0,
    "scrollable": true,
-   "below": 0,
+   "below": 4,
    "falseBottom": false,
    "tiny": 0,
    "heroText": {
     "photoVisible": true,
     "scrimVisible": true,
-    "overlaps": true,
+    "overlaps": false,
     "legible": true
    }
   },

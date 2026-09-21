@@ -381,6 +381,34 @@
        aria-live region, so this does not create a second announcement. */
     const nextChoice = Array.prototype.filter.call(buttons, x => !x.disabled)[0];
     if (nextChoice) nextChoice.focus();
+
+    revealFeedback();
+  }
+
+  /* SCROLL RECOVERY after feedback expands.
+
+     A correct answer focuses Next, and focusing scrolls it into view for
+     free. A wrong answer must leave focus on a choice the child can still
+     try, so the feedback it just grew can sit below the fold on a short
+     screen with nothing to bring it back. Scroll to it explicitly, only
+     when it is genuinely out of view, so nothing moves on a tall screen.
+
+     Anchor on the CONTROLS, not on the feedback: the Next button sits
+     BELOW the feedback, so scrolling the feedback to the bottom of the
+     viewport leaves the control just off the bottom edge -- which is the
+     defect, not the fix. Bringing the controls to the bottom reveals the
+     feedback above them as well. */
+  function revealFeedback() {
+    const fb = el("try-feedback");
+    if (!fb || fb.hidden || fb.offsetParent === null) return;
+    const anchor = el("learn-controls") || fb;
+    const r = anchor.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if (r.top >= 0 && r.bottom <= vh) return;          /* already visible */
+    const reduce = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    anchor.scrollIntoView({ block: "end", inline: "nearest",
+                            behavior: reduce ? "auto" : "smooth" });
   }
 
   /* =========================================================

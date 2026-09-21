@@ -188,6 +188,30 @@
     setNext(false);
   }
 
+  /* SCROLL RECOVERY after feedback expands.
+
+     A wrong answer grows the feedback panel in place, which pushes the
+     controls down. On a short screen that puts the way forward below the
+     fold, and nothing brought it back: the child was left reading an
+     explanation whose last line was cut, with no visible next step.
+
+     A correct answer never had this problem because focusing the Next
+     button scrolls it into view for free. A wrong answer must not steal
+     focus -- the child is still choosing -- so the scroll is done
+     explicitly instead, and only when the control is genuinely out of
+     view, so nothing moves on a tall screen. */
+  function revealControls() {
+    const anchor = el("practice-controls") || el("practice-next");
+    if (!anchor || anchor.offsetParent === null) return;
+    const r = anchor.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if (r.top >= 0 && r.bottom <= vh) return;          /* already visible */
+    const reduce = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    anchor.scrollIntoView({ block: "end", inline: "nearest",
+                            behavior: reduce ? "auto" : "smooth" });
+  }
+
   function feedback(kind, parts) {
     const fb = el("practice-feedback");
     fb.hidden = false;
@@ -229,9 +253,11 @@
     if (run.attempts === 1) {
       /* What that word actually does here, then where to look instead. */
       feedback("wrong", [choice.feedback, "Have another look."]);
+      revealControls();
     } else if (run.attempts === 2) {
       /* The clue again. The answer is still the child's to find. */
       feedback("wrong", [choice.feedback, q.clue]);
+      revealControls();
     } else {
       /* Third miss: find it together rather than leave the child stuck.
          D-36: match the correct button by its original choice index,
@@ -260,6 +286,7 @@
     if (!q || run.answered) return;
     feedback("clue", [q.clue]);
     el("practice-clue").disabled = true;
+    revealControls();
   }
 
   /* =========================================================

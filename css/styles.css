@@ -1663,3 +1663,190 @@ img{max-width:100%;}
   }
   .skill-card:hover,.activity-card:hover{transform:none;}
 }
+
+/* =========================================================
+   14. VERTICAL RHYTHM — HEIGHT, NOT JUST WIDTH
+   Added by the end-to-end acceptance audit (D-E1, D-E2).
+
+   Every earlier responsive pass measured WIDTH. Width was never the
+   problem: there is no horizontal overflow anywhere in Verb. Height was
+   never budgeted, and on short screens the control that moves the child
+   forward fell below the fold.
+
+   Nothing here shrinks text, shrinks a tap target, or hides
+   instructional content. These are layout arrangement and spacing only.
+   ========================================================= */
+
+/* --- D-E1. Learn "How do I find it?" is the densest screen in Verb.
+   The three suffix groups are short chip rows; stacked they cost ~290px
+   of height and read no better than they do side by side. Only the CLUE
+   groups are laid out in a row -- the groups inside the reference carry
+   far more chips and stay stacked. --- */
+@media (min-width:700px){
+  .lesson-content > .lesson-groups{
+    flex-direction:row;flex-wrap:wrap;align-items:stretch;
+  }
+  .lesson-content > .lesson-groups > .lesson-group{
+    flex:1 1 0;min-width:0;
+  }
+}
+
+/* Below 700px a row of three does not fit, so each group puts its label
+   and its chips on ONE line instead of two. Same content, same sizes. */
+@media (max-width:699px){
+  .lesson-content > .lesson-groups > .lesson-group{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .lesson-content > .lesson-groups > .lesson-group > .lesson-group-label{
+    flex:0 0 auto;margin:0;
+  }
+  .lesson-content > .lesson-groups > .lesson-group > .chip-row{
+    flex:1 1 auto;min-width:0;
+  }
+}
+
+/* Short viewports get a tighter vertical rhythm. Padding and gaps only;
+   font sizes and tap targets are untouched. */
+@media (max-height:760px){
+  .learn-stage{padding-top:16px;padding-bottom:16px;}
+  .lesson-content{gap:10px;}
+  .lesson-callout{padding-top:12px;padding-bottom:12px;}
+  .lesson-groups{gap:8px;}
+  .lesson-group{padding-top:9px;padding-bottom:9px;}
+  .lesson-warning,.lesson-note{padding-top:8px;padding-bottom:8px;}
+  .lesson-reference-summary{padding-top:10px;padding-bottom:10px;}
+}
+
+/* --- D-E2. Home is the entry point. On a short phone the banner, the
+   wordmark, the headline, the subtitle, the standards badge and the
+   section head consumed the whole first viewport, so the first Start
+   button -- the only thing to press on the entire screen -- sat below
+   the fold. Reclaim that height on short screens only; tall phones and
+   every desktop keep the approved proportions exactly. --- */
+@media (max-height:760px){
+  .home-hero.has-photo .hero-photo{height:104px;}
+  .hero-inner{padding-top:14px;padding-bottom:14px;}
+  .brand{margin-bottom:2px;}
+  .hero-title{margin-bottom:2px;}
+  .hero-badge{margin-top:8px;}
+  .home-main{padding-top:14px;}
+  .section-head{margin-bottom:10px;}
+  .skill-card{padding-top:14px;padding-bottom:14px;}
+  .skill-card-head{gap:6px;}
+  .skill-icon{width:44px;height:44px;}
+  .skill-ask{margin-top:2px;margin-bottom:2px;}
+  .skill-preview{margin-top:4px;margin-bottom:8px;}
+}
+
+/* A second, tighter tier for genuinely short phones (<=700px tall).
+   Still no smaller text and no smaller tap target -- only the decorative
+   band, the non-interactive step indicator, and spacing. */
+@media (max-height:700px){
+  /* Home: recover enough for the first Start button to reach the fold. */
+  .home-hero.has-photo .hero-photo{height:88px;}
+  .hero-inner{padding-top:12px;padding-bottom:12px;}
+  .hero-badge{margin-top:6px;}
+  .home-main{padding-top:10px;}
+  .section-head{margin-bottom:8px;}
+  .skill-card{padding-top:12px;padding-bottom:12px;}
+  .skill-preview{margin-top:2px;margin-bottom:6px;}
+
+  /* Learn: the step chips are a NON-INTERACTIVE progress indicator. They
+     wrap to two lines at phone width and cost ~73px above the lesson.
+     Tightening them buys the lesson back some height without touching
+     anything the child reads to answer. */
+  #learn-steps{gap:4px;margin-bottom:6px;}
+  .lstep{padding-top:4px;padding-bottom:4px;}
+  .learn-stage{padding-top:12px;padding-bottom:12px;}
+  .lesson-callout{padding-top:10px;padding-bottom:10px;gap:8px;}
+  .lesson-content{gap:8px;}
+}
+
+/* Final trim for the shortest phones. The banner photograph is
+   decoration -- the wordmark and headline sit on solid ground beneath it
+   -- so it is the right thing to give up height first. */
+@media (max-height:700px){
+  .home-hero.has-photo .hero-photo{height:80px;}
+  .brand{line-height:1.05;}
+  .hero-title{margin-bottom:0;}
+  .home-main{padding-top:6px;}
+  .skill-card-head{gap:4px;}
+}
+
+/* An auto-fitting grid replaces the fixed row/stack split above: it
+   gives three columns on a desktop, two on a phone, and one only when
+   the screen is genuinely too narrow -- without a breakpoint per device.
+   Same chips, same sizes, far less height. */
+.lesson-content > .lesson-groups{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  align-items:start;
+}
+@media (max-width:699px){
+  .lesson-content > .lesson-groups > .lesson-group{display:block;}
+  .lesson-content > .lesson-groups > .lesson-group > .lesson-group-label{margin:0 0 4px;}
+}
+
+/* Laptops (768px tall) and large phones (932px) were missing the tighter
+   rhythm because the first tier stopped at 760px. */
+@media (max-height:940px){
+  .learn-stage{padding-top:16px;padding-bottom:16px;}
+  .lesson-content{gap:10px;}
+  .lesson-callout{padding-top:12px;padding-bottom:12px;}
+  .lesson-groups{gap:8px;}
+  .lesson-group{padding-top:9px;padding-bottom:9px;}
+  .lesson-warning,.lesson-note{padding-top:8px;padding-bottom:8px;}
+  .lesson-reference-summary{padding-top:10px;padding-bottom:10px;}
+}
+
+/* The last few pixels on the shortest phones. */
+@media (max-height:700px){
+  .hero-inner{padding-top:10px;padding-bottom:10px;}
+  .hero-badge{margin-top:4px;}
+  .section-head{margin-bottom:6px;}
+  .skill-card{padding-top:10px;padding-bottom:10px;}
+  /* the icon is decoration inside the card; the BUTTON is the tap target
+     and keeps its full size */
+  .skill-icon{width:40px;height:40px;}
+}
+@media (max-height:670px){
+  .home-hero.has-photo .hero-photo{height:68px;}
+}
+
+/* minmax(150px) put two cramped columns on a phone and the long uppercase
+   labels wrapped to three lines each -- taller than simply stacking. At
+   200px the grid resolves to three columns on a desktop or tablet and a
+   single clean column on a phone, which is the right answer for both. */
+.lesson-content > .lesson-groups{
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+}
+@media (max-height:660px){
+  .section-head{margin-bottom:4px;}
+  .skill-card{padding-top:8px;padding-bottom:8px;}
+}
+
+/* Laptop (768) and large phone (932) were within ~31px of clearing the
+   fold. Spacing only; nothing here changes a font size or a tap target. */
+@media (max-height:940px){
+  .learn-stage{padding-top:12px;padding-bottom:12px;}
+  .lesson-content{gap:8px;}
+  .lesson-callout{padding-top:10px;padding-bottom:10px;}
+  .lesson-reference-summary{padding-top:8px;padding-bottom:8px;}
+  #learn-controls{padding-top:10px;padding-bottom:10px;}
+}
+
+/* The callout is the most important block on the step, so it keeps its
+   size -- only the space BETWEEN its lines tightens. */
+@media (max-height:940px){
+  .lesson-callout{gap:8px;}
+  .lesson-callout .chip-row{margin-top:2px;}
+  .lesson-reference-summary{line-height:1.3;}
+}
+
+/* A short band takes its crop from 30% down the photograph, which cuts
+   through the children's heads. Raising the crop keeps both faces whole
+   at the reduced heights above. Height is unchanged -- only the window
+   into the image moves. */
+@media (max-height:760px){
+  .home-hero.has-photo .hero-photo{background-position:88% 16%;}
+}

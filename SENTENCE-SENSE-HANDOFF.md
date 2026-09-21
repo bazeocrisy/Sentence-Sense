@@ -16,6 +16,49 @@
 | **Dynamic Test** | **LOCKED** |
 | **Verb Test v1 forensic audit** | **PASSED** — `FORENSIC-AUDIT-VERB-TEST.md` |
 | **Dynamic Test forensic audit** | **PASSED** — `FORENSIC-AUDIT-VERB-DYNAMIC-TEST.md` |
+| **End-to-end acceptance audit** | **PASSED with minor corrections** — `FORENSIC-AUDIT-VERB-END-TO-END.md` |
+| **External user testing** | **BEGINNING** — this build is published for real testers |
+
+### Height / flow correction pass (end-to-end audit defects D-E1 … D-E4)
+
+| Defect | Status |
+|---|---|
+| **D-E2** Home entry point | **FIXED** — a Start control is visible at every tested viewport |
+| **D-E3** Practice feedback | **FIXED** — all 8 viewports, all 5 escalation states |
+| **D-E4** Learn *Let me try* feedback | **FIXED** — all 8 viewports, all 3 states |
+| **D-E1** Learn step 2 | **ACCEPTED with scroll residue.** `ok` on desktop and both tablet orientations, a sliver `cut` on laptop and large phone, and a normal scroll of ~120–300px on 390×844, 375×667 and 390×650. |
+
+**Why D-E1 was accepted rather than fixed.** At 375×667 that step's content
+measures 653px inside a 667px viewport that must also carry the header, the
+step indicator, the lesson title and the controls. The content alone exceeds
+the screen. Closing the gap would mean shrinking instructional text, hiding
+content or collapsing what should stay visible — all three refused. The Next
+control is never unreachable, the cut card at the fold is an honest scroll cue,
+and keyboard reaches Next in 3 Tabs at every viewport.
+
+**The correction was spacing and layout only:** an auto-fitting grid for the
+suffix-clue groups, height-aware spacing tiers, and scroll recovery after
+feedback expands. No instructional content changed. No text was made smaller.
+No tap target went below 44px.
+
+### Deferred — to review before the next content pass
+
+**Learn contains one unscored true verb phrase.** The study-guide contrast
+shows *The workers are building a house.* and marks `building` alone, labelled
+*TELLS WHAT THEY DO*. The full verb phrase is `are building`. A read-only
+verb-phrase forensic audit found this is the **only** true verb phrase in all
+76 Verb sentences, it is a display example with no prompt, no choices and no
+score, and **no Practice or Test question contains a verb phrase at all** — all
+22 being questions are `BE + predicate adjective`. Every one of the 68 assessed
+answers is grammatically complete and correct. Severity LOW. **Deliberately not
+changed.**
+
+**A constraint this creates.** The answer model permits exactly one correct
+token, so any future sentence using `BE + -ing`, `have + participle` or
+`modal + base verb` would be unanswerable under it. That applies to the Phase-2
+pool expansion and to Subject, Noun and Adjective.
+
+**Subject has not been started.**
 
 **Verb remains the reference implementation for Subject, Noun and Adjective.**
 
