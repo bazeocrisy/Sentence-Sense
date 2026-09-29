@@ -306,8 +306,33 @@
   /* =========================================================
      BUILD BADGE
      ========================================================= */
+  /* BUILD_NUMBER is the official version and is never altered here.
+
+     On a loopback host only, the badge also shows LOCAL and the time this
+     page was loaded, so a reload visibly proves the newest local copy is
+     on screen. It is computed at render time, stored nowhere, and read by
+     nothing -- and the hostname test means GitHub Pages can never show
+     it. */
+  function isLocalHost() {
+    const h = window.location.hostname;
+    return h === "127.0.0.1" || h === "localhost" || h === "::1" || h === "";
+  }
+
   function renderBuildBadge() {
-    el("build-badge").textContent = "Sentence Sense — " + BUILD_NUMBER;
+    const badge = el("build-badge");
+    /* #build-badge itself stays EXACTLY the official string. The local
+       marker is a sibling element, so the released badge text is never
+       altered and harness check 1.5 keeps asserting it verbatim. */
+    badge.textContent = "Sentence Sense — " + BUILD_NUMBER;
+
+    const existing = document.getElementById("local-badge");
+    if (existing) existing.remove();
+    if (!isLocalHost()) return;
+
+    const local = make("p", "build-badge local-badge");
+    local.id = "local-badge";
+    local.textContent = "LOCAL · loaded " + new Date().toLocaleTimeString();
+    badge.parentNode.insertBefore(local, badge.nextSibling);
   }
 
   /* =========================================================

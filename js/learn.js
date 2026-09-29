@@ -161,6 +161,16 @@
 
     if (block.contrast) S.renderContrast(host, block.contrast);
 
+    /* An optional small heading for the note beneath it. Purely additive:
+       a topic that does not set `noteTitle` renders exactly as before, so
+       Verb, Noun, Adjective and the archived topics are untouched. It
+       reuses `.sentence-steplabel`, the same quiet uppercase label the
+       sentence pair already uses for READ IT, rather than inventing a
+       second heading style. */
+    if (block.noteTitle) {
+      host.appendChild(make("p", "sentence-steplabel lesson-note-title", block.noteTitle));
+    }
+
     if (block.note) host.appendChild(make("p", "lesson-note", block.note));
   }
 

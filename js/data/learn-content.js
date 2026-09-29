@@ -1205,17 +1205,29 @@ window.SS_LEARN_CONTENT = {
 
       ask: "Who or what?",
       icon: "people",
-      preview: { words: ["The", "dog", "chased", "the", "ball."], start: 0, end: 1 },
+      /* The Home card highlights the SIMPLE SUBJECT -- one word -- because
+         that is what this skill teaches. It previously spanned "The dog",
+         which is the complete subject and a different topic. */
+      preview: { words: ["The", "dog", "chased", "the", "ball."], start: 1, end: 1 },
       practice: "soon",
       test: "soon",
 
       definition: {
         title: "What is a subject?",
-        text: "The subject tells who or what the sentence is about.",
-        list: [
-          "The main subject word is called the simple subject."
-        ],
-        note: "Every word has a type, and it also has a job in the sentence. Subject is a job. Here, player names a person, and its job in this sentence is the subject.",
+
+        /* Build 1.4 Learn architecture, matching Verb's DOES / IS callout.
+           The core definition is unchanged -- "the subject tells who or what
+           the sentence is about" -- it is simply split across the two keys so
+           the idea the child must leave with is the biggest thing on screen
+           instead of a line of body text. */
+        callout: {
+          title: "The subject tells who or what the sentence is about.",
+          rows: [
+            { key: "WHO",  text: "a person or an animal" },
+            { key: "WHAT", text: "a thing or an idea" }
+          ]
+        },
+        note: "The main subject word is called the simple subject.",
         sentence: {
           words: ["The", "player", "kicked", "the", "ball."],
           marks: [{ start: 1, end: 1, kind: "subject", label: "SIMPLE SUBJECT" }]
@@ -1224,13 +1236,37 @@ window.SS_LEARN_CONTENT = {
 
       clue: {
         title: "A clue for finding the subject",
-        text: "Do not hunt for the subject first. Find the verb, then ask a question.",
-        steps: [
-          "Find the verb.",
-          "Ask: Who or what did it?",
-          "The answer is the subject."
+
+        /* THE STRATEGY IS THE LESSON, so it is the callout.
+
+           Step 2 says "with the verb", NOT "did it". A verb does not always
+           describe an action -- Verb Learn teaches DOES and IS -- so a rule
+           built on "did it" collapses the moment the child meets "The soup
+           is hot." Asking who or what WITH THE VERB works for both:
+             kicked -> Who kicked?   is hot -> What is hot?
+             are ready -> Who are ready? */
+        callout: {
+          title: "Find the subject in three steps:",
+          rows: [
+            { key: "1", text: "Find the verb." },
+            { key: "2", text: "Use the verb to ask: Who? or What?" },
+            { key: "3", text: "The answer is the simple subject." }
+          ]
+        },
+
+        /* The same method on both kinds of verb Verb Learn teaches.
+           Without the being-verb line a child can quietly decide the
+           subject is whoever DID something, and "The soup is hot."
+           breaks that rule the first time he meets it.
+
+           Two list lines, not two chip cards: the cards cost ~250px on a
+           phone and pushed Next off the screen. These are SUPPORT for the
+           strategy above and must not compete with it. */
+        list: [
+          "Action verb \u2014 kicked \u2192 Who kicked? \u2192 player",
+          "Being verb \u2014 is hot \u2192 What is hot? \u2192 soup"
         ],
-        warning: "In many of the sentences we are learning, the subject comes before the verb. Finding the verb first and asking who or what is the stronger way.",
+        warning: "In many of the sentences we are learning, the subject comes before the verb. Finding the verb first and using it to ask Who? or What? is the stronger way.",
         sentence: {
           words: ["The", "player", "kicked", "the", "ball."],
           marks: [
@@ -1250,35 +1286,50 @@ window.SS_LEARN_CONTENT = {
             { start: 2, end: 2, kind: "verb", label: "VERB" }
           ]
         },
-        points: [
+        /* The same four-beat routine Verb uses: read, ask, answer, name it.
+           `routine` renders as an ordered list AFTER the sentence, because
+           step 1 is "Read the sentence" and the sentence has to be on screen
+           first. This is the Step 2 strategy carried out, not a new one. */
+        routine: [
+          "Read the sentence.",
           "Find the verb: kicked.",
-          "Ask: Who kicked? The player.",
-          "So player is the simple subject.",
-          "player names a person, and here its job in the sentence is the subject."
-        ]
+          "Use the verb to ask: Who kicked? The player.",
+          "So player is the simple subject."
+        ],
+
+        /* Word TYPE versus sentence JOB. Kept visible in the flow, never
+           folded into optional reference material. The small heading uses
+           the same quiet label style as READ IT, so it is findable
+           without competing with the strategy callout. */
+        noteTitle: "Word type vs. sentence job",
+        note: "player names a person \u2014 that is its word type. Its job in this sentence is the subject."
       },
 
-      tryIt: {
-        title: "Try it",
+      /* LET ME TRY. `learnTry` is the Build 1.4 key for the single guided
+         question inside Learn; a future Practice bank is a separate
+         `tryItBank` and must not be confused with it (D-33). The question,
+         the sentence and every feedback line below are unchanged. */
+      learnTry: {
+        title: "Let me try",
         sentence: {
           words: ["The", "tall", "teacher", "wrote", "on", "the", "board."]
         },
-        question: "The verb is wrote. Ask: who wrote? Which word is the simple subject?",
+        question: "The verb is wrote. Ask: Who wrote? Which word is the simple subject?",
         choices: [
-          { text: "tall", feedback: "tall describes the teacher. It is not the main subject word. Ask: who wrote?" },
+          { text: "tall", feedback: "tall describes the teacher. It is not the main subject word. Ask: Who wrote?" },
           { text: "teacher", correct: true, feedback: "Correct! The verb is wrote. Who wrote? The teacher. So teacher is the simple subject." },
-          { text: "wrote", feedback: "wrote is the verb. It tells what happened. Now ask: who wrote?" },
-          { text: "board", feedback: "board names a thing, but it is not who did the writing. Ask: who wrote?" }
+          { text: "wrote", feedback: "wrote is the verb. It tells what happened. Now ask: Who wrote?" },
+          { text: "board", feedback: "board names a thing, but it is not who did the writing. Ask: Who wrote?" }
         ]
       },
 
-      recap: "Find the verb, ask who or what did it, and you have found the subject.",
+      recap: "Find the verb, use it to ask Who? or What?, and you have found the simple subject.",
 
       studyGuide: {
         title: "Subject Study Guide",
         sections: [
           { heading: "What it is", lines: ["The subject tells who or what the sentence is about.", "The main subject word is the simple subject."] },
-          { heading: "How to find it", steps: ["Find the verb.", "Ask: Who or what did it?", "Find the subject."] },
+          { heading: "How to find it", steps: ["Find the verb.", "Use the verb to ask: Who? or What?", "Find the subject."] },
           {
             heading: "See it in a sentence",
             sentence: {

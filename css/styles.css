@@ -1170,6 +1170,48 @@ img{max-width:100%;}
   border-bottom:3px solid currentColor;
   padding-bottom:1px;
 }
+
+/* TRADITIONAL GRAMMAR LINES -- SUBJECT AND VERB ONLY.
+   The convention a child meets on paper and at the board:
+     subject  = ONE line
+     verb     = TWO lines
+   Scope is the whole point. If a noun or an adjective also carried a
+   single grammar line, one line would stop meaning SUBJECT and the
+   notation would teach nothing. Every other marked role therefore keeps
+   the chip treatment above exactly as it was.
+
+   The line count teaches the convention, the colour reinforces the role,
+   and the text label names it -- three signals, so nothing depends on
+   colour alone. `padding-bottom` is descender clearance, so the line
+   never cuts through g, j, p, q or y. */
+.ss-word.is-marked.ss-k-subject,
+.ss-word.is-marked.ss-k-verb{ padding-bottom:5px; }
+
+.ss-word.is-marked.ss-k-subject .ss-word-text,
+.ss-word.is-marked.ss-k-verb .ss-word-text{
+  border-bottom:2px solid var(--mark-ink, currentColor);
+  padding-bottom:3px;
+}
+
+/* The grammar lines carry the ROLE colour, while the word itself stays
+   dark for readability. `.ss-word-text` sets its own `color`, so
+   `currentColor` there is the text ink, not the role ink -- the line
+   would have come out navy under a green chip. Named for the two kinds
+   the convention covers, and only those two. */
+.ss-word.is-marked.ss-k-subject{ --mark-ink:var(--subject-ink); }
+.ss-word.is-marked.ss-k-verb   { --mark-ink:var(--verb-ink); }
+
+/* The second line. A pseudo-element rather than a thicker border,
+   because two grammar lines must read as two lines -- a 5px border reads
+   as one heavy rule and teaches nothing. */
+.ss-word.is-marked.ss-k-verb .ss-word-text{ position:relative; }
+.ss-word.is-marked.ss-k-verb .ss-word-text::after{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:-5px;
+  height:2px;
+  background:var(--mark-ink, currentColor);
+}
 .ss-word-label{
   font-family:var(--font-display);
   font-size:var(--sentence-label);
@@ -1850,3 +1892,20 @@ img{max-width:100%;}
 @media (max-height:760px){
   .home-hero.has-photo .hero-photo{background-position:88% 16%;}
 }
+
+/* The loopback-only refresh marker. A sibling of the build badge, never
+   part of it, so the official version string is never altered. It is
+   created at runtime by js/app.js and only on a loopback host, so it can
+   never appear on GitHub Pages. */
+.local-badge{
+  margin-top:2px;
+  font-weight:700;
+  letter-spacing:0.04em;
+  opacity:0.85;
+}
+
+/* The heading and its note are ONE unit, so they sit tight together
+   rather than reading as two separate blocks. The negative bottom margin
+   cancels the content gap between them, which keeps the whole pairing
+   close to the cost of the note alone. */
+.lesson-note-title{margin-top:4px;margin-bottom:-6px;}
