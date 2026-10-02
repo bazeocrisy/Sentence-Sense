@@ -1209,7 +1209,7 @@ window.SS_LEARN_CONTENT = {
          that is what this skill teaches. It previously spanned "The dog",
          which is the complete subject and a different topic. */
       preview: { words: ["The", "dog", "chased", "the", "ball."], start: 1, end: 1 },
-      practice: "soon",
+      practice: "bank",
       test: "soon",
 
       definition: {
@@ -1320,6 +1320,330 @@ window.SS_LEARN_CONTENT = {
           { text: "teacher", correct: true, feedback: "Correct! The verb is wrote. Who wrote? The teacher. So teacher is the simple subject." },
           { text: "wrote", feedback: "wrote is the verb. It tells what happened. Now ask: Who wrote?" },
           { text: "board", feedback: "board names a thing, but it is not who did the writing. Ask: Who wrote?" }
+        ]
+      },
+
+      /* =====================================================
+         SUBJECT PRACTICE BANK (Build 1.4.0)
+
+         Owner-designed, owner-approved. 20 questions, four stages
+         of five, read by the SHARED engine in js/practice.js. No
+         engine change was needed to add it.
+
+         D-33: this is `tryItBank`, the Practice bank. It is NOT
+         `learnTry`, the single guided question inside Learn. A topic
+         must never carry both under one key.
+
+         D-30: the completion recap belongs to CONTENT. This bank carries
+         its own `recap`, so the completion screen speaks about the
+         practice just finished instead of repeating Learn's strategy
+         line, and Verb's wording can never leak here.
+
+         Question sentences carry NO `marks` on purpose. A subject
+         mark would draw the green grammar underline and answer the
+         question before the child read it.
+
+         STAGE METADATA NOTE: every stage field below is owner-approved
+         wording. Stage 4's milestone fields are
+         never rendered -- `advance()` reaches `showDone()` before the
+         stage-change branch on the final question -- so the recap
+         carries the end-of-bank message.
+         ===================================================== */
+      tryItBank: {
+        /* Practice has its own recap, so the completion screen speaks about
+           the practice the child just did rather than repeating the Learn
+           strategy line. D-30: this belongs to content, never the engine. */
+        recap: "You practiced finding simple subjects in 20 sentences, even when extra words made the subject harder to spot.",
+        stages: [
+          { name: "Get Started",
+            desc: "Find the simple subject in clear sentences.",
+            mark: "⭐", milestoneTitle: "Get Started complete!",
+            milestoneLine: "You found simple subjects in clear sentences.",
+            nextStage: "Look Closer" },
+          { name: "Look Closer",
+            desc: "Find the simple subject when the sentence has more details.",
+            mark: "🌟", milestoneTitle: "Look Closer complete!",
+            milestoneLine: "You found simple subjects even when sentences had more details.",
+            nextStage: "Think It Through" },
+          { name: "Think It Through",
+            desc: "Use the sentence clues when several nouns could look like the subject.",
+            mark: "💪", milestoneTitle: "Think It Through complete!",
+            milestoneLine: "You used sentence clues to ignore distracting nouns.",
+            nextStage: "Challenge Yourself" },
+          { name: "Challenge Yourself",
+            desc: "Use the full strategy in richer sentences with stronger distractors.",
+            mark: "🎉", milestoneTitle: "You practiced Subject 20 different ways!",
+            milestoneLine: "", nextStage: "" }
+        ],
+
+        questions: [
+          /* ---------- STAGE 1 -- GET STARTED ---------- */
+
+          /* S1Q1 -- action -- WHO */
+          { stage: 0,
+            sentence: { words: ["The", "energetic", "puppy", "chased", "the", "bouncing", "tennis", "ball", "across", "the", "yard."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "energetic", feedback: "energetic describes the puppy. It is not the main subject word. Ask: Who chased the ball?" },
+              { text: "puppy", correct: true, feedback: "Correct! Who chased the ball? The puppy. So the simple subject is puppy." },
+              { text: "chased", feedback: "chased is the verb. It tells what happened. Now ask: Who chased the ball?" },
+              { text: "ball", feedback: "ball names a thing, but it is not who did the chasing. Ask: Who chased the ball?" }
+            ],
+            clue: "Use the verb chased to ask: Who chased the ball?",
+            reveal: "The verb is chased. Who chased the ball? The puppy. So the simple subject is puppy." },
+
+          /* S1Q2 -- action -- WHO */
+          { stage: 0,
+            sentence: { words: ["The", "talented", "artist", "painted", "a", "colorful", "mural", "for", "the", "school", "hallway."] },
+            question: "Which word tells who or what the sentence is about?",
+            choices: [
+              { text: "talented", feedback: "talented describes the artist. It is not the main subject word. Ask: Who painted the mural?" },
+              { text: "artist", correct: true, feedback: "Correct! Who painted the mural? The artist. So the simple subject is artist." },
+              { text: "painted", feedback: "painted is the verb. Use it to help find the subject. Ask: Who painted the mural?" },
+              { text: "mural", feedback: "mural names what was painted. Ask: Who painted the mural?" }
+            ],
+            clue: "Use the verb painted to ask: Who painted the mural?",
+            reveal: "The verb is painted. Who painted the mural? The artist. So the simple subject is artist." },
+
+          /* S1Q3 -- action -- WHAT */
+          { stage: 0,
+            sentence: { words: ["The", "rusty", "wagon", "carried", "several", "heavy", "boxes", "to", "the", "garage."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "rusty", feedback: "rusty describes the wagon. Ask: What carried the boxes?" },
+              { text: "wagon", correct: true, feedback: "Correct! What carried the boxes? The wagon. So the simple subject is wagon." },
+              { text: "carried", feedback: "carried is the verb. Use it to help find the subject. Ask: What carried the boxes?" },
+              { text: "boxes", feedback: "boxes names things in the sentence, but the boxes did not do the carrying. Ask: What carried the boxes?" }
+            ],
+            clue: "Use the verb carried to ask: What carried the boxes?",
+            reveal: "The verb is carried. What carried the boxes? The wagon. So the simple subject is wagon." },
+
+          /* S1Q4 -- action -- WHO */
+          { stage: 0,
+            sentence: { words: ["The", "tiny", "sparrow", "built", "a", "nest", "beneath", "the", "porch", "roof."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "tiny", feedback: "tiny describes the sparrow. Ask: Who built the nest?" },
+              { text: "sparrow", correct: true, feedback: "Correct! Who built the nest? The sparrow. So the simple subject is sparrow." },
+              { text: "built", feedback: "built is the verb. Use it to help find the subject. Ask: Who built the nest?" },
+              { text: "roof", feedback: "roof is part of the detail telling where the nest was built. Ask: Who built the nest?" }
+            ],
+            clue: "Use the verb built to ask: Who built the nest?",
+            reveal: "The verb is built. Who built the nest? The sparrow. So the simple subject is sparrow." },
+
+          /* S1Q5 -- being -- WHAT */
+          { stage: 0,
+            sentence: { words: ["The", "vegetable", "soup", "is", "warm", "and", "delicious", "after", "simmering", "all", "afternoon."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "vegetable", feedback: "vegetable describes what kind of soup it is. Ask: What is warm and delicious?" },
+              { text: "soup", correct: true, feedback: "Correct! What is warm and delicious? The soup. So the simple subject is soup." },
+              { text: "is", feedback: "'is' is the being verb. The verb helps you find the subject. Ask: What is warm and delicious?" },
+              { text: "delicious", feedback: "delicious tells what the soup is like. Ask: What is warm and delicious?" }
+            ],
+            clue: "Use the verb is to ask: What is warm and delicious?",
+            reveal: "The being verb is 'is.' What is warm and delicious? The soup. So the simple subject is soup." },
+
+          /* ---------- STAGE 2 -- LOOK CLOSER ---------- */
+
+          /* S2Q1 -- action -- WHO */
+          { stage: 1,
+            sentence: { words: ["The", "curious", "student", "near", "the", "window", "opened", "the", "science", "book", "before", "class."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "curious", feedback: "curious describes the student. It is not the main subject word. Ask: Who opened the book?" },
+              { text: "student", correct: true, feedback: "Correct! Who opened the book? The student. So the simple subject is student." },
+              { text: "window", feedback: "window is part of the detail telling where the student was sitting. Ask: Who opened the book?" },
+              { text: "opened", feedback: "opened is the verb. It tells what happened. Now ask: Who opened the book?" }
+            ],
+            clue: "Use the verb opened to ask: Who opened the book?",
+            reveal: "The verb is opened. Who opened the book? The student. So the simple subject is student." },
+
+          /* S2Q2 -- action -- WHO */
+          { stage: 1,
+            sentence: { words: ["The", "noisy", "children", "on", "the", "playground", "kicked", "the", "soccer", "ball", "toward", "the", "fence."] },
+            question: "Which word tells who or what the sentence is about?",
+            choices: [
+              { text: "noisy", feedback: "noisy describes the children. It is not the main subject word. Ask: Who kicked the ball?" },
+              { text: "children", correct: true, feedback: "Correct! Who kicked the ball? The children. So the simple subject is children." },
+              { text: "playground", feedback: "playground is part of the detail telling where the children were. Ask: Who kicked the ball?" },
+              { text: "ball", feedback: "ball names what was kicked. It is not who did the kicking. Ask: Who kicked the ball?" }
+            ],
+            clue: "Use the verb kicked to ask: Who kicked the ball?",
+            reveal: "The verb is kicked. Who kicked the ball? The children. So the simple subject is children." },
+
+          /* S2Q3 -- action -- WHAT */
+          { stage: 1,
+            sentence: { words: ["The", "bright", "lantern", "beside", "the", "tent", "glowed", "throughout", "the", "dark", "evening."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "bright", feedback: "bright describes the lantern. It is not the main subject word. Ask: What glowed?" },
+              { text: "lantern", correct: true, feedback: "Correct! What glowed? The lantern. So the simple subject is lantern." },
+              { text: "tent", feedback: "tent is part of the detail telling where the lantern was. Ask: What glowed?" },
+              { text: "evening", feedback: "evening is part of the detail telling when the lantern glowed. Ask: What glowed?" }
+            ],
+            clue: "Use the verb glowed to ask: What glowed?",
+            reveal: "The verb is glowed. What glowed? The lantern. So the simple subject is lantern." },
+
+          /* S2Q4 -- being -- WHAT */
+          { stage: 1,
+            sentence: { words: ["The", "large", "painting", "above", "the", "fireplace", "is", "beautiful", "in", "the", "morning", "light."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "large", feedback: "large describes the painting. It is not the main subject word. Ask: What is beautiful?" },
+              { text: "painting", correct: true, feedback: "Correct! What is beautiful? The painting. So the simple subject is painting." },
+              { text: "fireplace", feedback: "fireplace is part of the detail telling where the painting hangs. Ask: What is beautiful?" },
+              { text: "beautiful", feedback: "beautiful tells what the painting is like. Ask: What is beautiful?" }
+            ],
+            clue: "Use the verb is to ask: What is beautiful?",
+            reveal: "The being verb is 'is.' What is beautiful? The painting. So the simple subject is painting." },
+
+          /* S2Q5 -- being -- WHO */
+          { stage: 1,
+            sentence: { words: ["The", "two", "kittens", "inside", "the", "basket", "are", "sleepy", "after", "their", "long", "afternoon."] },
+            question: "Which word tells who or what the sentence is about?",
+            choices: [
+              { text: "two", feedback: "two tells how many kittens there are. It is not the main subject word. Ask: Who is sleepy?" },
+              { text: "kittens", correct: true, feedback: "Correct! Who is sleepy? The kittens. So the simple subject is kittens." },
+              { text: "basket", feedback: "basket is part of the detail telling where the kittens are. Ask: Who is sleepy?" },
+              { text: "sleepy", feedback: "sleepy tells what the kittens are like. Ask: Who is sleepy?" }
+            ],
+            clue: "Use the verb are to ask: Who is sleepy?",
+            reveal: "The being verb is 'are.' Who is sleepy? The kittens. So the simple subject is kittens." },
+
+          /* ---------- STAGE 3 -- THINK IT THROUGH ---------- */
+
+          /* S3Q1 -- action -- WHO */
+          { stage: 2,
+            sentence: { words: ["The", "captain", "of", "the", "soccer", "team", "carried", "the", "equipment", "onto", "the", "field."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "captain", correct: true, feedback: "Correct! Who carried the equipment? The captain. So the simple subject is captain." },
+              { text: "team", feedback: "team is part of the detail telling which captain the sentence means. Ask: Who carried the equipment?" },
+              { text: "equipment", feedback: "equipment names what was carried. It is not who did the carrying. Ask: Who carried the equipment?" },
+              { text: "carried", feedback: "carried is the verb. It tells what happened. Now ask: Who carried the equipment?" }
+            ],
+            clue: "Use the verb carried to ask: Who carried the equipment?",
+            reveal: "The verb is carried. Who carried the equipment? The captain. So the simple subject is captain." },
+
+          /* S3Q2 -- action -- WHAT */
+          { stage: 2,
+            sentence: { words: ["The", "collection", "of", "colorful", "seashells", "filled", "the", "glass", "jar", "on", "the", "shelf."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "collection", correct: true, feedback: "Correct! What filled the jar? The collection. So the simple subject is collection." },
+              { text: "seashells", feedback: "seashells is part of the detail telling what the collection holds. Ask: What filled the jar?" },
+              { text: "filled", feedback: "filled is the verb. It tells what happened. Now ask: What filled the jar?" },
+              { text: "jar", feedback: "jar names what was filled. It is not what did the filling. Ask: What filled the jar?" }
+            ],
+            clue: "Use the verb filled to ask: What filled the jar?",
+            reveal: "The verb is filled. What filled the jar? The collection. So the simple subject is collection." },
+
+          /* S3Q3 -- action -- WHO */
+          { stage: 2,
+            sentence: { words: ["The", "science", "teacher", "with", "the", "blue", "folder", "explained", "the", "experiment", "to", "the", "class."] },
+            question: "Which word tells who or what the sentence is about?",
+            choices: [
+              { text: "teacher", correct: true, feedback: "Correct! Who explained the experiment? The teacher. So the simple subject is teacher." },
+              { text: "folder", feedback: "folder is part of the detail telling what the teacher was holding. Ask: Who explained the experiment?" },
+              { text: "explained", feedback: "explained is the verb. It tells what happened. Now ask: Who explained the experiment?" },
+              { text: "experiment", feedback: "experiment names what was explained. It is not who did the explaining. Ask: Who explained the experiment?" }
+            ],
+            clue: "Use the verb explained to ask: Who explained the experiment?",
+            reveal: "The verb is explained. Who explained the experiment? The teacher. So the simple subject is teacher." },
+
+          /* S3Q4 -- action -- WHAT */
+          { stage: 2,
+            sentence: { words: ["The", "old", "bridge", "across", "the", "river", "shook", "during", "the", "powerful", "storm."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "old", feedback: "old describes the bridge. It is not the main subject word. Ask: What shook?" },
+              { text: "bridge", correct: true, feedback: "Correct! What shook? The bridge. So the simple subject is bridge." },
+              { text: "river", feedback: "river is part of the detail telling where the bridge is. Ask: What shook?" },
+              { text: "shook", feedback: "shook is the verb. It tells what happened. Now ask: What shook?" }
+            ],
+            clue: "Use the verb shook to ask: What shook?",
+            reveal: "The verb is shook. What shook? The bridge. So the simple subject is bridge." },
+
+          /* S3Q5 -- being -- WHAT */
+          { stage: 2,
+            sentence: { words: ["The", "basket", "of", "ripe", "apples", "is", "heavy", "on", "the", "kitchen", "counter."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "basket", correct: true, feedback: "Correct! What is heavy? The basket. So the simple subject is basket." },
+              { text: "apples", feedback: "apples is part of the detail telling what is inside the basket. Ask: What is heavy?" },
+              { text: "heavy", feedback: "heavy tells what the basket is like. Ask: What is heavy?" },
+              { text: "counter", feedback: "counter is part of the detail telling where the basket sits. Ask: What is heavy?" }
+            ],
+            clue: "Use the verb is to ask: What is heavy?",
+            reveal: "The being verb is 'is.' What is heavy? The basket. So the simple subject is basket." },
+
+          /* ---------- STAGE 4 -- CHALLENGE YOURSELF ---------- */
+
+          /* S4Q1 -- action -- WHO */
+          { stage: 3,
+            sentence: { words: ["The", "tallest", "player", "on", "the", "basketball", "team", "passed", "the", "ball", "to", "Marcus", "near", "the", "sideline."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "player", correct: true, feedback: "Correct! Who passed the ball? The player. So the simple subject is player." },
+              { text: "team", feedback: "team is part of the detail telling which player the sentence means. Ask: Who passed the ball?" },
+              { text: "passed", feedback: "passed is the verb. It tells what happened. Now ask: Who passed the ball?" },
+              { text: "ball", feedback: "ball names what was passed. It is not who did the passing. Ask: Who passed the ball?" }
+            ],
+            clue: "Use the verb passed to ask: Who passed the ball?",
+            reveal: "The verb is passed. Who passed the ball? The player. So the simple subject is player." },
+
+          /* S4Q2 -- action -- WHAT */
+          { stage: 3,
+            sentence: { words: ["The", "box", "of", "old", "photographs", "fell", "from", "the", "highest", "shelf", "in", "the", "closet."] },
+            question: "Which word tells who or what the sentence is about?",
+            choices: [
+              { text: "box", correct: true, feedback: "Correct! What fell? The box. So the simple subject is box." },
+              { text: "photographs", feedback: "photographs is part of the detail telling what was inside the box. Ask: What fell?" },
+              { text: "fell", feedback: "fell is the verb. It tells what happened. Now ask: What fell?" },
+              { text: "shelf", feedback: "shelf is part of the detail telling where the box fell from. Ask: What fell?" }
+            ],
+            clue: "Use the verb fell to ask: What fell?",
+            reveal: "The verb is fell. What fell? The box. So the simple subject is box." },
+
+          /* S4Q3 -- action -- WHAT */
+          { stage: 3,
+            sentence: { words: ["The", "small", "engine", "inside", "the", "model", "airplane", "powered", "the", "propeller", "during", "the", "demonstration."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "engine", correct: true, feedback: "Correct! What powered the propeller? The engine. So the simple subject is engine." },
+              { text: "airplane", feedback: "airplane is part of the detail telling where the engine is. Ask: What powered the propeller?" },
+              { text: "powered", feedback: "powered is the verb. It tells what happened. Now ask: What powered the propeller?" },
+              { text: "propeller", feedback: "propeller names what was powered. It is not what did the powering. Ask: What powered the propeller?" }
+            ],
+            clue: "Use the verb powered to ask: What powered the propeller?",
+            reveal: "The verb is powered. What powered the propeller? The engine. So the simple subject is engine." },
+
+          /* S4Q4 -- being -- WHO */
+          { stage: 3,
+            sentence: { words: ["The", "winner", "of", "the", "spelling", "contest", "is", "proud", "of", "her", "careful", "preparation."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "winner", correct: true, feedback: "Correct! Who is proud? The winner. So the simple subject is winner." },
+              { text: "contest", feedback: "contest is part of the detail telling which winner the sentence means. Ask: Who is proud?" },
+              { text: "proud", feedback: "proud tells what the winner is like. Ask: Who is proud?" },
+              { text: "preparation", feedback: "preparation is part of the detail telling what the winner is proud of. Ask: Who is proud?" }
+            ],
+            clue: "Use the verb is to ask: Who is proud?",
+            reveal: "The being verb is 'is.' Who is proud? The winner. So the simple subject is winner." },
+
+          /* S4Q5 -- being -- WHAT */
+          { stage: 3,
+            sentence: { words: ["The", "bright", "lights", "above", "the", "stage", "are", "visible", "throughout", "the", "school", "performance."] },
+            question: "Which word is the simple subject?",
+            choices: [
+              { text: "lights", correct: true, feedback: "Correct! What is visible? The lights. So the simple subject is lights." },
+              { text: "stage", feedback: "stage is part of the detail telling where the lights are. Ask: What is visible?" },
+              { text: "visible", feedback: "visible tells what the lights are like. Ask: What is visible?" },
+              { text: "performance", feedback: "performance is part of the detail telling when the lights are visible. Ask: What is visible?" }
+            ],
+            clue: "Use the verb are to ask: What is visible?",
+            reveal: "The being verb is 'are.' What is visible? The lights. So the simple subject is lights." }
         ]
       },
 

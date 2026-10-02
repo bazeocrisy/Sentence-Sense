@@ -300,10 +300,18 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       "Show me how | Let me try with help | Let me do it myself",
       s.acts.map(a => a.line).join(" | "));
     const pc = s.acts.find(a => a.key === "practice");
+    /* Practice is available exactly where a real bank exists. Verb shipped
+       its bank in 1.2.x and Subject ships one in this build; the rest must
+       still read as honestly unavailable rather than as a dead control.
+       This list is deliberately explicit so adding a skill is a conscious
+       edit -- and check 15.0 separately proves the cards and the banks can
+       never disagree. */
+    const practiceReady = ["verb", "subject"].indexOf(key) >= 0;
     ok(`3.5 ${name} Practice availability is honest`,
-      key === "verb" ? (pc.soon === false && pc.hasButton === true)
-                     : (pc.soon === true && pc.hasButton === false),
-      key === "verb" ? "real bank, has control" : "coming next, no control");
+      practiceReady ? (pc.soon === false && pc.hasButton === true)
+                    : (pc.soon === true && pc.hasButton === false &&
+                       /coming next/i.test(pc.soonLabel || "")),
+      practiceReady ? "real bank, has control" : "coming next, no control");
     ok(`3.7 ${name} Skill screen carries the Sentence Sense wordmark`,
       s.wordmark === "Sentence Sense", s.wordmark);
     ok(`3.8 ${name} Skill screen shows the skill's own icon`, s.heroIcon === true);
@@ -1381,6 +1389,391 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     bank.action + "A " + bank.being + "B, " + bank.forms + " forms");
   ok("14.10 every question carries complete, valid metadata and a review explanation",
     bank.bad.length === 0 && bank.whys === 48, bank.bad.join(" ") || bank.whys + "/48 explanations");
+
+  /* ===== 15. PRACTICE BANK GUARANTEES -- GENERIC =====
+
+     Written against the DATA and the RUNTIME, not against one skill's
+     wording, so every topic that ships a `tryItBank` is covered by the
+     same assertions. Adding a bank adds coverage; it does not need new
+     harness code.
+
+     This section ADDS to sections 5 and 6, which stay exactly as they
+     were. Those pin Verb's own numbers; these pin the shape of every
+     bank and close two gaps the older checks never covered:
+
+       15.x.6  the rendered correct answer reaches MORE THAN ONE
+               position across repeated renders. 5.9 proves only that
+               the order string varies -- a bank whose answer alternated
+               between positions 2 and 3 would pass 5.9 while
+               reproducing D-29 (answer in slot 3 in 16 of 20
+               questions, never in 1 or 4).
+
+       15.x.5  every rendered button's dataset.ci is unique, in range,
+               and PAIRS with the authored choice text. 5.10 asserts
+               only that the attribute is non-empty, so a label/ci
+               desynchronisation would pass it while mismapping every
+               answer.
+
+     Each shipped bank is pinned in BANK_SPEC below, so a size change
+     is a deliberate edit rather than a silent drift. */
+  const BANK_SPEC = {
+    verb:    { questions: 20, stages: 4, per: 5 },
+    subject: { questions: 20, stages: 4, per: 5 }
+  };
+
+  const bankTopics = await page.evaluate(() => {
+    const C = window.SS_LEARN_CONTENT;
+    return Object.keys(C.topics).filter(k => {
+      const t = C.topics[k];
+      return t.tryItBank && t.tryItBank.questions && t.tryItBank.questions.length;
+    });
+  });
+  const offersPractice = await page.evaluate(() => {
+    const C = window.SS_LEARN_CONTENT;
+    return Object.keys(C.topics).filter(k => C.topics[k].practice === "bank");
+  });
+  ok("15.0 every topic whose card offers Practice carries a bank, and vice versa",
+    bankTopics.slice().sort().join(",") === offersPractice.slice().sort().join(","),
+    "banks=[" + bankTopics.join(",") + "] offers=[" + offersPractice.join(",") + "]");
+  ok("15.0b every shipped bank is pinned in BANK_SPEC",
+    bankTopics.every(k => !!BANK_SPEC[k]), bankTopics.join(","));
+
+  /* Answer the current Practice question correctly, by identity. */
+  async function practiceAnswerCorrect() {
+    await page.evaluate(() => {
+      const st = window.SS_PRACTICE.state();
+      const q = window.SS_LEARN_CONTENT.topics[st.topicKey].tryItBank
+        .questions[st.order[st.pos]];
+      const ci = q.choices.findIndex(c => c.correct);
+      Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
+        .find(b => Number(b.dataset.ci) === ci).click();
+    });
+    await sleep(45);
+  }
+
+  for (let ti = 0; ti < bankTopics.length; ti++) {
+    const key = bankTopics[ti];
+    const spec = BANK_SPEC[key] || { questions: 0, stages: 0, per: 0 };
+    const N = "15." + (ti + 1) + ".";
+
+    /* Storage baseline for this topic. Absolute storage is NOT zero here:
+       js/test.js legitimately writes one sessionStorage key at test
+       SUBMISSION (ss.test.recent.<topic>), and sections 13/14 run first.
+       Practice must add nothing, so measure the delta. */
+    const storeBefore = await page.evaluate(() =>
+      Object.keys(localStorage).map(k => "L:" + k)
+        .concat(Object.keys(sessionStorage).map(k => "S:" + k)).sort());
+
+    /* ---- declared shape, read straight from the content ---- */
+    const shape = await page.evaluate(k => {
+      const b = window.SS_LEARN_CONTENT.topics[k].tryItBank;
+      const per = b.stages.map((s, i) => b.questions.filter(q => q.stage === i).length);
+      return {
+        questions: b.questions.length,
+        stages: b.stages.length,
+        per: per,
+        hasOwnRecap: !!b.recap,
+        stageFields: b.stages.every(s =>
+          typeof s.name === "string" && s.name &&
+          typeof s.desc === "string" && s.desc &&
+          typeof s.mark === "string" && s.mark &&
+          typeof s.milestoneTitle === "string" &&
+          typeof s.milestoneLine === "string" &&
+          typeof s.nextStage === "string"),
+        questionFields: b.questions.every(q =>
+          typeof q.stage === "number" && q.stage >= 0 && q.stage < b.stages.length &&
+          q.sentence && Array.isArray(q.sentence.words) && q.sentence.words.length &&
+          !q.sentence.marks &&
+          typeof q.question === "string" && q.question &&
+          Array.isArray(q.choices) && q.choices.length === 4 &&
+          q.choices.filter(c => c.correct).length === 1 &&
+          q.choices.every(c => typeof c.text === "string" && c.text &&
+                               typeof c.feedback === "string" && c.feedback) &&
+          typeof q.clue === "string" && q.clue &&
+          typeof q.reveal === "string" && q.reveal),
+        noDeterminers: b.questions.every(q =>
+          q.choices.every(c => !/^(the|a|an)$/i.test(c.text)))
+      };
+    }, key);
+
+    ok(N + "1 " + key + " Practice runs " + spec.questions + " questions",
+      shape.questions === spec.questions, shape.questions);
+    ok(N + "2 " + key + " has " + spec.stages + " stages of " + spec.per,
+      shape.stages === spec.stages && shape.per.every(n => n === spec.per),
+      shape.per.join(","));
+    ok(N + "3 " + key + " every question is well formed (4 choices, 1 correct, clue, reveal)",
+      shape.questionFields === true);
+    ok(N + "3b " + key + " no question sentence carries marks (would pre-answer)",
+      shape.questionFields === true);
+    ok(N + "3c " + key + " every stage carries the fields the engine renders",
+      shape.stageFields === true);
+    ok(N + "3d " + key + " no choice is an article or determiner",
+      shape.noDeterminers === true);
+
+    /* ---- the child's own route in, then the running order ---- */
+    await goHome(page);
+    await clickStart(page, key);
+    await clickActivity(page, "practice");
+    const entry = await page.evaluate(() => ({
+      screen: window.__sentenceSense.SCREENS.find(s => {
+        const n = document.getElementById("screen-" + s); return n && !n.hidden; }),
+      total: window.SS_PRACTICE.state().total,
+      count: document.getElementById("practice-count").textContent,
+      stage: document.getElementById("practice-stage").textContent,
+      desc: document.getElementById("practice-stage-desc").textContent,
+      tag: document.getElementById("practice-skill-tag").textContent,
+      nextDisabled: document.getElementById("practice-next").disabled,
+      clueOffered: !document.getElementById("practice-clue").hidden
+    }));
+    ok(N + "4 " + key + " Practice opens from its own card at question 1 of " + spec.questions,
+      entry.screen === "practice" && entry.total === spec.questions &&
+      new RegExp("question 1 of " + spec.questions, "i").test(entry.count) &&
+      /stage 1:/i.test(entry.stage) && entry.desc.length > 0,
+      entry.tag + " | " + entry.count + " | " + entry.stage);
+    ok(N + "4b " + key + " nothing auto-advances and a clue is offered",
+      entry.nextDisabled === true && entry.clueOffered === true);
+
+    /* ---- stage banding: stages stay in order, grouped ---- */
+    const banding = await page.evaluate(k => {
+      const st = window.SS_PRACTICE.state();
+      const b = window.SS_LEARN_CONTENT.topics[k].tryItBank;
+      return st.order.map(i => b.questions[i].stage);
+    }, key);
+    const grouped = banding.every((s, i) => i === 0 || s === banding[i - 1] || s === banding[i - 1] + 1);
+    const perSeen = banding.reduce((m, s) => { m[s] = (m[s] || 0) + 1; return m; }, {});
+    ok(N + "4c " + key + " stages stay in order and are never interleaved",
+      grouped && Object.keys(perSeen).length === spec.stages &&
+      Object.keys(perSeen).every(s => perSeen[s] === spec.per),
+      banding.join(","));
+
+    /* ---- question order shuffles INSIDE each stage ---- */
+    const orders = [];
+    for (let r = 0; r < 3; r++) {
+      orders.push(await page.evaluate(() => window.SS_PRACTICE.state().order.join(",")));
+      await goHome(page); await clickStart(page, key); await clickActivity(page, "practice");
+    }
+    ok(N + "4d " + key + " question order is shuffled inside each stage",
+      new Set(orders).size > 1, new Set(orders).size + " distinct orders in 3 entries");
+
+    /* ---- 15.x.5  CHOICE IDENTITY: unique, in range, and PAIRED ----
+       Closes the gap in 5.10, which checks only that dataset.ci is
+       non-empty. Here the rendered label must equal the authored text
+       at the index its own dataset.ci claims -- the exact invariant the
+       third-miss reveal depends on. */
+    let idFaults = [], buttonsSeen = 0;
+    for (let r = 0; r < 6; r++) {
+      const f = await page.evaluate(k => {
+        const st = window.SS_PRACTICE.state();
+        const q = window.SS_LEARN_CONTENT.topics[k].tryItBank.questions[st.order[st.pos]];
+        const btns = Array.from(document.querySelectorAll("#practice-choices .choice-btn"));
+        const cis = btns.map(b => Number(b.dataset.ci));
+        const out = [];
+        if (btns.length !== q.choices.length) out.push("count " + btns.length);
+        if (new Set(cis).size !== cis.length) out.push("ci not unique");
+        if (cis.some(c => !(c >= 0 && c < q.choices.length))) out.push("ci out of range");
+        if (btns.some(b => b.textContent !== q.choices[Number(b.dataset.ci)].text))
+          out.push("text/ci mismatch");
+        const sa = q.choices.map(c => c.text).slice().sort().join(" ");
+        const sb = btns.map(b => b.textContent).slice().sort().join(" ");
+        if (sa !== sb) out.push("rendered set != authored set");
+        return { faults: out, n: btns.length };
+      }, key);
+      buttonsSeen += f.n;
+      idFaults = idFaults.concat(f.faults);
+      await page.evaluate(k => window.SS_PRACTICE.start(k), key);
+      await sleep(25);
+    }
+    ok(N + "5 " + key + " every rendered choice keeps its authored identity (unique, in range, paired)",
+      idFaults.length === 0, idFaults.length ? idFaults.join(" | ") : buttonsSeen + " buttons clean");
+
+    /* ---- 15.x.6  THE GAP: the correct answer must not sit in one slot ----
+       D-29 was positional bias, not absence of shuffling. Asserts only
+       "more than one position", never "all four": requiring full
+       coverage in this many renders would flake. */
+    const RENDERS = 16;
+    const posSeen = {};
+    for (let r = 0; r < RENDERS; r++) {
+      const p = await page.evaluate(k => {
+        const st = window.SS_PRACTICE.state();
+        const q = window.SS_LEARN_CONTENT.topics[k].tryItBank.questions[st.order[st.pos]];
+        const ci = q.choices.findIndex(c => c.correct);
+        return Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
+          .findIndex(b => Number(b.dataset.ci) === ci);
+      }, key);
+      posSeen[p] = (posSeen[p] || 0) + 1;
+      await page.evaluate(k => window.SS_PRACTICE.start(k), key);
+      await sleep(25);
+    }
+    const distinctPos = Object.keys(posSeen).filter(p => Number(p) >= 0);
+    ok(N + "6 " + key + " the correct answer occupies more than one rendered position",
+      distinctPos.length > 1,
+      distinctPos.length + " of 4 positions in " + RENDERS + " renders: " +
+      distinctPos.map(p => "p" + (Number(p) + 1) + "x" + posSeen[p]).join(" "));
+    ok(N + "6b " + key + " the correct answer was always locatable by identity",
+      !Object.keys(posSeen).some(p => Number(p) < 0));
+
+    /* ---- feedback escalation, driven on a real question ---- */
+    await page.evaluate(k => window.SS_PRACTICE.start(k), key);
+    await sleep(60);
+    const wrongCis = await page.evaluate(k => {
+      const st = window.SS_PRACTICE.state();
+      const q = window.SS_LEARN_CONTENT.topics[k].tryItBank.questions[st.order[st.pos]];
+      return q.choices.map((c, i) => c.correct ? null : i).filter(i => i !== null);
+    }, key);
+    const probe = async () => page.evaluate(k => {
+      const st = window.SS_PRACTICE.state();
+      const q = window.SS_LEARN_CONTENT.topics[k].tryItBank.questions[st.order[st.pos]];
+      return {
+        txt: document.getElementById("practice-feedback").textContent,
+        hidden: document.getElementById("practice-feedback").hidden,
+        cls: document.getElementById("practice-feedback").className,
+        locked: document.getElementById("practice-next").disabled,
+        clue: q.clue, reveal: q.reveal,
+        correctText: q.choices.find(c => c.correct).text,
+        marked: (() => {
+          const ci = q.choices.findIndex(c => c.correct);
+          const b = Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
+            .find(x => Number(x.dataset.ci) === ci);
+          return b ? { right: b.classList.contains("is-right"), text: b.textContent } : null;
+        })(),
+        allLocked: Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
+          .every(b => b.disabled),
+        answered: st.answered
+      };
+    }, key);
+
+    const pre = await probe();
+    ok(N + "7 " + key + " no feedback is in the DOM before the child answers",
+      pre.hidden === true && pre.txt === "");
+
+    const clickCiP = async ci => {
+      await page.evaluate(c => {
+        Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
+          .find(b => Number(b.dataset.ci) === c).click();
+      }, ci);
+      await sleep(45);
+    };
+
+    await clickCiP(wrongCis[0]);
+    const w1 = await probe();
+    ok(N + "7b " + key + " first wrong teaches and does not reveal",
+      /is-wrong/.test(w1.cls) && w1.txt.length > 20 &&
+      w1.txt.indexOf(w1.reveal) < 0 && w1.locked === true);
+
+    await clickCiP(wrongCis[1]);
+    const w2 = await probe();
+    ok(N + "7c " + key + " second wrong gives that sentence's clue and still does not reveal",
+      w2.txt.indexOf(w2.clue) >= 0 && w2.txt.indexOf(w2.reveal) < 0 && w2.locked === true,
+      w2.clue.slice(0, 48));
+
+    await clickCiP(wrongCis[2]);
+    const w3 = await probe();
+    ok(N + "7d " + key + " third wrong reveals, explains and unlocks",
+      w3.txt.indexOf(w3.reveal) >= 0 && w3.locked === false &&
+      w3.allLocked === true && w3.answered === true, w3.reveal.slice(0, 48));
+    ok(N + "7e " + key + " the reveal marks the correct AUTHORED choice, by identity and by text",
+      !!w3.marked && w3.marked.right === true && w3.marked.text === w3.correctText,
+      w3.marked ? w3.marked.text : "no button");
+
+    /* clue on request must not count as an error */
+    await page.evaluate(k => window.SS_PRACTICE.start(k), key);
+    await sleep(60);
+    await page.evaluate(() => document.getElementById("practice-clue").click());
+    await sleep(45);
+    const askedClue = await page.evaluate(() => ({
+      cls: document.getElementById("practice-feedback").className,
+      attempts: window.SS_PRACTICE.state().attempts,
+      answered: window.SS_PRACTICE.state().answered,
+      wrongMarks: document.querySelectorAll("#practice-choices .choice-btn.is-wrong").length
+    }));
+    ok(N + "7f " + key + " asking for the clue is not counted as an error",
+      /is-clue/.test(askedClue.cls) && askedClue.attempts === 0 &&
+      askedClue.answered === false && askedClue.wrongMarks === 0);
+
+    /* ---- walk the whole bank: milestones, then completion ---- */
+    await page.evaluate(k => window.SS_PRACTICE.start(k), key);
+    await sleep(60);
+    let milestones = 0, answeredCount = 0, guard = 0;
+    while (guard++ < spec.questions + spec.stages + 6) {
+      const where = await page.evaluate(() => ({
+        milestone: !document.getElementById("practice-milestone").hidden,
+        done: !document.getElementById("practice-done").hidden,
+        mTitle: document.getElementById("pm-title").textContent,
+        mMark: document.getElementById("pm-mark").textContent,
+        mNextHidden: document.getElementById("pm-next").hidden
+      }));
+      if (where.done) break;
+      if (where.milestone) {
+        milestones++;
+        if (/undefined/.test(where.mTitle) || /undefined/.test(where.mMark))
+          milestones = -999;
+        await page.evaluate(() => document.getElementById("pm-continue").click());
+        await sleep(50);
+        continue;
+      }
+      await practiceAnswerCorrect();
+      answeredCount++;
+      await page.evaluate(() => document.getElementById("practice-next").click());
+      await sleep(45);
+    }
+    ok(N + "8 " + key + " every question is answerable and the bank completes",
+      answeredCount === spec.questions, answeredCount + " answered");
+    ok(N + "8b " + key + " a milestone appears between stages and renders real text",
+      milestones === spec.stages - 1, milestones + " milestones");
+
+    const done = await page.evaluate(k => {
+      const C = window.SS_LEARN_CONTENT;
+      const b = C.topics[k].tryItBank;
+      return {
+        visible: !document.getElementById("practice-done").hidden,
+        title: document.getElementById("practice-done-title").textContent,
+        recap: document.getElementById("practice-done-recap").textContent,
+        expected: (b.recap ? b.recap : C.topics[k].recap),
+        name: C.topics[k].name,
+        otherRecaps: Object.keys(C.topics)
+          .filter(x => x !== k)
+          .map(x => (C.topics[x].tryItBank && C.topics[x].tryItBank.recap) || "")
+          .filter(Boolean)
+      };
+    }, key);
+    ok(N + "9 " + key + " completion names this skill and shows its own recap (D-30)",
+      done.visible && done.title.indexOf(done.name) >= 0 &&
+      done.recap === done.expected && done.recap.length > 0,
+      done.recap.slice(0, 56));
+    ok(N + "9b " + key + " no other skill's recap leaks into this completion",
+      done.otherRecaps.every(r => done.recap !== r), done.otherRecaps.length + " compared");
+
+    /* re-entry must be clean, with no stale feedback */
+    await goHome(page);
+    await clickStart(page, key);
+    await clickActivity(page, "practice");
+    const reentry = await page.evaluate(k => {
+      const b = window.SS_LEARN_CONTENT.topics[k].tryItBank;
+      const body = document.getElementById("screen-practice").textContent;
+      return {
+        pos: window.SS_PRACTICE.state().pos,
+        done: window.SS_PRACTICE.state().done,
+        fbHidden: document.getElementById("practice-feedback").hidden,
+        stale: b.questions.filter(q => body.indexOf(q.reveal) >= 0).length,
+        store: window.localStorage.length + window.sessionStorage.length
+      };
+    }, key);
+    ok(N + "10 " + key + " re-entering Practice restarts clean with no stale explanation",
+      reentry.pos === 0 && reentry.done === false &&
+      reentry.fbHidden === true && reentry.stale === 0,
+      "stale reveals in DOM: " + reentry.stale);
+    const storeAfter = await page.evaluate(() =>
+      Object.keys(localStorage).map(k => "L:" + k)
+        .concat(Object.keys(sessionStorage).map(k => "S:" + k)).sort());
+    const added = storeAfter.filter(x => storeBefore.indexOf(x) < 0);
+    ok(N + "10b " + key + " Practice adds nothing to storage",
+      added.length === 0, added.length ? added.join(",") : "no new keys");
+    ok(N + "10c " + key + " no storage key belongs to Practice at all",
+      storeAfter.every(x => !/practice/i.test(x)), storeAfter.join(",") || "(none)");
+  }
+
+  await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
+  await goHome(page);
 
   /* ===== 11. RESPONSIVE ===== */
   const VIEWPORTS = [
