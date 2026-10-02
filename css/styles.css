@@ -1543,6 +1543,16 @@ img{max-width:100%;}
   font-family:var(--font-display);font-weight:700;
   color:var(--green-deep);
 }
+/* The "Next: <stage>" line is the one forward-looking promise on the
+   milestone screen, so on Subject it carries that skill's own green and a
+   half-step more weight. Typography only: no new element, no layout
+   change, no graphic, no animation -- and scoped by `data-topic`, so every
+   other skill's milestone is left exactly as it was. */
+#screen-practice[data-topic="subject"] .done-next{
+  color:var(--subject-ink);
+  font-weight:800;
+  font-size:1.05rem;
+}
 .done-buttons{
   display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
   margin-top:8px;width:100%;

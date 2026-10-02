@@ -47,6 +47,12 @@
   const clear = S.clear;
   const el = id => document.getElementById(id);
 
+  /* The markup wording for the milestone continue button, captured once
+     at init so a stage-supplied label can be applied without duplicating
+     the default here, and without it being lost when a later stage
+     supplies none. */
+  let continueDefault = "";
+
   const run = {
     topicKey: null,
     bank: null,
@@ -305,6 +311,12 @@
     el("pm-line").textContent = st.milestoneLine;
     el("pm-next").textContent = st.nextStage ? ("Next: " + st.nextStage) : "";
     el("pm-next").hidden = !st.nextStage;
+    /* An OPTIONAL per-stage label, so the forward control can name the
+       stage the child is about to start instead of saying nothing in
+       particular. Purely additive: a stage without `continueLabel` gets
+       the markup wording back, which is why Verb reads exactly as before.
+       The click handler is not touched -- this is wording, not behaviour. */
+    el("pm-continue").textContent = st.continueLabel || continueDefault;
     el("pm-title").focus();
     window.scrollTo(0, 0);
   }
@@ -367,6 +379,7 @@
       () => window.SS_SHELL.openSkill(run.topicKey));
     el("practice-home").addEventListener("click", () => window.SS_SHELL.goHome());
 
+    continueDefault = el("pm-continue").textContent;
     el("pm-continue").addEventListener("click", leaveMilestone);
     el("pm-skill").addEventListener("click",
       () => window.SS_SHELL.openSkill(run.topicKey));
