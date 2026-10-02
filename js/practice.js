@@ -348,7 +348,7 @@
     el("practice-milestone").hidden = true;
     el("practice-done").hidden = false;
 
-    el("practice-done-title").textContent = "You practised " + t.name + "!";
+    el("practice-done-title").textContent = "You practiced " + t.name + "!";
     /* D-30: the recap belongs to the content. */
     el("practice-done-recap").textContent =
       (run.bank && run.bank.recap) ? run.bank.recap : t.recap;

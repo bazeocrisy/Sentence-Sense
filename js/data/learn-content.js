@@ -1412,7 +1412,7 @@ window.SS_LEARN_CONTENT = {
             choices: [
               { text: "rusty", feedback: "rusty describes the wagon. Ask: What carried the boxes?" },
               { text: "wagon", correct: true, feedback: "Correct! What carried the boxes? The wagon. So the simple subject is wagon." },
-              { text: "carried", feedback: "carried is the verb. Use it to help find the subject. Ask: What carried the boxes?" },
+              { text: "carried", feedback: "carried is the verb. Use it to help find the subject." },
               { text: "boxes", feedback: "boxes names things in the sentence, but the boxes did not do the carrying. Ask: What carried the boxes?" }
             ],
             clue: "Use the verb carried to ask: What carried the boxes?",
@@ -1425,7 +1425,7 @@ window.SS_LEARN_CONTENT = {
             choices: [
               { text: "tiny", feedback: "tiny describes the sparrow. Ask: Who built the nest?" },
               { text: "sparrow", correct: true, feedback: "Correct! Who built the nest? The sparrow. So the simple subject is sparrow." },
-              { text: "built", feedback: "built is the verb. Use it to help find the subject. Ask: Who built the nest?" },
+              { text: "built", feedback: "built is the verb. Use it to help find the subject." },
               { text: "roof", feedback: "roof is part of the detail telling where the nest was built. Ask: Who built the nest?" }
             ],
             clue: "Use the verb built to ask: Who built the nest?",
