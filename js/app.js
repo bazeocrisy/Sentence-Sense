@@ -34,7 +34,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.4.0";
+  const BUILD_NUMBER = "Build 1.4.1";
 
   const C = window.SS_LEARN_CONTENT;
   const S = window.SS_SENTENCE;
