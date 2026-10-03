@@ -162,8 +162,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     fontsLoaded: document.fonts ? document.fonts.status : "n/a"
   }));
 
-  ok("1.4 BUILD_NUMBER is Build 1.4.1", globals.build === "Build 1.4.1", globals.build);
-  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.4.1", globals.badge);
+  ok("1.4 BUILD_NUMBER is Build 1.4.2", globals.build === "Build 1.4.2", globals.build);
+  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.4.2", globals.badge);
   ok("1.6 the three component globals are present",
     globals.hasLearn && globals.hasPractice && globals.hasSentence);
   ok("1.7 localStorage and sessionStorage empty on load",
@@ -2207,9 +2207,9 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   await browser.close();
 
   fs.writeFileSync(path.join(OUT, "results.json"),
-    JSON.stringify({ build: "Build 1.4.1", pass: passed, fail: failed, results }, null, 1));
+    JSON.stringify({ build: "Build 1.4.2", pass: passed, fail: failed, results }, null, 1));
   fs.writeFileSync(path.join(OUT, "responsive.json"),
-    JSON.stringify({ build: "Build 1.4.1", rows: respRows }, null, 1));
+    JSON.stringify({ build: "Build 1.4.2", rows: respRows }, null, 1));
 
   console.log(`\n${passed} passed, ${failed} failed`);
   console.log("results  -> " + path.join(OUT, "results.json"));
