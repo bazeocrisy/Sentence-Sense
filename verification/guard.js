@@ -1903,6 +1903,186 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
   await goHome(page);
 
+  /* ===== 16. INSTRUCTIONAL REGRESSION GUARDS (Build 1.4.2) =====
+
+     These protect the four defects the forensic audit found that no
+     automated check could see. They are measured from the content, and
+     every bank declares its OWN difficulty axes in STAGE_SPEC, because
+     the two shipped banks were blueprinted differently: Subject on
+     phrase interference and subject-to-verb distance, Verb on sentence
+     length. A single composite imposed on both would fail Verb for no
+     instructional reason.
+
+     Deliberately NOT brittle: the assertions check direction and a
+     declared margin floor, never exact values, so an ordinary sentence
+     edit cannot break them. Each check reports the real numbers so a
+     drift is readable even while it still passes. */
+
+  const POSITION_SPEC = {
+    /* minIndices: distinct sentence word-indices the correct answer must occupy
+       maxShare  : no single index may hold more than this fraction of the bank
+       lateStages: these stages must each carry at least one answer at index > 2 */
+    verb:    { minIndices: 4, maxShare: 0.5, lateStages: [] },
+    subject: { minIndices: 4, maxShare: 0.5, lateStages: [2, 3] }
+  };
+
+  const STAGE_SPEC = {
+    /* axes the bank was blueprinted on, and the smallest step the guard
+       requires between consecutive stages on the resulting composite */
+    subject: { axes: ["intro", "dist", "plaus", "len"], floor: 0.30 },
+    /* Verb's progression is deliberately shallow -- 8.2 to 10.2 words across
+       four stages -- so this asserts DIRECTION, not magnitude. */
+    verb:    { axes: ["len"], floor: 0.01 }
+  };
+
+  const bankProfiles = await page.evaluate(() => {
+    const INTRO = /^(On|In|At|After|Before|During|Near|Under|Behind|Beside|Throughout|Across|Inside|Outside)\b/;
+    const out = {};
+    const C = window.SS_LEARN_CONTENT;
+    Object.keys(C.topics).forEach(k => {
+      const t = C.topics[k];
+      if (!t.tryItBank || !t.tryItBank.questions.length) return;
+      const B = t.tryItBank;
+      const rows = B.questions.map((q, i) => {
+        const bare = q.sentence.words.map(w => w.replace(/[.,!?;:]$/, ""));
+        const corr = q.choices.find(c => c.correct);
+        const m = q.clue.match(/^Use the verb (\S+) to ask/);
+        const verb = m ? m[1] : null;
+        const ai = bare.indexOf(corr.text);
+        const vi = verb ? bare.indexOf(verb) : -1;
+        return {
+          id: "Q" + (i + 1), stage: q.stage, ai: ai,
+          dist: vi >= 0 ? Math.abs(vi - ai) : 0,
+          intro: INTRO.test(q.sentence.words[0]) &&
+                 q.sentence.words.slice(0, 5).some(w => /,$/.test(w)) ? 1 : 0,
+          plaus: q.choices.filter(c => !c.correct &&
+            /part of the detail|names what was|names a thing|names things|names something|names a place|names who/
+              .test(c.feedback)).length,
+          len: q.sentence.words.length,
+          /* every choice must appear verbatim in its own sentence */
+          choicesPresent: q.choices.every(c => bare.indexOf(c.text) >= 0),
+          answerOnce: bare.filter(w => w === corr.text).length === 1
+        };
+      });
+      out[k] = { total: B.questions.length, stages: B.stages.length, rows: rows };
+    });
+    return out;
+  });
+
+  Object.keys(bankProfiles).forEach(key => {
+    const P = bankProfiles[key];
+    const N = "16." + key + ".";
+
+    /* ---- A. answer-position diversity: closes the positional shortcut ---- */
+    const spec = POSITION_SPEC[key];
+    const dist = {};
+    P.rows.forEach(r => dist[r.ai] = (dist[r.ai] || 0) + 1);
+    const indices = Object.keys(dist).map(Number).sort((a, b) => a - b);
+    const maxCount = Math.max.apply(null, Object.keys(dist).map(k2 => dist[k2]));
+    const share = maxCount / P.total;
+    ok(N + "1a " + key + " correct answers occupy at least " + spec.minIndices + " distinct sentence positions",
+      indices.length >= spec.minIndices,
+      "indices " + JSON.stringify(dist) + "  distinct=" + indices.length);
+    ok(N + "1b " + key + " no single answer position holds more than " + Math.round(spec.maxShare * 100) + "% of the bank",
+      share <= spec.maxShare + 1e-9,
+      maxCount + "/" + P.total + " = " + Math.round(share * 100) + "%");
+    spec.lateStages.forEach(st => {
+      const late = P.rows.filter(r => r.stage === st && r.ai > 2);
+      ok(N + "1c" + (st + 1) + " " + key + " stage " + (st + 1) + " has an answer later than word-index 2",
+        late.length >= 1,
+        late.length ? late.map(r => r.id + "@" + r.ai).join(", ") : "none");
+    });
+
+    /* ---- B. stage differentiation, on the axes this bank declares ---- */
+    const ss = STAGE_SPEC[key];
+    if (ss) {
+      const avg = a => a.reduce((x, y) => x + y, 0) / a.length;
+      const scores = [];
+      for (let st = 0; st < P.stages; st++) {
+        const q = P.rows.filter(r => r.stage === st);
+        if (!q.length) { scores.push(null); continue; }
+        let s2 = 0;
+        if (ss.axes.indexOf("intro") >= 0) s2 += avg(q.map(r => r.intro)) * 2;
+        if (ss.axes.indexOf("dist") >= 0) s2 += avg(q.map(r => r.dist));
+        if (ss.axes.indexOf("plaus") >= 0) s2 += avg(q.map(r => r.plaus));
+        if (ss.axes.indexOf("len") >= 0) s2 += avg(q.map(r => r.len)) / 10;
+        scores.push(Math.round(s2 * 100) / 100);
+      }
+      const margins = scores.slice(1).map((v, i) => Math.round((v - scores[i]) * 100) / 100);
+      const rising = margins.every(m => m > 0);
+      const minMargin = margins.length ? Math.min.apply(null, margins) : 0;
+      ok(N + "2a " + key + " stage difficulty rises on its declared axes [" + ss.axes.join(",") + "]",
+        rising, "composite " + JSON.stringify(scores) + "  margins " + JSON.stringify(margins));
+      ok(N + "2b " + key + " every stage step clears the declared margin floor of " + ss.floor,
+        minMargin >= ss.floor, "smallest step " + minMargin);
+    }
+
+    /* ---- E. choice integrity, which rule 6 requires and nothing asserted ---- */
+    const missing = P.rows.filter(r => !r.choicesPresent);
+    const twice = P.rows.filter(r => !r.answerOnce);
+    ok(N + "3a " + key + " every choice appears verbatim in its own sentence",
+      missing.length === 0, missing.length ? missing.map(r => r.id).join(", ") : P.total + " questions");
+    ok(N + "3b " + key + " the correct answer appears exactly once in its sentence",
+      twice.length === 0, twice.length ? twice.map(r => r.id).join(", ") : P.total + " questions");
+  });
+
+  /* ---- C. American English across every shipped child-facing string ---- */
+  const spelling = await page.evaluate(() => {
+    const DENY = ["colour", "practise", "practised", "behaviour", "realise",
+                  "organise", "recognise", "favourite", "neighbour", "centre"];
+    const C = window.SS_LEARN_CONTENT;
+    const hits = [];
+    const walk = (node, path) => {
+      if (typeof node === "string") {
+        DENY.forEach(w => {
+          if (new RegExp("\\b" + w + "\\b", "i").test(node)) hits.push(path + " :: " + w);
+        });
+        return;
+      }
+      if (Array.isArray(node)) return node.forEach((v, i) => walk(v, path + "[" + i + "]"));
+      if (node && typeof node === "object")
+        Object.keys(node).forEach(k => walk(node[k], path + "." + k));
+    };
+    /* shipped topics only -- dormant archive content is not child-facing */
+    C.homeOrder.forEach(k => walk(C.topics[k], k));
+    /* plus every visible label in the shell */
+    Array.from(document.querySelectorAll("button, h1, h2, h3, p, span, a, li")).forEach(e => {
+      if (e.children.length) return;
+      const t = (e.textContent || "").trim();
+      if (!t) return;
+      DENY.forEach(w => {
+        if (new RegExp("\\b" + w + "\\b", "i").test(t)) hits.push("markup :: " + t.slice(0, 40) + " :: " + w);
+      });
+    });
+    return hits;
+  });
+  ok("16.4 shipped instructional strings use American English",
+    spelling.length === 0, spelling.length ? spelling.join(" | ") : "0 hits across the denylist");
+
+  /* ---- D. the final Learn step reads the same on every shipped skill ---- */
+  const tryHeads = [];
+  for (const k of await page.evaluate(() => window.SS_LEARN_CONTENT.homeOrder)) {
+    await page.evaluate(x => window.SS_SHELL.openActivity(x, "learn"), k);
+    await sleep(120);
+    for (let i = 0; i < 3; i++) {
+      await page.evaluate(() => { const n = document.getElementById("learn-next"); if (n) n.click(); });
+      await sleep(90);
+    }
+    tryHeads.push(await page.evaluate(x => ({
+      skill: x,
+      heading: (document.getElementById("learn-heading") || {}).textContent.trim(),
+      tab: ((document.querySelector("#learn-steps .current") || {}).textContent || "").trim()
+    }), k));
+  }
+  ok("16.5 the final Learn step is headed \"Let me try\" on every shipped skill",
+    tryHeads.every(h => h.heading === "Let me try"),
+    tryHeads.map(h => h.skill + "=\"" + h.heading + "\"").join(", "));
+  ok("16.5b the final Learn step heading matches its own step tab",
+    tryHeads.every(h => h.heading === h.tab),
+    tryHeads.map(h => h.skill + ": heading=\"" + h.heading + "\" tab=\"" + h.tab + "\"").join(" | "));
+
+  await goHome(page);
+
   /* ===== 11. RESPONSIVE ===== */
   const VIEWPORTS = [
     ["phone-375", 375, 667], ["phone-390", 390, 844], ["phone-430", 430, 932],
