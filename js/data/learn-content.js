@@ -1461,7 +1461,7 @@ window.SS_LEARN_CONTENT = {
 
           /* S2Q2 -- action -- WHO */
           { stage: 1,
-            sentence: { words: ["The", "noisy", "children", "on", "the", "playground", "kicked", "the", "soccer", "ball", "toward", "the", "fence."] },
+            sentence: { words: ["On", "the", "playground,", "the", "noisy", "children", "kicked", "the", "soccer", "ball", "toward", "the", "fence."] },
             question: "Which word tells who or what the sentence is about?",
             choices: [
               { text: "noisy", feedback: "noisy describes the children. It is not the main subject word. Use the verb to help find the subject." },
@@ -1541,7 +1541,7 @@ window.SS_LEARN_CONTENT = {
 
           /* S3Q3 -- action -- WHO */
           { stage: 2,
-            sentence: { words: ["The", "science", "teacher", "with", "the", "blue", "folder", "explained", "the", "experiment", "to", "the", "class."] },
+            sentence: { words: ["During", "the", "assembly,", "the", "science", "teacher", "with", "the", "blue", "folder", "explained", "the", "experiment."] },
             question: "Which word tells who or what the sentence is about?",
             choices: [
               { text: "teacher", correct: true, feedback: "Correct! Who explained the experiment? The teacher. So the simple subject is teacher." },
@@ -1554,7 +1554,7 @@ window.SS_LEARN_CONTENT = {
 
           /* S3Q4 -- action -- WHAT */
           { stage: 2,
-            sentence: { words: ["The", "old", "bridge", "across", "the", "river", "shook", "during", "the", "powerful", "storm."] },
+            sentence: { words: ["During", "the", "powerful", "storm,", "the", "old", "bridge", "across", "the", "river", "shook."] },
             question: "Which word is the simple subject?",
             choices: [
               { text: "old", feedback: "old describes the bridge. It is not the main subject word. Use the verb to help find the subject." },
@@ -1582,7 +1582,7 @@ window.SS_LEARN_CONTENT = {
 
           /* S4Q1 -- action -- WHO */
           { stage: 3,
-            sentence: { words: ["The", "tallest", "player", "on", "the", "basketball", "team", "passed", "the", "ball", "to", "Marcus", "near", "the", "sideline."] },
+            sentence: { words: ["Near", "the", "sideline,", "the", "tallest", "player", "on", "the", "basketball", "team", "passed", "the", "ball", "to", "Marcus."] },
             question: "Which word is the simple subject?",
             choices: [
               { text: "player", correct: true, feedback: "Correct! Who passed the ball? The player. So the simple subject is player." },
@@ -1608,7 +1608,7 @@ window.SS_LEARN_CONTENT = {
 
           /* S4Q3 -- action -- WHAT */
           { stage: 3,
-            sentence: { words: ["The", "small", "engine", "inside", "the", "model", "airplane", "powered", "the", "propeller", "during", "the", "demonstration."] },
+            sentence: { words: ["During", "the", "demonstration,", "the", "small", "engine", "inside", "the", "model", "airplane", "powered", "the", "propeller."] },
             question: "Which word is the simple subject?",
             choices: [
               { text: "engine", correct: true, feedback: "Correct! What powered the propeller? The engine. So the simple subject is engine." },
@@ -1634,7 +1634,7 @@ window.SS_LEARN_CONTENT = {
 
           /* S4Q5 -- being -- WHAT */
           { stage: 3,
-            sentence: { words: ["The", "bright", "lights", "above", "the", "stage", "are", "visible", "throughout", "the", "school", "performance."] },
+            sentence: { words: ["Throughout", "the", "school", "performance,", "the", "bright", "lights", "above", "the", "stage", "are", "visible."] },
             question: "Which word is the simple subject?",
             choices: [
               { text: "lights", correct: true, feedback: "Correct! What is visible? The lights. So the simple subject is lights." },
