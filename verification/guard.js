@@ -1843,6 +1843,57 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       Object.keys(localStorage).map(k => "L:" + k)
         .concat(Object.keys(sessionStorage).map(k => "S:" + k)).sort());
     const added = storeAfter.filter(x => storeBefore.indexOf(x) < 0);
+    /* ---- FEEDBACK ESCALATION CONTRACT ----
+       Each rung must carry its own weight, and no rung may pre-empt the
+       next. Derived entirely from each question's authored clue, reveal
+       and correct answer, so this covers any bank without naming one.
+
+       The strategy question is the trailing interrogative of the clue --
+       "Who opened the book?", "What happened?" -- found by shape, not by
+       a hard-coded string. A bank whose clue carries no such question
+       simply contributes nothing to assertion A. */
+    const esc = await page.evaluate(k => {
+      const b = window.SS_LEARN_CONTENT.topics[k].tryItBank;
+      const askOf = clue => {
+        const m = clue.match(/(Who|What)\b[^?]*\?\s*$/);
+        return m ? m[0].trim() : null;
+      };
+      const out = { total: b.questions.length, withAsk: 0,
+                    aBad: [], bBad: [], cBad: [], dBad: [] };
+      b.questions.forEach((q, i) => {
+        const id = "Q" + (i + 1);
+        const ask = askOf(q.clue);
+        if (ask) out.withAsk++;
+        const corr = q.choices.find(c => c.correct);
+        /* A: a first-wrong line must not already give the question the
+           second rung exists to give, in either authored phrasing. */
+        q.choices.forEach(c => {
+          if (c.correct) return;
+          if (ask && c.feedback.indexOf(ask) >= 0) out.aBad.push(id + " " + c.text);
+          else if (/\b(?:Now ask|Ask):\s*(?:Who|What)\b[^?]*\?/.test(c.feedback))
+            out.aBad.push(id + " " + c.text + " (Ask: form)");
+        });
+        /* B: the second rung must have something to give. */
+        if (typeof q.clue !== "string" || !q.clue.trim()) out.bBad.push(id);
+        /* C: the reveal must name the answer and say what it is. */
+        if (q.reveal.indexOf(corr.text) < 0) out.cBad.push(id);
+        /* D: the correct line must reinforce with the answer, not just praise. */
+        if (corr.feedback.indexOf(corr.text) < 0) out.dBad.push(id);
+      });
+      return out;
+    }, key);
+
+    ok(N + "11a " + key + " no first-wrong line gives away the clue's strategy question",
+      esc.aBad.length === 0,
+      esc.aBad.length ? esc.aBad.join(", ")
+                      : esc.withAsk + " of " + esc.total + " clues carry one, 0 leaked");
+    ok(N + "11b " + key + " every question carries a clue for the second wrong to give",
+      esc.bBad.length === 0, esc.bBad.join(", ") || esc.total + " clues present");
+    ok(N + "11c " + key + " every reveal names the correct answer",
+      esc.cBad.length === 0, esc.cBad.join(", ") || esc.total + " reveals");
+    ok(N + "11d " + key + " every correct line reinforces with the answer, not praise alone",
+      esc.dBad.length === 0, esc.dBad.join(", ") || esc.total + " correct lines");
+
     ok(N + "10b " + key + " Practice adds nothing to storage",
       added.length === 0, added.length ? added.join(",") : "no new keys");
     ok(N + "10c " + key + " no storage key belongs to Practice at all",
