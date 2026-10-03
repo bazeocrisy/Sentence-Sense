@@ -1438,6 +1438,15 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   ok("15.0b every shipped bank is pinned in BANK_SPEC",
     bankTopics.every(k => !!BANK_SPEC[k]), bankTopics.join(","));
 
+  /* The milestone continue button's DEFAULT label, read from the markup
+     before any milestone has rendered. Taken from the product, never
+     restated here, so this check cannot drift from index.html. */
+  const continueDefaultLabel = await page.evaluate(() =>
+    document.getElementById("pm-continue").textContent);
+  ok("15.0c the milestone continue button ships a default label",
+    typeof continueDefaultLabel === "string" && continueDefaultLabel.trim().length > 0,
+    JSON.stringify(continueDefaultLabel));
+
   /* Answer the current Practice question correctly, by identity. */
   async function practiceAnswerCorrect() {
     await page.evaluate(() => {
@@ -1694,6 +1703,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     await page.evaluate(k => window.SS_PRACTICE.start(k), key);
     await sleep(60);
     let milestones = 0, answeredCount = 0, guard = 0;
+    const stoneRows = [];        // one row per stage boundary actually rendered
     while (guard++ < spec.questions + spec.stages + 6) {
       const where = await page.evaluate(() => ({
         milestone: !document.getElementById("practice-milestone").hidden,
@@ -1707,8 +1717,40 @@ async function answerCorrect(page, choiceSel, dataProbe) {
         milestones++;
         if (/undefined/.test(where.mTitle) || /undefined/.test(where.mMark))
           milestones = -999;
+        /* What the child sees, paired with what the stage authored. */
+        const row = await page.evaluate(k => {
+          const st = window.SS_PRACTICE.state();
+          const stage = window.SS_LEARN_CONTENT.topics[k].tryItBank.stages[st.milestone];
+          return {
+            idx: st.milestone,
+            authoredLabel: Object.prototype.hasOwnProperty.call(stage, "continueLabel")
+              ? stage.continueLabel : null,
+            renderedLabel: document.getElementById("pm-continue").textContent,
+            authoredTitle: stage.milestoneTitle,
+            renderedTitle: document.getElementById("pm-title").textContent,
+            authoredLine: stage.milestoneLine,
+            renderedLine: document.getElementById("pm-line").textContent,
+            authoredNext: stage.nextStage,
+            renderedNext: document.getElementById("pm-next").textContent,
+            posBefore: st.pos
+          };
+        }, key);
         await page.evaluate(() => document.getElementById("pm-continue").click());
         await sleep(50);
+        /* Pressing it must close the milestone and land on the next
+           stage's first question -- the label must not alter advancement. */
+        const after = await page.evaluate(k => {
+          const st = window.SS_PRACTICE.state();
+          const q = window.SS_LEARN_CONTENT.topics[k].tryItBank.questions[st.order[st.pos]];
+          return { closed: document.getElementById("practice-milestone").hidden,
+                   pos: st.pos, stage: q ? q.stage : -1,
+                   milestone: st.milestone };
+        }, key);
+        row.advancedBy = after.pos - row.posBefore;
+        row.closed = after.closed;
+        row.landedStage = after.stage;
+        row.milestoneCleared = after.milestone === -1;
+        stoneRows.push(row);
         continue;
       }
       await practiceAnswerCorrect();
@@ -1720,6 +1762,41 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       answeredCount === spec.questions, answeredCount + " answered");
     ok(N + "8b " + key + " a milestone appears between stages and renders real text",
       milestones === spec.stages - 1, milestones + " milestones");
+
+    /* ---- optional stage-level continueLabel ----
+       A: a stage that supplies one renders exactly it.
+       B: a stage that supplies none renders the markup default.
+       Both are expressed as ONE assertion driven by the data, so the
+       harness needs no topic name and no skill-specific string. */
+    const labelWrong = stoneRows.filter(r =>
+      r.renderedLabel !== (r.authoredLabel === null ? continueDefaultLabel : r.authoredLabel));
+    const withLabel = stoneRows.filter(r => r.authoredLabel !== null);
+    const withoutLabel = stoneRows.filter(r => r.authoredLabel === null);
+    ok(N + "8c " + key + " the milestone button uses continueLabel where a stage sets one, and the shipped default where it does not",
+      labelWrong.length === 0,
+      withLabel.length + " custom, " + withoutLabel.length + " default: " +
+      stoneRows.map(r => JSON.stringify(r.renderedLabel)).join(" "));
+
+    /* C: the label is wording only -- advancement is untouched. Pressing
+       it closes the milestone, moves exactly one question on, and lands
+       in the stage after the one just completed. */
+    const advanceWrong = stoneRows.filter(r =>
+      !(r.closed === true && r.milestoneCleared === true &&
+        r.advancedBy === 0 && r.landedStage === r.idx + 1));
+    ok(N + "8d " + key + " continueLabel changes only the button text, never stage advancement",
+      advanceWrong.length === 0,
+      stoneRows.map(r => "s" + (r.idx + 1) + "->s" + (r.landedStage + 1)).join(" "));
+
+    /* D: the rest of the milestone is still rendered verbatim from the
+       stage, which is what proves a skill setting no label is otherwise
+       untouched by this capability. */
+    const renderWrong = stoneRows.filter(r =>
+      r.renderedTitle !== r.authoredTitle ||
+      r.renderedLine !== r.authoredLine ||
+      r.renderedNext !== (r.authoredNext ? "Next: " + r.authoredNext : ""));
+    ok(N + "8e " + key + " milestone title, line and next-stage still render exactly as authored",
+      renderWrong.length === 0,
+      renderWrong.length ? JSON.stringify(renderWrong[0]) : stoneRows.length + " milestones verbatim");
 
     const done = await page.evaluate(k => {
       const C = window.SS_LEARN_CONTENT;
