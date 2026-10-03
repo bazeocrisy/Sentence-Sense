@@ -321,7 +321,7 @@ window.SS_LEARN_CONTENT = {
             sentence: { words: ["The", "brown", "rabbit", "hopped", "across", "the", "grassy", "field."] },
             question: "Which word tells what happened?",
             choices: [
-              { text: "brown", feedback: "brown tells what colour the rabbit is. It describes the rabbit. Look again for the word that tells what happened." },
+              { text: "brown", feedback: "brown tells what color the rabbit is. It describes the rabbit. Look again for the word that tells what happened." },
               { text: "rabbit", feedback: "rabbit names who did the action. Look again for the word that tells what the rabbit did." },
               { text: "hopped", correct: true, feedback: "Nice thinking! hopped is the verb because it tells what the rabbit did." },
               { text: "field", feedback: "field names a place in the sentence. Look again for the word that tells what happened." }
@@ -346,12 +346,12 @@ window.SS_LEARN_CONTENT = {
             question: "Which word is the verb in this sentence?",
             choices: [
               { text: "puppy", feedback: "puppy names who we are talking about. A verb can tell what someone does OR what someone is. Look again for the word that tells what the puppy is." },
-              { text: "is", correct: true, feedback: "Nice thinking! is is the verb because it tells what the puppy is." },
+              { text: "is", correct: true, feedback: "Nice thinking! 'is' is the verb because it tells what the puppy is." },
               { text: "happy", feedback: "happy tells how the puppy feels. It describes the puppy. Look again for the word that tells what the puppy is." },
               { text: "home", feedback: "home names a place. Look again for the word that tells what the puppy is." }
             ],
             clue: "Remember: a verb can also tell what someone or something is.",
-            reveal: "Let's find it together. is tells what the puppy is, so is is the verb." },
+            reveal: "Let's find it together. 'is' tells what the puppy is, so 'is' is the verb." },
           /* Q6 -- stage 2 */
           { stage: 1,
             sentence: { words: ["The", "talented", "pitcher", "threw", "the", "baseball", "toward", "home", "plate."] },
@@ -1179,7 +1179,7 @@ window.SS_LEARN_CONTENT = {
                     words: ["The", "building", "is", "tall."],
                     marks: [{ start: 1, end: 1, kind: "noun", label: "NAMES A THING" }]
                   },
-                  text: "Here, building names a thing. The verb is is."
+                  text: "Here, building names a thing. The verb is 'is.'"
                 }
               ],
               close: "Same word, two different jobs. That is why an ending is a clue, not a rule."
@@ -1532,7 +1532,7 @@ window.SS_LEARN_CONTENT = {
             question: "Which word is the simple subject?",
             choices: [
               { text: "collection", correct: true, feedback: "Correct! What filled the jar? The collection. So the simple subject is collection." },
-              { text: "seashells", feedback: "seashells is part of the detail telling what the collection holds. Use the verb to help find the subject." },
+              { text: "seashells", feedback: "The word seashells is part of the detail telling what the collection holds. Use the verb to help find the subject." },
               { text: "filled", feedback: "filled is the verb. It tells what happened. Use it to help find the subject." },
               { text: "jar", feedback: "jar names what was filled. It is not what did the filling. Use the verb to help find the subject." }
             ],
@@ -1599,7 +1599,7 @@ window.SS_LEARN_CONTENT = {
             question: "Which word tells who or what the sentence is about?",
             choices: [
               { text: "box", correct: true, feedback: "Correct! What fell? The box. So the simple subject is box." },
-              { text: "photographs", feedback: "photographs is part of the detail telling what was inside the box. Use the verb to help find the subject." },
+              { text: "photographs", feedback: "The word photographs is part of the detail telling what was inside the box. Use the verb to help find the subject." },
               { text: "fell", feedback: "fell is the verb. It tells what happened. Use it to help find the subject." },
               { text: "shelf", feedback: "shelf is part of the detail telling where the box fell from. Use the verb to help find the subject." }
             ],
@@ -1910,7 +1910,7 @@ window.SS_LEARN_CONTENT = {
       },
 
       tryIt: {
-        title: "Try it",
+        title: "Let me try",
         sentence: {
           words: ["The", "kind", "teacher", "works", "at", "a", "big", "school."]
         },
@@ -2033,7 +2033,7 @@ window.SS_LEARN_CONTENT = {
       },
 
       tryIt: {
-        title: "Try it",
+        title: "Let me try",
         sentence: {
           words: ["The", "hungry", "cat", "ate", "a", "small", "fish."]
         },

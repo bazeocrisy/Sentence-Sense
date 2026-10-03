@@ -27,7 +27,7 @@
 
    D-30: the completion recap is CONTENT. The engine does not know
    what any skill teaches, so a future bank cannot tell a child they
-   practised finding verbs when they practised something else.
+   practiced finding verbs when they practiced something else.
 
    THIS IS PRACTICE, SO A WRONG ANSWER BUYS TEACHING, NOT A MARK
      1st wrong -> what that word actually does in THIS sentence
