@@ -58,6 +58,18 @@
      family (a deeper green); the predicate gets its own teal. */
   --c-predicate:#0B6E77;
   --c-complete-subject:#145C39;
+  /* Build 1.3 — three new topic identities for the Georgia grade 3 upgrade.
+     Each is a family member of the part of speech it relates to, so colour
+     still carries meaning rather than variety:
+       pronoun  — a deeper violet, in the noun family (a pronoun stands in
+                  for a noun). #7B3FA6 = 6.77:1 on white, 6.23:1 on soft-blue.
+       adverb   — a rose, its own hue: it works with verbs, not nouns.
+                  #B02E63 = 6.15:1 on white, 5.66:1 on soft-blue.
+       complete sentence — navy, the colour of the whole page.
+                  #1F4A80 = 8.94:1 on white. */
+  --c-pronoun:#7B3FA6;
+  --c-adverb:#B02E63;
+  --c-complete-sentence:#1F4A80;
 
   /* Sentence type scale. One set of variables drives every teaching
      sentence, so the responsive and large-display rules below only
@@ -464,6 +476,11 @@ img{max-width:100%;}
 .screen-lesson[data-topic="predicate"] .header-lesson{background:linear-gradient(120deg,#08545C,#12808C);}
 .screen-lesson[data-topic="noun"] .header-lesson{background:linear-gradient(120deg,#4B32A8,var(--purple-dark));}
 .screen-lesson[data-topic="adjective"] .header-lesson{background:linear-gradient(120deg,var(--orange-deep),var(--orange-bright));}
+/* Build 1.3 — new topic headers. White text: #5E2D86 9.56:1, #7B3FA6 6.77:1,
+   #8E2350 8.38:1, #B02E63 6.15:1, #12325B 12.86:1, #2B5A94 7.02:1. */
+.screen-lesson[data-topic="pronoun"] .header-lesson{background:linear-gradient(120deg,#5E2D86,#7B3FA6);}
+.screen-lesson[data-topic="adverb"] .header-lesson{background:linear-gradient(120deg,#8E2350,#B02E63);}
+.screen-lesson[data-topic="complete-sentence"] .header-lesson{background:linear-gradient(120deg,var(--navy),#2B5A94);}
 .guide-btn{border-color:var(--gold);}
 
 /* ---------- 9b. Topic screen ---------- */
@@ -517,6 +534,23 @@ img{max-width:100%;}
 .topic-noun{background:linear-gradient(160deg,#4B32A8,var(--purple-dark));}
 .topic-adjective{background:linear-gradient(160deg,var(--orange),var(--yellow));color:var(--navy);}
 .topic-adjective .topic-badge{background:rgba(255,255,255,.5);border-color:rgba(18,50,91,.22);}
+.topic-pronoun{background:linear-gradient(160deg,#5E2D86,#7B3FA6);}
+.topic-adverb{background:linear-gradient(160deg,#8E2350,#B02E63);}
+.topic-complete-sentence{background:linear-gradient(160deg,var(--navy),#2B5A94);}
+
+/* Build 1.3 — UNIT CARDS. The units view uses the same card component as the
+   topic grid, with a fourth level: how many topics the unit holds. Unit
+   colours reuse existing gradients only (no new hues for variety):
+   words = the verb blue, parts = the subject green, build = the navy of
+   Complete Sentence. */
+.unit-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+.unit-card .pick-name{font-size:clamp(1.25rem,1.7vw,1.6rem);}
+.unit-count{display:block;margin:10px 0 0;font-family:var(--font-body);font-weight:900;
+  font-size:.82rem;letter-spacing:.6px;text-transform:uppercase;
+  background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px;}
+.unit-words{background:linear-gradient(160deg,var(--blue),var(--deep-blue));}
+.unit-parts{background:linear-gradient(160deg,#145C39,#1F7A4C);}
+.unit-build{background:linear-gradient(160deg,var(--navy),#2B5A94);}
 
 /* The strategy is stated once, on the topic screen, in the order the
    topics themselves are listed. Static text, not an interaction.
@@ -634,6 +668,9 @@ img{max-width:100%;}
 .done-badge-chip.is-predicate{background:linear-gradient(135deg,#08545C,#12808C);}
 .done-badge-chip.is-noun{background:linear-gradient(135deg,#4B32A8,var(--purple-dark));}
 .done-badge-chip.is-adjective{background:linear-gradient(135deg,var(--orange-deep),var(--orange-bright));}
+.done-badge-chip.is-pronoun{background:linear-gradient(135deg,#5E2D86,#7B3FA6);}
+.done-badge-chip.is-adverb{background:linear-gradient(135deg,#8E2350,#B02E63);}
+.done-badge-chip.is-complete-sentence{background:linear-gradient(135deg,var(--navy),#2B5A94);}
 .done-recap{font-weight:800;color:var(--deep-blue);font-size:1.06rem;max-width:52ch;margin:10px auto 14px;}
 .done-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
 
@@ -702,6 +739,9 @@ img{max-width:100%;}
 .ss-k-predicate{color:var(--c-predicate);}
 .ss-k-noun{color:var(--c-noun);}
 .ss-k-adjective{color:var(--c-adjective);}
+.ss-k-pronoun{color:var(--c-pronoun);}
+.ss-k-adverb{color:var(--c-adverb);}
+.ss-k-complete-sentence{color:var(--c-complete-sentence);}
 
 /* Split view: two labelled boxes, side by side on wide screens and
    stacked on phones. The label is written out, so the division is
@@ -734,6 +774,10 @@ img{max-width:100%;}
 /* Phrase answers ("climbed the long ladder") need wider buttons than
    single-word answers, so the grid widens when the content is long. */
 .tryit-choices.is-wide{grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));max-width:760px;}
+/* Build 1.3 — whole-sentence choices: one column, left-aligned, so each
+   option reads as a sentence. Two classes outrank the projector grid rule. */
+.tryit-choices.is-sentences{grid-template-columns:minmax(0,1fr);max-width:680px;}
+.tryit-choices.is-sentences .tryit-choice{text-align:left;white-space:normal;line-height:1.3;}
 .tryit-choice{font-family:var(--font-display);font-weight:800;font-size:1.05rem;color:var(--navy);background:#fff;
   border:3px solid var(--soft-blue);border-radius:var(--radius-md);padding:12px 14px;min-height:52px;
   box-shadow:var(--shadow-soft);transition:transform .12s ease,border-color .15s ease;}
@@ -818,6 +862,7 @@ body.guide-open{overflow:hidden;}
    kept down to 901px. Below that the title would begin to crowd. */
 @media (max-width:900px){
   .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:min(660px,100%);}
+  .unit-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 
 /* Phones: everything stacks; nothing instructional shrinks below
