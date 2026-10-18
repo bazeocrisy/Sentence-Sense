@@ -481,6 +481,12 @@ img{max-width:100%;}
 .screen-lesson[data-topic="pronoun"] .header-lesson{background:linear-gradient(120deg,#5E2D86,#7B3FA6);}
 .screen-lesson[data-topic="adverb"] .header-lesson{background:linear-gradient(120deg,#8E2350,#B02E63);}
 .screen-lesson[data-topic="complete-sentence"] .header-lesson{background:linear-gradient(120deg,var(--navy),#2B5A94);}
+/* Build 1.4 — verb-family headers and a subject-to-verb gradient for
+   Agreement. White text: #1D3FA8 9.02:1, #3A5BD9 5.71:1, #0E5A8A 7.37:1,
+   #176A9E 5.85:1, #145C39 8.02:1, #0F4FBF 7.26:1. */
+.screen-lesson[data-topic="helping-linking"] .header-lesson{background:linear-gradient(120deg,#1D3FA8,#3A5BD9);}
+.screen-lesson[data-topic="verb-tense"] .header-lesson{background:linear-gradient(120deg,#0E5A8A,#176A9E);}
+.screen-lesson[data-topic="agreement"] .header-lesson{background:linear-gradient(120deg,#145C39,#0F4FBF);}
 .guide-btn{border-color:var(--gold);}
 
 /* ---------- 9b. Topic screen ---------- */
@@ -537,6 +543,9 @@ img{max-width:100%;}
 .topic-pronoun{background:linear-gradient(160deg,#5E2D86,#7B3FA6);}
 .topic-adverb{background:linear-gradient(160deg,#8E2350,#B02E63);}
 .topic-complete-sentence{background:linear-gradient(160deg,var(--navy),#2B5A94);}
+.topic-helping-linking{background:linear-gradient(160deg,#1D3FA8,#3A5BD9);}
+.topic-verb-tense{background:linear-gradient(160deg,#0E5A8A,#176A9E);}
+.topic-agreement{background:linear-gradient(160deg,#145C39,#0F4FBF);}
 
 /* Build 1.3 — UNIT CARDS. The units view uses the same card component as the
    topic grid, with a fourth level: how many topics the unit holds. Unit
@@ -671,6 +680,9 @@ img{max-width:100%;}
 .done-badge-chip.is-pronoun{background:linear-gradient(135deg,#5E2D86,#7B3FA6);}
 .done-badge-chip.is-adverb{background:linear-gradient(135deg,#8E2350,#B02E63);}
 .done-badge-chip.is-complete-sentence{background:linear-gradient(135deg,var(--navy),#2B5A94);}
+.done-badge-chip.is-helping-linking{background:linear-gradient(135deg,#1D3FA8,#3A5BD9);}
+.done-badge-chip.is-verb-tense{background:linear-gradient(135deg,#0E5A8A,#176A9E);}
+.done-badge-chip.is-agreement{background:linear-gradient(135deg,#145C39,#0F4FBF);}
 .done-recap{font-weight:800;color:var(--deep-blue);font-size:1.06rem;max-width:52ch;margin:10px auto 14px;}
 .done-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
 

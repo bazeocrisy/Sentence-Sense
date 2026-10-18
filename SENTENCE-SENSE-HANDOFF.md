@@ -1,7 +1,7 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.3**
-**Last pass:** Georgia grade 3 upgrade, part 1 — units, Pronoun, Adverb, Complete Sentence — 2026-10-18
+**Current build: Sentence Sense — Build 1.4**
+**Last pass:** Georgia grade 3 upgrade, part 2 — Helping & Linking Verbs, Verb Tense, Subject-Verb Agreement — 2026-10-18
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
 **This file describes the CURRENT shipped state only. Read it first.**
 **WHAT to teach is governed by `STANDARDS-ALIGNMENT.md` (Georgia grade 3). This file governs HOW.**
@@ -28,12 +28,12 @@ Two governing rules:
 ## 2. BUILD NUMBERING — EVERY PUSH GETS A NEW NUMBER
 
 **Every approved GitHub push increments the visible build number**, so the live
-site can be verified after GitHub Pages refreshes. Current: **Build 1.3**.
+site can be verified after GitHub Pages refreshes. Current: **Build 1.4**.
 
 It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.3";`
-2. the rendered badge — `Sentence Sense — Build 1.3`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.4";`
+2. the rendered badge — `Sentence Sense — Build 1.4`
 3. the audit file name and heading
 4. this handoff
 
@@ -44,12 +44,12 @@ It must match in four places, and the audit checks all four:
 | File | Role | Lines |
 |---|---|---|
 | `index.html` | All screens: home, topics (units + unit views), lesson, mode placeholder, guide overlay | 254 |
-| `css/styles.css` | Every style, numbered sections 1–11 | 1029 |
+| `css/styles.css` | Every style, numbered sections 1–11 | 1041 |
 | `js/app.js` | Shell only: screen switching, Home/Back/Escape, build badge | 161 |
 | `js/learn.js` | Learn engine: **units/topic screen**, lesson runner, sentence component, Try It, **guided question bank**, Study Guide | 1018 |
-| `js/data/learn-content.js` | **All instructional content**: units, nine topics, four 20-question banks, standards tags | 2083 |
+| `js/data/learn-content.js` | **All instructional content**: units, twelve topics, seven 20-question banks, standards tags | 3171 |
 | `assets/images/` | `logo.png` 1024×768 · `logo-512.png` · `favicon.png` — unmodified since 1.1.1 | — |
-| `AUDIT-REPORT-Build-1.3.md` | The current build audit — **the only one in the repo** | — |
+| `AUDIT-REPORT-Build-1.4.md` | The current build audit — **the only one in the repo** | — |
 | `SENTENCE-SENSE-HANDOFF.md` | This file, at the repo root | — |
 | `STANDARDS-ALIGNMENT.md` | **The curriculum spec**: Georgia grade 3 scope, GUM codes, target topics, build sequence, content rules | — |
 
@@ -97,16 +97,16 @@ questions, answers, distractors, feedback, clues and reveals were not altered.
   four tab stops.
 - No login, profile, account, avatar, settings or gear icon anywhere.
 
-### Learn — nine topics in three units; four topics run a 20-question bank
+### Learn — twelve topics in three units; seven topics run a 20-question bank
 
 - **Units (Build 1.3).** The topic screen has two views on one screen:
   **units view** (one card per unit) → **unit view** (that unit's topic cards).
 
   | Unit | Topics, in order |
   |---|---|
-  | Words and Their Jobs | verb · noun · **pronoun** · adjective · **adverb** |
+  | Words and Their Jobs | verb · helping-linking · verb-tense · noun · pronoun · adjective · adverb |
   | Parts of a Sentence | subject · complete-subject · predicate (shows the strategy box) |
-  | Building Sentences | **complete-sentence** |
+  | Building Sentences | complete-sentence · agreement |
 
   `C.units` defines them; `C.order` **must equal the units flattened in order**
   (contentguard enforces it) and is what **Next topic** walks.
@@ -120,8 +120,8 @@ questions, answers, distractors, feedback, clues and reveals were not altered.
   DEFINITION *what is it?* → CLUE *how do I find it?* → EXAMPLE *show me* →
   TRY IT *can I find it?* The grammar changes; the rhythm does not.
 - **Plain sentence first, marked sentence second.** See Section 6.
-- **Verb, Pronoun, Adverb and Complete Sentence** run a 20-question guided
-  cycle. See Section 5b. Subject, Complete Subject, Predicate, Noun and
+- **Verb, Helping & Linking, Verb Tense, Pronoun, Adverb, Complete Sentence and
+  Subject-Verb Agreement** run a 20-question guided cycle. See Section 5b. Subject, Complete Subject, Predicate, Noun and
   Adjective still have ONE Try It question each.
 - **Whole-sentence choices** (longest choice > 30 characters, e.g. Complete
   Sentence Stage 4 *"Which is the best way to fix it?"*) render as one
@@ -140,12 +140,12 @@ content, no scoring exists for any of them.
 
 ---
 
-## 5b. THE GUIDED BANKS (Verb 1.2.5; engine hardened 1.2.7; Pronoun, Adverb, Complete Sentence 1.3)
+## 5b. THE GUIDED BANKS (Verb 1.2.5; engine hardened 1.2.7; three added in 1.3, three in 1.4)
 
-Four topics run a 20-question cycle. A topic gets the cycle purely by having a
+Seven topics run a 20-question cycle. A topic gets the cycle purely by having a
 `tryItBank` in `learn-content.js`; a topic without one keeps the single-question
 behaviour with no code change. The Verb stages are shown below; each new bank's
-stage plan is described in its own content comment and in AUDIT-REPORT-Build-1.3 §2b.
+stage plan is described in its own content comment and in the current audit.
 
 | Stage | Qs | Name | Focus |
 |---|---|---|---|
@@ -180,9 +180,15 @@ kept, matching the rest of Learn.
 starts fresh at Definition. `localStorage` and `sessionStorage` stay empty.
 
 **The engine is reused, not generalised.** To give another topic a cycle, add
-its own `tryItBank`. Complete Sentence's bank is generated by a script (kept with
-the harnesses) so its four fixed choices and per-sentence feedback stay consistent;
-if you hand-edit it, keep the four choice texts identical across Stages 1–3.
+its own `tryItBank`. Complete Sentence (1.3) and the three 1.4 banks are
+generated by scripts kept with the harnesses, so repeated choice sets and
+feedback patterns stay consistent. Hand edits are fine; keep repeated choice
+sets identical within a stage.
+
+**Feedback convention (D-37 pilot, 1.4 banks only).** A feedback line that
+opens with its own one-word choice opens with "The word …", and be-forms are
+quoted (*The word “is” goes with one…*). Older topics still open lowercase
+until the owner decides D-37.
 
 **Being-verb sentences must not read as passive (Build 1.2.6).** In Stage 4 the
 being verb is the answer, so the word right after `is / are / was / were`
@@ -330,6 +336,10 @@ measures 4.25 and every brighter option fails.
 `--c-adjective` (`#B4530F`) for adjective **marks** was deliberately not
 brightened — those sit on a light ground, where brighter means less contrast.
 
+**Added in 1.4:** Helping & Linking `#1D3FA8 → #3A5BD9`, Verb Tense
+`#0E5A8A → #176A9E` (verb family), Agreement `#145C39 → #0F4FBF` (subject green
+into verb blue). No new mark tokens.
+
 **Added in 1.3:** Pronoun `#5E2D86 → #7B3FA6` (noun family), Adverb
 `#8E2350 → #B02E63`, Complete Sentence `#12325B → #2B5A94`; marks `--c-pronoun`
 `#7B3FA6`, `--c-adverb` `#B02E63`, `--c-complete-sentence` `#1F4A80`. Unit cards
@@ -353,8 +363,8 @@ Do not add new colours for variety.
 
 ## 11. DEFECT LEDGER
 
-This ledger is the current truth as of Build 1.3 and matches
-`AUDIT-REPORT-Build-1.3.md`. Statuses here supersede any wording in an earlier
+This ledger is the current truth as of Build 1.4 and matches
+`AUDIT-REPORT-Build-1.4.md`. Statuses here supersede any wording in an earlier
 audit.
 
 ### Open
@@ -366,7 +376,8 @@ audit.
 | **D-20** | **OPEN.** Abstract nouns are **defined and illustrated** — the Noun definition names *idea*, shows a fourth chip group (*love · joy · hope · freedom*) and carries the note *"An idea is something you cannot touch, like joy or hope. It is still a noun."*, and the Clue asks *"An idea?"*. What is missing is the **demonstration**: no abstract noun appears inside a marked sentence, and Try It never asks about one. They are not missing — they are untested and undemonstrated. | 3 |
 | **D-35** | **OPEN / DEFERRED.** The Study Guide's background is not marked `inert` or `aria-hidden`, so assistive technology that ignores `aria-modal` could reach behind the overlay. Mitigated: the two-way focus trap works (10/10 forward, 10/10 reverse) and `#guide-panel` carries `role="dialog" aria-modal="true"`. Do not fix without real screen-reader testing. | 4 |
 
-| **D-37** | **NEW in 1.3, OPEN.** Kid-facing feedback lines start with a lowercase target word (*"playful tells what kind…"*). Predates 1.3 and runs through every topic. Fix needs an owner decision: rewrite ~300 strings, or have the engine style the target word. | 4 |
+| **O-1** | **NEW in 1.4, OBSERVATION.** *Words and Their Jobs* has 7 cards; at 1366×768 its unit view scrolls ~70px and **All Units** sits just below the fold (card rows visible at the fold, no false bottom). Leave, or split a **Verbs** unit in 1.5 — owner decision. | 4 |
+| **D-37** | **NEW in 1.3, OPEN (pilot in 1.4).** Kid-facing feedback lines start with a lowercase target word (*"playful tells what kind…"*). Predates 1.3 and runs through every topic. Fix needs an owner decision: rewrite ~300 strings, or have the engine style the target word. | 4 |
 
 **D-11** is closed as changed by design in 1.3 — the six-card portal it described
 was replaced by units.
@@ -430,8 +441,8 @@ D-11 · D-13 (design behaviour). See the table above.
 - **L-05 — No testing with a child.** Whether a third grader stays engaged for
   20 questions is not something this audit can answer.
 - **L-06 — Chromium only.**
-- **L-07 — (1.3) The §12c harnesses live on the owner's machine** and were not run
-  for 1.3. Build 1.3 shipped with `contentguard.js`, `browserguard.py` and
+- **L-07 — (1.3, 1.4) The §12c harnesses live on the owner's machine** and were not run
+  for 1.3 or 1.4. Build 1.3 shipped with `contentguard.js`, `browserguard.py` and
   `foldcheck.py` instead (see §12c). Harnesses that assume six topic cards on the
   topic screen will now see three unit cards.
 
@@ -599,9 +610,9 @@ ls AUDIT-REPORT-Build-*.md | wc -l
 
 Follow `STANDARDS-ALIGNMENT.md` §6:
 
-- **Build 1.4** — Verb Tense, Helping & Linking Verbs, Subject-Verb Agreement
-  (3.L.GC.2.b, 3.L.GC.2.c; GUM irregular past **M**).
-- 1.5 Conjunction, Compound, Complex, Four Kinds · 1.6 Kinds of Nouns,
+- **Build 1.5** — Conjunction, Compound Sentence, Complex Sentence, Four Kinds of
+  Sentences. Decide O-1 first (a Verbs unit would make Words smaller).
+- Then, Compound, Complex, Four Kinds · 1.6 Kinds of Nouns,
   Preposition, Comparing · 1.7 Punctuation & Capitals unit · 1.8+ Test mode
   (Milestones item formats, end-of-test summary by skill, nothing persisted —
   approved 2026-10-18), then Practice and Break It Down.
@@ -610,4 +621,4 @@ Follow `STANDARDS-ALIGNMENT.md` §6:
 
 ---
 
-*End of handoff. Last updated 2026-10-18 for Build 1.3.*
+*End of handoff. Last updated 2026-10-18 for Build 1.4.*
