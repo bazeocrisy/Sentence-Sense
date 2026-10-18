@@ -62,26 +62,27 @@ window.SS_LEARN_CONTENT = {
   /* Build 1.3 — UNITS (Georgia grade 3 alignment, STANDARDS-ALIGNMENT.md §5).
      The Learn topic screen first shows these units, then the topics inside
      the chosen unit. Unit order and the topic order inside each unit are the
-     teaching order. Units D (Punctuation & Capitals) and the rest of A and C
-     arrive in later builds. */
+     teaching order. Build 1.4 added Helping & Linking Verbs and Verb Tense
+     (after Verb) and Subject-Verb Agreement. Unit D (Punctuation & Capitals)
+     and the rest of A and C arrive in later builds. */
   units: [
     { key: "words", name: "Words and Their Jobs", badge: "she ran quickly",
       card: "Learn what each kind of word does.", color: "words",
-      topics: ["verb", "noun", "pronoun", "adjective", "adverb"] },
+      topics: ["verb", "helping-linking", "verb-tense", "noun", "pronoun", "adjective", "adverb"] },
     { key: "parts", name: "Parts of a Sentence", badge: "who? did what?",
       card: "Find the subject and the predicate.", color: "parts",
       topics: ["subject", "complete-subject", "predicate"], showStrategy: true },
     { key: "build", name: "Building Sentences", badge: "complete?",
       card: "Make sentences complete and correct.", color: "build",
-      topics: ["complete-sentence"] }
+      topics: ["complete-sentence", "agreement"] }
   ],
 
   /* The single flattened sequence "Next topic" walks: every unit's topics in
      unit order. Build 1.3 changed it from the original six-topic order so
      "Next topic" stays inside a unit until the unit is finished. */
-  order: ["verb", "noun", "pronoun", "adjective", "adverb",
+  order: ["verb", "helping-linking", "verb-tense", "noun", "pronoun", "adjective", "adverb",
           "subject", "complete-subject", "predicate",
-          "complete-sentence"],
+          "complete-sentence", "agreement"],
 
   topics: {
 
@@ -469,6 +470,728 @@ window.SS_LEARN_CONTENT = {
       }
     },
 
+    /* ===================================================== */
+    /* HELPING & LINKING VERBS  (Build 1.4)                  */
+    /* Georgia GUM: helping and linking verbs (I, grade 3).  */
+    /* Grade 3 terms only: helping verb + main verb. The     */
+    /* -ing form is never named as a tense (NYI).            */
+    /* ===================================================== */
+    "helping-linking": {
+      name: "Helping & Linking Verbs",
+      badge: "is running",
+      card: "Verbs that help and verbs that link.",
+      color: "helping-linking",
+      standards: ["GUM:G:helping-linking-verbs:I"],
+
+      definition: {
+        title: "What are helping and linking verbs?",
+        text: "A helping verb comes before the main verb and helps it. A linking verb does not show action. It links the subject to a word that describes it or names it.",
+        list: [
+          "Helping verbs: will, can, should, must, is, are, was, were",
+          "Linking verbs: am, is, are, was, were, seems, becomes"
+        ],
+        sentence: {
+          words: ["My", "little", "brother", "will", "paint", "a", "picture", "of", "our", "cat."],
+          marks: [
+            { start: 3, end: 3, kind: "verb", label: "HELPING VERB" },
+            { start: 4, end: 4, kind: "verb", label: "MAIN VERB" }
+          ],
+          links: [{ from: 3, to: 4, text: "helps" }]
+        }
+      },
+
+      clue: {
+        title: "A clue for telling them apart",
+        text: "Look at what comes after the verb. Skip little words like a, the, and very.",
+        steps: [
+          "If an action word comes next, the first verb is a helping verb.",
+          "If a describing word or a naming word comes next, it is a linking verb.",
+          "Try = for a linking verb: The soup = hot."
+        ],
+        warning: "The words is, are, was, and were can do both jobs. Use = only when no action word comes after the verb.",
+        sentence: {
+          words: ["The", "soup", "in", "the", "big", "pot", "was", "hot."],
+          marks: [
+            { start: 1, end: 1, kind: "subject", label: "SUBJECT" },
+            { start: 6, end: 6, kind: "verb", label: "LINKING VERB" },
+            { start: 7, end: 7, kind: "adjective", label: "DESCRIBES" }
+          ]
+        }
+      },
+
+      example: {
+        title: "Let's find both kinds",
+        text: "This sentence has a linking verb and a helping verb.",
+        sentence: {
+          words: ["Our", "class", "is", "ready,", "so", "we", "will", "start", "the", "test."],
+          marks: [
+            { start: 2, end: 2, kind: "verb", label: "LINKING VERB" },
+            { start: 6, end: 6, kind: "verb", label: "HELPING VERB" },
+            { start: 7, end: 7, kind: "verb", label: "MAIN VERB" }
+          ]
+        },
+        points: [
+          "is links class to ready. Our class = ready. No action happens.",
+          "will helps the main verb start. start is the action."
+        ]
+      },
+
+      /* -----------------------------------------------------------------
+         HELPING & LINKING — 20-QUESTION GUIDED BANK (Build 1.4)
+         Stage 1 find the helping verb · Stage 2 find the main verb ·
+         Stage 3 find the linking verb · Stage 4 the same word (is, was,
+         were) doing either job. After a linking verb, only plain adjectives
+         with no participle form (handoff §5b).
+         ----------------------------------------------------------------- */
+      tryItBank: {
+        recap: "You practiced finding helping verbs, main verbs, and linking verbs in 20 different sentences.",
+        stages: [
+          { name: "Get Started", desc: "Find the helping verb.",
+            mark: "⭐", milestoneTitle: "Get Started complete!",
+            milestoneLine: "You found the verbs that help the main verb.", nextStage: "Look Closer" },
+          { name: "Look Closer", desc: "Find the main verb that the helping verb helps.",
+            mark: "🌟", milestoneTitle: "Look Closer complete!",
+            milestoneLine: "You found the main verb after each helping verb.", nextStage: "Think It Through" },
+          { name: "Think It Through", desc: "Find verbs that link the subject to a describing or naming word.",
+            mark: "💪", milestoneTitle: "Think It Through complete!",
+            milestoneLine: "You found linking verbs that show no action.", nextStage: "Challenge Yourself" },
+          { name: "Challenge Yourself", desc: "Is it helping or linking? Look at the word after it.",
+            mark: "🎉", milestoneTitle: "You practiced Helping & Linking Verbs 20 different ways!",
+            milestoneLine: "", nextStage: "" }
+        ],
+        questions: [
+          /* Q1 -- stage 1 */
+          { stage: 0, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["My", "little", "brother", "will", "paint", "a", "picture", "of", "our", "cat."] },
+            question: "Which word is the helping verb?",
+            choices: [
+              { text: "will", correct: true, feedback: "Nice thinking! will comes before paint and helps it, so will is the helping verb." },
+              { text: "paint", feedback: "The word paint is the main verb. It tells the action. Look for the word right before it that helps it." },
+              { text: "brother", feedback: "The word brother names a person. It is a noun. Look for the word that helps the main verb paint." },
+              { text: "picture", feedback: "The word picture names a thing. It is a noun. Look for the word that helps the main verb paint." }
+            ],
+            clue: "Remember: find the main verb first. The helping verb comes right before it.",
+            reveal: "Let's find it together. The main verb is paint. The word that helps it is will." },
+          /* Q2 -- stage 1 */
+          { stage: 0, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "new", "student", "can", "swim", "across", "the", "whole", "pool."] },
+            question: "Which word is the helping verb?",
+            choices: [
+              { text: "can", correct: true, feedback: "Nice thinking! can comes before swim and helps it, so can is the helping verb." },
+              { text: "swim", feedback: "The word swim is the main verb. It tells the action. Look for the word right before it that helps it." },
+              { text: "student", feedback: "The word student names a person. It is a noun. Look for the word that helps the main verb swim." },
+              { text: "whole", feedback: "The word whole describes pool. It is an adjective. Look for the word that helps the main verb swim." }
+            ],
+            clue: "Remember: find the main verb first. The helping verb comes right before it.",
+            reveal: "Let's find it together. The main verb is swim. The word that helps it is can." },
+          /* Q3 -- stage 1 */
+          { stage: 0, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["We", "should", "finish", "our", "reading", "log", "before", "dinner."] },
+            question: "Which word is the helping verb?",
+            choices: [
+              { text: "should", correct: true, feedback: "Nice thinking! should comes before finish and helps it, so should is the helping verb." },
+              { text: "finish", feedback: "The word finish is the main verb. It tells the action. Look for the word right before it that helps it." },
+              { text: "We", feedback: "The word We is a pronoun. It tells who. Look for the word that helps the main verb finish." },
+              { text: "log", feedback: "The word log names a thing. It is a noun. Look for the word that helps the main verb finish." }
+            ],
+            clue: "Remember: find the main verb first. The helping verb comes right before it.",
+            reveal: "Let's find it together. The main verb is finish. The word that helps it is should." },
+          /* Q4 -- stage 1 */
+          { stage: 0, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "happy", "fans", "were", "cheering", "for", "the", "home", "team."] },
+            question: "Which word is the helping verb?",
+            choices: [
+              { text: "were", correct: true, feedback: "Nice thinking! “were” comes before cheering and helps it, so “were” is the helping verb." },
+              { text: "cheering", feedback: "The word cheering is the main verb. It tells the action. Look for the word right before it that helps it." },
+              { text: "fans", feedback: "The word fans names people. It is a noun. Look for the word that helps the main verb cheering." },
+              { text: "happy", feedback: "The word happy tells what kind of fans. It is an adjective. Look for the word that helps the main verb cheering." }
+            ],
+            clue: "Remember: find the main verb first. The helping verb comes right before it.",
+            reveal: "Let's find it together. The main verb is cheering. The word that helps it is “were”." },
+          /* Q5 -- stage 1 */
+          { stage: 0, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["My", "grandmother", "is", "baking", "sweet", "potato", "pie", "for", "Thanksgiving."] },
+            question: "Which word is the helping verb?",
+            choices: [
+              { text: "is", correct: true, feedback: "Nice thinking! “is” comes before baking and helps it, so “is” is the helping verb." },
+              { text: "baking", feedback: "The word baking is the main verb. It tells the action. Look for the word right before it that helps it." },
+              { text: "grandmother", feedback: "The word grandmother names a person. It is a noun. Look for the word that helps the main verb baking." },
+              { text: "pie", feedback: "The word pie names a thing. It is a noun. Look for the word that helps the main verb baking." }
+            ],
+            clue: "Remember: find the main verb first. The helping verb comes right before it.",
+            reveal: "Let's find it together. The main verb is baking. The word that helps it is “is”." },
+          /* Q6 -- stage 2 */
+          { stage: 1, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "players", "must", "wear", "their", "helmets", "on", "the", "field."] },
+            question: "Which word is the main verb?",
+            choices: [
+              { text: "wear", correct: true, feedback: "You found it! wear tells the action. The helping verb must helps it, so wear is the main verb." },
+              { text: "must", feedback: "The word must is the helping verb. It helps the main verb. Look for the word right after it that tells the action." },
+              { text: "players", feedback: "The word players names people. It is a noun. Look for the action word after must." },
+              { text: "helmets", feedback: "The word helmets names things. It is a noun. Look for the action word after must." }
+            ],
+            clue: "Remember: the main verb tells the action. It comes after the helping verb.",
+            reveal: "Let's find it together. The helping verb is must. The action word after it is wear, so wear is the main verb." },
+          /* Q7 -- stage 2 */
+          { stage: 1, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["Our", "teacher", "was", "reading", "a", "funny", "chapter", "book", "aloud."] },
+            question: "Which word is the main verb?",
+            choices: [
+              { text: "reading", correct: true, feedback: "You found it! reading tells the action. The helping verb “was” helps it, so reading is the main verb." },
+              { text: "was", feedback: "“was” is the helping verb. It helps the main verb. Look for the word right after it that tells the action." },
+              { text: "teacher", feedback: "The word teacher names a person. It is a noun. Look for the action word after was." },
+              { text: "funny", feedback: "The word funny tells what kind of book. It is an adjective. Look for the action word after was." }
+            ],
+            clue: "Remember: the main verb tells the action. It comes after the helping verb.",
+            reveal: "Let's find it together. The helping verb is “was”. The action word after it is reading, so reading is the main verb." },
+          /* Q8 -- stage 2 */
+          { stage: 1, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["Tomorrow", "the", "class", "will", "plant", "flowers", "near", "the", "fence."] },
+            question: "Which word is the main verb?",
+            choices: [
+              { text: "plant", correct: true, feedback: "You found it! plant tells the action. The helping verb will helps it, so plant is the main verb." },
+              { text: "will", feedback: "The word will is the helping verb. It helps the main verb. Look for the word right after it that tells the action." },
+              { text: "Tomorrow", feedback: "The word Tomorrow tells when. It is an adverb. Look for the action word after will." },
+              { text: "flowers", feedback: "The word flowers names things. It is a noun. Look for the action word after will." }
+            ],
+            clue: "Remember: the main verb tells the action. It comes after the helping verb.",
+            reveal: "Let's find it together. The helping verb is will. The action word after it is plant, so plant is the main verb." },
+          /* Q9 -- stage 2 */
+          { stage: 1, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "puppies", "are", "chasing", "a", "ball", "across", "the", "yard."] },
+            question: "Which word is the main verb?",
+            choices: [
+              { text: "chasing", correct: true, feedback: "You found it! chasing tells the action. The helping verb “are” helps it, so chasing is the main verb." },
+              { text: "are", feedback: "“are” is the helping verb. It helps the main verb. Look for the word right after it that tells the action." },
+              { text: "puppies", feedback: "The word puppies names animals. It is a noun. Look for the action word after are." },
+              { text: "ball", feedback: "The word ball names a thing. It is a noun. Look for the action word after are." }
+            ],
+            clue: "Remember: the main verb tells the action. It comes after the helping verb.",
+            reveal: "Let's find it together. The helping verb is “are”. The action word after it is chasing, so chasing is the main verb." },
+          /* Q10 -- stage 2 */
+          { stage: 1, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["Jordan", "could", "ride", "his", "bike", "without", "training", "wheels."] },
+            question: "Which word is the main verb?",
+            choices: [
+              { text: "ride", correct: true, feedback: "You found it! ride tells the action. The helping verb could helps it, so ride is the main verb." },
+              { text: "could", feedback: "The word could is the helping verb. It helps the main verb. Look for the word right after it that tells the action." },
+              { text: "Jordan", feedback: "The word Jordan names a person. It is a noun. Look for the action word after could." },
+              { text: "bike", feedback: "The word bike names a thing. It is a noun. Look for the action word after could." }
+            ],
+            clue: "Remember: the main verb tells the action. It comes after the helping verb.",
+            reveal: "Let's find it together. The helping verb is could. The action word after it is ride, so ride is the main verb." },
+          /* Q11 -- stage 3 */
+          { stage: 2, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "soup", "in", "the", "big", "pot", "was", "hot."] },
+            question: "Which word is the linking verb?",
+            choices: [
+              { text: "was", correct: true, feedback: "Great job! “was” does not show action. It links soup to hot, so “was” is the linking verb." },
+              { text: "soup", feedback: "The word soup is the subject. It tells who or what the sentence is about. Look for the verb that links it to hot." },
+              { text: "hot", feedback: "The word hot tells about soup. Look for the verb that links soup to hot." },
+              { text: "pot", feedback: "The word pot names a thing. It is a noun. Look for the verb that links soup to hot." }
+            ],
+            clue: "Remember: a linking verb does not show action. Try putting = in its place. If it still makes sense, it is a linking verb.",
+            reveal: "Let's find it together. soup = hot. The word that links them is “was”." },
+          /* Q12 -- stage 3 */
+          { stage: 2, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["My", "uncle", "is", "a", "pilot", "for", "a", "big", "airline."] },
+            question: "Which word is the linking verb?",
+            choices: [
+              { text: "is", correct: true, feedback: "Great job! “is” does not show action. It links uncle to pilot, so “is” is the linking verb." },
+              { text: "uncle", feedback: "The word uncle is the subject. It tells who or what the sentence is about. Look for the verb that links it to pilot." },
+              { text: "pilot", feedback: "The word pilot tells about uncle. Look for the verb that links uncle to pilot." },
+              { text: "airline", feedback: "The word airline names a company. It is a noun. Look for the verb that links uncle to pilot." }
+            ],
+            clue: "Remember: a linking verb does not show action. Try putting = in its place. If it still makes sense, it is a linking verb.",
+            reveal: "Let's find it together. uncle = pilot. The word that links them is “is”." },
+          /* Q13 -- stage 3 */
+          { stage: 2, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "sky", "became", "dark", "before", "the", "thunderstorm."] },
+            question: "Which word is the linking verb?",
+            choices: [
+              { text: "became", correct: true, feedback: "Great job! became does not show action. It links sky to dark, so became is the linking verb." },
+              { text: "sky", feedback: "The word sky is the subject. It tells who or what the sentence is about. Look for the verb that links it to dark." },
+              { text: "dark", feedback: "The word dark tells about sky. Look for the verb that links sky to dark." },
+              { text: "thunderstorm", feedback: "The word thunderstorm names a thing. It is a noun. Look for the verb that links sky to dark." }
+            ],
+            clue: "Remember: a linking verb does not show action. Try putting = in its place. If it still makes sense, it is a linking verb.",
+            reveal: "Let's find it together. sky = dark. The word that links them is became." },
+          /* Q14 -- stage 3 */
+          { stage: 2, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "tiny", "kitten", "seems", "hungry", "this", "morning."] },
+            question: "Which word is the linking verb?",
+            choices: [
+              { text: "seems", correct: true, feedback: "Great job! seems does not show action. It links kitten to hungry, so seems is the linking verb." },
+              { text: "kitten", feedback: "The word kitten is the subject. It tells who or what the sentence is about. Look for the verb that links it to hungry." },
+              { text: "hungry", feedback: "The word hungry tells about kitten. Look for the verb that links kitten to hungry." },
+              { text: "tiny", feedback: "The word tiny tells what kind of kitten. It is an adjective. Look for the verb that links kitten to hungry." }
+            ],
+            clue: "Remember: a linking verb does not show action. Try putting = in its place. If it still makes sense, it is a linking verb.",
+            reveal: "Let's find it together. kitten = hungry. The word that links them is seems." },
+          /* Q15 -- stage 3 */
+          { stage: 2, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "students", "were", "quiet", "during", "the", "fire", "drill."] },
+            question: "Which word is the linking verb?",
+            choices: [
+              { text: "were", correct: true, feedback: "Great job! “were” does not show action. It links students to quiet, so “were” is the linking verb." },
+              { text: "students", feedback: "The word students is the subject. It tells who or what the sentence is about. Look for the verb that links it to quiet." },
+              { text: "quiet", feedback: "The word quiet tells about students. Look for the verb that links students to quiet." },
+              { text: "drill", feedback: "The word drill names a thing. It is a noun. Look for the verb that links students to quiet." }
+            ],
+            clue: "Remember: a linking verb does not show action. Try putting = in its place. If it still makes sense, it is a linking verb.",
+            reveal: "Let's find it together. students = quiet. The word that links them is “were”." },
+          /* Q16 -- stage 4 */
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "baby", "is", "sleepy", "after", "her", "long", "bath."] },
+            question: "What job does the word “is” do in this sentence?",
+            choices: [
+              { text: "helping verb", feedback: "A helping verb comes before an action word. Here no action word comes after “is”. It links the subject to sleepy." },
+              { text: "linking verb", correct: true, feedback: "Great job! “is” does not show action. It links the subject to sleepy, so it is a linking verb." },
+              { text: "action verb", feedback: "“is” does not show action by itself. It links the subject to sleepy." },
+              { text: "noun", feedback: "The word “is” is a verb, not a noun. It does not name a person, place, or thing." }
+            ],
+            clue: "Remember: look at the word right after it. If that word is an action, it is a helping verb. If it describes or names the subject, it is a linking verb.",
+            reveal: "Let's find it together. The word after “is” is sleepy, which describes the subject. There is no action, so “is” is a linking verb." },
+          /* Q17 -- stage 4 */
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "baby", "is", "sleeping", "in", "her", "crib", "upstairs."] },
+            question: "What job does the word “is” do in this sentence?",
+            choices: [
+              { text: "helping verb", correct: true, feedback: "You found it! “is” helps the main verb sleeping, so it is a helping verb." },
+              { text: "linking verb", feedback: "Look at the word after “is”. The word sleeping is an action, so “is” is helping it, not linking." },
+              { text: "action verb", feedback: "“is” does not show action by itself. The action is sleeping." },
+              { text: "noun", feedback: "The word “is” is a verb, not a noun. It does not name a person, place, or thing." }
+            ],
+            clue: "Remember: look at the word right after it. If that word is an action, it is a helping verb. If it describes or names the subject, it is a linking verb.",
+            reveal: "Let's find it together. The word after “is” is sleeping, an action. So “is” is a helping verb." },
+          /* Q18 -- stage 4 */
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "boys", "were", "thirsty", "after", "the", "soccer", "game."] },
+            question: "What job does the word “were” do in this sentence?",
+            choices: [
+              { text: "helping verb", feedback: "A helping verb comes before an action word. Here no action word comes after “were”. It links the subject to thirsty." },
+              { text: "linking verb", correct: true, feedback: "Great job! “were” does not show action. It links the subject to thirsty, so it is a linking verb." },
+              { text: "action verb", feedback: "“were” does not show action by itself. It links the subject to thirsty." },
+              { text: "noun", feedback: "The word “were” is a verb, not a noun. It does not name a person, place, or thing." }
+            ],
+            clue: "Remember: look at the word right after it. If that word is an action, it is a helping verb. If it describes or names the subject, it is a linking verb.",
+            reveal: "Let's find it together. The word after “were” is thirsty, which describes the subject. There is no action, so “were” is a linking verb." },
+          /* Q19 -- stage 4 */
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["The", "boys", "were", "running", "laps", "around", "the", "track."] },
+            question: "What job does the word “were” do in this sentence?",
+            choices: [
+              { text: "helping verb", correct: true, feedback: "You found it! “were” helps the main verb running, so it is a helping verb." },
+              { text: "linking verb", feedback: "Look at the word after “were”. The word running is an action, so “were” is helping it, not linking." },
+              { text: "action verb", feedback: "“were” does not show action by itself. The action is running." },
+              { text: "noun", feedback: "The word “were” is a verb, not a noun. It does not name a person, place, or thing." }
+            ],
+            clue: "Remember: look at the word right after it. If that word is an action, it is a helping verb. If it describes or names the subject, it is a linking verb.",
+            reveal: "Let's find it together. The word after “were” is running, an action. So “were” is a helping verb." },
+          /* Q20 -- stage 4 */
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
+            sentence: { words: ["Our", "dog", "was", "muddy", "after", "the", "rainstorm."] },
+            question: "What job does the word “was” do in this sentence?",
+            choices: [
+              { text: "helping verb", feedback: "A helping verb comes before an action word. Here no action word comes after “was”. It links the subject to muddy." },
+              { text: "linking verb", correct: true, feedback: "Great job! “was” does not show action. It links the subject to muddy, so it is a linking verb." },
+              { text: "action verb", feedback: "“was” does not show action by itself. It links the subject to muddy." },
+              { text: "noun", feedback: "The word “was” is a verb, not a noun. It does not name a person, place, or thing." }
+            ],
+            clue: "Remember: look at the word right after it. If that word is an action, it is a helping verb. If it describes or names the subject, it is a linking verb.",
+            reveal: "Let's find it together. The word after “was” is muddy, which describes the subject. There is no action, so “was” is a linking verb." }
+        ]
+      },
+
+      recap: "A helping verb helps the main verb. A linking verb links the subject to a word that describes or names it.",
+
+      studyGuide: {
+        title: "Helping & Linking Verbs Study Guide",
+        sections: [
+          { heading: "Helping verbs", lines: ["A helping verb comes before the main verb and helps it."], chips: ["will", "can", "could", "should", "must", "may", "do", "does", "did", "am", "is", "are", "was", "were"] },
+          { heading: "Linking verbs", lines: ["A linking verb does not show action. It links the subject to a word that describes or names it."], chips: ["am", "is", "are", "was", "were", "seems", "becomes"] },
+          { heading: "How to tell them apart", steps: ["Look at what comes after the verb. Skip a, the, and very.", "An action word next? It is a helping verb.", "A describing or naming word next? It is a linking verb."] },
+          {
+            heading: "Same word, two jobs",
+            contrast: {
+              heading: "is can help or link",
+              rows: [
+                {
+                  sentence: {
+                    words: ["The", "baby", "is", "sleepy."],
+                    marks: [{ start: 2, end: 2, kind: "verb", label: "LINKING VERB" }]
+                  },
+                  text: "is links baby to sleepy. The baby = sleepy."
+                },
+                {
+                  sentence: {
+                    words: ["The", "baby", "is", "sleeping."],
+                    marks: [{ start: 2, end: 2, kind: "verb", label: "HELPING VERB" }]
+                  },
+                  text: "is helps the main verb sleeping. Sleeping is the action."
+                }
+              ],
+              close: "Same word, two jobs. Read the word after it."
+            }
+          }
+        ],
+        reminder: "Look at what comes after the verb. Action next means helping. Describing or naming next means linking."
+      }
+    },
+    /* ===================================================== */
+    /* VERB TENSE  (Build 1.4)                               */
+    /* Georgia: GUM simple verb tenses (R), irregular past   */
+    /* tense (M), 3.L.GC.2.b (keep tense consistent).        */
+    /* Present tense is "now or every day", never "ends in   */
+    /* -ing" (that rule is wrong and -ing forms are NYI).    */
+    /* ===================================================== */
+    "verb-tense": {
+      name: "Verb Tense",
+      badge: "walked",
+      card: "Tell when it happens.",
+      color: "verb-tense",
+      standards: ["GUM:G:simple-verb-tenses:R", "GUM:G:irregular-past-verbs:M", "3.L.GC.2.b"],
+
+      definition: {
+        title: "What is verb tense?",
+        text: "The tense of a verb tells when something happens.",
+        list: [
+          "Past: it already happened. Yesterday I walked to school.",
+          "Present: it happens now or every day. Every day I walk to school.",
+          "Future: it has not happened yet. Tomorrow I will walk to school."
+        ],
+        note: "Some verbs have a special past tense instead of -ed: go becomes went, and eat becomes ate.",
+        sentence: {
+          words: ["Yesterday,", "my", "sister", "baked", "cookies", "and", "shared", "them."],
+          marks: [
+            { start: 0, end: 0, kind: "adverb", label: "WHEN?" },
+            { start: 3, end: 3, kind: "verb", label: "PAST" },
+            { start: 6, end: 6, kind: "verb", label: "PAST" }
+          ]
+        }
+      },
+
+      clue: {
+        title: "A clue for choosing the tense",
+        text: "Look for time words. They tell you which tense to use.",
+        list: [
+          "Past: yesterday, last night, ago",
+          "Present: every day, always, now",
+          "Future: tomorrow, next week, next year"
+        ],
+        warning: "Keep the same tense. If a sentence starts in the past, keep the other verbs in the past too.",
+        sentence: {
+          words: ["Tomorrow,", "we", "will", "visit", "the", "zoo."],
+          marks: [
+            { start: 0, end: 0, kind: "adverb", label: "WHEN?" },
+            { start: 2, end: 2, kind: "verb", label: "FUTURE" },
+            { start: 3, end: 3, kind: "verb", label: "FUTURE" }
+          ]
+        }
+      },
+
+      example: {
+        title: "Let's keep the tense the same",
+        text: "The first verb tells about the past, so the second verb does too.",
+        sentence: {
+          words: ["Last", "summer,", "we", "went", "to", "the", "lake", "and", "caught", "fish."],
+          marks: [
+            { start: 3, end: 3, kind: "verb", label: "PAST" },
+            { start: 8, end: 8, kind: "verb", label: "PAST" }
+          ]
+        },
+        points: [
+          "Last summer tells about the past.",
+          "went is the past tense of go. caught is the past tense of catch.",
+          "Not: We went to the lake and catch fish."
+        ]
+      },
+
+      /* -----------------------------------------------------------------
+         VERB TENSE — 20-QUESTION GUIDED BANK (Build 1.4)
+         Stage 1 time words (past and future) · Stage 2 irregular past (M),
+         with the -ed overgeneralisation (eated, goed) as the teaching
+         distractor · Stage 3 keep the tense consistent (3.L.GC.2.b) ·
+         Stage 4 choose the correctly written sentence (Milestones format).
+         Present-tense time cues are only used with a second verb that fixes
+         the tense, because "every Saturday he mowed" is also correct English.
+         ----------------------------------------------------------------- */
+      tryItBank: {
+        recap: "You practiced past, present, and future verbs, special past tense words, and keeping the tense the same in 20 different sentences.",
+        stages: [
+          { name: "Get Started", desc: "Use time words like yesterday and tomorrow.",
+            mark: "⭐", milestoneTitle: "Get Started complete!",
+            milestoneLine: "You used time words to choose past or future.", nextStage: "Look Closer" },
+          { name: "Look Closer", desc: "Some verbs have a special past tense.",
+            mark: "🌟", milestoneTitle: "Look Closer complete!",
+            milestoneLine: "You used special past tense words like ate, went, and caught.", nextStage: "Think It Through" },
+          { name: "Think It Through", desc: "Keep the second verb in the same tense as the first.",
+            mark: "💪", milestoneTitle: "Think It Through complete!",
+            milestoneLine: "You kept the tense the same inside each sentence.", nextStage: "Challenge Yourself" },
+          { name: "Challenge Yourself", desc: "Choose the sentence that is written correctly.",
+            mark: "🎉", milestoneTitle: "You practiced Verb Tense 20 different ways!",
+            milestoneLine: "", nextStage: "" }
+        ],
+        questions: [
+          /* Q1 -- stage 1 */
+          { stage: 0, std: ["GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Last", "night,", "our", "family", "____", "a", "movie", "together."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "watched", correct: true, feedback: "Nice thinking! Last night tells it already happened, so the verb is watched." },
+              { text: "watches", feedback: "The word watches tells about now or every day. Last night tells it already happened." },
+              { text: "will watch", feedback: "will watch tells that it has not happened yet. Last night tells it already happened." },
+              { text: "watching", feedback: "The word watching cannot be the verb by itself. It needs a helping verb. Use the time words: Last night." }
+            ],
+            clue: "Remember: look for time words. Yesterday and last night mean past. Tomorrow and next week mean future.",
+            reveal: "Let's find it together. Last night tells it already happened. So the verb is watched." },
+          /* Q2 -- stage 1 */
+          { stage: 0, std: ["GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Next", "week,", "I", "____", "my", "grandmother", "in", "Macon."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "visited", feedback: "The word visited tells that it already happened. Next week tells it has not happened yet." },
+              { text: "visits", feedback: "The word visits does not go with I. Next week tells it has not happened yet, so use will." },
+              { text: "will visit", correct: true, feedback: "Nice thinking! Next week tells it has not happened yet, so the verb is will visit." },
+              { text: "visiting", feedback: "The word visiting cannot be the verb by itself. It needs a helping verb. Use the time words: Next week." }
+            ],
+            clue: "Remember: look for time words. Yesterday and last night mean past. Tomorrow and next week mean future.",
+            reveal: "Let's find it together. Next week tells it has not happened yet. So the verb is will visit." },
+          /* Q3 -- stage 1 */
+          { stage: 0, std: ["GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Tomorrow,", "the", "students", "____", "their", "plants", "in", "the", "garden."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "watered", feedback: "The word watered tells that it already happened. Tomorrow tells it has not happened yet." },
+              { text: "waters", feedback: "The word waters does not match students, and Tomorrow tells it has not happened yet." },
+              { text: "will water", correct: true, feedback: "Nice thinking! Tomorrow tells it has not happened yet, so the verb is will water." },
+              { text: "watering", feedback: "The word watering cannot be the verb by itself. It needs a helping verb. Use the time words: Tomorrow." }
+            ],
+            clue: "Remember: look for time words. Yesterday and last night mean past. Tomorrow and next week mean future.",
+            reveal: "Let's find it together. Tomorrow tells it has not happened yet. So the verb is will water." },
+          /* Q4 -- stage 1 */
+          { stage: 0, std: ["GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Yesterday,", "Dad", "____", "the", "leaky", "kitchen", "sink."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "fixed", correct: true, feedback: "Nice thinking! Yesterday tells it already happened, so the verb is fixed." },
+              { text: "fixes", feedback: "The word fixes tells about now or every day. Yesterday tells it already happened." },
+              { text: "will fix", feedback: "will fix tells that it has not happened yet. Yesterday tells it already happened." },
+              { text: "fixing", feedback: "The word fixing cannot be the verb by itself. It needs a helping verb. Use the time words: Yesterday." }
+            ],
+            clue: "Remember: look for time words. Yesterday and last night mean past. Tomorrow and next week mean future.",
+            reveal: "Let's find it together. Yesterday tells it already happened. So the verb is fixed." },
+          /* Q5 -- stage 1 */
+          { stage: 0, std: ["GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Two", "days", "ago,", "it", "____", "all", "afternoon."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "rained", correct: true, feedback: "Nice thinking! Two days ago tells it already happened, so the verb is rained." },
+              { text: "rains", feedback: "The word rains tells about now or every day. Two days ago tells it already happened." },
+              { text: "will rain", feedback: "will rain tells that it has not happened yet. Two days ago tells it already happened." },
+              { text: "raining", feedback: "The word raining cannot be the verb by itself. It needs a helping verb. Use the time words: Two days ago." }
+            ],
+            clue: "Remember: look for time words. Yesterday and last night mean past. Tomorrow and next week mean future.",
+            reveal: "Let's find it together. Two days ago tells it already happened. So the verb is rained." },
+          /* Q6 -- stage 2 */
+          { stage: 1, std: ["GUM:G:irregular-past-verbs:M", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Yesterday,", "Ben", "____", "his", "whole", "lunch", "at", "school."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "ate", correct: true, feedback: "You found it! eat has a special past tense: ate." },
+              { text: "eated", feedback: "The word eated is not used in correct writing. eat does not add -ed. Its past tense is a special word." },
+              { text: "eats", feedback: "The word eats tells about now or every day. Yesterday tells it already happened." },
+              { text: "will eat", feedback: "will eat tells that it has not happened yet. Yesterday tells it already happened." }
+            ],
+            clue: "Remember: some verbs do not add -ed for the past. They change to a new word, like go and went.",
+            reveal: "Let's find it together. Yesterday means it already happened. The past tense of eat is ate." },
+          /* Q7 -- stage 2 */
+          { stage: 1, std: ["GUM:G:irregular-past-verbs:M", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Last", "summer,", "we", "____", "to", "the", "beach", "in", "Savannah."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "went", correct: true, feedback: "You found it! go has a special past tense: went." },
+              { text: "goed", feedback: "The word goed is not used in correct writing. go does not add -ed. Its past tense is a special word." },
+              { text: "go", feedback: "The word go tells about now or every day. Last summer tells it already happened." },
+              { text: "will go", feedback: "will go tells that it has not happened yet. Last summer tells it already happened." }
+            ],
+            clue: "Remember: some verbs do not add -ed for the past. They change to a new word, like go and went.",
+            reveal: "Let's find it together. Last summer means it already happened. The past tense of go is went." },
+          /* Q8 -- stage 2 */
+          { stage: 1, std: ["GUM:G:irregular-past-verbs:M", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Earlier", "today,", "Kayla", "____", "a", "picture", "of", "her", "dog."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "drew", correct: true, feedback: "You found it! draw has a special past tense: drew." },
+              { text: "drawed", feedback: "The word drawed is not used in correct writing. draw does not add -ed. Its past tense is a special word." },
+              { text: "draws", feedback: "The word draws tells about now or every day. Earlier today tells it already happened." },
+              { text: "will draw", feedback: "will draw tells that it has not happened yet. Earlier today tells it already happened." }
+            ],
+            clue: "Remember: some verbs do not add -ed for the past. They change to a new word, like go and went.",
+            reveal: "Let's find it together. Earlier today means it already happened. The past tense of draw is drew." },
+          /* Q9 -- stage 2 */
+          { stage: 1, std: ["GUM:G:irregular-past-verbs:M", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Last", "week,", "my", "uncle", "____", "a", "huge", "fish", "at", "the", "lake."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "caught", correct: true, feedback: "You found it! catch has a special past tense: caught." },
+              { text: "catched", feedback: "The word catched is not used in correct writing. catch does not add -ed. Its past tense is a special word." },
+              { text: "catches", feedback: "The word catches tells about now or every day. Last week tells it already happened." },
+              { text: "will catch", feedback: "will catch tells that it has not happened yet. Last week tells it already happened." }
+            ],
+            clue: "Remember: some verbs do not add -ed for the past. They change to a new word, like go and went.",
+            reveal: "Let's find it together. Last week means it already happened. The past tense of catch is caught." },
+          /* Q10 -- stage 2 */
+          { stage: 1, std: ["GUM:G:irregular-past-verbs:M", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Yesterday,", "the", "puppy", "____", "a", "hole", "under", "the", "fence."] },
+            question: "Which verb belongs in the blank?",
+            choices: [
+              { text: "dug", correct: true, feedback: "You found it! dig has a special past tense: dug." },
+              { text: "digged", feedback: "The word digged is not used in correct writing. dig does not add -ed. Its past tense is a special word." },
+              { text: "digs", feedback: "The word digs tells about now or every day. Yesterday tells it already happened." },
+              { text: "will dig", feedback: "will dig tells that it has not happened yet. Yesterday tells it already happened." }
+            ],
+            clue: "Remember: some verbs do not add -ed for the past. They change to a new word, like go and went.",
+            reveal: "Let's find it together. Yesterday means it already happened. The past tense of dig is dug." },
+          /* Q11 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.b", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Mia", "opened", "the", "box", "and", "____", "a", "puppy", "inside."] },
+            question: "Which verb keeps the same tense?",
+            choices: [
+              { text: "found", correct: true, feedback: "Great job! opened tells about the past, so the next verb stays in the same tense: found." },
+              { text: "finds", feedback: "The word finds tells about now. opened tells about the past, so keep the past tense." },
+              { text: "will find", feedback: "will find tells about the future. opened tells about the past, so keep the past tense." },
+              { text: "finding", feedback: "The word finding cannot be the verb by itself. It needs a helping verb. Match opened: found." }
+            ],
+            clue: "Remember: look at the first verb. Keep the next verb in the same tense.",
+            reveal: "Let's find it together. The first verb, opened, tells about the past. The verb that matches it is found." },
+          /* Q12 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.b", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Every", "morning,", "my", "dad", "makes", "breakfast", "and", "____", "the", "dishes."] },
+            question: "Which verb keeps the same tense?",
+            choices: [
+              { text: "washes", correct: true, feedback: "Great job! makes tells about every day, so the next verb stays in the same tense: washes." },
+              { text: "washed", feedback: "The word washed tells about the past. makes tells about every day, so keep the present tense." },
+              { text: "will wash", feedback: "will wash tells about the future. makes tells about every day, so keep the present tense." },
+              { text: "washing", feedback: "The word washing cannot be the verb by itself. It needs a helping verb. Match makes: washes." }
+            ],
+            clue: "Remember: look at the first verb. Keep the next verb in the same tense.",
+            reveal: "Let's find it together. The first verb, makes, tells about every day. The verb that matches it is washes." },
+          /* Q13 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.b", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["The", "cat", "jumped", "onto", "the", "couch", "and", "____", "asleep."] },
+            question: "Which verb keeps the same tense?",
+            choices: [
+              { text: "fell", correct: true, feedback: "Great job! jumped tells about the past, so the next verb stays in the same tense: fell." },
+              { text: "falls", feedback: "The word falls tells about now. jumped tells about the past, so keep the past tense." },
+              { text: "will fall", feedback: "will fall tells about the future. jumped tells about the past, so keep the past tense." },
+              { text: "falled", feedback: "The word falled is not used in correct writing. The past tense of fall is a special word: fell." }
+            ],
+            clue: "Remember: look at the first verb. Keep the next verb in the same tense.",
+            reveal: "Let's find it together. The first verb, jumped, tells about the past. The verb that matches it is fell." },
+          /* Q14 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.b", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Every", "afternoon,", "Leo", "walks", "the", "dog", "and", "____", "it", "a", "treat."] },
+            question: "Which verb keeps the same tense?",
+            choices: [
+              { text: "gives", correct: true, feedback: "Great job! walks tells about every day, so the next verb stays in the same tense: gives." },
+              { text: "gave", feedback: "The word gave tells about the past. walks tells about every day, so keep the present tense." },
+              { text: "will give", feedback: "will give tells about the future. walks tells about every day, so keep the present tense." },
+              { text: "giving", feedback: "The word giving cannot be the verb by itself. It needs a helping verb. Match walks: gives." }
+            ],
+            clue: "Remember: look at the first verb. Keep the next verb in the same tense.",
+            reveal: "Let's find it together. The first verb, walks, tells about every day. The verb that matches it is gives." },
+          /* Q15 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.b", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Yesterday,", "our", "class", "planted", "seeds", "and", "____", "them", "with", "water."] },
+            question: "Which verb keeps the same tense?",
+            choices: [
+              { text: "sprinkled", correct: true, feedback: "Great job! planted tells about the past, so the next verb stays in the same tense: sprinkled." },
+              { text: "sprinkles", feedback: "The word sprinkles tells about now. planted tells about the past, so keep the past tense." },
+              { text: "will sprinkle", feedback: "will sprinkle tells about the future. planted tells about the past, so keep the past tense." },
+              { text: "sprinkling", feedback: "The word sprinkling cannot be the verb by itself. It needs a helping verb. Match planted: sprinkled." }
+            ],
+            clue: "Remember: look at the first verb. Keep the next verb in the same tense.",
+            reveal: "Let's find it together. The first verb, planted, tells about the past. The verb that matches it is sprinkled." },
+          /* Q16 -- stage 4 */
+          { stage: 3, std: ["3.L.GC.2.b", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Yesterday,", "we", "went", "to", "the", "park", "and", "play", "soccer."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "Yesterday, we went to the park and played soccer.", correct: true, feedback: "You found it! Yesterday and went tell about the past, so played keeps the past tense." },
+              { text: "Yesterday, we went to the park and plays soccer.", feedback: "plays tells about now, and we plays does not match. Keep the past tense: played." },
+              { text: "Yesterday, we go to the park and played soccer.", feedback: "go tells about now. Yesterday tells about the past, so it should be went." },
+              { text: "Yesterday, we went to the park and will play soccer.", feedback: "will play tells about the future. Yesterday tells about the past." }
+            ],
+            clue: "Remember: Yesterday means the past. Every verb should tell about the past.",
+            reveal: "Let's fix it together. Yesterday tells about the past. went is past, so play should be played." },
+          /* Q17 -- stage 4 */
+          { stage: 3, std: ["GUM:G:irregular-past-verbs:M", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Last", "night,", "I", "eated", "three", "tacos", "for", "dinner."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "Last night, I eat three tacos for dinner.", feedback: "eat tells about now. Last night tells about the past." },
+              { text: "Last night, I ate three tacos for dinner.", correct: true, feedback: "Great job! The past tense of eat is ate." },
+              { text: "Last night, I will eat three tacos for dinner.", feedback: "will eat tells about the future. Last night tells about the past." },
+              { text: "Last night, I eats three tacos for dinner.", feedback: "eats tells about now, and I eats does not match. The past tense of eat is ate." }
+            ],
+            clue: "Remember: eat does not add -ed. Its past tense is a special word.",
+            reveal: "Let's fix it together. eated is not used in correct writing. The past tense of eat is ate." },
+          /* Q18 -- stage 4 */
+          { stage: 3, std: ["GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Tomorrow,", "my", "mom", "drove", "us", "to", "the", "library."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "Tomorrow, my mom drive us to the library.", feedback: "drive does not match my mom, and it does not tell about tomorrow. Tomorrow needs will." },
+              { text: "Tomorrow, my mom driving us to the library.", feedback: "driving cannot be the verb by itself. It needs a helping verb. Tomorrow needs will." },
+              { text: "Tomorrow, my mom will drive us to the library.", correct: true, feedback: "Nice thinking! Tomorrow tells about the future, so the verb is will drive." },
+              { text: "Tomorrow, my mom drove us to the library.", feedback: "drove tells about the past. Tomorrow tells about the future." }
+            ],
+            clue: "Remember: Tomorrow means the future. The future uses will.",
+            reveal: "Let's fix it together. Tomorrow tells it has not happened yet. drove is past, so it should be will drive." },
+          /* Q19 -- stage 4 */
+          { stage: 3, std: ["3.L.GC.2.b", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["Yesterday,", "the", "bird", "builds", "a", "nest", "and", "laid", "three", "eggs."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "Yesterday, the bird built a nest and laid three eggs.", correct: true, feedback: "You found it! built and laid both tell about the past, so the tense stays the same." },
+              { text: "Yesterday, the bird builds a nest and layed three eggs.", feedback: "layed is not used in correct writing, and builds tells about now. Yesterday needs both verbs in the past." },
+              { text: "Yesterday, the bird build a nest and laid three eggs.", feedback: "build does not match one bird, and it does not tell about the past." },
+              { text: "Yesterday, the bird builds a nest and will laid three eggs.", feedback: "will laid is not correct, and Yesterday needs both verbs in the past." }
+            ],
+            clue: "Remember: Yesterday means the past. Both verbs should tell about the past.",
+            reveal: "Let's fix it together. Yesterday tells about the past, and laid is already past. Change builds to built so both verbs tell about the past." },
+          /* Q20 -- stage 4 */
+          { stage: 3, std: ["GUM:G:irregular-past-verbs:M", "GUM:G:simple-verb-tenses:R"],
+            sentence: { words: ["My", "brother", "catched", "the", "ball", "and", "threw", "it", "back."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "My brother caught the ball and throwed it back.", feedback: "caught is right, but throwed is not used in correct writing. The past tense of throw is threw." },
+              { text: "My brother catched the ball and threw it back.", feedback: "catched is not used in correct writing. The past tense of catch is caught." },
+              { text: "My brother caught the ball and threw it back.", correct: true, feedback: "Great job! The past tense of catch is caught, and the past tense of throw is threw." },
+              { text: "My brother catches the ball and threw it back.", feedback: "catches tells about now and threw tells about the past. The tenses do not match." }
+            ],
+            clue: "Remember: catch does not add -ed. It has a special past tense.",
+            reveal: "Let's fix it together. catched is not used in correct writing. The past tense of catch is caught." }
+        ]
+      },
+
+      recap: "The tense of a verb tells when it happens. Use time words, and keep the tense the same.",
+
+      studyGuide: {
+        title: "Verb Tense Study Guide",
+        sections: [
+          { heading: "What it is", lines: ["The tense of a verb tells when something happens."] },
+          { heading: "Past: it already happened", chips: ["walked", "played", "jumped", "fixed"] },
+          { heading: "Present: now or every day", chips: ["walk", "walks", "play", "plays"] },
+          { heading: "Future: it has not happened yet", chips: ["will walk", "will play", "will jump"] },
+          { heading: "Special past tense words", chips: ["go: went", "eat: ate", "catch: caught", "throw: threw", "draw: drew", "dig: dug", "fall: fell", "find: found", "build: built", "lay: laid"] },
+          { heading: "Words to avoid", lines: ["eated, goed, catched, and throwed are not used in correct writing."] },
+          { heading: "Keep the tense the same", lines: ["Yes: We went to the lake and caught fish.", "No: We went to the lake and catch fish."] }
+        ],
+        reminder: "Look for time words, and keep every verb in a sentence in the same tense."
+      }
+    },
     /* ===================================================== */
     /* SUBJECT                                               */
     /* ===================================================== */
@@ -2077,6 +2800,371 @@ window.SS_LEARN_CONTENT = {
           { heading: "Joining words", chips: ["and", "but", "or", "so"] }
         ],
         reminder: "A comma alone cannot join two sentences. Use a period, or a comma and a joining word."
+      }
+    },
+
+    /* ===================================================== */
+    /* SUBJECT-VERB AGREEMENT  (Build 1.4)                   */
+    /* Georgia: 3.L.GC.2.c; GUM collective nouns (M),        */
+    /* prepositional phrases (C), verbs + -s/-es (R).        */
+    /* ===================================================== */
+    "agreement": {
+      name: "Subject-Verb Agreement",
+      badge: "dogs bark",
+      card: "Make the subject and verb match.",
+      color: "agreement",
+      standards: ["3.L.GC.2.c", "GUM:G:collective-abstract-nouns:M", "GUM:G:prepositional-phrases:C"],
+
+      definition: {
+        title: "What is subject-verb agreement?",
+        text: "The subject and the verb must match.",
+        list: [
+          "One: the verb usually ends in -s. The dog barks.",
+          "More than one, I, and you: no -s. The dogs bark. I run.",
+          "One goes with is and was. More than one goes with are and were. I goes with am."
+        ],
+        note: "Nouns are the opposite: dogs has an -s, but bark does not.",
+        sentence: {
+          words: ["The", "playful", "dog", "barks", "at", "the", "mail", "truck."],
+          marks: [
+            { start: 2, end: 2, kind: "subject", label: "ONE" },
+            { start: 3, end: 3, kind: "verb", label: "ENDS IN -S" }
+          ],
+          links: [{ from: 3, to: 2, text: "matches" }]
+        }
+      },
+
+      clue: {
+        title: "A clue for making them match",
+        text: "Find the subject first. Then ask: Is it one, or more than one?",
+        steps: [
+          "Find the verb.",
+          "Ask who or what to find the subject.",
+          "One or more than one? Make the verb match."
+        ],
+        warning: "Words in between can trick you. In this sentence the subject is boxes, not shelf.",
+        sentence: {
+          words: ["The", "boxes", "on", "the", "top", "shelf", "are", "heavy."],
+          marks: [
+            { start: 1, end: 1, kind: "subject", label: "SUBJECT" },
+            { start: 5, end: 5, kind: "noun", label: "NOT THE SUBJECT" },
+            { start: 6, end: 6, kind: "verb", label: "VERB" }
+          ],
+          links: [{ from: 6, to: 1, text: "matches" }]
+        }
+      },
+
+      example: {
+        title: "Let's match a subject with two parts",
+        text: "Two subjects joined by and are more than one.",
+        sentence: {
+          words: ["Maya", "and", "her", "brother", "walk", "to", "school", "together."],
+          marks: [
+            { start: 0, end: 0, kind: "subject", label: "SUBJECT" },
+            { start: 3, end: 3, kind: "subject", label: "SUBJECT" },
+            { start: 4, end: 4, kind: "verb", label: "NO -S" }
+          ]
+        },
+        points: [
+          "Maya and her brother are two people.",
+          "More than one goes with walk, not walks.",
+          "A word for a group, like team or flock, is one group: The team is ready."
+        ]
+      },
+
+      /* -----------------------------------------------------------------
+         SUBJECT-VERB AGREEMENT — 20-QUESTION GUIDED BANK (Build 1.4)
+         Stage 1 one or more than one · Stage 2 am/is/are, including a
+         subject joined by "and" and a collective noun · Stage 3 a phrase
+         between the subject and the verb (the noun right before the blank
+         is the trap) · Stage 4 choose the correctly written sentence.
+         Action-verb choices are present tense only (V-s, V, V-ing, to V),
+         so no other tense can also be correct.
+         ----------------------------------------------------------------- */
+      tryItBank: {
+        recap: "You practiced making subjects and verbs match in 20 different sentences, even when other words got in the way.",
+        stages: [
+          { name: "Get Started", desc: "Is the subject one, or more than one?",
+            mark: "⭐", milestoneTitle: "Get Started complete!",
+            milestoneLine: "You matched verbs to subjects that were one or more than one.", nextStage: "Look Closer" },
+          { name: "Look Closer", desc: "Choose am, is, or are.",
+            mark: "🌟", milestoneTitle: "Look Closer complete!",
+            milestoneLine: "You chose am, is, and are, even for teams and pairs.", nextStage: "Think It Through" },
+          { name: "Think It Through", desc: "Skip the words between the subject and the verb.",
+            mark: "💪", milestoneTitle: "Think It Through complete!",
+            milestoneLine: "You found the real subject when other words got in the way.", nextStage: "Challenge Yourself" },
+          { name: "Challenge Yourself", desc: "Choose the sentence that is written correctly.",
+            mark: "🎉", milestoneTitle: "You practiced Subject-Verb Agreement 20 different ways!",
+            milestoneLine: "", nextStage: "" }
+        ],
+        questions: [
+          /* Q1 -- stage 1 */
+          { stage: 0, std: ["3.L.GC.2.c", "GUM:G:verbs-add-s-es:R"],
+            sentence: { words: ["The", "playful", "puppy", "____", "at", "the", "mail", "carrier."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "barks", correct: true, feedback: "Nice thinking! The word puppy means one, so the verb is barks." },
+              { text: "bark", feedback: "The word bark goes with more than one. The word puppy means one, so the verb needs -s." },
+              { text: "barking", feedback: "The word barking cannot be the verb by itself. It needs a helping verb. Choose the verb that matches puppy." },
+              { text: "to bark", feedback: "to bark cannot be the verb by itself. Choose the verb that matches puppy." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s.",
+            reveal: "Let's find it together. The subject is puppy. The word puppy means one, so the verb is barks." },
+          /* Q2 -- stage 1 */
+          { stage: 0, std: ["3.L.GC.2.c", "GUM:G:verbs-add-s-es:R"],
+            sentence: { words: ["My", "two", "cousins", "____", "to", "my", "school", "every", "day."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "walk", correct: true, feedback: "Nice thinking! The word cousins means more than one, so the verb is walk." },
+              { text: "walks", feedback: "The word walks goes with one. The word cousins means more than one, so the verb has no -s." },
+              { text: "walking", feedback: "The word walking cannot be the verb by itself. It needs a helping verb. Choose the verb that matches cousins." },
+              { text: "to walk", feedback: "to walk cannot be the verb by itself. Choose the verb that matches cousins." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s.",
+            reveal: "Let's find it together. The subject is cousins. The word cousins means more than one, so the verb is walk." },
+          /* Q3 -- stage 1 */
+          { stage: 0, std: ["3.L.GC.2.c", "GUM:G:verbs-add-s-es:R"],
+            sentence: { words: ["Our", "teacher", "____", "a", "new", "book", "to", "class", "every", "Friday."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "brings", correct: true, feedback: "Nice thinking! The word teacher means one, so the verb is brings." },
+              { text: "bring", feedback: "The word bring goes with more than one. The word teacher means one, so the verb needs -s." },
+              { text: "bringing", feedback: "The word bringing cannot be the verb by itself. It needs a helping verb. Choose the verb that matches teacher." },
+              { text: "to bring", feedback: "to bring cannot be the verb by itself. Choose the verb that matches teacher." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s.",
+            reveal: "Let's find it together. The subject is teacher. The word teacher means one, so the verb is brings." },
+          /* Q4 -- stage 1 */
+          { stage: 0, std: ["3.L.GC.2.c", "GUM:G:verbs-add-s-es:R"],
+            sentence: { words: ["The", "busy", "bees", "____", "from", "flower", "to", "flower."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "buzz", correct: true, feedback: "Nice thinking! The word bees means more than one, so the verb is buzz." },
+              { text: "buzzes", feedback: "The word buzzes goes with one. The word bees means more than one, so the verb has no -s." },
+              { text: "buzzing", feedback: "The word buzzing cannot be the verb by itself. It needs a helping verb. Choose the verb that matches bees." },
+              { text: "to buzz", feedback: "to buzz cannot be the verb by itself. Choose the verb that matches bees." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s.",
+            reveal: "Let's find it together. The subject is bees. The word bees means more than one, so the verb is buzz." },
+          /* Q5 -- stage 1 */
+          { stage: 0, std: ["3.L.GC.2.c", "GUM:G:verbs-add-s-es:R"],
+            sentence: { words: ["My", "grandfather", "____", "tomatoes", "in", "his", "backyard", "garden."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "grows", correct: true, feedback: "Nice thinking! The word grandfather means one, so the verb is grows." },
+              { text: "grow", feedback: "The word grow goes with more than one. The word grandfather means one, so the verb needs -s." },
+              { text: "growing", feedback: "The word growing cannot be the verb by itself. It needs a helping verb. Choose the verb that matches grandfather." },
+              { text: "to grow", feedback: "to grow cannot be the verb by itself. Choose the verb that matches grandfather." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s.",
+            reveal: "Let's find it together. The subject is grandfather. The word grandfather means one, so the verb is grows." },
+          /* Q6 -- stage 2 */
+          { stage: 1, std: ["3.L.GC.2.c"],
+            sentence: { words: ["I", "____", "ready", "for", "the", "spelling", "test", "today."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "is", feedback: "The word “is” goes with one person or thing, but never with I. I goes with am." },
+              { text: "are", feedback: "The word “are” goes with more than one, and with you. I goes with am." },
+              { text: "am", correct: true, feedback: "Great job! I goes with “am.”" },
+              { text: "be", feedback: "The word be cannot be the verb by itself here. Use am, is, or are." }
+            ],
+            clue: "Remember: I goes with am. One goes with is. More than one goes with are.",
+            reveal: "Let's find it together. The subject is I. I goes with “am.”" },
+          /* Q7 -- stage 2 */
+          { stage: 1, std: ["3.L.GC.2.c"],
+            sentence: { words: ["Maya", "and", "her", "brother", "____", "ready", "for", "the", "field", "trip."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "is", feedback: "The word “is” goes with one person or thing. The subject is Maya and her brother." },
+              { text: "are", correct: true, feedback: "Great job! Maya and her brother are two people, so the verb is “are.” Two people joined by and mean more than one." },
+              { text: "am", feedback: "The word “am” goes only with I. The subject is Maya and her brother." },
+              { text: "be", feedback: "The word be cannot be the verb by itself here. Use am, is, or are." }
+            ],
+            clue: "Remember: I goes with am. One goes with is. More than one goes with are.",
+            reveal: "Let's find it together. The subject is Maya and her brother. Maya and her brother are two people, so the verb is “are.”" },
+          /* Q8 -- stage 2 */
+          { stage: 1, std: ["3.L.GC.2.c", "GUM:G:collective-abstract-nouns:M"],
+            sentence: { words: ["Our", "soccer", "team", "____", "ready", "for", "the", "big", "game."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "is", correct: true, feedback: "Great job! The word team means one, so the verb is “is.” A team is one group, even though it has many players." },
+              { text: "are", feedback: "The word “are” goes with more than one, and with you. The subject is team." },
+              { text: "am", feedback: "The word “am” goes only with I. The subject is team." },
+              { text: "be", feedback: "The word be cannot be the verb by itself here. Use am, is, or are." }
+            ],
+            clue: "Remember: I goes with am. One goes with is. More than one goes with are.",
+            reveal: "Let's find it together. The subject is team. The word team means one, so the verb is “is.”" },
+          /* Q9 -- stage 2 */
+          { stage: 1, std: ["3.L.GC.2.c"],
+            sentence: { words: ["My", "best", "friends", "____", "funny", "and", "kind", "to", "everyone."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "is", feedback: "The word “is” goes with one person or thing. The subject is friends." },
+              { text: "are", correct: true, feedback: "Great job! The word friends means more than one, so the verb is “are.”" },
+              { text: "am", feedback: "The word “am” goes only with I. The subject is friends." },
+              { text: "be", feedback: "The word be cannot be the verb by itself here. Use am, is, or are." }
+            ],
+            clue: "Remember: I goes with am. One goes with is. More than one goes with are.",
+            reveal: "Let's find it together. The subject is friends. The word friends means more than one, so the verb is “are.”" },
+          /* Q10 -- stage 2 */
+          { stage: 1, std: ["3.L.GC.2.c"],
+            sentence: { words: ["The", "library", "____", "quiet", "in", "the", "morning."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "is", correct: true, feedback: "Great job! The word library means one, so the verb is “is.”" },
+              { text: "are", feedback: "The word “are” goes with more than one, and with you. The subject is library." },
+              { text: "am", feedback: "The word “am” goes only with I. The subject is library." },
+              { text: "be", feedback: "The word be cannot be the verb by itself here. Use am, is, or are." }
+            ],
+            clue: "Remember: I goes with am. One goes with is. More than one goes with are.",
+            reveal: "Let's find it together. The subject is library. The word library means one, so the verb is “is.”" },
+          /* Q11 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.c", "GUM:G:prepositional-phrases:C"],
+            sentence: { words: ["The", "boxes", "on", "the", "top", "shelf", "____", "heavy."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "is", feedback: "The word “is” goes with one person or thing. The subject is boxes. shelf is right before the blank, but the subject is boxes." },
+              { text: "are", correct: true, feedback: "Great job! The word boxes means more than one, so the verb is “are.” shelf is right before the blank, but the subject is boxes." },
+              { text: "am", feedback: "The word “am” goes only with I. The subject is boxes. shelf is right before the blank, but the subject is boxes." },
+              { text: "be", feedback: "The word be cannot be the verb by itself here. Use am, is, or are." }
+            ],
+            clue: "Remember: I goes with am. One goes with is. More than one goes with are. Skip the words in between.",
+            reveal: "Let's find it together. The subject is boxes. The word boxes means more than one, so the verb is “are.”" },
+          /* Q12 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.c", "GUM:G:prepositional-phrases:C"],
+            sentence: { words: ["The", "girl", "with", "the", "red", "sneakers", "____", "very", "fast."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "runs", correct: true, feedback: "Nice thinking! The word girl means one, so the verb is runs. sneakers is right before the blank, but the subject is girl." },
+              { text: "run", feedback: "The word run goes with more than one. The word girl means one, so the verb needs -s. sneakers is right before the blank, but the subject is girl." },
+              { text: "running", feedback: "The word running cannot be the verb by itself. It needs a helping verb. Choose the verb that matches girl." },
+              { text: "to run", feedback: "to run cannot be the verb by itself. Choose the verb that matches girl." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s. Skip the words in between.",
+            reveal: "Let's find it together. The subject is girl. The word girl means one, so the verb is runs." },
+          /* Q13 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.c", "GUM:G:prepositional-phrases:C"],
+            sentence: { words: ["The", "flowers", "in", "the", "garden", "____", "in", "the", "spring."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "bloom", correct: true, feedback: "Nice thinking! The word flowers means more than one, so the verb is bloom. garden is right before the blank, but the subject is flowers." },
+              { text: "blooms", feedback: "The word blooms goes with one. The word flowers means more than one, so the verb has no -s. garden is right before the blank, but the subject is flowers." },
+              { text: "blooming", feedback: "The word blooming cannot be the verb by itself. It needs a helping verb. Choose the verb that matches flowers." },
+              { text: "to bloom", feedback: "to bloom cannot be the verb by itself. Choose the verb that matches flowers." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s. Skip the words in between.",
+            reveal: "Let's find it together. The subject is flowers. The word flowers means more than one, so the verb is bloom." },
+          /* Q14 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.c", "GUM:G:prepositional-phrases:C"],
+            sentence: { words: ["The", "leader", "of", "the", "scouts", "____", "kind", "to", "everyone."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "is", correct: true, feedback: "Great job! The word leader means one, so the verb is “is.” scouts is right before the blank, but the subject is leader." },
+              { text: "are", feedback: "The word “are” goes with more than one, and with you. The subject is leader. scouts is right before the blank, but the subject is leader." },
+              { text: "am", feedback: "The word “am” goes only with I. The subject is leader. scouts is right before the blank, but the subject is leader." },
+              { text: "be", feedback: "The word be cannot be the verb by itself here. Use am, is, or are." }
+            ],
+            clue: "Remember: I goes with am. One goes with is. More than one goes with are. Skip the words in between.",
+            reveal: "Let's find it together. The subject is leader. The word leader means one, so the verb is “is.”" },
+          /* Q15 -- stage 3 */
+          { stage: 2, std: ["3.L.GC.2.c", "GUM:G:prepositional-phrases:C"],
+            sentence: { words: ["The", "birds", "in", "the", "tall", "tree", "____", "every", "morning."] },
+            question: "Which verb matches the subject?",
+            choices: [
+              { text: "sing", correct: true, feedback: "Nice thinking! The word birds means more than one, so the verb is sing. tree is right before the blank, but the subject is birds." },
+              { text: "sings", feedback: "The word sings goes with one. The word birds means more than one, so the verb has no -s. tree is right before the blank, but the subject is birds." },
+              { text: "singing", feedback: "The word singing cannot be the verb by itself. It needs a helping verb. Choose the verb that matches birds." },
+              { text: "to sing", feedback: "to sing cannot be the verb by itself. Choose the verb that matches birds." }
+            ],
+            clue: "Remember: find the subject. One subject: the verb usually ends in -s. More than one: no -s. Skip the words in between.",
+            reveal: "Let's find it together. The subject is birds. The word birds means more than one, so the verb is sing." },
+          /* Q16 -- stage 4 */
+          { stage: 3, std: ["3.L.GC.2.c", "GUM:G:verbs-add-s-es:R"],
+            sentence: { words: ["The", "dogs", "barks", "at", "the", "squirrels", "every", "day."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "The dogs bark at the squirrels every day.", correct: true, feedback: "You found it! dogs is more than one, so the verb is bark." },
+              { text: "The dog bark at the squirrels every day.", feedback: "dog is one, so the verb needs -s: barks. Changing the subject made a new mistake." },
+              { text: "The dogs barking at the squirrels every day.", feedback: "barking cannot be the verb by itself. It needs a helping verb." },
+              { text: "The dogs is barks at the squirrels every day.", feedback: "is barks is not correct. dogs is more than one, so the verb is bark." }
+            ],
+            clue: "Remember: more than one goes with a verb that has no -s.",
+            reveal: "Let's fix it together. dogs is more than one. More than one goes with bark, not barks." },
+          /* Q17 -- stage 4 */
+          { stage: 3, std: ["3.L.GC.2.c", "GUM:G:verbs-add-s-es:R"],
+            sentence: { words: ["My", "sister", "play", "the", "piano", "after", "school."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "My sister playing the piano after school.", feedback: "playing cannot be the verb by itself. It needs a helping verb." },
+              { text: "My sister plays the piano after school.", correct: true, feedback: "Great job! sister is one, so the verb is plays." },
+              { text: "My sisters plays the piano after school.", feedback: "sisters is more than one, so the verb should be play. This made a new mistake." },
+              { text: "My sister are play the piano after school.", feedback: "are play is not correct. sister is one, so the verb is plays." }
+            ],
+            clue: "Remember: one subject goes with a verb that usually ends in -s.",
+            reveal: "Let's fix it together. sister is one. One goes with plays." },
+          /* Q18 -- stage 4 */
+          { stage: 3, std: ["3.L.GC.2.c", "GUM:G:prepositional-phrases:C"],
+            sentence: { words: ["The", "students", "in", "my", "class", "is", "ready", "for", "recess."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "The students in my class are ready for recess.", correct: true, feedback: "Nice thinking! The subject is students, not class. students is more than one, so the verb is are." },
+              { text: "The students in my class am ready for recess.", feedback: "am goes only with I. The subject is students." },
+              { text: "The student in my class are ready for recess.", feedback: "student is one, so the verb should be is. This made a new mistake." },
+              { text: "The students in my class be ready for recess.", feedback: "be cannot be the verb here. students is more than one, so the verb is are." }
+            ],
+            clue: "Remember: skip the words in between. Find the real subject.",
+            reveal: "Let's fix it together. The subject is students, not class. students is more than one, so it should be are." },
+          /* Q19 -- stage 4 */
+          { stage: 3, std: ["3.L.GC.2.c"],
+            sentence: { words: ["Ava", "and", "Ben", "was", "at", "the", "library", "yesterday."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "Ava and Ben were at the library yesterday.", correct: true, feedback: "You found it! Ava and Ben are two people, so the verb is were." },
+              { text: "Ava and Ben is at the library yesterday.", feedback: "is tells about now, and yesterday tells about the past. Two people also need were." },
+              { text: "Ava and Ben am at the library yesterday.", feedback: "am goes only with I. Ava and Ben are two people, so the verb is were." },
+              { text: "Ava and Ben be at the library yesterday.", feedback: "be cannot be the verb here. Ava and Ben are two people, so the verb is were." }
+            ],
+            clue: "Remember: was goes with one. were goes with more than one. Two names joined by and are more than one.",
+            reveal: "Let's fix it together. Ava and Ben are two people. More than one goes with were." },
+          /* Q20 -- stage 4 */
+          { stage: 3, std: ["3.L.GC.2.c", "GUM:G:collective-abstract-nouns:M", "GUM:G:prepositional-phrases:C"],
+            sentence: { words: ["The", "flock", "of", "geese", "fly", "south", "every", "fall."] },
+            question: "Which is the correct way to write this sentence?",
+            choices: [
+              { text: "The flock of geese flies south every fall.", correct: true, feedback: "Great job! The subject is flock, one group, so the verb is flies." },
+              { text: "The flock of geese flying south every fall.", feedback: "flying cannot be the verb by itself. It needs a helping verb." },
+              { text: "The flocks of geese flies south every fall.", feedback: "flocks is more than one, so the verb should be fly. This made a new mistake." },
+              { text: "The flock of geese are fly south every fall.", feedback: "are fly is not correct. The subject is flock, one group, so the verb is flies." }
+            ],
+            clue: "Remember: a word for a group, like flock or team, is one group. Skip the words in between.",
+            reveal: "Let's fix it together. The subject is flock, not geese. A flock is one group, so the verb is flies." }
+        ]
+      },
+
+      recap: "The subject and the verb must match. One goes with -s. More than one goes with no -s.",
+
+      studyGuide: {
+        title: "Subject-Verb Agreement Study Guide",
+        sections: [
+          { heading: "What it is", lines: ["The subject and the verb must match."] },
+          { heading: "One", chips: ["the dog barks", "she runs", "it is", "the team is"] },
+          { heading: "More than one", chips: ["the dogs bark", "they run", "they are", "Ava and Ben are"] },
+          { heading: "I and you", chips: ["I am", "I run", "you are", "you run"] },
+          { heading: "Was and were", chips: ["it was", "I was", "they were", "you were"] },
+          { heading: "How to check it", steps: ["Find the verb.", "Find the subject.", "One or more than one? Make the verb match."] },
+          {
+            heading: "Watch out for words in between",
+            sentence: {
+              words: ["The", "boxes", "on", "the", "top", "shelf", "are", "heavy."],
+              marks: [
+                { start: 1, end: 1, kind: "subject", label: "SUBJECT" },
+                { start: 6, end: 6, kind: "verb", label: "VERB" }
+              ],
+              links: [{ from: 6, to: 1, text: "matches" }]
+            }
+          }
+        ],
+        reminder: "Find the real subject first. One goes with -s. More than one goes with no -s."
       }
     }
   }
