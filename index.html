@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sentence Sense — Find it. Ask it. Understand it.</title>
-  <meta name="description" content="Sentence Sense helps elementary students understand how a whole sentence works: verbs, subjects, predicates, nouns, and adjectives.">
+  <meta name="description" content="Sentence Sense helps elementary students understand how a whole sentence works: verbs, subjects, predicates, nouns, pronouns, adjectives, adverbs, and complete sentences, aligned to Georgia's grade 3 ELA standards.">
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,12 +99,12 @@
 
       <div class="topics-body">
         <h2 id="topics-heading" class="stage-title" tabindex="-1">What do you want to learn?</h2>
-        <p class="topics-sub">Choose a topic to start learning.</p>
+        <p class="topics-sub" id="topics-sub">Choose a group of topics.</p>
 
-        <!-- Topic cards are built from js/data/learn-content.js -->
+        <!-- Build 1.3: unit cards, or the topic cards inside one unit, built from js/data/learn-content.js -->
         <div class="card-grid topic-grid" id="topic-grid"></div>
 
-        <section class="strategy-box" aria-labelledby="strategy-heading">
+        <section class="strategy-box" id="strategy-box" aria-labelledby="strategy-heading">
           <h3 class="strategy-heading" id="strategy-heading"></h3>
           <ol class="strategy-list" id="strategy-list"></ol>
           <p class="strategy-note" id="strategy-note"></p>
@@ -117,7 +117,7 @@
     </section>
 
     <!-- ================= LEARN: LESSON =================
-         One lesson runner for all six topics. Its content comes
+         One lesson runner for every topic. Its content comes
          from js/data/learn-content.js through js/learn.js. -->
     <section class="screen screen-lesson" id="screen-lesson" aria-labelledby="lesson-heading" data-topic="" hidden>
       <header class="app-header header-lesson">

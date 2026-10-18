@@ -1,17 +1,18 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.2.7**
-**Last pass:** Guided-bank engine hardening + responsive regression correction — 2026-09-08
+**Current build: Sentence Sense — Build 1.3**
+**Last pass:** Georgia grade 3 upgrade, part 1 — units, Pronoun, Adverb, Complete Sentence — 2026-10-18
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
 **This file describes the CURRENT shipped state only. Read it first.**
+**WHAT to teach is governed by `STANDARDS-ALIGNMENT.md` (Georgia grade 3). This file governs HOW.**
 
 ---
 
 ## 1. WHAT THIS PROJECT IS
 
 Sentence Sense teaches an elementary student — target **3rd grade, ages 8–9** —
-how a whole sentence works: verbs, subjects, complete subjects, predicates,
-nouns and adjectives. Static site: no database, no API, no accounts, no server
+how a whole sentence works, aligned to **Georgia's K-12 ELA Standards (grade 3)**
+and the **Georgia Milestones** EOG. Static site: no database, no API, no accounts, no server
 state. The only external request is the Google Fonts CDN.
 
 Two governing rules:
@@ -27,12 +28,12 @@ Two governing rules:
 ## 2. BUILD NUMBERING — EVERY PUSH GETS A NEW NUMBER
 
 **Every approved GitHub push increments the visible build number**, so the live
-site can be verified after GitHub Pages refreshes. Current: **Build 1.2.7**.
+site can be verified after GitHub Pages refreshes. Current: **Build 1.3**.
 
 It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.2.7";`
-2. the rendered badge — `Sentence Sense — Build 1.2.7`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.3";`
+2. the rendered badge — `Sentence Sense — Build 1.3`
 3. the audit file name and heading
 4. this handoff
 
@@ -42,20 +43,18 @@ It must match in four places, and the audit checks all four:
 
 | File | Role | Lines |
 |---|---|---|
-| `index.html` | All screens: home, topics, lesson, mode placeholder, guide overlay | 254 |
-| `css/styles.css` | Every style, numbered sections 1–11 | 984 |
-| `js/app.js` | Shell only: screen switching, Home/Back/Escape, build badge | 158 |
-| `js/learn.js` | Learn engine: topic screen, lesson runner, sentence component, Try It, **guided question bank**, Study Guide | 925 |
-| `js/data/learn-content.js` | **All instructional content**, including the Verb 20-question bank | 931 |
+| `index.html` | All screens: home, topics (units + unit views), lesson, mode placeholder, guide overlay | 254 |
+| `css/styles.css` | Every style, numbered sections 1–11 | 1029 |
+| `js/app.js` | Shell only: screen switching, Home/Back/Escape, build badge | 161 |
+| `js/learn.js` | Learn engine: **units/topic screen**, lesson runner, sentence component, Try It, **guided question bank**, Study Guide | 1018 |
+| `js/data/learn-content.js` | **All instructional content**: units, nine topics, four 20-question banks, standards tags | 2083 |
 | `assets/images/` | `logo.png` 1024×768 · `logo-512.png` · `favicon.png` — unmodified since 1.1.1 | — |
-| `AUDIT-REPORT-Build-1.2.7.md` | The current build audit — **the only one in the repo** | — |
+| `AUDIT-REPORT-Build-1.3.md` | The current build audit — **the only one in the repo** | — |
 | `SENTENCE-SENSE-HANDOFF.md` | This file, at the repo root | — |
+| `STANDARDS-ALIGNMENT.md` | **The curriculum spec**: Georgia grade 3 scope, GUM codes, target topics, build sequence, content rules | — |
 
-`js/data/learn-content.js` is no longer byte-identical to 1.1.1: Build 1.2.5 added
-`verb.tryItBank`, Build 1.2.6 changed one word inside its Q20 sentence, and
-Build 1.2.7 added `tryItBank.recap` and removed the dead `verb.tryIt`.
-No question, answer, distractor, feedback, clue or reveal has ever been altered
-except the single Q20 word in 1.2.6.
+Pre-1.3 content is unchanged except for added `standards` / `std` tags. Existing
+questions, answers, distractors, feedback, clues and reveals were not altered.
 
 ---
 
@@ -98,20 +97,37 @@ except the single Q20 word in 1.2.6.
   four tab stops.
 - No login, profile, account, avatar, settings or gear icon anywhere.
 
-### Learn — COMPLETE for six topics; Verb runs a 20-question bank
+### Learn — nine topics in three units; four topics run a 20-question bank
 
-- Six topics, fixed order: **verb → subject → complete-subject → predicate →
-  noun → adjective**.
-- Topic screen: **3 × 2 desktop (≥901px) · 2 columns 601–900px · 1 column
-  ≤600px**. Each card is one button with three stacked levels: clue badge →
-  topic name → short description. Strategy reference sits below, subordinate.
-  Sub-line: *"Choose a topic to start learning."*
+- **Units (Build 1.3).** The topic screen has two views on one screen:
+  **units view** (one card per unit) → **unit view** (that unit's topic cards).
+
+  | Unit | Topics, in order |
+  |---|---|
+  | Words and Their Jobs | verb · noun · **pronoun** · adjective · **adverb** |
+  | Parts of a Sentence | subject · complete-subject · predicate (shows the strategy box) |
+  | Building Sentences | **complete-sentence** |
+
+  `C.units` defines them; `C.order` **must equal the units flattened in order**
+  (contentguard enforces it) and is what **Next topic** walks.
+- Navigation: Home → Learn always opens the **units view**. A unit's Back
+  button reads **All Units**. **All Topics** and **Escape** from a lesson return
+  to **that topic's unit**. Escape on a unit view → units view → Home.
+- Grids: **3 columns desktop (≥901px) · 2 columns 601–900px · 1 column ≤600px**
+  for both views. Each card is one button with stacked levels: clue badge →
+  name → short description (unit cards add a topic count).
 - **One design system, four steps, every topic:**
   DEFINITION *what is it?* → CLUE *how do I find it?* → EXAMPLE *show me* →
   TRY IT *can I find it?* The grammar changes; the rhythm does not.
 - **Plain sentence first, marked sentence second.** See Section 6.
-- **Verb Try It runs a 20-question guided cycle.** See Section 5b. The other
-  five topics still have ONE Try It question each.
+- **Verb, Pronoun, Adverb and Complete Sentence** run a 20-question guided
+  cycle. See Section 5b. Subject, Complete Subject, Predicate, Noun and
+  Adjective still have ONE Try It question each.
+- **Whole-sentence choices** (longest choice > 30 characters, e.g. Complete
+  Sentence Stage 4 *"Which is the best way to fix it?"*) render as one
+  left-aligned column at every width (`.tryit-choices.is-sentences`).
+- **Standards tags.** Every topic has `standards[]`; every question has `std[]`
+  (format in the header comment of `learn-content.js`). The engine ignores them.
 - Study Guide per topic: modal, focus-trapped **both** directions, Escape and
   backdrop close, focus returns to the `lesson-guide` button.
 - Completion: confetti, "You learned X!", a named topic badge, one recap line,
@@ -124,11 +140,12 @@ content, no scoring exists for any of them.
 
 ---
 
-## 5b. THE VERB GUIDED BANK (Build 1.2.5; Q20 reworded 1.2.6; engine hardened 1.2.7) — VERB ONLY
+## 5b. THE GUIDED BANKS (Verb 1.2.5; engine hardened 1.2.7; Pronoun, Adverb, Complete Sentence 1.3)
 
-Verb's Try It step runs a 20-question cycle. **No other topic has one yet.** A
-topic gets the cycle purely by having a `tryItBank` in `learn-content.js`; a
-topic without one keeps the single-question behaviour with no code change.
+Four topics run a 20-question cycle. A topic gets the cycle purely by having a
+`tryItBank` in `learn-content.js`; a topic without one keeps the single-question
+behaviour with no code change. The Verb stages are shown below; each new bank's
+stage plan is described in its own content comment and in AUDIT-REPORT-Build-1.3 §2b.
 
 | Stage | Qs | Name | Focus |
 |---|---|---|---|
@@ -162,9 +179,10 @@ kept, matching the rest of Learn.
 **Nothing is persisted.** Leaving via Home or All Topics and reopening Verb
 starts fresh at Definition. `localStorage` and `sessionStorage` stay empty.
 
-**The engine is reusable but deliberately unpopulated.** To give another topic a
-cycle, add its own `tryItBank` — do not generalise further until that content is
-approved.
+**The engine is reused, not generalised.** To give another topic a cycle, add
+its own `tryItBank`. Complete Sentence's bank is generated by a script (kept with
+the harnesses) so its four fixed choices and per-sentence feedback stay consistent;
+if you hand-edit it, keep the four choice texts identical across Stages 1–3.
 
 **Being-verb sentences must not read as passive (Build 1.2.6).** In Stage 4 the
 being verb is the answer, so the word right after `is / are / was / were`
@@ -247,8 +265,9 @@ shown once, unlabelled.
 
 ## 7. SENTENCE DIFFICULTY STANDARD (for future content)
 
-Not yet applied to existing sentences. Applies to the 20-question banks and any
-new Learn sentence.
+Applies to the 20-question banks and any new Learn sentence. Content rules for
+grade level (no NYI skills, one error per fix-it item, the -ly trap) are in
+`STANDARDS-ALIGNMENT.md` §8.
 
 **Target:** readable by a typical 3rd grader, moderately challenging, rich enough
 to require real grammar thinking.
@@ -311,6 +330,11 @@ measures 4.25 and every brighter option fails.
 `--c-adjective` (`#B4530F`) for adjective **marks** was deliberately not
 brightened — those sit on a light ground, where brighter means less contrast.
 
+**Added in 1.3:** Pronoun `#5E2D86 → #7B3FA6` (noun family), Adverb
+`#8E2350 → #B02E63`, Complete Sentence `#12325B → #2B5A94`; marks `--c-pronoun`
+`#7B3FA6`, `--c-adverb` `#B02E63`, `--c-complete-sentence` `#1F4A80`. Unit cards
+reuse existing gradients only. Contrast figures are in AUDIT-REPORT-Build-1.3 §2d.
+
 Do not add new colours for variety.
 
 **Type scale is gated on width AND height — BOTH wide breakpoints.**
@@ -329,8 +353,8 @@ Do not add new colours for variety.
 
 ## 11. DEFECT LEDGER
 
-This ledger is the current truth as of Build 1.2.7 and matches
-`AUDIT-REPORT-Build-1.2.7.md`. Statuses here supersede any wording in an earlier
+This ledger is the current truth as of Build 1.3 and matches
+`AUDIT-REPORT-Build-1.3.md`. Statuses here supersede any wording in an earlier
 audit.
 
 ### Open
@@ -341,6 +365,11 @@ audit.
 | **D-26** | **OPEN / DEFERRED.** The build badge can fall below the fold across multiple device classes and states, including some desktop screens. This is deployment/debug metadata, not instructional content and not a child control. Broad fixed-position treatment is deliberately avoided because it risks reopening **D-21**. Defer unless deployment verification becomes materially difficult. | 4 |
 | **D-20** | **OPEN.** Abstract nouns are **defined and illustrated** — the Noun definition names *idea*, shows a fourth chip group (*love · joy · hope · freedom*) and carries the note *"An idea is something you cannot touch, like joy or hope. It is still a noun."*, and the Clue asks *"An idea?"*. What is missing is the **demonstration**: no abstract noun appears inside a marked sentence, and Try It never asks about one. They are not missing — they are untested and undemonstrated. | 3 |
 | **D-35** | **OPEN / DEFERRED.** The Study Guide's background is not marked `inert` or `aria-hidden`, so assistive technology that ignores `aria-modal` could reach behind the overlay. Mitigated: the two-way focus trap works (10/10 forward, 10/10 reverse) and `#guide-panel` carries `role="dialog" aria-modal="true"`. Do not fix without real screen-reader testing. | 4 |
+
+| **D-37** | **NEW in 1.3, OPEN.** Kid-facing feedback lines start with a lowercase target word (*"playful tells what kind…"*). Predates 1.3 and runs through every topic. Fix needs an owner decision: rewrite ~300 strings, or have the engine style the target word. | 4 |
+
+**D-11** is closed as changed by design in 1.3 — the six-card portal it described
+was replaced by units.
 
 **What D-27 is NOT.** It is not a requirement that every Next button fit without
 scrolling. Scrolling on a phone is normal. The concern is narrower: a required
@@ -401,6 +430,10 @@ D-11 · D-13 (design behaviour). See the table above.
 - **L-05 — No testing with a child.** Whether a third grader stays engaged for
   20 questions is not something this audit can answer.
 - **L-06 — Chromium only.**
+- **L-07 — (1.3) The §12c harnesses live on the owner's machine** and were not run
+  for 1.3. Build 1.3 shipped with `contentguard.js`, `browserguard.py` and
+  `foldcheck.py` instead (see §12c). Harnesses that assume six topic cards on the
+  topic screen will now see three unit cards.
 
 ## 12. BUILD BADGE — HOW IT WORKS
 
@@ -466,6 +499,9 @@ Run these before any delivery. All live outside the project ZIP.
 | **`respguard.js`** (11 checks) | **D** 18 viewports × 3 topics × 4 steps, width **and** height, phones and phone-landscape included · **E** non-monotonic width pairs **plus a CSS lint** that fails any ≥1500px media query enlarging type without a `min-height` guard · **F** control visibility measuring `pxBelowFold`, `scrollHeight`, viewport height and fold-cut, reporting **false bottoms separately from ordinary scrolling** | D-28 and the whole D-22 family; D-27 regressions |
 | **`stateguard.js`** (48 checks) | state leakage, rapid input, accessibility | double-click, stale state, focus loss |
 | `bank.js` (33) · `func.js` (19) · `q20.js` (31) · `exact.js` (16) · `checks.js` (26) · `place.js` | bank engine · Learn engine · Q20 + 20-question integrity · plain→marked · Home/build/assets · §12b placement | — |
+| **`contentguard.js`** (1.3, ~2490 checks) | every content spec and question across ALL topics: units↔order, ranges, one correct, feedback names the word, clue/reveal, being-verb rule, NYI terms, CSS for every colour and mark kind, **std-tag coverage report** | a malformed bank, an orphaned topic, a missing colour rule, an NYI skill creeping in |
+| **`browserguard.py`** (1.3, ~2557 checks) | unit navigation, every topic walked to completion, escalation, choice shuffle per bank, 9-viewport overflow + §12b gap, sentence-choice column, console errors, storage | navigation regressions, D-29/D-30/D-36 returning on new banks |
+| **`foldcheck.py`** (1.3) | Next above the fold on every step of every topic at six desktop sizes | a dense new lesson pushing controls below the fold |
 
 **The CSS lint in `respguard.js` §E is the durable guard for the D-22/D-28
 family.** It reports `FAIL — unguarded: (min-width:1600px)` against Build 1.2.6
@@ -534,11 +570,12 @@ Sentence-Sense.zip
 ├── js/app.js · js/learn.js · js/data/learn-content.js
 ├── assets/images/logo.png · logo-512.png · favicon.png
 ├── SENTENCE-SENSE-HANDOFF.md
+├── STANDARDS-ALIGNMENT.md
 └── AUDIT-REPORT-Build-<n>.md
 ```
 
 **PROJECT ZIP — keep only:** `index.html` · `css/` · `js/` · `assets/images/` ·
-`SENTENCE-SENSE-HANDOFF.md` · **the CURRENT audit only**. Ten files, nothing else.
+`SENTENCE-SENSE-HANDOFF.md` · `STANDARDS-ALIGNMENT.md` · **the CURRENT audit only**. Eleven files, nothing else.
 
 **Never in the project ZIP:** historical audits · screenshots · `GIT-COMMANDS.md`
 · startup verification reports · test harnesses · Playwright scripts · temporary
@@ -552,22 +589,25 @@ the rest.
 Gate before zipping — the first must print nothing, the second must print `1`:
 
 ```
-find . -type f | grep -vE '^\./(index\.html|css/styles\.css|js/(app|learn)\.js|js/data/learn-content\.js|assets/images/.*\.png|AUDIT-REPORT-Build-.*\.md|SENTENCE-SENSE-HANDOFF\.md)$'
+find . -type f | grep -vE '^\./(index\.html|css/styles\.css|js/(app|learn)\.js|js/data/learn-content\.js|assets/images/.*\.png|AUDIT-REPORT-Build-.*\.md|SENTENCE-SENSE-HANDOFF\.md|STANDARDS-ALIGNMENT\.md)$'
 ls AUDIT-REPORT-Build-*.md | wc -l
 ```
 
 ---
 
-## 14. NEXT — NOT STARTED
+## 14. NEXT
 
-- **Subject, Complete Subject, Predicate, Noun and Adjective question banks.**
-  Only Verb has one. Each still has a single Try It question.
-- **Practice Mode** — not designed, not stubbed beyond the placeholder.
-- **Break It Down Mode**, **Test Mode**.
-- Scoring, timers, streaks, accounts, persistent progress, APIs, databases —
-  none of these exist and none are planned for Learn.
-- Build 1.3.
+Follow `STANDARDS-ALIGNMENT.md` §6:
+
+- **Build 1.4** — Verb Tense, Helping & Linking Verbs, Subject-Verb Agreement
+  (3.L.GC.2.b, 3.L.GC.2.c; GUM irregular past **M**).
+- 1.5 Conjunction, Compound, Complex, Four Kinds · 1.6 Kinds of Nouns,
+  Preposition, Comparing · 1.7 Punctuation & Capitals unit · 1.8+ Test mode
+  (Milestones item formats, end-of-test summary by skill, nothing persisted —
+  approved 2026-10-18), then Practice and Break It Down.
+- Banks still owed: Subject, Complete Subject, Predicate, Noun, Adjective.
+- Decide D-37.
 
 ---
 
-*End of handoff. Last updated 2026-09-08 for Build 1.2.7.*
+*End of handoff. Last updated 2026-10-18 for Build 1.3.*

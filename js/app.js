@@ -1,6 +1,6 @@
 /* =========================================================
    Sentence Sense — Find it. Ask it. Understand it.
-   Build 1.2.7 — SHELL + HOME PORTAL + LEARN MODE ROUTING.
+   Build 1.3 — SHELL + HOME PORTAL + LEARN MODE ROUTING.
 
    Every approved push increments this visible build number so the live
    GitHub Pages site can be verified after it refreshes.
@@ -29,7 +29,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.2.7";
+  const BUILD_NUMBER = "Build 1.3";
 
   /* ---------- Approved modes (home screen shows exactly these four) ---------- */
   /* Build 1.1: "learn" is no longer a placeholder — the Learn card now
@@ -88,7 +88,8 @@
 
   function openMode(key) {
     /* Build 1.1: Learn has a real destination now. */
-    if (key === "learn") { window.SS_LEARN.openTopics(); return; }
+    /* Build 1.3: Home always opens Learn at the units view. */
+    if (key === "learn") { window.SS_LEARN.openLearn(); return; }
 
     const mode = MODES[key];
     if (!mode) return;
@@ -132,7 +133,9 @@
       if (e.key !== "Escape") return;
       if (window.SS_LEARN && window.SS_LEARN.guideIsOpen()) { window.SS_LEARN.closeGuide(); return; }
       if (state.screen === "lesson") { window.SS_LEARN.openTopics(); return; }
-      if (state.screen === "topics" || state.screen === "mode") goHome();
+      /* Build 1.3: on the topic screen Escape steps out of a unit first. */
+      if (state.screen === "topics") { window.SS_LEARN.topicsBack(); return; }
+      if (state.screen === "mode") goHome();
     });
 
     /* The shell exposes only what Learn Mode needs: screen switching

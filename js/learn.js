@@ -1,7 +1,7 @@
 /* =========================================================
-   Sentence Sense — Learn Mode engine (Build 1.1.1)
+   Sentence Sense — Learn Mode engine (Build 1.1.1; units added in Build 1.3)
 
-   ONE lesson system, used by all six topics. This file contains
+   ONE lesson system, used by every topic. This file contains
    rendering and interaction only. Every word a child reads comes
    from js/data/learn-content.js — there is no grammar, no answer
    and no feedback text in this file.
@@ -268,22 +268,76 @@
   /* =========================================================
      3. TOPIC SCREEN
      ========================================================= */
+  /* Build 1.3 — UNITS. The Georgia grade 3 alignment (STANDARDS-ALIGNMENT.md)
+     grows Learn from six topics toward about twenty-six, which a single 3 x 2
+     grid cannot hold. The topic screen now has two views on ONE screen:
+
+       UNITS VIEW  — one card per unit ("Words and Their Jobs", ...)
+       UNIT VIEW   — the topic cards inside the chosen unit
+
+     Both views reuse the same card component (.pick-card / .topic-card), so a
+     unit card and a topic card are the same kind of choice: one button, three
+     stacked levels. Units come from `C.units`; C.order stays the single
+     flattened sequence that "Next topic" walks. */
+  const topicsView = { unit: null };
+
+  function unitOf(topicKey) {
+    const u = (C.units || []).find(x => x.topics.indexOf(topicKey) !== -1);
+    return u ? u.key : null;
+  }
+
+  function topicCard(key) {
+    const t = C.topics[key];
+    const card = make("button", "pick-card topic-card topic-" + t.color);
+    card.type = "button";
+    card.dataset.topic = key;
+    card.appendChild(make("span", "topic-badge", t.badge));
+    card.appendChild(make("span", "pick-name", t.name));
+    card.appendChild(make("span", "pick-sub", t.card));
+    card.addEventListener("click", () => openTopic(key));
+    return card;
+  }
+
+  function unitCard(u) {
+    const card = make("button", "pick-card topic-card unit-card unit-" + u.color);
+    card.type = "button";
+    card.dataset.unit = u.key;
+    card.appendChild(make("span", "topic-badge", u.badge));
+    card.appendChild(make("span", "pick-name", u.name));
+    card.appendChild(make("span", "pick-sub", u.card));
+    const n = u.topics.length;
+    card.appendChild(make("span", "unit-count", n + (n === 1 ? " topic" : " topics")));
+    card.addEventListener("click", () => openUnit(u.key));
+    return card;
+  }
+
   function buildTopicScreen() {
     const grid = el("topic-grid");
     clear(grid);
+    const unit = topicsView.unit
+      ? (C.units || []).find(x => x.key === topicsView.unit) : null;
 
-    C.order.forEach(key => {
-      const t = C.topics[key];
-      const card = make("button", "pick-card topic-card topic-" + t.color);
-      card.type = "button";
-      card.dataset.topic = key;
-      card.appendChild(make("span", "topic-badge", t.badge));
-      card.appendChild(make("span", "pick-name", t.name));
-      card.appendChild(make("span", "pick-sub", t.card));
-      card.addEventListener("click", () => openTopic(key));
-      grid.appendChild(card);
-    });
+    if (unit) {
+      el("topics-heading").textContent = unit.name;
+      el("topics-sub").textContent = "Choose a topic to start learning.";
+      grid.classList.remove("unit-grid");
+      unit.topics.forEach(key => grid.appendChild(topicCard(key)));
+      el("topics-back").lastChild.textContent = " All Units";
+    } else if (C.units && C.units.length) {
+      el("topics-heading").textContent = "What do you want to learn?";
+      el("topics-sub").textContent = "Choose a group of topics.";
+      grid.classList.add("unit-grid");
+      C.units.forEach(u => grid.appendChild(unitCard(u)));
+      el("topics-back").lastChild.textContent = " Back";
+    } else {
+      C.order.forEach(key => grid.appendChild(topicCard(key)));
+    }
 
+    /* The strategy describes how the sentence-part topics fit together. It
+       belongs beside the "Parts of a Sentence" unit and on the units view,
+       not inside every unit. */
+    const showStrategy = !unit || unit.showStrategy;
+    el("strategy-box").hidden = !showStrategy;
     el("strategy-heading").textContent = C.strategy.heading;
     const list = el("strategy-list");
     clear(list);
@@ -291,14 +345,44 @@
     el("strategy-note").textContent = C.strategy.note;
   }
 
+  function showTopicsScreen() {
+    buildTopicScreen();
+    window.SS_SHELL.showScreen("topics");
+    el("topics-heading").focus();
+  }
+
+  function openUnit(unitKey) {
+    topicsView.unit = unitKey;
+    showTopicsScreen();
+  }
+
+  /* Leaving a lesson returns to the unit that holds that topic, so "All
+     Topics" means the topics the child was just choosing among. Called with
+     no topic (from Home) it opens the units view. */
   function openTopics() {
     /* Leaving Learn ends the session: the milestone screen must not survive
        into the next topic the child opens. */
     el("lesson-milestone").hidden = true;
     lesson.milestoneStage = -1;
+    topicsView.unit = lesson.topicKey ? unitOf(lesson.topicKey) : null;
     lesson.topicKey = null;
-    window.SS_SHELL.showScreen("topics");
-    el("topics-heading").focus();
+    showTopicsScreen();
+  }
+
+  /* Back from the topic screen: a unit view steps out to the units view;
+     the units view goes Home. Escape uses the same rule. */
+  function topicsBack() {
+    if (topicsView.unit) { topicsView.unit = null; showTopicsScreen(); return; }
+    window.SS_SHELL.goHome();
+  }
+
+  /* Home always opens Learn at the units view. */
+  function openLearn() {
+    lesson.topicKey = null;
+    topicsView.unit = null;
+    el("lesson-milestone").hidden = true;
+    lesson.milestoneStage = -1;
+    showTopicsScreen();
   }
 
   /* =========================================================
@@ -583,6 +667,10 @@
     clear(host);
     const longest = q.choices.reduce((n, c) => Math.max(n, c.text.length), 0);
     host.classList.toggle("is-wide", longest > 12);
+    /* Build 1.3: a choice can now be a whole sentence ("Which is the best way
+       to fix this?"). Whole-sentence choices stack in one left-aligned column
+       so each reads as a sentence, never as a wrapped button label. */
+    host.classList.toggle("is-sentences", longest > 30);
 
     /* Build 1.2.7 (D-29): the choices are shuffled at RENDER time, so choice
        position carries no answer signal. Before this, choices rendered in data
@@ -724,6 +812,7 @@
     clear(host);
     const longest = block.choices.reduce((n, c) => Math.max(n, c.text.length), 0);
     host.classList.toggle("is-wide", longest > 12);
+    host.classList.toggle("is-sentences", longest > 30);
     block.choices.forEach(choice => {
       const btn = make("button", "tryit-choice");
       btn.type = "button";
@@ -881,7 +970,7 @@
   function init() {
     buildTopicScreen();
 
-    el("topics-back").addEventListener("click", () => window.SS_SHELL.goHome());
+    el("topics-back").addEventListener("click", topicsBack);
     el("topics-home").addEventListener("click", () => window.SS_SHELL.goHome());
 
     el("lesson-prev").addEventListener("click", prevStep);
@@ -917,6 +1006,10 @@
                         total: lesson.bankOrder.length }),
     openTopics,
     openTopic,
+    openLearn,
+    openUnit,
+    topicsBack,
+    topicsView,
     closeGuide,
     guideIsOpen,
     backFromLesson: openTopics,
