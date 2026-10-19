@@ -338,10 +338,19 @@
      A wrong choice explains that word's real job in THIS sentence
      and invites another look. The child may try again.
      ========================================================= */
+  /* Build 1.6.0 — HELP ME in Learn, the same ladder Practice uses:
+     Help 1 the clue, Help 2 narrow to two, Help 3 walk through it with the
+     answer outlined -- and the child still taps it. Asking is never an
+     error. Only a Let me try block carrying `clue` and `reveal` offers it. */
+  const tryHelp = { block: null, step: 0 };
+
   function clearTry() {
     clear(el("try-sentence"));
     clear(el("try-choices"));
     el("try-question").textContent = "";
+    tryHelp.block = null; tryHelp.step = 0;
+    const hb = el("try-help");
+    if (hb) hb.remove();
     const fb = el("try-feedback");
     fb.hidden = true;
     fb.className = "answer-feedback";
@@ -357,13 +366,59 @@
     const longest = block.choices.reduce((n, c) => Math.max(n, c.text.length), 0);
     host.classList.toggle("is-wide", longest > 12);
 
-    block.choices.forEach(choice => {
+    block.choices.forEach((choice, ci) => {
       const btn = make("button", "choice-btn");
       btn.type = "button";
+      btn.dataset.ci = String(ci);
       btn.textContent = choice.text;
       btn.addEventListener("click", () => answerTry(btn, choice));
       host.appendChild(btn);
     });
+
+    tryHelp.block = block; tryHelp.step = 0;
+    if (block.clue && block.reveal) {
+      const hb = make("button", "nav-btn btn-help try-help", "Help me");
+      hb.type = "button";
+      hb.id = "try-help";
+      hb.addEventListener("click", tryHelpStep);
+      el("try-feedback").insertAdjacentElement("beforebegin", hb);
+    }
+  }
+
+  function tryFeedback(kind, label, lines) {
+    const fb = el("try-feedback");
+    clear(fb);
+    fb.hidden = false;
+    fb.className = "answer-feedback is-" + kind;
+    fb.appendChild(make("span", "fb-mark", kind === "right" ? "✓" : "✕"));
+    if (label) fb.appendChild(make("span", "fb-label", label));
+    const body = make("span", "fb-body");
+    lines.forEach((l, i) => body.appendChild(make("span", i ? "fb-again" : "fb-text", l)));
+    fb.appendChild(body);
+  }
+
+  function tryHelpStep() {
+    const block = tryHelp.block;
+    if (!block || lesson.answered || tryHelp.step >= 3) return;
+    tryHelp.step += 1;
+    const buttons = Array.prototype.slice.call(el("try-choices").querySelectorAll(".choice-btn"));
+    const ci = block.choices.findIndex(c => c.correct);
+    if (tryHelp.step === 1) {
+      tryFeedback("clue", "Hint 1 of 3", [block.clue]);
+    } else if (tryHelp.step === 2) {
+      const open = buttons.filter(b => !b.disabled && Number(b.dataset.ci) !== ci);
+      for (let i = open.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); const t = open[i]; open[i] = open[j]; open[j] = t;
+      }
+      open.slice(1).forEach(b => { b.disabled = true; b.classList.add("is-ruled-out"); });
+      tryFeedback("clue", "Hint 2 of 3", ["Some answers are crossed out. It is one of the two that are left.", block.clue]);
+    } else {
+      buttons.forEach(b => { if (Number(b.dataset.ci) === ci) b.classList.add("is-hint"); });
+      tryFeedback("clue", "Hint 3 of 3", [block.reveal, "Now tap the answer to keep going."]);
+    }
+    const hb = el("try-help");
+    if (hb) { hb.disabled = tryHelp.step >= 3; hb.textContent = tryHelp.step >= 3 ? "Help me" : "Help me (next hint)"; }
+    revealFeedback();
   }
 
   function answerTry(btn, choice) {
@@ -375,8 +430,9 @@
 
     if (choice.correct) {
       lesson.answered = true;
-      Array.prototype.forEach.call(buttons, b => { b.disabled = true; b.classList.remove("is-wrong"); });
+      Array.prototype.forEach.call(buttons, b => { b.disabled = true; b.classList.remove("is-wrong", "is-hint"); });
       btn.classList.add("is-right");
+      const hb = el("try-help"); if (hb) hb.disabled = true;
       fb.className = "answer-feedback is-right";
       fb.appendChild(make("span", "fb-mark", "✓"));
       const body = make("span", "fb-body");
@@ -393,7 +449,9 @@
     fb.appendChild(make("span", "fb-mark", "✕"));
     const body = make("span", "fb-body");
     body.appendChild(make("span", "fb-text", choice.feedback));
-    body.appendChild(make("span", "fb-again", "Have another look."));
+    body.appendChild(make("span", "fb-again",
+      (tryHelp.block && tryHelp.block.clue && tryHelp.step < 3)
+        ? "Try again, or press Help me for a hint." : "Have another look."));
     fb.appendChild(body);
 
     /* Disabling the chosen button drops focus to <body>. Move it to the

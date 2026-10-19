@@ -259,6 +259,9 @@ window.SS_LEARN_CONTENT = {
           words: ["The", "curious", "students", "studied", "the", "old", "map."]
         },
         question: "Which word tells what happened?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        clue: "Remember: ask yourself, What happened?",
+        reveal: "Let's find it together. studied tells what the students did, so studied is the verb.",
         choices: [
           { text: "curious", feedback: "curious tells what kind of students they are. It describes them. Look again for the word that tells what happened." },
           { text: "students", feedback: "students names who did the action. Ask yourself: what did the students do?" },
@@ -1334,6 +1337,9 @@ window.SS_LEARN_CONTENT = {
           words: ["The", "tall", "teacher", "wrote", "on", "the", "board."]
         },
         question: "The verb is wrote. Ask: Who wrote? Which word is the simple subject?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        clue: "Remember: find the verb, then use it to ask Who? or What?",
+        reveal: "Let's find it together. The verb is wrote. Who wrote? The teacher. So teacher is the simple subject.",
         choices: [
           { text: "tall", feedback: "tall describes the teacher. It is not the main subject word. Ask: Who wrote?" },
           { text: "teacher", correct: true, feedback: "Correct! The verb is wrote. Who wrote? The teacher. So teacher is the simple subject." },
@@ -1881,7 +1887,7 @@ window.SS_LEARN_CONTENT = {
       ask: "Names a person, place, thing, or idea.",
       icon: "book",
       preview: { words: ["The", "cat", "sat", "on", "the", "mat."], start: 1, end: 1 },
-      practice: "soon",
+      practice: "bank",
       test: "soon",
 
       definition: {
@@ -1936,6 +1942,9 @@ window.SS_LEARN_CONTENT = {
           words: ["The", "kind", "teacher", "works", "at", "a", "big", "school."]
         },
         question: "Which word names a place?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        clue: "Remember: ask about each word. Is it a person? A place? A thing?",
+        reveal: "Let's find it together. A school is a place, so school is the noun that names a place.",
         choices: [
           { text: "teacher", feedback: "teacher is a noun, but it names a person, not a place." },
           { text: "works", feedback: "works is the verb. It tells what the teacher does." },
@@ -1944,6 +1953,842 @@ window.SS_LEARN_CONTENT = {
         ]
       },
 
+
+      /* =====================================================
+         NOUN PRACTICE BANK (Build 1.6.0)
+         20 questions, four stages of five, inside what the Noun
+         Learn lesson teaches. Independently reviewed and audited before
+         release (see AUDIT-REPORT-Build-1.6.0.md).
+         ===================================================== */
+      tryItBank: {
+        "recap": "You practiced finding nouns that name people, places, things, and ideas in 20 sentences, even when a word could do more than one job.",
+        "stages": [
+          {
+            "name": "Get Started",
+            "desc": "Find the noun that names a person, place, or thing.",
+            "mark": "⭐",
+            "milestoneTitle": "Get Started complete!",
+            "milestoneLine": "You found nouns that name people, places, and things.",
+            "nextStage": "Look Closer"
+          },
+          {
+            "name": "Look Closer",
+            "desc": "Find the one noun among the choices.",
+            "mark": "🌟",
+            "milestoneTitle": "Look Closer complete!",
+            "milestoneLine": "You told nouns apart from verbs, adjectives, and adverbs.",
+            "nextStage": "Think It Through"
+          },
+          {
+            "name": "Think It Through",
+            "desc": "Find nouns that name an idea.",
+            "mark": "💪",
+            "milestoneTitle": "Think It Through complete!",
+            "milestoneLine": "You found nouns you cannot see or touch.",
+            "nextStage": "Challenge Yourself"
+          },
+          {
+            "name": "Challenge Yourself",
+            "desc": "Some words can do more than one job.",
+            "mark": "🎉",
+            "milestoneTitle": "You practiced Noun 20 different ways!",
+            "milestoneLine": "",
+            "nextStage": ""
+          }
+        ],
+        "questions": [
+          {
+            "stage": 0,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "friendly",
+                "nurse",
+                "gave",
+                "me",
+                "a",
+                "bright",
+                "sticker."
+              ]
+            },
+            "question": "Which word names a person?",
+            "choices": [
+              {
+                "text": "nurse",
+                "feedback": "Nice thinking! nurse names a person, so nurse is the noun we want.",
+                "correct": true
+              },
+              {
+                "text": "friendly",
+                "feedback": "The word friendly tells what kind of nurse. It describes a noun. Look for the word that names a person."
+              },
+              {
+                "text": "gave",
+                "feedback": "The word gave is the verb. It tells what happened. Look for the word that names a person."
+              },
+              {
+                "text": "sticker",
+                "feedback": "The word sticker is a noun, but it names a thing, not a person."
+              }
+            ],
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?",
+            "reveal": "Let's find it together. A nurse is a person, so nurse is the noun that names a person."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "We",
+                "swam",
+                "in",
+                "the",
+                "cool",
+                "lake",
+                "all",
+                "afternoon."
+              ]
+            },
+            "question": "Which word names a place?",
+            "choices": [
+              {
+                "text": "lake",
+                "feedback": "You found it! lake names a place, so lake is the noun we want.",
+                "correct": true
+              },
+              {
+                "text": "swam",
+                "feedback": "The word swam is the verb. It tells what we did. Look for the word that names a place."
+              },
+              {
+                "text": "cool",
+                "feedback": "The word cool tells what kind of lake. It describes a noun. Look for the word that names a place."
+              },
+              {
+                "text": "afternoon",
+                "feedback": "The word afternoon is a noun, but it names a time, not a place."
+              }
+            ],
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?",
+            "reveal": "Let's find it together. A lake is a place, so lake is the noun that names a place."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "Jada",
+                "carried",
+                "a",
+                "heavy",
+                "backpack",
+                "to",
+                "the",
+                "bus",
+                "stop."
+              ]
+            },
+            "question": "Which word names a thing?",
+            "choices": [
+              {
+                "text": "backpack",
+                "feedback": "Great job! backpack names a thing, so backpack is the noun we want.",
+                "correct": true
+              },
+              {
+                "text": "Jada",
+                "feedback": "The word Jada is a noun, but it names a person, not a thing."
+              },
+              {
+                "text": "carried",
+                "feedback": "The word carried is the verb. It tells what Jada did. Look for the word that names a thing."
+              },
+              {
+                "text": "heavy",
+                "feedback": "The word heavy tells what kind of backpack. It describes a noun. Look for the word that names a thing."
+              }
+            ],
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?",
+            "reveal": "Let's find it together. A backpack is a thing you can hold, so backpack is the noun that names a thing."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "Our",
+                "class",
+                "visited",
+                "a",
+                "huge",
+                "museum",
+                "last",
+                "spring."
+              ]
+            },
+            "question": "Which word names a place?",
+            "choices": [
+              {
+                "text": "museum",
+                "feedback": "Nice thinking! museum names a place, so museum is the noun we want.",
+                "correct": true
+              },
+              {
+                "text": "class",
+                "feedback": "The word class is a noun, but it names a group of people, not a place."
+              },
+              {
+                "text": "visited",
+                "feedback": "The word visited is the verb. It tells what the class did. Look for the word that names a place."
+              },
+              {
+                "text": "huge",
+                "feedback": "The word huge tells what kind of museum. It describes a noun. Look for the word that names a place."
+              }
+            ],
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?",
+            "reveal": "Let's find it together. A museum is a place you can visit, so museum is the noun that names a place."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "mail",
+                "carrier",
+                "brought",
+                "a",
+                "letter",
+                "for",
+                "Grandma."
+              ]
+            },
+            "question": "Which word names a thing?",
+            "choices": [
+              {
+                "text": "letter",
+                "feedback": "You found it! letter names a thing, so letter is the noun we want.",
+                "correct": true
+              },
+              {
+                "text": "carrier",
+                "feedback": "The word carrier is a noun, but it names a person, not a thing."
+              },
+              {
+                "text": "brought",
+                "feedback": "The word brought is the verb. It tells what the mail carrier did. Look for the word that names a thing."
+              },
+              {
+                "text": "Grandma",
+                "feedback": "The word Grandma is a noun, but it names a person, not a thing."
+              }
+            ],
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?",
+            "reveal": "Let's find it together. A letter is a thing you can hold, so letter is the noun that names a thing."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "tiny",
+                "kitten",
+                "chased",
+                "its",
+                "tail",
+                "happily."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "kitten",
+                "feedback": "Great job! kitten names an animal, a living thing, so kitten is a noun.",
+                "correct": true
+              },
+              {
+                "text": "tiny",
+                "feedback": "The word tiny tells what kind of kitten. It describes a noun, so it is an adjective."
+              },
+              {
+                "text": "chased",
+                "feedback": "The word chased is the verb. It tells what the kitten did."
+              },
+              {
+                "text": "happily",
+                "feedback": "The word happily tells how the kitten chased. It is an adverb, not a noun."
+              }
+            ],
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it.",
+            "reveal": "Let's find it together. You can say the kitten, and a kitten is a living thing. So kitten is the noun."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "My",
+                "cousins",
+                "laughed",
+                "loudly",
+                "at",
+                "the",
+                "silly",
+                "movie."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "cousins",
+                "feedback": "Nice thinking! cousins names people, so cousins is a noun.",
+                "correct": true
+              },
+              {
+                "text": "laughed",
+                "feedback": "The word laughed is the verb. It tells what my cousins did."
+              },
+              {
+                "text": "loudly",
+                "feedback": "The word loudly tells how they laughed. It is an adverb, not a noun."
+              },
+              {
+                "text": "silly",
+                "feedback": "The word silly tells what kind of movie. It describes a noun, so it is an adjective."
+              }
+            ],
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it.",
+            "reveal": "Let's find it together. Cousins are people, so cousins is the noun."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "Grandpa",
+                "slowly",
+                "painted",
+                "the",
+                "old",
+                "wooden",
+                "fence."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "Grandpa",
+                "feedback": "You found it! Grandpa names a person, so Grandpa is a noun.",
+                "correct": true
+              },
+              {
+                "text": "slowly",
+                "feedback": "The word slowly tells how Grandpa painted. It is an adverb, not a noun."
+              },
+              {
+                "text": "painted",
+                "feedback": "The word painted is the verb. It tells what Grandpa did."
+              },
+              {
+                "text": "old",
+                "feedback": "The word old tells what kind of fence. It describes a noun, so it is an adjective."
+              }
+            ],
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it.",
+            "reveal": "Let's find it together. Grandpa is a person, so Grandpa is the noun."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "Yesterday",
+                "the",
+                "busy",
+                "bakers",
+                "made",
+                "fresh",
+                "bread."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "bread",
+                "feedback": "Great job! bread names a thing, so bread is a noun.",
+                "correct": true
+              },
+              {
+                "text": "Yesterday",
+                "feedback": "The word Yesterday tells when. It is an adverb, not a noun."
+              },
+              {
+                "text": "busy",
+                "feedback": "The word busy tells what kind of bakers. It describes a noun, so it is an adjective."
+              },
+              {
+                "text": "made",
+                "feedback": "The word made is the verb. It tells what the bakers did."
+              }
+            ],
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it.",
+            "reveal": "Let's find it together. You can say the bread, and bread is a thing. So bread is the noun."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "She",
+                "quickly",
+                "wrapped",
+                "the",
+                "shiny",
+                "present",
+                "for",
+                "Dad."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "present",
+                "feedback": "Nice thinking! present names a thing here, a gift, so present is a noun.",
+                "correct": true
+              },
+              {
+                "text": "She",
+                "feedback": "The word She is a pronoun. It takes the place of a noun, but it is not a noun."
+              },
+              {
+                "text": "quickly",
+                "feedback": "The word quickly tells how she wrapped. It is an adverb, not a noun."
+              },
+              {
+                "text": "shiny",
+                "feedback": "The word shiny tells what kind of present. It describes a noun, so it is an adjective."
+              }
+            ],
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it.",
+            "reveal": "Let's find it together. You can say the present, and a present is a thing. So present is the noun."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "GUM:G:collective-abstract-nouns:M"
+            ],
+            "sentence": {
+              "words": [
+                "Our",
+                "team",
+                "showed",
+                "great",
+                "courage",
+                "during",
+                "the",
+                "hard",
+                "game."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "courage",
+                "feedback": "You found it! courage is an idea. You cannot touch it, but it is still a noun.",
+                "correct": true
+              },
+              {
+                "text": "team",
+                "feedback": "The word team is a noun, but it names a group of people you can see. An idea cannot be seen or touched."
+              },
+              {
+                "text": "showed",
+                "feedback": "The word showed is the verb. It tells what the team did."
+              },
+              {
+                "text": "great",
+                "feedback": "The word great tells what kind of courage. It describes a noun, so it is an adjective."
+              }
+            ],
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun.",
+            "reveal": "Let's find it together. You cannot see or touch courage, but it is something the team had. So courage is the noun that names an idea."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "GUM:G:collective-abstract-nouns:M"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "children",
+                "felt",
+                "joy",
+                "when",
+                "the",
+                "snow",
+                "began."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "joy",
+                "feedback": "Great job! joy is a feeling. You cannot touch it, so joy is a noun that names an idea.",
+                "correct": true
+              },
+              {
+                "text": "children",
+                "feedback": "The word children is a noun, but it names people you can see, not an idea."
+              },
+              {
+                "text": "felt",
+                "feedback": "The word felt is the verb. It tells what the children did."
+              },
+              {
+                "text": "snow",
+                "feedback": "The word snow is a noun, but it names a thing you can touch, not an idea."
+              }
+            ],
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun.",
+            "reveal": "Let's find it together. You cannot see or touch joy, but the children felt it. So joy is the noun that names an idea."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "GUM:G:collective-abstract-nouns:M"
+            ],
+            "sentence": {
+              "words": [
+                "My",
+                "grandmother",
+                "told",
+                "me",
+                "stories",
+                "full",
+                "of",
+                "hope."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "hope",
+                "feedback": "Nice thinking! hope is an idea. You cannot touch it, so hope is a noun that names an idea.",
+                "correct": true
+              },
+              {
+                "text": "grandmother",
+                "feedback": "The word grandmother is a noun, but it names a person, not an idea."
+              },
+              {
+                "text": "told",
+                "feedback": "The word told is the verb. It tells what my grandmother did."
+              },
+              {
+                "text": "stories",
+                "feedback": "The word stories is a noun, but you can hear or read stories. Look for the idea you cannot see or touch."
+              }
+            ],
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun.",
+            "reveal": "Let's find it together. You cannot see or touch hope, but the stories were full of it. So hope is the noun that names an idea."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "GUM:G:collective-abstract-nouns:M"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "kind",
+                "nurse",
+                "showed",
+                "patience",
+                "with",
+                "every",
+                "young",
+                "child."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "patience",
+                "feedback": "You found it! patience is an idea. You cannot touch it, so patience is a noun that names an idea.",
+                "correct": true
+              },
+              {
+                "text": "nurse",
+                "feedback": "The word nurse is a noun, but it names a person, not an idea."
+              },
+              {
+                "text": "showed",
+                "feedback": "The word showed is the verb. It tells what the nurse did."
+              },
+              {
+                "text": "young",
+                "feedback": "The word young tells what kind of child. It describes a noun, so it is an adjective."
+              }
+            ],
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun.",
+            "reveal": "Let's find it together. You cannot see or touch patience, but the nurse showed it. So patience is the noun that names an idea."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "GUM:G:collective-abstract-nouns:M"
+            ],
+            "sentence": {
+              "words": [
+                "We",
+                "learned",
+                "about",
+                "freedom",
+                "in",
+                "our",
+                "reading",
+                "lesson."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "freedom",
+                "feedback": "Great job! freedom is an idea. You cannot touch it, so freedom is a noun that names an idea.",
+                "correct": true
+              },
+              {
+                "text": "We",
+                "feedback": "The word We is a pronoun. It takes the place of a noun, but it is not a noun."
+              },
+              {
+                "text": "learned",
+                "feedback": "The word learned is the verb. It tells what we did."
+              },
+              {
+                "text": "lesson",
+                "feedback": "The word lesson is a noun, but it names a thing that happens in class, not an idea."
+              }
+            ],
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun.",
+            "reveal": "Let's find it together. You cannot see or touch freedom, but we learned about it. So freedom is the noun that names an idea."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "We",
+                "watched",
+                "the",
+                "bright",
+                "paint",
+                "dry",
+                "slowly."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "paint",
+                "feedback": "You found it! Here paint names a thing, the paint on the wall, so paint is a noun.",
+                "correct": true
+              },
+              {
+                "text": "watched",
+                "feedback": "The word watched is the verb. It tells what we did."
+              },
+              {
+                "text": "bright",
+                "feedback": "The word bright tells what kind of paint. It describes a noun, so it is an adjective."
+              },
+              {
+                "text": "slowly",
+                "feedback": "The word slowly tells how the paint dried. It is an adverb, not a noun."
+              }
+            ],
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
+            "reveal": "Let's find it together. You can say the paint, and here it names a thing. So paint is the noun, even though paint can also be a verb."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "We",
+                "watched",
+                "a",
+                "funny",
+                "play",
+                "together."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "play",
+                "feedback": "Nice thinking! Here play names a thing we watched, a show, so play is a noun.",
+                "correct": true
+              },
+              {
+                "text": "We",
+                "feedback": "The word We is a pronoun. It takes the place of a noun, but it is not a noun."
+              },
+              {
+                "text": "watched",
+                "feedback": "The word watched is the verb. It tells what we did."
+              },
+              {
+                "text": "funny",
+                "feedback": "The word funny tells what kind of play. It describes a noun, so it is an adjective."
+              }
+            ],
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
+            "reveal": "Let's find it together. You can say a play, and here it names a show we watched. So play is the noun, even though play can also be a verb."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "We",
+                "will",
+                "plant",
+                "seeds",
+                "tomorrow."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "seeds",
+                "feedback": "Great job! seeds names things, so seeds is a noun. plant is the verb here.",
+                "correct": true
+              },
+              {
+                "text": "plant",
+                "feedback": "Here plant tells what we will do. It is the verb in this sentence, not a noun."
+              },
+              {
+                "text": "will",
+                "feedback": "The word will is a helping verb. It helps the main verb plant."
+              },
+              {
+                "text": "tomorrow",
+                "feedback": "The word tomorrow tells when. It is an adverb, not a noun."
+              }
+            ],
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
+            "reveal": "Let's find it together. Here plant tells what we will do, so it is the verb. seeds names things, so seeds is the noun."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "Please",
+                "water",
+                "the",
+                "thirsty",
+                "flowers",
+                "today."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "flowers",
+                "feedback": "You found it! flowers names things, so flowers is a noun. water is the verb here.",
+                "correct": true
+              },
+              {
+                "text": "water",
+                "feedback": "Here water tells what to do. It is the verb in this sentence, not a noun."
+              },
+              {
+                "text": "thirsty",
+                "feedback": "The word thirsty tells what kind of flowers. It describes a noun, so it is an adjective."
+              },
+              {
+                "text": "today",
+                "feedback": "The word today tells when. It is an adverb, not a noun."
+              }
+            ],
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
+            "reveal": "Let's find it together. Here water tells what to do, so it is the verb. flowers names things, so flowers is the noun."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "GUM:G:common-proper-nouns:R"
+            ],
+            "sentence": {
+              "words": [
+                "Tomorrow",
+                "I",
+                "will",
+                "hug",
+                "my",
+                "grandmother."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "grandmother",
+                "feedback": "Nice thinking! grandmother names a person, so grandmother is a noun. hug is the verb here.",
+                "correct": true
+              },
+              {
+                "text": "hug",
+                "feedback": "Here hug tells what I will do. It is the verb in this sentence, not a noun."
+              },
+              {
+                "text": "will",
+                "feedback": "The word will is a helping verb. It helps the main verb hug."
+              },
+              {
+                "text": "Tomorrow",
+                "feedback": "The word Tomorrow tells when. It is an adverb, not a noun."
+              }
+            ],
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
+            "reveal": "Let's find it together. Here hug tells what I will do, so it is the verb. grandmother names a person, so grandmother is the noun."
+          }
+        ]
+      },
       recap: "A noun names a person, place, thing, or idea.",
 
       studyGuide: {
@@ -1983,7 +2828,7 @@ window.SS_LEARN_CONTENT = {
       ask: "Describes a noun.",
       icon: "pencil",
       preview: { words: ["The", "loud", "dog", "barked."], start: 1, end: 1 },
-      practice: "soon",
+      practice: "bank",
       test: "soon",
 
       definition: {
@@ -2061,6 +2906,9 @@ window.SS_LEARN_CONTENT = {
           words: ["The", "hungry", "cat", "ate", "a", "small", "fish."]
         },
         question: "Which word describes the noun cat?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        clue: "Remember: find the noun cat, then ask: What kind of cat?",
+        reveal: "Let's find it together. What kind of cat? A hungry cat. So hungry is the adjective that describes cat.",
         choices: [
           { text: "hungry", correct: true, feedback: "Correct! hungry describes the noun cat. It tells what kind of cat." },
           { text: "cat", feedback: "cat is the noun being described. Look for the word that tells more about the cat." },
@@ -2069,6 +2917,854 @@ window.SS_LEARN_CONTENT = {
         ]
       },
 
+
+      /* =====================================================
+         ADJECTIVE PRACTICE BANK (Build 1.6.0)
+         20 questions, four stages of five, inside what the Adjective
+         Learn lesson teaches. Independently reviewed and audited before
+         release (see AUDIT-REPORT-Build-1.6.0.md).
+         ===================================================== */
+      tryItBank: {
+        "recap": "You practiced finding adjectives and the nouns they describe in 20 sentences, and chose the right describing word for each blank.",
+        "stages": [
+          {
+            "name": "Get Started",
+            "desc": "Find the word that tells what kind.",
+            "mark": "⭐",
+            "milestoneTitle": "Get Started complete!",
+            "milestoneLine": "You found adjectives that tell what kind.",
+            "nextStage": "Look Closer"
+          },
+          {
+            "name": "Look Closer",
+            "desc": "Find adjectives that tell how many and which one.",
+            "mark": "🌟",
+            "milestoneTitle": "Look Closer complete!",
+            "milestoneLine": "You found adjectives that tell how many and which one.",
+            "nextStage": "Think It Through"
+          },
+          {
+            "name": "Think It Through",
+            "desc": "Find the noun each adjective describes.",
+            "mark": "💪",
+            "milestoneTitle": "Think It Through complete!",
+            "milestoneLine": "You matched each adjective to its own noun.",
+            "nextStage": "Challenge Yourself"
+          },
+          {
+            "name": "Challenge Yourself",
+            "desc": "Choose the describing word for each blank.",
+            "mark": "🎉",
+            "milestoneTitle": "You practiced Adjective 20 different ways!",
+            "milestoneLine": "",
+            "nextStage": ""
+          }
+        ],
+        "questions": [
+          {
+            "stage": 0,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "hungry",
+                "bear",
+                "searched",
+                "the",
+                "woods",
+                "for",
+                "food."
+              ]
+            },
+            "question": "Which word describes the noun bear?",
+            "choices": [
+              {
+                "text": "hungry",
+                "feedback": "Great job! hungry describes bear. What kind of bear? A hungry one.",
+                "correct": true
+              },
+              {
+                "text": "bear",
+                "feedback": "The word bear is the noun being described. Look for the word that tells more about the bear."
+              },
+              {
+                "text": "searched",
+                "feedback": "The word searched is the verb. It tells what the bear did."
+              },
+              {
+                "text": "woods",
+                "feedback": "The word woods is a noun. It names a place. Look for the word that tells more about the bear."
+              }
+            ],
+            "clue": "Remember: find the noun bear. Then ask: What kind of bear?",
+            "reveal": "Let's find it together. What kind of bear? Hungry. So hungry is the adjective that describes bear."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "A",
+                "gentle",
+                "breeze",
+                "moved",
+                "the",
+                "tall",
+                "grass."
+              ]
+            },
+            "question": "Which word describes the noun breeze?",
+            "choices": [
+              {
+                "text": "gentle",
+                "feedback": "Great job! gentle describes breeze. What kind of breeze? A gentle one.",
+                "correct": true
+              },
+              {
+                "text": "tall",
+                "feedback": "The word tall is an adjective, but it describes grass, not breeze."
+              },
+              {
+                "text": "moved",
+                "feedback": "The word moved is the verb. It tells what the breeze did."
+              },
+              {
+                "text": "grass",
+                "feedback": "The word grass is a noun. Look for the word that tells more about the breeze."
+              }
+            ],
+            "clue": "Remember: find the noun breeze. Then ask: What kind of breeze?",
+            "reveal": "Let's find it together. What kind of breeze? Gentle. So gentle is the adjective that describes breeze."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "clever",
+                "fox",
+                "hid",
+                "behind",
+                "a",
+                "big",
+                "rock."
+              ]
+            },
+            "question": "Which word describes the noun fox?",
+            "choices": [
+              {
+                "text": "clever",
+                "feedback": "Great job! clever describes fox. What kind of fox? A clever one.",
+                "correct": true
+              },
+              {
+                "text": "big",
+                "feedback": "The word big is an adjective, but it describes rock, not fox."
+              },
+              {
+                "text": "hid",
+                "feedback": "The word hid is the verb. It tells what the fox did."
+              },
+              {
+                "text": "rock",
+                "feedback": "The word rock is a noun. Look for the word that tells more about the fox."
+              }
+            ],
+            "clue": "Remember: find the noun fox. Then ask: What kind of fox?",
+            "reveal": "Let's find it together. What kind of fox? Clever. So clever is the adjective that describes fox."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "Our",
+                "noisy",
+                "puppy",
+                "chewed",
+                "my",
+                "new",
+                "shoes."
+              ]
+            },
+            "question": "Which word describes the noun shoes?",
+            "choices": [
+              {
+                "text": "new",
+                "feedback": "Great job! new describes shoes. What kind of shoes? A new one.",
+                "correct": true
+              },
+              {
+                "text": "noisy",
+                "feedback": "The word noisy is an adjective, but it describes puppy, not shoes."
+              },
+              {
+                "text": "chewed",
+                "feedback": "The word chewed is the verb. It tells what the puppy did."
+              },
+              {
+                "text": "puppy",
+                "feedback": "The word puppy is a noun. Look for the word that tells more about the shoes."
+              }
+            ],
+            "clue": "Remember: find the noun shoes. Then ask: What kind of shoes?",
+            "reveal": "Let's find it together. What kind of shoes? New. So new is the adjective that describes shoes."
+          },
+          {
+            "stage": 0,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "soft",
+                "blanket",
+                "covered",
+                "the",
+                "sleepy",
+                "baby."
+              ]
+            },
+            "question": "Which word describes the noun blanket?",
+            "choices": [
+              {
+                "text": "soft",
+                "feedback": "Great job! soft describes blanket. What kind of blanket? A soft one.",
+                "correct": true
+              },
+              {
+                "text": "sleepy",
+                "feedback": "The word sleepy is an adjective, but it describes baby, not blanket."
+              },
+              {
+                "text": "covered",
+                "feedback": "The word covered is the verb. It tells what the blanket did."
+              },
+              {
+                "text": "baby",
+                "feedback": "The word baby is a noun. Look for the word that tells more about the blanket."
+              }
+            ],
+            "clue": "Remember: find the noun blanket. Then ask: What kind of blanket?",
+            "reveal": "Let's find it together. What kind of blanket? Soft. So soft is the adjective that describes blanket."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "Three",
+                "small",
+                "birds",
+                "sat",
+                "on",
+                "the",
+                "fence."
+              ]
+            },
+            "question": "Which word tells how many birds?",
+            "choices": [
+              {
+                "text": "Three",
+                "feedback": "Great job! Three tells how many birds.",
+                "correct": true
+              },
+              {
+                "text": "small",
+                "feedback": "The word small is an adjective, but it tells what kind of birds, not how many."
+              },
+              {
+                "text": "sat",
+                "feedback": "The word sat is the verb. It tells what the birds did."
+              },
+              {
+                "text": "fence",
+                "feedback": "The word fence is a noun. Look for the word that tells how many birds."
+              }
+            ],
+            "clue": "Remember: find the noun birds. Then ask: How many birds?",
+            "reveal": "Let's find it together. How many birds? Three. So Three is the adjective that describes birds."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "Our",
+                "class",
+                "planted",
+                "five",
+                "tiny",
+                "seeds."
+              ]
+            },
+            "question": "Which word tells how many seeds?",
+            "choices": [
+              {
+                "text": "five",
+                "feedback": "Great job! five tells how many seeds.",
+                "correct": true
+              },
+              {
+                "text": "tiny",
+                "feedback": "The word tiny is an adjective, but it tells what kind of seeds, not how many."
+              },
+              {
+                "text": "planted",
+                "feedback": "The word planted is the verb. It tells what the class did."
+              },
+              {
+                "text": "class",
+                "feedback": "The word class is a noun. Look for the word that tells how many seeds."
+              }
+            ],
+            "clue": "Remember: find the noun seeds. Then ask: How many seeds?",
+            "reveal": "Let's find it together. How many seeds? Five. So five is the adjective that describes seeds."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "That",
+                "red",
+                "wagon",
+                "belongs",
+                "to",
+                "my",
+                "neighbor."
+              ]
+            },
+            "question": "Which word tells which wagon?",
+            "choices": [
+              {
+                "text": "That",
+                "feedback": "Great job! That tells which wagon.",
+                "correct": true
+              },
+              {
+                "text": "red",
+                "feedback": "The word red is an adjective, but it tells what kind of wagon, not which one."
+              },
+              {
+                "text": "belongs",
+                "feedback": "The word belongs is the verb."
+              },
+              {
+                "text": "neighbor",
+                "feedback": "The word neighbor is a noun. Look for the word that tells which wagon."
+              }
+            ],
+            "clue": "Remember: find the noun wagon. Then ask: Which wagon?",
+            "reveal": "Let's find it together. Which wagon? That. So That is the adjective that describes wagon."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "Please",
+                "hand",
+                "me",
+                "this",
+                "blue",
+                "marker."
+              ]
+            },
+            "question": "Which word tells which marker?",
+            "choices": [
+              {
+                "text": "this",
+                "feedback": "Great job! this tells which marker.",
+                "correct": true
+              },
+              {
+                "text": "blue",
+                "feedback": "The word blue is an adjective, but it tells what kind of marker, not which one."
+              },
+              {
+                "text": "hand",
+                "feedback": "The word hand is the verb here. It tells what to do."
+              },
+              {
+                "text": "marker",
+                "feedback": "The word marker is the noun being described. Look for the word that tells which marker."
+              }
+            ],
+            "clue": "Remember: find the noun marker. Then ask: Which marker?",
+            "reveal": "Let's find it together. Which marker? This. So this is the adjective that describes marker."
+          },
+          {
+            "stage": 1,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "Two",
+                "playful",
+                "otters",
+                "swam",
+                "in",
+                "the",
+                "cold",
+                "river."
+              ]
+            },
+            "question": "Which word tells how many otters?",
+            "choices": [
+              {
+                "text": "Two",
+                "feedback": "Great job! Two tells how many otters.",
+                "correct": true
+              },
+              {
+                "text": "playful",
+                "feedback": "The word playful is an adjective, but it tells what kind of otters, not how many."
+              },
+              {
+                "text": "swam",
+                "feedback": "The word swam is the verb. It tells what the otters did."
+              },
+              {
+                "text": "cold",
+                "feedback": "The word cold is an adjective, but it describes river, not otters."
+              }
+            ],
+            "clue": "Remember: find the noun otters. Then ask: How many otters?",
+            "reveal": "Let's find it together. How many otters? Two. So Two is the adjective that describes otters."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "tall",
+                "girl",
+                "carried",
+                "a",
+                "heavy",
+                "box."
+              ]
+            },
+            "question": "Which noun does heavy describe?",
+            "choices": [
+              {
+                "text": "box",
+                "feedback": "You found it! heavy describes box. It tells what kind of box.",
+                "correct": true
+              },
+              {
+                "text": "girl",
+                "feedback": "The word girl is a noun, but tall describes the girl. heavy describes something else."
+              },
+              {
+                "text": "carried",
+                "feedback": "The word carried is the verb. An adjective describes a noun, not a verb."
+              },
+              {
+                "text": "tall",
+                "feedback": "The word tall is another adjective. Look for the noun that heavy describes."
+              }
+            ],
+            "clue": "Remember: an adjective describes the noun it goes with. Find heavy, then look for the noun it tells about.",
+            "reveal": "Let's find it together. What is heavy? The box. So heavy describes the noun box."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "A",
+                "tiny",
+                "mouse",
+                "ran",
+                "under",
+                "the",
+                "old",
+                "barn."
+              ]
+            },
+            "question": "Which noun does old describe?",
+            "choices": [
+              {
+                "text": "barn",
+                "feedback": "You found it! old describes barn. It tells what kind of barn.",
+                "correct": true
+              },
+              {
+                "text": "mouse",
+                "feedback": "The word mouse is a noun, but tiny describes the mouse. old describes something else."
+              },
+              {
+                "text": "tiny",
+                "feedback": "The word tiny is another adjective. Look for the noun that old describes."
+              },
+              {
+                "text": "ran",
+                "feedback": "The word ran is the verb. An adjective describes a noun, not a verb."
+              }
+            ],
+            "clue": "Remember: an adjective describes the noun it goes with. Find old, then look for the noun it tells about.",
+            "reveal": "Let's find it together. What is old? The barn. So old describes the noun barn."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "happy",
+                "children",
+                "ate",
+                "cold",
+                "watermelon."
+              ]
+            },
+            "question": "Which noun does cold describe?",
+            "choices": [
+              {
+                "text": "watermelon",
+                "feedback": "You found it! cold describes watermelon. It tells what kind of watermelon.",
+                "correct": true
+              },
+              {
+                "text": "children",
+                "feedback": "The word children is a noun, but happy describes the children. cold describes something else."
+              },
+              {
+                "text": "happy",
+                "feedback": "The word happy is another adjective. Look for the noun that cold describes."
+              },
+              {
+                "text": "ate",
+                "feedback": "The word ate is the verb. An adjective describes a noun, not a verb."
+              }
+            ],
+            "clue": "Remember: an adjective describes the noun it goes with. Find cold, then look for the noun it tells about.",
+            "reveal": "Let's find it together. What is cold? The watermelon. So cold describes the noun watermelon."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "My",
+                "grandfather",
+                "fixed",
+                "the",
+                "wobbly",
+                "chair."
+              ]
+            },
+            "question": "Which noun does wobbly describe?",
+            "choices": [
+              {
+                "text": "chair",
+                "feedback": "You found it! wobbly describes chair. It tells what kind of chair.",
+                "correct": true
+              },
+              {
+                "text": "grandfather",
+                "feedback": "The word grandfather is a noun, but nothing in the sentence says he is wobbly."
+              },
+              {
+                "text": "fixed",
+                "feedback": "The word fixed is the verb. An adjective describes a noun, not a verb."
+              },
+              {
+                "text": "wobbly",
+                "feedback": "The word wobbly is the adjective itself. Look for the noun it describes."
+              }
+            ],
+            "clue": "Remember: an adjective describes the noun it goes with. Find wobbly, then look for the noun it tells about.",
+            "reveal": "Let's find it together. What is wobbly? The chair. So wobbly describes the noun chair."
+          },
+          {
+            "stage": 2,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "Six",
+                "hungry",
+                "ducks",
+                "swam",
+                "toward",
+                "the",
+                "small",
+                "boat."
+              ]
+            },
+            "question": "Which noun does hungry describe?",
+            "choices": [
+              {
+                "text": "ducks",
+                "feedback": "You found it! hungry describes ducks. It tells what kind of ducks.",
+                "correct": true
+              },
+              {
+                "text": "boat",
+                "feedback": "The word boat is a noun, but small describes the boat. hungry describes something else."
+              },
+              {
+                "text": "Six",
+                "feedback": "The word Six is another adjective. It tells how many. Look for the noun that hungry describes."
+              },
+              {
+                "text": "small",
+                "feedback": "The word small is another adjective. Look for the noun that hungry describes."
+              }
+            ],
+            "clue": "Remember: an adjective describes the noun it goes with. Find hungry, then look for the noun it tells about.",
+            "reveal": "Let's find it together. What is hungry? The ducks. So hungry describes the noun ducks."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "____",
+                "puppy",
+                "slept",
+                "on",
+                "the",
+                "soft",
+                "rug."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "sleepy",
+                "feedback": "Nice thinking! The blank describes the noun puppy, so it needs the adjective sleepy.",
+                "correct": true
+              },
+              {
+                "text": "sleep",
+                "feedback": "The word sleep is a verb or a noun. The blank describes the puppy, so it needs an adjective."
+              },
+              {
+                "text": "sleepily",
+                "feedback": "The word sleepily is an adverb. It tells how something is done. The blank describes the puppy."
+              },
+              {
+                "text": "sleeps",
+                "feedback": "The word sleeps is a verb. The sentence already has its verb, slept."
+              }
+            ],
+            "clue": "Remember: the blank comes right before the noun puppy. A word that describes a noun is an adjective.",
+            "reveal": "Let's find it together. The blank describes puppy. A word that describes a noun is an adjective, so the answer is sleepy."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "We",
+                "saw",
+                "a",
+                "____",
+                "rainbow",
+                "after",
+                "the",
+                "storm."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "colorful",
+                "feedback": "Nice thinking! The blank describes the noun rainbow, so it needs the adjective colorful.",
+                "correct": true
+              },
+              {
+                "text": "color",
+                "feedback": "The word color is a noun. The blank describes the rainbow, so it needs an adjective."
+              },
+              {
+                "text": "colorfully",
+                "feedback": "The word colorfully is an adverb. It tells how something is done. The blank describes the rainbow."
+              },
+              {
+                "text": "colors",
+                "feedback": "The word colors is a noun or a verb. The blank describes the rainbow, so it needs an adjective."
+              }
+            ],
+            "clue": "Remember: the blank comes right before the noun rainbow. A word that describes a noun is an adjective.",
+            "reveal": "Let's find it together. The blank describes rainbow. A word that describes a noun is an adjective, so the answer is colorful."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "My",
+                "____",
+                "friend",
+                "fixed",
+                "my",
+                "bike",
+                "chain."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "helpful",
+                "feedback": "Nice thinking! The blank describes the noun friend, so it needs the adjective helpful.",
+                "correct": true
+              },
+              {
+                "text": "help",
+                "feedback": "The word help is a verb or a noun. The blank describes my friend, so it needs an adjective."
+              },
+              {
+                "text": "helps",
+                "feedback": "The word helps is a verb. The sentence already has its verb, fixed."
+              },
+              {
+                "text": "helpfully",
+                "feedback": "The word helpfully is an adverb. It tells how something is done. The blank describes my friend."
+              }
+            ],
+            "clue": "Remember: the blank comes right before the noun friend. A word that describes a noun is an adjective.",
+            "reveal": "Let's find it together. The blank describes friend. A word that describes a noun is an adjective, so the answer is helpful."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "The",
+                "____",
+                "thunder",
+                "scared",
+                "our",
+                "dog."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "loud",
+                "feedback": "Nice thinking! The blank describes the noun thunder, so it needs the adjective loud.",
+                "correct": true
+              },
+              {
+                "text": "loudly",
+                "feedback": "The word loudly is an adverb. It tells how something is done. The blank describes the thunder."
+              },
+              {
+                "text": "loudness",
+                "feedback": "The word loudness is a noun. The blank describes the thunder, so it needs an adjective."
+              },
+              {
+                "text": "aloud",
+                "feedback": "The word aloud is an adverb, like read aloud. The blank describes the thunder."
+              }
+            ],
+            "clue": "Remember: the blank comes right before the noun thunder. A word that describes a noun is an adjective.",
+            "reveal": "Let's find it together. The blank describes thunder. A word that describes a noun is an adjective, so the answer is loud."
+          },
+          {
+            "stage": 3,
+            "std": [
+              "3.L.GC.2.d",
+              "GUM:G:adjectives-adverbs:R"
+            ],
+            "sentence": {
+              "words": [
+                "Grandma",
+                "baked",
+                "a",
+                "____",
+                "pie",
+                "for",
+                "dessert."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "delicious",
+                "feedback": "Nice thinking! The blank describes the noun pie, so it needs the adjective delicious.",
+                "correct": true
+              },
+              {
+                "text": "deliciously",
+                "feedback": "The word deliciously is an adverb. It tells how something is done. The blank describes the pie."
+              },
+              {
+                "text": "bake",
+                "feedback": "The word bake is a verb. The sentence already has its verb, baked."
+              },
+              {
+                "text": "taste",
+                "feedback": "The word taste is a noun or a verb. The blank describes the pie, so it needs an adjective."
+              }
+            ],
+            "clue": "Remember: the blank comes right before the noun pie. A word that describes a noun is an adjective.",
+            "reveal": "Let's find it together. The blank describes pie. A word that describes a noun is an adjective, so the answer is delicious."
+          }
+        ]
+      },
       recap: "An adjective describes a noun. Always ask which noun it describes.",
 
       studyGuide: {
@@ -2326,6 +4022,9 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "question": "Which word is a pronoun?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        "clue": "Remember: a pronoun takes the place of a noun, like he, she, it, we, they, or their.",
+        "reveal": "Let's find it together. their stands for the twins and tells whose project it is, so their is the pronoun.",
         "choices": [
           {
             "text": "twins",
@@ -3473,6 +5172,9 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "question": "Which word tells how Grandpa whistled?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        "clue": "Remember: find the verb, then ask: How?",
+        "reveal": "Let's find it together. The verb is whistled. How did Grandpa whistle? Happily. So happily is the adverb.",
         "choices": [
           {
             "text": "Grandpa",
@@ -4607,6 +6309,9 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "question": "Is this a complete sentence?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        "clue": "Remember: check for who or what it is about, and what happened.",
+        "reveal": "Let's check it together. Who played catch? The sentence never says. So the answer is: No, it needs a subject.",
         "choices": [
           {
             "text": "Yes, it is complete.",
@@ -5672,6 +7377,9 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "question": "Which word is the helping verb?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        "clue": "Remember: find the main verb first. The helping verb comes right before it.",
+        "reveal": "Let's find it together. The main verb is juggle. The word right before it is can, so can is the helping verb.",
         "choices": [
           {
             "text": "cousins",
@@ -6831,6 +8539,9 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "question": "Which verb belongs in the blank?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        "clue": "Remember: Last night means the past. Some verbs have a special past tense.",
+        "reveal": "Let's find it together. Last night tells it already happened. The past tense of tell is told.",
         "choices": [
           {
             "text": "told",
@@ -7971,6 +9682,9 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "question": "Which verb matches the subject?",
+        /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
+        "clue": "Remember: find the real subject. Skip the words in between.",
+        "reveal": "Let's find it together. The subject is kittens, not basket. kittens means more than one, so the verb is purr.",
         "choices": [
           {
             "text": "purr",

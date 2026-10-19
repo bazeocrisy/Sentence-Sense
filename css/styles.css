@@ -2076,3 +2076,6 @@ img{max-width:100%;}
    reads as a sentence. Three classes so it outranks the 2-column wide rule. */
 .choices.is-wide.is-sentences{grid-template-columns:minmax(0,1fr);}
 .choices.is-sentences .choice-btn{text-align:left;line-height:1.35;}
+
+/* Build 1.6.0 — Help me inside Learn's Let me try sits under the choices. */
+.try-help{margin:12px 0 0;}

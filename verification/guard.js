@@ -162,8 +162,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     fontsLoaded: document.fonts ? document.fonts.status : "n/a"
   }));
 
-  ok("1.4 BUILD_NUMBER is Build 1.5.0", globals.build === "Build 1.5.0", globals.build);
-  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.5.0", globals.badge);
+  ok("1.4 BUILD_NUMBER is Build 1.6.0", globals.build === "Build 1.6.0", globals.build);
+  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.6.0", globals.badge);
   ok("1.6 the three component globals are present",
     globals.hasLearn && globals.hasPractice && globals.hasSentence);
   ok("1.7 localStorage and sessionStorage empty on load",
@@ -320,7 +320,9 @@ async function answerCorrect(page, choiceSel, dataProbe) {
        This list is deliberately explicit so adding a skill is a conscious
        edit -- and check 15.0 separately proves the cards and the banks can
        never disagree. */
-    const practiceReady = ["verb", "subject"].indexOf(key) >= 0;
+    /* Build 1.6.0: every skill now ships a Practice bank. Read from content
+       so the check follows the product, never a hard-coded list. */
+    const practiceReady = await page.evaluate(k => window.SS_LEARN_CONTENT.topics[k].practice === "bank", key);
     ok(`3.5 ${name} Practice availability is honest`,
       practiceReady ? (pc.soon === false && pc.hasButton === true)
                     : (pc.soon === true && pc.hasButton === false &&
@@ -1489,7 +1491,10 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     "complete-sentence": { questions: 20, stages: 4, per: 5 },
     "helping-linking":   { questions: 20, stages: 4, per: 5 },
     "verb-tense":        { questions: 20, stages: 4, per: 5 },
-    agreement:           { questions: 20, stages: 4, per: 5 }
+    agreement:           { questions: 20, stages: 4, per: 5 },
+    /* Build 1.6.0 */
+    noun:                { questions: 20, stages: 4, per: 5 },
+    adjective:           { questions: 20, stages: 4, per: 5 }
   };
 
   const bankTopics = await page.evaluate(() => {
@@ -1999,6 +2004,55 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
   await goHome(page);
 
+  /* ===== 15L. HELP ME IN LEARN (Build 1.6.0) =====
+     Every skill's Let me try offers the same three-step ladder as
+     Practice. Driven through the real UI for all ten skills. */
+  for (const key of await page.evaluate(() => window.SS_LEARN_CONTENT.homeOrder)) {
+    await goHome(page); await clickStart(page, key); await clickActivity(page, "learn");
+    for (let i = 0; i < 3; i++) { await page.click("#learn-next"); await sleep(50); }
+    const probe = async () => page.evaluate(k => {
+      const t = window.SS_LEARN_CONTENT.topics[k];
+      const b = t.learnTry || t.tryIt;
+      const ci = b.choices.findIndex(c => c.correct);
+      const btns = Array.from(document.querySelectorAll("#try-choices .choice-btn"));
+      const right = btns.find(x => Number(x.dataset.ci) === ci);
+      const hb = document.getElementById("try-help");
+      return { hasHelp: !!hb && !hb.hidden, helpDisabled: hb ? hb.disabled : null,
+        clue: b.clue, reveal: b.reveal,
+        txt: document.getElementById("try-feedback").textContent,
+        cls: document.getElementById("try-feedback").className,
+        open: btns.filter(x => !x.disabled).length,
+        rightRuled: right ? right.classList.contains("is-ruled-out") : true,
+        rightHint: right ? right.classList.contains("is-hint") : false,
+        rightMarked: right ? right.classList.contains("is-right") : false,
+        wrong: document.querySelectorAll("#try-choices .is-wrong").length,
+        locked: document.getElementById("learn-next").disabled };
+    }, key);
+    const h0 = await probe();
+    ok("15L." + key + ".1 Let me try offers Help me", h0.hasHelp && !!h0.clue && !!h0.reveal);
+    await page.click("#try-help"); await sleep(50);
+    const h1 = await probe();
+    ok("15L." + key + ".2 Help 1 gives the clue and marks nothing wrong",
+      /is-clue/.test(h1.cls) && h1.txt.includes(h1.clue) && h1.wrong === 0 && h1.locked);
+    await page.click("#try-help"); await sleep(50);
+    const h2 = await probe();
+    ok("15L." + key + ".3 Help 2 leaves two choices and never crosses out the answer",
+      h2.open === 2 && !h2.rightRuled, "open=" + h2.open);
+    await page.click("#try-help"); await sleep(50);
+    const h3 = await probe();
+    ok("15L." + key + ".4 Help 3 walks through it and the child still taps",
+      h3.txt.includes(h3.reveal) && h3.rightHint && !h3.rightMarked && h3.locked && h3.helpDisabled === true);
+    await page.evaluate(k => {
+      const t = window.SS_LEARN_CONTENT.topics[k]; const b = t.learnTry || t.tryIt;
+      const ci = b.choices.findIndex(c => c.correct);
+      Array.from(document.querySelectorAll("#try-choices .choice-btn")).find(x => Number(x.dataset.ci) === ci).click();
+    }, key);
+    await sleep(60);
+    const h4 = await probe();
+    ok("15L." + key + ".5 tapping the answer finishes the step and clears the hint ring",
+      h4.rightMarked && !h4.rightHint && !h4.locked);
+  }
+
   /* ===== 16. INSTRUCTIONAL REGRESSION GUARDS (Build 1.4.2) =====
 
      These protect the four defects the forensic audit found that no
@@ -2030,7 +2084,10 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     "helping-linking":   { minIndices: 4, maxShare: 0.5, lateStages: [] },
     "complete-sentence": { minIndices: 0, maxShare: 1, lateStages: [] },
     "verb-tense":        { minIndices: 0, maxShare: 1, lateStages: [] },
-    agreement:           { minIndices: 0, maxShare: 1, lateStages: [] }
+    agreement:           { minIndices: 0, maxShare: 1, lateStages: [] },
+    /* Build 1.6.0 */
+    noun:                { minIndices: 4, maxShare: 0.5, lateStages: [] },
+    adjective:           { minIndices: 4, maxShare: 0.5, lateStages: [] }
   };
 
   const STAGE_SPEC = {
