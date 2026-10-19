@@ -154,7 +154,7 @@
   const GUM_LEVEL = { M: "Master", C: "Continue", I: "Introduce", R: "Review" };
   const GUM_NAME = {
     "action-verbs": "Action verbs", "adjectives-adverbs": "Adjectives and adverbs",
-    "collective-abstract-nouns": "Collective nouns", "common-proper-nouns": "Common and proper nouns",
+    "collective-abstract-nouns": "Collective and abstract nouns", "common-proper-nouns": "Common and proper nouns",
     "coordinating-conjunctions": "Joining words: and, but, or, so", "helping-linking-verbs": "Helping and linking verbs",
     "irregular-past-verbs": "Irregular past tense", "personal-pronouns": "Personal pronouns",
     "prepositional-phrases": "Prepositional phrases", "reflexive-pronouns": "Reflexive pronouns",

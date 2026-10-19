@@ -1,6 +1,6 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.5.0**
+**Current build: Sentence Sense — Build 1.6.0** (1.6.0: Noun and Adjective Practice; Help me in every Learn "Let me try")
 **Last pass:** Georgia grade 3 upgrade — Help me hints, six new skills, grouped Home, standard tags — 2026-10-19
 **Previous:** Build 1.4.2 (Subject Practice). Rollback branch: `backup/live-build-1.4.2` (exact copy of 1.4.2, `274a298`).
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
@@ -137,8 +137,8 @@ Four governing rules:
 
 Current: **Build 1.5.0**. It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.5.0";`
-2. the rendered badge — `Sentence Sense — Build 1.5.0`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.6.0";`
+2. the rendered badge — `Sentence Sense — Build 1.6.0`
 3. the audit file name and heading
 4. this handoff
 
@@ -165,7 +165,7 @@ Current: **Build 1.5.0**. It must match in four places, and the audit checks all
 | ~~`assets/images/logo.png`, `logo-512.png`~~ | **DELETED in 1.4.0.** Unreferenced; the cartoon-mascot lockup contradicted the art direction. See §11 H-03. |
 | `assets/reference/home-screen-mockup.png` | The approved style reference. Not loaded by the site. |
 | `verification/serve.js` · `verification/guard.js` | Dev harness. Not part of the site. |
-| `AUDIT-REPORT-Build-1.5.0.md` | The current build audit — and the only one |
+| `AUDIT-REPORT-Build-1.6.0.md` | The current build audit — and the only one |
 | `SENTENCE-SENSE-HANDOFF.md` | This file |
 
 Script load order in `index.html` matters:
@@ -190,9 +190,9 @@ The child chooses **what** before **how**. The mode-first portal of Builds
 | Words | **Verb** | What is happening? | 20-question bank | **12 / 20 / 30 from a 48-question pool** |
 | Words | **Helping & Linking Verbs** | Does it help or link? | 20-question bank | coming next |
 | Words | **Verb Tense** | When does it happen? | 20-question bank | coming next |
-| Words | **Noun** | Names a person, place, thing, or idea. | coming next | coming next |
+| Words | **Noun** | Names a person, place, thing, or idea. | 20-question bank | coming next |
 | Words | **Pronoun** | Who or what does it stand for? | 20-question bank | coming next |
-| Words | **Adjective** | Describes a noun. | coming next | coming next |
+| Words | **Adjective** | Describes a noun. | 20-question bank | coming next |
 | Words | **Adverb** | How? When? Where? | 20-question bank | coming next |
 | Sentences | **Subject** | Who or what? | 20-question bank | coming next |
 | Sentences | **Complete Sentence** | Is it a complete thought? | 20-question bank | coming next |
@@ -847,4 +847,4 @@ discrepancy **before** editing.
 
 ---
 
-*End of handoff. Last updated 2026-10-19 for Build 1.5.0.*
+*End of handoff. Last updated 2026-10-19 for Build 1.6.0.*

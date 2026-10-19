@@ -260,7 +260,7 @@ window.SS_LEARN_CONTENT = {
         },
         question: "Which word tells what happened?",
         /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
-        clue: "Remember: ask yourself, What happened?",
+        clue: "Remember: ask, What did the students do?",
         reveal: "Let's find it together. studied tells what the students did, so studied is the verb.",
         choices: [
           { text: "curious", feedback: "curious tells what kind of students they are. It describes them. Look again for the word that tells what happened." },
@@ -2071,7 +2071,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "afternoon",
-                "feedback": "The word afternoon is a noun, but it names a time, not a place."
+                "feedback": "The word afternoon is a noun, but it does not name a place. Look for the word that names a place."
               }
             ],
             "clue": "Remember: ask about each word. Is it a person? A place? A thing?",
@@ -2184,7 +2184,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "carrier",
-                "feedback": "The word carrier is a noun, but it names a person, not a thing."
+                "feedback": "The word carrier is part of mail carrier. It names a person, not a thing."
               },
               {
                 "text": "brought",
@@ -2218,7 +2218,7 @@ window.SS_LEARN_CONTENT = {
             "choices": [
               {
                 "text": "kitten",
-                "feedback": "Great job! kitten names an animal, a living thing, so kitten is a noun.",
+                "feedback": "Great job! You can say the kitten, and a kitten is a thing you can see and touch. So kitten is a noun.",
                 "correct": true
               },
               {
@@ -2231,11 +2231,11 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "happily",
-                "feedback": "The word happily tells how the kitten chased. It is an adverb, not a noun."
+                "feedback": "The word happily tells how the kitten chased. It does not name a person, place, thing, or idea."
               }
             ],
             "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it.",
-            "reveal": "Let's find it together. You can say the kitten, and a kitten is a living thing. So kitten is the noun."
+            "reveal": "Let's find it together. You can say the kitten, and a kitten is a thing you can see and touch. So kitten is the noun."
           },
           {
             "stage": 1,
@@ -2267,7 +2267,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "loudly",
-                "feedback": "The word loudly tells how they laughed. It is an adverb, not a noun."
+                "feedback": "The word loudly tells how they laughed. It does not name a person, place, thing, or idea."
               },
               {
                 "text": "silly",
@@ -2302,7 +2302,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "slowly",
-                "feedback": "The word slowly tells how Grandpa painted. It is an adverb, not a noun."
+                "feedback": "The word slowly tells how Grandpa painted. It does not name a person, place, thing, or idea."
               },
               {
                 "text": "painted",
@@ -2323,7 +2323,7 @@ window.SS_LEARN_CONTENT = {
             ],
             "sentence": {
               "words": [
-                "Yesterday",
+                "Yesterday,",
                 "the",
                 "busy",
                 "bakers",
@@ -2341,7 +2341,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "Yesterday",
-                "feedback": "The word Yesterday tells when. It is an adverb, not a noun."
+                "feedback": "The word Yesterday tells when. It does not name a person, place, thing, or idea."
               },
               {
                 "text": "busy",
@@ -2385,7 +2385,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "quickly",
-                "feedback": "The word quickly tells how she wrapped. It is an adverb, not a noun."
+                "feedback": "The word quickly tells how she wrapped. It does not name a person, place, thing, or idea."
               },
               {
                 "text": "shiny",
@@ -2450,7 +2450,9 @@ window.SS_LEARN_CONTENT = {
                 "when",
                 "the",
                 "snow",
-                "began."
+                "began",
+                "to",
+                "fall."
               ]
             },
             "question": "Which word names an idea?",
@@ -2484,10 +2486,11 @@ window.SS_LEARN_CONTENT = {
             "sentence": {
               "words": [
                 "My",
-                "grandmother",
-                "told",
+                "aunt",
+                "gave",
                 "me",
-                "stories",
+                "a",
+                "card",
                 "full",
                 "of",
                 "hope."
@@ -2501,20 +2504,20 @@ window.SS_LEARN_CONTENT = {
                 "correct": true
               },
               {
-                "text": "grandmother",
-                "feedback": "The word grandmother is a noun, but it names a person, not an idea."
+                "text": "aunt",
+                "feedback": "The word aunt is a noun, but it names a person, not an idea."
               },
               {
-                "text": "told",
-                "feedback": "The word told is the verb. It tells what my grandmother did."
+                "text": "gave",
+                "feedback": "The word gave is the verb. It tells what my aunt did."
               },
               {
-                "text": "stories",
-                "feedback": "The word stories is a noun, but you can hear or read stories. Look for the idea you cannot see or touch."
+                "text": "card",
+                "feedback": "The word card is a noun, but it names a thing you can touch, not an idea."
               }
             ],
             "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun.",
-            "reveal": "Let's find it together. You cannot see or touch hope, but the stories were full of it. So hope is the noun that names an idea."
+            "reveal": "Let's find it together. You cannot see or touch hope, but the card was full of it. So hope is the noun that names an idea."
           },
           {
             "stage": 2,
@@ -2565,13 +2568,11 @@ window.SS_LEARN_CONTENT = {
             "sentence": {
               "words": [
                 "We",
-                "learned",
+                "read",
+                "a",
+                "book",
                 "about",
-                "freedom",
-                "in",
-                "our",
-                "reading",
-                "lesson."
+                "freedom."
               ]
             },
             "question": "Which word names an idea?",
@@ -2583,19 +2584,19 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "We",
-                "feedback": "The word We is a pronoun. It takes the place of a noun, but it is not a noun."
+                "feedback": "The word We stands for people, but it is not their name. It is a pronoun, not a noun."
               },
               {
-                "text": "learned",
-                "feedback": "The word learned is the verb. It tells what we did."
+                "text": "read",
+                "feedback": "The word read is the verb. It tells what we did."
               },
               {
-                "text": "lesson",
-                "feedback": "The word lesson is a noun, but it names a thing that happens in class, not an idea."
+                "text": "book",
+                "feedback": "The word book is a noun, but it names a thing you can touch, not an idea."
               }
             ],
             "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun.",
-            "reveal": "Let's find it together. You cannot see or touch freedom, but we learned about it. So freedom is the noun that names an idea."
+            "reveal": "Let's find it together. You cannot see or touch freedom, but we read about it. So freedom is the noun that names an idea."
           },
           {
             "stage": 3,
@@ -2617,7 +2618,7 @@ window.SS_LEARN_CONTENT = {
             "choices": [
               {
                 "text": "paint",
-                "feedback": "You found it! Here paint names a thing, the paint on the wall, so paint is a noun.",
+                "feedback": "You found it! Here paint names a thing, the paint we watched, so paint is a noun.",
                 "correct": true
               },
               {
@@ -2630,7 +2631,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "slowly",
-                "feedback": "The word slowly tells how the paint dried. It is an adverb, not a noun."
+                "feedback": "The word slowly tells how the paint dried. It does not name a person, place, thing, or idea."
               }
             ],
             "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
@@ -2701,11 +2702,11 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "will",
-                "feedback": "The word will is a helping verb. It helps the main verb plant."
+                "feedback": "The word will helps the verb plant. It does not name a person, place, thing, or idea."
               },
               {
                 "text": "tomorrow",
-                "feedback": "The word tomorrow tells when. It is an adverb, not a noun."
+                "feedback": "The word tomorrow tells when. It does not name a person, place, thing, or idea."
               }
             ],
             "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
@@ -2743,7 +2744,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "today",
-                "feedback": "The word today tells when. It is an adverb, not a noun."
+                "feedback": "The word today tells when. It does not name a person, place, thing, or idea."
               }
             ],
             "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
@@ -2756,7 +2757,7 @@ window.SS_LEARN_CONTENT = {
             ],
             "sentence": {
               "words": [
-                "Tomorrow",
+                "Tomorrow,",
                 "I",
                 "will",
                 "hug",
@@ -2777,11 +2778,11 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "will",
-                "feedback": "The word will is a helping verb. It helps the main verb hug."
+                "feedback": "The word will helps the verb hug. It does not name a person, place, thing, or idea."
               },
               {
                 "text": "Tomorrow",
-                "feedback": "The word Tomorrow tells when. It is an adverb, not a noun."
+                "feedback": "The word Tomorrow tells when. It does not name a person, place, thing, or idea."
               }
             ],
             "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here.",
@@ -3104,7 +3105,7 @@ window.SS_LEARN_CONTENT = {
             "choices": [
               {
                 "text": "new",
-                "feedback": "Great job! new describes shoes. What kind of shoes? A new one.",
+                "feedback": "Great job! new describes shoes. What kind of shoes? New ones.",
                 "correct": true
               },
               {
@@ -3201,7 +3202,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "clue": "Remember: find the noun birds. Then ask: How many birds?",
-            "reveal": "Let's find it together. How many birds? Three. So Three is the adjective that describes birds."
+            "reveal": "Let's find it together. How many birds? Three. So three is the adjective that describes birds."
           },
           {
             "stage": 1,
@@ -3251,7 +3252,6 @@ window.SS_LEARN_CONTENT = {
             "sentence": {
               "words": [
                 "That",
-                "red",
                 "wagon",
                 "belongs",
                 "to",
@@ -3267,12 +3267,12 @@ window.SS_LEARN_CONTENT = {
                 "correct": true
               },
               {
-                "text": "red",
-                "feedback": "The word red is an adjective, but it tells what kind of wagon, not which one."
+                "text": "wagon",
+                "feedback": "The word wagon is the noun being described. Look for the word that tells which wagon."
               },
               {
                 "text": "belongs",
-                "feedback": "The word belongs is the verb."
+                "feedback": "The word belongs is the verb. It tells what the wagon does."
               },
               {
                 "text": "neighbor",
@@ -3280,7 +3280,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "clue": "Remember: find the noun wagon. Then ask: Which wagon?",
-            "reveal": "Let's find it together. Which wagon? That. So That is the adjective that describes wagon."
+            "reveal": "Let's find it together. Which wagon? That. So that is the adjective that describes wagon."
           },
           {
             "stage": 1,
@@ -3294,7 +3294,6 @@ window.SS_LEARN_CONTENT = {
                 "hand",
                 "me",
                 "this",
-                "blue",
                 "marker."
               ]
             },
@@ -3306,8 +3305,8 @@ window.SS_LEARN_CONTENT = {
                 "correct": true
               },
               {
-                "text": "blue",
-                "feedback": "The word blue is an adjective, but it tells what kind of marker, not which one."
+                "text": "me",
+                "feedback": "The word me stands for the person talking. It does not tell which marker."
               },
               {
                 "text": "hand",
@@ -3360,7 +3359,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "clue": "Remember: find the noun otters. Then ask: How many otters?",
-            "reveal": "Let's find it together. How many otters? Two. So Two is the adjective that describes otters."
+            "reveal": "Let's find it together. How many otters? Two. So two is the adjective that describes otters."
           },
           {
             "stage": 2,
@@ -3573,7 +3572,7 @@ window.SS_LEARN_CONTENT = {
                 "The",
                 "____",
                 "puppy",
-                "slept",
+                "napped",
                 "on",
                 "the",
                 "soft",
@@ -3593,11 +3592,11 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "sleepily",
-                "feedback": "The word sleepily is an adverb. It tells how something is done. The blank describes the puppy."
+                "feedback": "The word sleepily does not describe a noun. Try it: the sleepily puppy does not sound right. The blank needs a word that tells what kind of puppy."
               },
               {
                 "text": "sleeps",
-                "feedback": "The word sleeps is a verb. The sentence already has its verb, slept."
+                "feedback": "The word sleeps is a verb. The sentence already has its verb, napped."
               }
             ],
             "clue": "Remember: the blank comes right before the noun puppy. A word that describes a noun is an adjective.",
@@ -3634,7 +3633,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "colorfully",
-                "feedback": "The word colorfully is an adverb. It tells how something is done. The blank describes the rainbow."
+                "feedback": "The word colorfully does not describe a noun. Try it: a colorfully rainbow does not sound right. The blank needs a word that tells what kind of rainbow."
               },
               {
                 "text": "colors",
@@ -3656,7 +3655,7 @@ window.SS_LEARN_CONTENT = {
                 "____",
                 "friend",
                 "fixed",
-                "my",
+                "the",
                 "bike",
                 "chain."
               ]
@@ -3678,7 +3677,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "helpfully",
-                "feedback": "The word helpfully is an adverb. It tells how something is done. The blank describes my friend."
+                "feedback": "The word helpfully does not describe a noun. Try it: my helpfully friend does not sound right. The blank needs a word that tells what kind of friend."
               }
             ],
             "clue": "Remember: the blank comes right before the noun friend. A word that describes a noun is an adjective.",
@@ -3709,7 +3708,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "loudly",
-                "feedback": "The word loudly is an adverb. It tells how something is done. The blank describes the thunder."
+                "feedback": "The word loudly does not describe a noun. Try it: the loudly thunder does not sound right. The blank needs a word that tells what kind of thunder."
               },
               {
                 "text": "loudness",
@@ -3717,7 +3716,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "aloud",
-                "feedback": "The word aloud is an adverb, like read aloud. The blank describes the thunder."
+                "feedback": "The word aloud does not tell what kind of thunder. The aloud thunder does not sound right."
               }
             ],
             "clue": "Remember: the blank comes right before the noun thunder. A word that describes a noun is an adjective.",
@@ -3749,7 +3748,7 @@ window.SS_LEARN_CONTENT = {
               },
               {
                 "text": "deliciously",
-                "feedback": "The word deliciously is an adverb. It tells how something is done. The blank describes the pie."
+                "feedback": "The word deliciously does not describe a noun. Try it: a deliciously pie does not sound right. The blank needs a word that tells what kind of pie."
               },
               {
                 "text": "bake",
@@ -4023,7 +4022,7 @@ window.SS_LEARN_CONTENT = {
         },
         "question": "Which word is a pronoun?",
         /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
-        "clue": "Remember: a pronoun takes the place of a noun, like he, she, it, we, they, or their.",
+        "clue": "Remember: a pronoun takes the place of a noun. Look for the word that could stand for the twins.",
         "reveal": "Let's find it together. their stands for the twins and tells whose project it is, so their is the pronoun.",
         "choices": [
           {
@@ -7378,7 +7377,7 @@ window.SS_LEARN_CONTENT = {
         },
         "question": "Which word is the helping verb?",
         /* Build 1.6.0: Help me in Learn. Help 1 gives `clue`; Help 3 walks through with `reveal`. */
-        "clue": "Remember: find the main verb first. The helping verb comes right before it.",
+        "clue": "Remember: find the main verb first. The helping verb comes before it.",
         "reveal": "Let's find it together. The main verb is juggle. The word right before it is can, so can is the helping verb.",
         "choices": [
           {

@@ -1390,7 +1390,9 @@ img{max-width:100%;}
 /* Build 1.5.0 — HELP ME. A crossed-out choice is struck through AND dimmed,
    never colour alone. The walk-through outline is a thick dashed ring, so
    it reads as "look here", not as "this was marked right for you". */
-.choice-btn.is-ruled-out{text-decoration:line-through;text-decoration-thickness:2px;opacity:0.45;}
+/* 1.6.0: a choice Help me removed looks different from one the child got
+   wrong (struck through): faded with a dashed edge -- still not colour alone. */
+.choice-btn.is-ruled-out{opacity:0.4;border-style:dashed;}
 .choice-btn.is-hint{outline:3px dashed var(--clue-ink);outline-offset:3px;}
 .fb-label{display:block;font-size:.8rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
   margin:0 0 4px;flex:0 0 100%;}
@@ -2067,7 +2069,7 @@ img{max-width:100%;}
 .ga-tags-label{font-weight:800;letter-spacing:.3px;text-transform:uppercase;font-size:.7rem;}
 .ga-tag{display:inline-flex;gap:5px;align-items:baseline;border:1px solid var(--line);border-radius:999px;
   padding:2px 9px;background:#fff;}
-.ga-code{font-weight:800;color:var(--navy-deep);}
+.ga-code{font-weight:800;color:var(--navy-deep);white-space:nowrap;}
 .ga-label{font-weight:600;}
 .practice-head .ga-tags{margin-top:6px;}
 
