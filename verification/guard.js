@@ -162,8 +162,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     fontsLoaded: document.fonts ? document.fonts.status : "n/a"
   }));
 
-  ok("1.4 BUILD_NUMBER is Build 1.6.0", globals.build === "Build 1.6.0", globals.build);
-  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.6.0", globals.badge);
+  ok("1.4 BUILD_NUMBER is Build 1.7.0", globals.build === "Build 1.7.0", globals.build);
+  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.7.0", globals.badge);
   ok("1.6 the three component globals are present",
     globals.hasLearn && globals.hasPractice && globals.hasSentence);
   ok("1.7 localStorage and sessionStorage empty on load",
@@ -300,7 +300,10 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     /* Test is available exactly where a test bank exists. Verb has one
        as of this build; the other three do not, and must still read as
        honestly unavailable rather than as a dead control. */
-    const testReady = (key === "verb");
+    /* Build 1.7.0: every skill has a test pool. Read from content, like
+       Practice, so a skill without a pool still has to read as unavailable. */
+    const testReady = await page.evaluate(k => window.SS_LEARN_CONTENT.topics[k].test === "pool" &&
+      !!window.SS_TEST.hasBank(k), key);
     ok(`3.4 ${name} Test availability is honest`,
       testReady
         ? (testCard.soon === false && testCard.hasButton === true)
@@ -1078,8 +1081,13 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     why: Array.from(document.querySelectorAll("#test-review .review-why"))
       .map(p => p.textContent.trim()).filter(s => s.length > 0).length
   }));
-  ok("13.28 review opens with one item per question and an explanation each",
-    t5.open && t5.items === 12 && t5.why === 12, t5.items + " items, " + t5.why + " explanations");
+  /* Build 1.7.0: a missed question offers Show me how (clue, two
+     choices, then the explanation) in place of an up-front explanation. */
+  const t5how = await page.evaluate(() =>
+    document.querySelectorAll("#test-review .show-how-btn").length);
+  ok("13.28 review opens with one item per question and an explanation or Show me how each",
+    t5.open && t5.items === 12 && t5.why + t5how === 12,
+    t5.items + " items, " + t5.why + " explanations, " + t5how + " Show me how");
 
   /* REGRESSION, forensic audit defect D-A1.
 
@@ -2051,6 +2059,116 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     const h4 = await probe();
     ok("15L." + key + ".5 tapping the answer finishes the step and clears the hint ring",
       h4.rightMarked && !h4.rightHint && !h4.locked);
+  }
+
+  /* ===== 15T. TEST POOLS FOR EVERY SKILL (Build 1.7.0) =====
+     Static integrity of each generic pool, then one sitting driven
+     through the real UI: no help during the test, honest scoring by
+     subscale, and Show me how after submission on missed items only. */
+  const genericKeys = await page.evaluate(() => window.SS_LEARN_CONTENT.homeOrder
+    .filter(k => { const p = window.SS_LEARN_CONTENT.topics[k].testPool; return p && p.subscales; }));
+  ok("15T.0 nine skills carry a generic test pool", genericKeys.length === 9, genericKeys.join(","));
+  for (const key of genericKeys) {
+    const st = await page.evaluate(k => {
+      const p = window.SS_LEARN_CONTENT.topics[k].testPool, qs = p.questions;
+      const bad = [];
+      const strip = w => w.replace(/^[^\w']+|[^\w']+$/g, "").toLowerCase();
+      const ids = new Set();
+      qs.forEach(q => {
+        if (ids.has(q.id)) bad.push(q.id + " dup"); ids.add(q.id);
+        const c = q.choices.filter(x => x.correct);
+        if (q.choices.length !== 4 || c.length !== 1) { bad.push(q.id + " choices"); return; }
+        const ans = c[0].text;
+        if (q.why.indexOf(ans) < 0) bad.push(q.id + " why");
+        if (!q.clue) bad.push(q.id + " no clue");
+        else {
+          /* A clue leaks when it names the answer and none of the other
+             choices. A clue that lists the options as a rule ("One is he,
+             she, or it") teaches the strategy and names distractors too. */
+          const has = t => t.split(" ").length === 1 &&
+            new RegExp("\\b" + t.replace(/[^\w]/g, "") + "\\b", "i").test(q.clue);
+          if (has(ans) && !q.choices.some(x => !x.correct && has(x.text))) bad.push(q.id + " clue leaks");
+        }
+        const words = q.sentence.words.map(strip);
+        if (/^Which word/.test(q.question)) {
+          q.choices.forEach(x => { const t = x.text.toLowerCase().split(" ");
+            if (!t.every(w => words.indexOf(w) >= 0)) bad.push(q.id + " choice not in sentence: " + x.text); });
+          if (ans.split(" ").length === 1 && words.filter(w => w === ans.toLowerCase()).length !== 1) bad.push(q.id + " answer count");
+        }
+        if (q.sentence.words.indexOf("____") >= 0 && q.sentence.words.filter(w => w.indexOf("____") >= 0).length !== 1) bad.push(q.id + " blanks");
+      });
+      const cells = {};
+      qs.forEach(q => { const kk = q.band + ":" + q.type; cells[kk] = (cells[kk] || 0) + 1; });
+      const cellOK = [1, 2, 3].every(b => p.subscales.every(s => cells[b + ":" + s.key] === Math.round(s.share * 12)));
+      const g = p.guidance;
+      const guideOK = ["mastered", "almost", "keepGoing"].every(x => g[x]) && p.subscales.every(s => g[s.key + "Weak"]);
+      return { n: qs.length, bad: bad, cellOK: cellOK, guideOK: guideOK,
+               sizes: p.sizes.join(","), subs: p.subscales.length };
+    }, key);
+    ok("15T." + key + ".1 36 questions, 12 per band, subscale counts follow the shares", st.n === 36 && st.cellOK, "n=" + st.n);
+    ok("15T." + key + ".2 every item: 4 choices, one answer, why names it, clue never does, choices in the sentence",
+      st.bad.length === 0, st.bad.slice(0, 4).join("; "));
+    ok("15T." + key + ".3 guidance covers mastered, almost, keepGoing and each subscale", st.guideOK);
+
+    /* one sitting: miss the first two, get the rest right */
+    await page.evaluate(k => window.SS_SHELL.openActivity(k, "test"), key);
+    await sleep(200);
+    await page.click("#test-start"); await sleep(120);
+    let helpSeen = 0;
+    for (let i = 0; i < 12; i++) {
+      const w = await page.evaluate(k => {
+        const s = window.SS_TEST.state();
+        const q = window.SS_LEARN_CONTENT.topics[k].testPool.questions[s.order[s.pos]];
+        const vis = Array.from(document.querySelectorAll("#screen-test button"))
+          .filter(b => b.offsetParent !== null && /help|hint|show me/i.test(b.textContent)).length;
+        return { c: q.choices.findIndex(x => x.correct), w: q.choices.findIndex(x => !x.correct), vis: vis,
+                 leak: document.getElementById("screen-test").innerHTML.indexOf(q.why) >= 0 };
+      }, key);
+      helpSeen += w.vis + (w.leak ? 1 : 0);
+      const ci = i < 2 ? w.w : w.c;
+      await page.evaluate(c => Array.from(document.querySelectorAll("#test-choices .choice-btn"))
+        .find(x => Number(x.dataset.ci) === c).click(), ci);
+      await sleep(30);
+      await page.click("#test-next"); await sleep(45);
+    }
+    ok("15T." + key + ".4 no help, hint or explanation during the test", helpSeen === 0, "seen=" + helpSeen);
+    await page.click("#test-submit"); await sleep(190);
+    const r = await page.evaluate(k => {
+      const s = window.SS_TEST.state(), p = window.SS_LEARN_CONTENT.topics[k].testPool;
+      return { overall: s.result.overall, tier: s.result.tier, msg: document.getElementById("test-guidance").textContent,
+               want: p.guidance[s.result.tier], rows: document.querySelectorAll("#test-subscores > *").length,
+               subs: p.subscales.length, score: document.getElementById("test-score-value").textContent };
+    }, key);
+    ok("15T." + key + ".5 results: 10 of 12, one row per subscale, guidance from content",
+      r.overall === 10 && r.score === "10" && r.rows === r.subs && !!r.want && r.msg === r.want,
+      r.overall + " tier=" + r.tier + " rows=" + r.rows);
+    await page.click("#test-review-btn"); await sleep(150);
+    const v = await page.evaluate(() => ({
+      how: document.querySelectorAll("#test-review .show-how-btn").length,
+      hiddenAns: Array.from(document.querySelectorAll("#test-review .review-correct")).filter(x => x.hidden).length }));
+    ok("15T." + key + ".6 Show me how appears on the two missed items only, answer held back",
+      v.how === 2 && v.hiddenAns === 2, "how=" + v.how + " hidden=" + v.hiddenAns);
+    const steps = [];
+    for (let i = 0; i < 3; i++) {
+      await page.click("#test-review .show-how-btn"); await sleep(50);
+      steps.push(await page.evaluate(() => {
+        const item = document.querySelector("#test-review .show-how-btn").closest(".review-item");
+        return { txt: Array.from(item.querySelectorAll(".show-how-text")).map(x => x.textContent),
+                 ans: item.querySelector(".review-correct .ra-word").textContent,
+                 ansHidden: item.querySelector(".review-correct").hidden,
+                 disabled: item.querySelector(".show-how-btn").disabled };
+      }));
+    }
+    const row = await page.evaluate(k => {
+      const s = window.SS_TEST.state(), q = window.SS_LEARN_CONTENT.topics[k].testPool.questions[s.order[0]];
+      return { clue: q.clue, why: q.why };
+    }, key);
+    const [s1, s2, s3] = steps;
+    ok("15T." + key + ".7 Show me how: clue, then two choices, then the walk-through and the answer",
+      s1.txt[0] === row.clue && s1.ansHidden &&
+      /one of these two/.test(s2.txt[1]) && s2.txt[1].indexOf(s2.ans) >= 0 && s2.ansHidden &&
+      s3.txt[2] === row.why && !s3.ansHidden && s3.disabled,
+      JSON.stringify(s2.txt[1] || "").slice(0, 80));
   }
 
   /* ===== 16. INSTRUCTIONAL REGRESSION GUARDS (Build 1.4.2) =====

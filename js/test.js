@@ -751,8 +751,12 @@
       yours.appendChild(make("span", "ra-label", "You chose"));
       yours.appendChild(make("span", "ra-word", row.chosen === null ? "—" : row.chosen));
       ans.appendChild(yours);
+      let corr = null;
       if (!row.right) {
-        const corr = make("span", "review-correct");
+        /* The right answer stays hidden until Hint 3 of Show me how, the
+           same order as Help me: clue, two choices, then the answer. */
+        corr = make("span", "review-correct");
+        corr.hidden = true;
         corr.appendChild(make("span", "ra-label", isGeneric(run.bank) ? "The answer is" : "The verb is"));
         corr.appendChild(make("span", "ra-word", row.correct));
         ans.appendChild(corr);
@@ -764,13 +768,13 @@
         /* Build 1.7.0 — SHOW ME HOW. The same three steps as Help me in
            Learn and Practice, one per press, AFTER the test is submitted,
            so the score stays an honest measure. */
-        item.appendChild(showMeHow(row));
+        item.appendChild(showMeHow(row, corr));
       }
       rev.appendChild(item);
     });
   }
 
-  function showMeHow(row) {
+  function showMeHow(row, corr) {
     const t = C.topics[run.topicKey];
     const clue = row.clue || t.testClue || "";
     const wrap = make("div", "show-how");
@@ -798,7 +802,10 @@
       p.appendChild(make("span", "fb-label", label));
       p.appendChild(make("span", "show-how-text", text));
       out.appendChild(p);
-      if (step >= 3) { btn.disabled = true; btn.textContent = "Show me how"; }
+      if (step >= 3) {
+        btn.disabled = true; btn.textContent = "Show me how";
+        if (corr) corr.hidden = false;
+      }
       else btn.textContent = "Show me how (next hint)";
     });
     wrap.appendChild(btn);
