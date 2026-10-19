@@ -1,9 +1,26 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.4.0**
-**Last pass:** Simplified product redesign — skill-first navigation — 2026-09-20
+**Current build: Sentence Sense — Build 1.5.0**
+**Last pass:** Georgia grade 3 upgrade — Help me hints, six new skills, grouped Home, standard tags — 2026-10-19
+**Previous:** Build 1.4.2 (Subject Practice). Rollback branch: `backup/live-build-1.4.2` (exact copy of 1.4.2, `274a298`).
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
 **This file describes the CURRENT shipped state only. Read it first.**
+
+## BUILD 1.5.0 IN ONE SCREEN (owner-approved 2026-10-19)
+
+| Change | Where |
+|---|---|
+| **Help me** replaces "Need a clue?" and the guess-to-get-help ladder in Practice | `js/practice.js` `help()`, `sendBack()`; §6 |
+| **Six Georgia grade 3 skills**, each Learn + a 20-question Practice bank (Test "coming next"): Pronoun, Adverb, Complete Sentence, Helping & Linking Verbs, Verb Tense, Subject-Verb Agreement | `js/data/learn-content.js` |
+| **Home in two labelled rows**: Words (7) · Sentences (3) | `homeGroups` in content; `buildHome()` |
+| **Georgia standard tags** on the Skill screen, at the foot of every Learn step, and under every Practice question | `ga` per topic; `std` per question; `window.SS_GA` |
+| Harness updated to the approved behaviour | `verification/guard.js` — 655 pass |
+
+The six banks were written and independently reviewed outside the owner's
+approval loop (owner approved going live directly). The content is held to
+`STANDARDS-ALIGNMENT.md` in the `build-1.3`/`build-1.4` branches; every
+question carries its Georgia code in `std`.
+
 
 ---
 
@@ -118,10 +135,10 @@ Four governing rules:
 
 ## 2. BUILD NUMBERING — EVERY PUSH GETS A NEW NUMBER
 
-Current: **Build 1.4.0**. It must match in four places, and the audit checks all four:
+Current: **Build 1.5.0**. It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.4.0";`
-2. the rendered badge — `Sentence Sense — Build 1.4.0`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.5.0";`
+2. the rendered badge — `Sentence Sense — Build 1.5.0`
 3. the audit file name and heading
 4. this handoff
 
@@ -148,7 +165,7 @@ Current: **Build 1.4.0**. It must match in four places, and the audit checks all
 | ~~`assets/images/logo.png`, `logo-512.png`~~ | **DELETED in 1.4.0.** Unreferenced; the cartoon-mascot lockup contradicted the art direction. See §11 H-03. |
 | `assets/reference/home-screen-mockup.png` | The approved style reference. Not loaded by the site. |
 | `verification/serve.js` · `verification/guard.js` | Dev harness. Not part of the site. |
-| `AUDIT-REPORT-Build-1.4.0.md` | The current build audit — and the only one |
+| `AUDIT-REPORT-Build-1.5.0.md` | The current build audit — and the only one |
 | `SENTENCE-SENSE-HANDOFF.md` | This file |
 
 Script load order in `index.html` matters:
@@ -166,14 +183,24 @@ HOME  →  SKILL  →  LEARN | PRACTICE | TEST  →  ACTIVITY
 The child chooses **what** before **how**. The mode-first portal of Builds
 1.0–1.3 is retired.
 
-### Home — four skills, nothing else
+### Home — ten skills in two labelled rows (Build 1.5.0)
 
-| Skill | Child clue | Practice | Test |
-|---|---|---|---|
-| **Verb** | What is happening? | 20-question bank | **12 / 20 / 30 from a 48-question pool** |
-| **Subject** | Who or what? | coming next | coming next |
-| **Noun** | Names a person, place, thing, or idea. | coming next | coming next |
-| **Adjective** | Describes a noun. | coming next | coming next |
+| Group | Skill | Child clue | Practice | Test |
+|---|---|---|---|---|
+| Words | **Verb** | What is happening? | 20-question bank | **12 / 20 / 30 from a 48-question pool** |
+| Words | **Helping & Linking Verbs** | Does it help or link? | 20-question bank | coming next |
+| Words | **Verb Tense** | When does it happen? | 20-question bank | coming next |
+| Words | **Noun** | Names a person, place, thing, or idea. | coming next | coming next |
+| Words | **Pronoun** | Who or what does it stand for? | 20-question bank | coming next |
+| Words | **Adjective** | Describes a noun. | coming next | coming next |
+| Words | **Adverb** | How? When? Where? | 20-question bank | coming next |
+| Sentences | **Subject** | Who or what? | 20-question bank | coming next |
+| Sentences | **Complete Sentence** | Is it a complete thought? | 20-question bank | coming next |
+| Sentences | **Subject-Verb Agreement** | Do the subject and verb match? | 20-question bank | coming next |
+
+`homeGroups` drives the two rows; `homeOrder` stays the flat list and **must
+equal the groups flattened** (guard check 2.2c). The "no fifth skill" rule of
+1.4.0 was superseded by the owner on 2026-10-19 for Georgia alignment.
 
 Home contains: the banner (wordmark, "Build stronger sentences.", "Choose a
 skill to start learning.", and a non-interactive *3rd Grade ELA / Aligned with
@@ -306,9 +333,24 @@ Everything the bank was built to guarantee is preserved and checked:
   guided reveal, then the child moves on
 - **nothing auto-advances**; no score, no timer, no streak, nothing stored
 
-**New in 1.4.0: "Need a clue?"** The child may ask for the clue instead of
-guessing for it. Asking is not an error — no attempt is counted and nothing is
-marked wrong.
+**Changed in 1.5.0: "Help me" replaces "Need a clue?"** (owner-approved
+2026-10-19). Before, help only grew when the child guessed wrong again, which
+taught guessing. Now the child asks, one step per press, and asking is never
+an error:
+
+| Press | Gives | Source |
+|---|---|---|
+| Help 1 | the strategy for this question | `q.clue` |
+| Help 2 | narrow it down: wrong choices crossed out until two are left (never the answer) | engine |
+| Help 3 | the walk-through, with the answer outlined — **the child still taps it** | `q.reveal` |
+
+A wrong answer explains that word and says *Try again, or press Help me for a
+hint.* The third wrong still reveals (only one choice is left). A question
+finished by Help 3 or a reveal **comes back once, later in the same stage**,
+reshuffled, titled *Let's try this one again*; the "Question X of 20" count
+never grows. Planned next (owner-approved direction): per-skill guided
+walkthroughs where each hint asks the child to DO the step (tap the verb, then
+answer the question about it).
 
 A skill runs Practice only if its content carries a `tryItBank`. Otherwise it
 gets the honest placeholder. **No bank was invented for Subject, Noun or
@@ -765,8 +807,15 @@ verification results and the screenshots are therefore **in this repository**.
 Standing constraints, observed:
 
 - **Do NOT merge into `main`.** `main` is still at Build 1.2.7 (`cc1f102`).
+  GitHub Pages serves `claude/build-1.4`, so **every push to that branch is
+  production.**
 - **Do NOT force-push.**
-- **Do NOT deploy to the live site.**
+- **Deploying is the owner's call.** On 2026-10-19 the owner approved Build
+  1.5.0 to go live directly once every check passed. Work was done on
+  `port-milestones` and fast-forwarded onto `claude/build-1.4`. The exact
+  1.4.2 that was live before is kept on branch `backup/live-build-1.4.2`.
+  To roll back without force-pushing, revert the 1.5.0 commits
+  (`git revert <first>^..<last>`) and push, or ask Claude to do it.
 
 If GitHub Pages publishes from `main`, the live site is two builds behind.
 Merging is what would change it, and that is a separate decision from approving
@@ -798,4 +847,4 @@ discrepancy **before** editing.
 
 ---
 
-*End of handoff. Last updated 2026-09-20 for Build 1.4.0.*
+*End of handoff. Last updated 2026-10-19 for Build 1.5.0.*
