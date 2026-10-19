@@ -68,6 +68,16 @@
   --subject-ink:#157A46;   --subject-tint:#EAF6EF;   --subject-edge:#C3E4D2;
   --noun-ink:#B4530F;      --noun-tint:#FDF2E8;      --noun-edge:#F6DABF;
   --adjective-ink:#6A4CD0; --adjective-tint:#F2EDFD; --adjective-edge:#DCD0F7;
+  /* Build 1.5.0 — six more skills. Each ink measured on white:
+       #8A2F7B 7.6:1   #A62A5C 6.8:1   #2E4A6B 9.1:1
+       #3F4FB8 7.0:1   #0E5A8A 7.4:1   #1F6B5A 6.4:1
+     and on its own tint: 6.6, 6.0, 8.0, 6.1, 6.6, 5.6 -- all above AA. */
+  --pronoun-ink:#8A2F7B;           --pronoun-tint:#F8ECF5;           --pronoun-edge:#E9CDE2;
+  --adverb-ink:#A62A5C;            --adverb-tint:#FCEDF2;            --adverb-edge:#F1CCDA;
+  --complete-sentence-ink:#2E4A6B; --complete-sentence-tint:#EDF1F6; --complete-sentence-edge:#CED8E4;
+  --helping-linking-ink:#3F4FB8;   --helping-linking-tint:#EEF0FB;   --helping-linking-edge:#D0D5F2;
+  --verb-tense-ink:#0E5A8A;        --verb-tense-tint:#E9F3F9;        --verb-tense-edge:#C5DEEC;
+  --agreement-ink:#1F6B5A;         --agreement-tint:#E9F4F1;         --agreement-edge:#C5E2DA;
 
   /* The two skills kept in content but not routed in 1.4.0. Their
      tokens stay so a later build can surface them without a CSS pass. */
@@ -1370,7 +1380,15 @@ img{max-width:100%;}
   transition:width .25s ease;
 }
 
-#practice-clue{margin-right:auto;}
+#practice-help{margin-right:auto;}
+/* Build 1.5.0 — HELP ME. A crossed-out choice is struck through AND dimmed,
+   never colour alone. The walk-through outline is a thick dashed ring, so
+   it reads as "look here", not as "this was marked right for you". */
+.choice-btn.is-ruled-out{text-decoration:line-through;text-decoration-thickness:2px;opacity:0.45;}
+.choice-btn.is-hint{outline:3px dashed var(--clue-ink);outline-offset:3px;}
+.fb-label{display:block;font-size:.8rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
+  margin:0 0 4px;flex:0 0 100%;}
+.answer-feedback:has(.fb-label){flex-wrap:wrap;}
 
 
 /* ---------- 9b. TEST ----------
@@ -1919,3 +1937,136 @@ img{max-width:100%;}
    cancels the content gap between them, which keeps the whole pairing
    close to the cost of the note alone. */
 .lesson-note-title{margin-top:4px;margin-bottom:-6px;}
+
+/* ---------- Build 1.5.0 — per-skill colour for the six new skills ----------
+   Generated from the same formula as Verb/Subject/Noun/Adjective above. */
+.skill-pronoun{background:var(--pronoun-tint);border-color:var(--pronoun-edge);}
+.skill-pronoun .skill-icon{background:#fff;color:var(--pronoun-ink);border:1px solid var(--pronoun-edge);}
+.skill-pronoun .btn-start{background:var(--pronoun-ink);border-color:var(--pronoun-ink);}
+.skill-pronoun .skill-preview{background:#fff;border-color:var(--pronoun-edge);}
+.screen-skill[data-topic="pronoun"] .skill-hero{background:var(--pronoun-tint);background:color-mix(in srgb, var(--pronoun-tint) 45%, #fff);border-color:var(--pronoun-edge);}
+.screen-skill[data-topic="pronoun"] .sh-glyph{color:var(--pronoun-ink);border-color:var(--pronoun-edge);}
+.screen-skill[data-topic="pronoun"] .activity-card{background:var(--pronoun-tint);border-color:var(--pronoun-edge);border-top-color:var(--pronoun-ink);}
+.screen-skill[data-topic="pronoun"] .activity-icon{color:var(--pronoun-ink);border-color:var(--pronoun-edge);}
+.screen-skill[data-topic="pronoun"] .btn-activity{background:var(--pronoun-ink);border-color:var(--pronoun-ink);box-shadow:0 2px 7px color-mix(in srgb, var(--pronoun-ink) 30%, transparent);}
+.screen-learn[data-topic="pronoun"] .lc-fallback{border-top-color:var(--pronoun-edge);}
+.screen-learn[data-topic="pronoun"] .lc-fallback .chip{color:var(--pronoun-ink);border-color:var(--pronoun-edge);}
+.screen-learn[data-topic="pronoun"] .lesson-callout{background:var(--pronoun-tint);border-color:var(--pronoun-edge);border-left-color:var(--pronoun-ink);}
+.screen-learn[data-topic="pronoun"] .lc-key{background:var(--pronoun-ink);}
+.screen-learn[data-topic="pronoun"] .lc-big-line{color:var(--pronoun-ink);}
+.screen-learn[data-topic="pronoun"] .lesson-routine li::before{background:var(--pronoun-ink);}
+.screen-test[data-topic="pronoun"] .choice-btn.is-picked{border-color:var(--pronoun-ink);background:var(--pronoun-tint);box-shadow:inset 0 0 0 1px var(--pronoun-ink);}
+.ss-k-pronoun{color:var(--pronoun-ink);}
+.skill-adverb{background:var(--adverb-tint);border-color:var(--adverb-edge);}
+.skill-adverb .skill-icon{background:#fff;color:var(--adverb-ink);border:1px solid var(--adverb-edge);}
+.skill-adverb .btn-start{background:var(--adverb-ink);border-color:var(--adverb-ink);}
+.skill-adverb .skill-preview{background:#fff;border-color:var(--adverb-edge);}
+.screen-skill[data-topic="adverb"] .skill-hero{background:var(--adverb-tint);background:color-mix(in srgb, var(--adverb-tint) 45%, #fff);border-color:var(--adverb-edge);}
+.screen-skill[data-topic="adverb"] .sh-glyph{color:var(--adverb-ink);border-color:var(--adverb-edge);}
+.screen-skill[data-topic="adverb"] .activity-card{background:var(--adverb-tint);border-color:var(--adverb-edge);border-top-color:var(--adverb-ink);}
+.screen-skill[data-topic="adverb"] .activity-icon{color:var(--adverb-ink);border-color:var(--adverb-edge);}
+.screen-skill[data-topic="adverb"] .btn-activity{background:var(--adverb-ink);border-color:var(--adverb-ink);box-shadow:0 2px 7px color-mix(in srgb, var(--adverb-ink) 30%, transparent);}
+.screen-learn[data-topic="adverb"] .lc-fallback{border-top-color:var(--adverb-edge);}
+.screen-learn[data-topic="adverb"] .lc-fallback .chip{color:var(--adverb-ink);border-color:var(--adverb-edge);}
+.screen-learn[data-topic="adverb"] .lesson-callout{background:var(--adverb-tint);border-color:var(--adverb-edge);border-left-color:var(--adverb-ink);}
+.screen-learn[data-topic="adverb"] .lc-key{background:var(--adverb-ink);}
+.screen-learn[data-topic="adverb"] .lc-big-line{color:var(--adverb-ink);}
+.screen-learn[data-topic="adverb"] .lesson-routine li::before{background:var(--adverb-ink);}
+.screen-test[data-topic="adverb"] .choice-btn.is-picked{border-color:var(--adverb-ink);background:var(--adverb-tint);box-shadow:inset 0 0 0 1px var(--adverb-ink);}
+.ss-k-adverb{color:var(--adverb-ink);}
+.skill-complete-sentence{background:var(--complete-sentence-tint);border-color:var(--complete-sentence-edge);}
+.skill-complete-sentence .skill-icon{background:#fff;color:var(--complete-sentence-ink);border:1px solid var(--complete-sentence-edge);}
+.skill-complete-sentence .btn-start{background:var(--complete-sentence-ink);border-color:var(--complete-sentence-ink);}
+.skill-complete-sentence .skill-preview{background:#fff;border-color:var(--complete-sentence-edge);}
+.screen-skill[data-topic="complete-sentence"] .skill-hero{background:var(--complete-sentence-tint);background:color-mix(in srgb, var(--complete-sentence-tint) 45%, #fff);border-color:var(--complete-sentence-edge);}
+.screen-skill[data-topic="complete-sentence"] .sh-glyph{color:var(--complete-sentence-ink);border-color:var(--complete-sentence-edge);}
+.screen-skill[data-topic="complete-sentence"] .activity-card{background:var(--complete-sentence-tint);border-color:var(--complete-sentence-edge);border-top-color:var(--complete-sentence-ink);}
+.screen-skill[data-topic="complete-sentence"] .activity-icon{color:var(--complete-sentence-ink);border-color:var(--complete-sentence-edge);}
+.screen-skill[data-topic="complete-sentence"] .btn-activity{background:var(--complete-sentence-ink);border-color:var(--complete-sentence-ink);box-shadow:0 2px 7px color-mix(in srgb, var(--complete-sentence-ink) 30%, transparent);}
+.screen-learn[data-topic="complete-sentence"] .lc-fallback{border-top-color:var(--complete-sentence-edge);}
+.screen-learn[data-topic="complete-sentence"] .lc-fallback .chip{color:var(--complete-sentence-ink);border-color:var(--complete-sentence-edge);}
+.screen-learn[data-topic="complete-sentence"] .lesson-callout{background:var(--complete-sentence-tint);border-color:var(--complete-sentence-edge);border-left-color:var(--complete-sentence-ink);}
+.screen-learn[data-topic="complete-sentence"] .lc-key{background:var(--complete-sentence-ink);}
+.screen-learn[data-topic="complete-sentence"] .lc-big-line{color:var(--complete-sentence-ink);}
+.screen-learn[data-topic="complete-sentence"] .lesson-routine li::before{background:var(--complete-sentence-ink);}
+.screen-test[data-topic="complete-sentence"] .choice-btn.is-picked{border-color:var(--complete-sentence-ink);background:var(--complete-sentence-tint);box-shadow:inset 0 0 0 1px var(--complete-sentence-ink);}
+.ss-k-complete-sentence{color:var(--complete-sentence-ink);}
+.skill-helping-linking{background:var(--helping-linking-tint);border-color:var(--helping-linking-edge);}
+.skill-helping-linking .skill-icon{background:#fff;color:var(--helping-linking-ink);border:1px solid var(--helping-linking-edge);}
+.skill-helping-linking .btn-start{background:var(--helping-linking-ink);border-color:var(--helping-linking-ink);}
+.skill-helping-linking .skill-preview{background:#fff;border-color:var(--helping-linking-edge);}
+.screen-skill[data-topic="helping-linking"] .skill-hero{background:var(--helping-linking-tint);background:color-mix(in srgb, var(--helping-linking-tint) 45%, #fff);border-color:var(--helping-linking-edge);}
+.screen-skill[data-topic="helping-linking"] .sh-glyph{color:var(--helping-linking-ink);border-color:var(--helping-linking-edge);}
+.screen-skill[data-topic="helping-linking"] .activity-card{background:var(--helping-linking-tint);border-color:var(--helping-linking-edge);border-top-color:var(--helping-linking-ink);}
+.screen-skill[data-topic="helping-linking"] .activity-icon{color:var(--helping-linking-ink);border-color:var(--helping-linking-edge);}
+.screen-skill[data-topic="helping-linking"] .btn-activity{background:var(--helping-linking-ink);border-color:var(--helping-linking-ink);box-shadow:0 2px 7px color-mix(in srgb, var(--helping-linking-ink) 30%, transparent);}
+.screen-learn[data-topic="helping-linking"] .lc-fallback{border-top-color:var(--helping-linking-edge);}
+.screen-learn[data-topic="helping-linking"] .lc-fallback .chip{color:var(--helping-linking-ink);border-color:var(--helping-linking-edge);}
+.screen-learn[data-topic="helping-linking"] .lesson-callout{background:var(--helping-linking-tint);border-color:var(--helping-linking-edge);border-left-color:var(--helping-linking-ink);}
+.screen-learn[data-topic="helping-linking"] .lc-key{background:var(--helping-linking-ink);}
+.screen-learn[data-topic="helping-linking"] .lc-big-line{color:var(--helping-linking-ink);}
+.screen-learn[data-topic="helping-linking"] .lesson-routine li::before{background:var(--helping-linking-ink);}
+.screen-test[data-topic="helping-linking"] .choice-btn.is-picked{border-color:var(--helping-linking-ink);background:var(--helping-linking-tint);box-shadow:inset 0 0 0 1px var(--helping-linking-ink);}
+.ss-k-helping-linking{color:var(--helping-linking-ink);}
+.skill-verb-tense{background:var(--verb-tense-tint);border-color:var(--verb-tense-edge);}
+.skill-verb-tense .skill-icon{background:#fff;color:var(--verb-tense-ink);border:1px solid var(--verb-tense-edge);}
+.skill-verb-tense .btn-start{background:var(--verb-tense-ink);border-color:var(--verb-tense-ink);}
+.skill-verb-tense .skill-preview{background:#fff;border-color:var(--verb-tense-edge);}
+.screen-skill[data-topic="verb-tense"] .skill-hero{background:var(--verb-tense-tint);background:color-mix(in srgb, var(--verb-tense-tint) 45%, #fff);border-color:var(--verb-tense-edge);}
+.screen-skill[data-topic="verb-tense"] .sh-glyph{color:var(--verb-tense-ink);border-color:var(--verb-tense-edge);}
+.screen-skill[data-topic="verb-tense"] .activity-card{background:var(--verb-tense-tint);border-color:var(--verb-tense-edge);border-top-color:var(--verb-tense-ink);}
+.screen-skill[data-topic="verb-tense"] .activity-icon{color:var(--verb-tense-ink);border-color:var(--verb-tense-edge);}
+.screen-skill[data-topic="verb-tense"] .btn-activity{background:var(--verb-tense-ink);border-color:var(--verb-tense-ink);box-shadow:0 2px 7px color-mix(in srgb, var(--verb-tense-ink) 30%, transparent);}
+.screen-learn[data-topic="verb-tense"] .lc-fallback{border-top-color:var(--verb-tense-edge);}
+.screen-learn[data-topic="verb-tense"] .lc-fallback .chip{color:var(--verb-tense-ink);border-color:var(--verb-tense-edge);}
+.screen-learn[data-topic="verb-tense"] .lesson-callout{background:var(--verb-tense-tint);border-color:var(--verb-tense-edge);border-left-color:var(--verb-tense-ink);}
+.screen-learn[data-topic="verb-tense"] .lc-key{background:var(--verb-tense-ink);}
+.screen-learn[data-topic="verb-tense"] .lc-big-line{color:var(--verb-tense-ink);}
+.screen-learn[data-topic="verb-tense"] .lesson-routine li::before{background:var(--verb-tense-ink);}
+.screen-test[data-topic="verb-tense"] .choice-btn.is-picked{border-color:var(--verb-tense-ink);background:var(--verb-tense-tint);box-shadow:inset 0 0 0 1px var(--verb-tense-ink);}
+.ss-k-verb-tense{color:var(--verb-tense-ink);}
+.skill-agreement{background:var(--agreement-tint);border-color:var(--agreement-edge);}
+.skill-agreement .skill-icon{background:#fff;color:var(--agreement-ink);border:1px solid var(--agreement-edge);}
+.skill-agreement .btn-start{background:var(--agreement-ink);border-color:var(--agreement-ink);}
+.skill-agreement .skill-preview{background:#fff;border-color:var(--agreement-edge);}
+.screen-skill[data-topic="agreement"] .skill-hero{background:var(--agreement-tint);background:color-mix(in srgb, var(--agreement-tint) 45%, #fff);border-color:var(--agreement-edge);}
+.screen-skill[data-topic="agreement"] .sh-glyph{color:var(--agreement-ink);border-color:var(--agreement-edge);}
+.screen-skill[data-topic="agreement"] .activity-card{background:var(--agreement-tint);border-color:var(--agreement-edge);border-top-color:var(--agreement-ink);}
+.screen-skill[data-topic="agreement"] .activity-icon{color:var(--agreement-ink);border-color:var(--agreement-edge);}
+.screen-skill[data-topic="agreement"] .btn-activity{background:var(--agreement-ink);border-color:var(--agreement-ink);box-shadow:0 2px 7px color-mix(in srgb, var(--agreement-ink) 30%, transparent);}
+.screen-learn[data-topic="agreement"] .lc-fallback{border-top-color:var(--agreement-edge);}
+.screen-learn[data-topic="agreement"] .lc-fallback .chip{color:var(--agreement-ink);border-color:var(--agreement-edge);}
+.screen-learn[data-topic="agreement"] .lesson-callout{background:var(--agreement-tint);border-color:var(--agreement-edge);border-left-color:var(--agreement-ink);}
+.screen-learn[data-topic="agreement"] .lc-key{background:var(--agreement-ink);}
+.screen-learn[data-topic="agreement"] .lc-big-line{color:var(--agreement-ink);}
+.screen-learn[data-topic="agreement"] .lesson-routine li::before{background:var(--agreement-ink);}
+.screen-test[data-topic="agreement"] .choice-btn.is-picked{border-color:var(--agreement-ink);background:var(--agreement-tint);box-shadow:inset 0 0 0 1px var(--agreement-ink);}
+.ss-k-agreement{color:var(--agreement-ink);}
+
+/* Build 1.5.0 — HOME IN TWO LABELLED ROWS. The outer list holds one item
+   per group; each group carries its own grid with the same columns the
+   four-card grid used. */
+.skill-grid.has-groups{display:block;list-style:none;padding:0;margin:0;}
+.skill-group{list-style:none;margin:0 0 26px;}
+.skill-group:last-child{margin-bottom:0;}
+.skill-group-head{margin:0 0 12px;}
+.skill-group-title{font-size:1.3rem;font-weight:800;color:var(--navy-deep);}
+.skill-group-sub{color:var(--muted);font-size:.95rem;}
+.skill-grid-inner{list-style:none;padding:0;margin:0;}
+
+/* Build 1.5.0 — GEORGIA STANDARD TAGS. For the parent: small, quiet,
+   always written out (code + skill), never decoration a child must read. */
+.ga-tags{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:12px 0 0;
+  font-size:.78rem;color:var(--muted);}
+.ga-tags-label{font-weight:800;letter-spacing:.3px;text-transform:uppercase;font-size:.7rem;}
+.ga-tag{display:inline-flex;gap:5px;align-items:baseline;border:1px solid var(--line);border-radius:999px;
+  padding:2px 9px;background:#fff;}
+.ga-code{font-weight:800;color:var(--navy-deep);}
+.ga-label{font-weight:600;}
+.practice-head .ga-tags{margin-top:6px;}
+
+/* Build 1.5.0 — WHOLE-SENTENCE CHOICES ("Which is the correct way to write
+   this sentence?") always stack in one left-aligned column so each option
+   reads as a sentence. Three classes so it outranks the 2-column wide rule. */
+.choices.is-wide.is-sentences{grid-template-columns:minmax(0,1fr);}
+.choices.is-sentences .choice-btn{text-align:left;line-height:1.35;}

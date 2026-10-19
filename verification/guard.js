@@ -162,8 +162,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     fontsLoaded: document.fonts ? document.fonts.status : "n/a"
   }));
 
-  ok("1.4 BUILD_NUMBER is Build 1.4.2", globals.build === "Build 1.4.2", globals.build);
-  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.4.2", globals.badge);
+  ok("1.4 BUILD_NUMBER is Build 1.5.0", globals.build === "Build 1.5.0", globals.build);
+  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.5.0", globals.badge);
   ok("1.6 the three component globals are present",
     globals.hasLearn && globals.hasPractice && globals.hasSentence);
   ok("1.7 localStorage and sessionStorage empty on load",
@@ -176,6 +176,13 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     const txt = document.getElementById("screen-home").textContent.toLowerCase();
     return {
       count: cards.length,
+      expected: window.SS_LEARN_CONTENT.homeOrder.map(k => window.SS_LEARN_CONTENT.topics[k].name),
+      expectedAsks: window.SS_LEARN_CONTENT.homeOrder.map(k => window.SS_LEARN_CONTENT.topics[k].ask),
+      groups: Array.from(document.querySelectorAll("#skill-grid .skill-group")).map(g => ({
+        title: g.querySelector(".skill-group-title").textContent,
+        cards: g.querySelectorAll(".skill-card").length })),
+      groupsMatch: (() => { const C = window.SS_LEARN_CONTENT;
+        return !!C.homeGroups && C.homeGroups.flatMap(g => g.skills).join() === C.homeOrder.join(); })(),
       names: cards.map(c => c.querySelector(".skill-name").textContent),
       asks: cards.map(c => c.querySelector(".skill-ask").textContent),
       previews: cards.map(c => c.querySelector(".skill-preview-line").textContent.trim()),
@@ -197,19 +204,26 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     };
   });
 
-  ok("2.1 Home shows exactly four skill cards", home.count === 4, home.count);
-  ok("2.2 the four skills are Verb, Subject, Noun, Adjective",
-    home.names.join(",") === "Verb,Subject,Noun,Adjective", home.names.join(","));
+  /* Build 1.5.0: ten skills in two labelled rows (owner-approved
+     2026-10-19). The list is driven by content, so these checks pin the
+     rendered Home to `homeOrder` and `homeGroups` rather than to a number. */
+  ok("2.1 Home shows one card per skill in homeOrder (10)",
+    home.count === home.expected.length && home.count === 10, home.count);
+  ok("2.2 the cards are the homeOrder skills, in order",
+    home.names.join(",") === home.expected.join(","), home.names.join(","));
+  ok("2.2b Home is grouped into Words (7) and Sentences (3)",
+    JSON.stringify(home.groups) === JSON.stringify([{ title: "Words", cards: 7 }, { title: "Sentences", cards: 3 }]),
+    JSON.stringify(home.groups));
+  ok("2.2c homeGroups flattened equals homeOrder", home.groupsMatch);
   ok("2.3 primary message is the approved wording",
     home.title === "Build stronger sentences.", home.title);
   ok("2.4 supporting line is the approved wording",
     home.sub === "Choose a skill to start learning.", home.sub);
-  ok("2.5 child clues match the brief", home.asks.join(" | ") ===
-    "What is happening? | Who or what? | Names a person, place, thing, or idea. | Describes a noun.",
-    home.asks.join(" | "));
+  ok("2.5 each card shows its skill's own child clue",
+    home.asks.join(" | ") === home.expectedAsks.join(" | "), home.asks.join(" | "));
   ok("2.6 each card carries an example sentence",
     home.previews.every(p => p.length > 0), home.previews.join(" / "));
-  ok("2.7 exactly one action button per card", home.buttons === 4, home.buttons);
+  ok("2.7 exactly one action button per card", home.buttons === home.count, home.buttons);
   ok("2.8 the card itself is not a second control", !home.cardIsButton);
   ok("2.9 a quiet Georgia alignment line is present",
     /aligned with georgia grade 3 ela standards/i.test(home.standards), home.standards);
@@ -220,8 +234,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   const found = FORBIDDEN.filter(w => home.text.includes(w));
   ok("2.10 Home contains none of the forbidden furniture", found.length === 0, found.join(","));
 
-  ok("2.11 no more than four grammar skills are offered",
-    !/complete subject|predicate|pronoun|adverb|preposition/i.test(home.text));
+  ok("2.11 no unapproved skill is offered (archived Complete Subject / Predicate stay hidden)",
+    !/complete subject|predicate|preposition/i.test(home.text));
 
   /* --- the approved reference composition --- */
   ok("2.12 the classroom banner is present", home.hasBanner && home.hasPhotoLayer);
@@ -440,14 +454,15 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     stage: document.getElementById("practice-stage").textContent,
     choices: document.querySelectorAll("#practice-choices .choice-btn").length,
     nextDisabled: document.getElementById("practice-next").disabled,
-    hasClue: !document.getElementById("practice-clue").hidden
+    hasHelp: !document.getElementById("practice-help").hidden &&
+             document.getElementById("practice-help").textContent.trim() === "Help me"
   }));
   ok("5.1 Learn hands off to Practice with no hidden route", p0.screen === "practice");
   ok("5.2 Practice runs 20 questions", p0.st.total === 20, p0.st.total);
   ok("5.3 it opens on question 1", /question 1 of 20/i.test(p0.count), p0.count);
   ok("5.4 stage 1 is named", /stage 1:/i.test(p0.stage), p0.stage);
   ok("5.5 nothing auto-advances: Next is locked until answered", p0.nextDisabled === true);
-  ok("5.6 a clue is available on request", p0.hasClue === true);
+  ok("5.6 Help me is available on request", p0.hasHelp === true);
   await shot(page, "desktop-05-practice-verb");
 
   /* stage banding: 4 stages of 5, in order */
@@ -508,7 +523,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     locked: document.getElementById("practice-next").disabled
   }));
   ok("6.1 first wrong explains the word's job in THIS sentence",
-    f1.attempts === 1 && /have another look/i.test(f1.txt) && f1.txt.length > 40, f1.txt.slice(0, 60));
+    f1.attempts === 1 && /try again, or press help me/i.test(f1.txt) && f1.txt.length > 40, f1.txt.slice(0, 60));
   ok("6.2 the answer is not revealed on attempt 1", f1.locked === true);
   await shot(page, "desktop-06-practice-wrong");
 
@@ -520,8 +535,11 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       .questions[window.SS_PRACTICE.state().order[0]].clue,
     locked: document.getElementById("practice-next").disabled
   }));
-  ok("6.3 second wrong gives the stronger clue",
-    f2.attempts === 2 && f2.txt.includes(f2.clue), f2.clue);
+  /* Build 1.5.0: help is the child's choice now, not the price of a second
+     wrong guess. A second wrong answer explains THAT word and offers Help me;
+     it does not hand out the clue unasked. */
+  ok("6.3 second wrong explains that word and offers Help me (no unasked clue)",
+    f2.attempts === 2 && /try again, or press help me/i.test(f2.txt) && !f2.txt.includes(f2.clue), f2.txt.slice(0, 60));
   ok("6.4 the answer is still not revealed on attempt 2", f2.locked === true);
 
   await clickCi(wrongCis[2]);
@@ -538,25 +556,71 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       allLocked: Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
         .every(b => b.disabled),
       unlocked: !document.getElementById("practice-next").disabled,
-      answered: st.answered
+      answered: st.answered,
+      sentBack: st.returned.indexOf(st.order[0]) !== -1 &&
+                st.order.filter(i => i === st.order[0]).length === 2
     };
   });
   ok("6.5 third wrong reveals and explains", f3.txt.includes(f3.reveal), f3.reveal.slice(0, 60));
   ok("6.6 the reveal marks the correct button by identity", f3.marked === true);
   ok("6.7 every choice is locked after the reveal", f3.allLocked === true);
   ok("6.8 the child can move on after the reveal", f3.unlocked && f3.answered);
+  ok("6.8b a revealed question comes back once later in the stage", f3.sentBack === true);
   await shot(page, "desktop-06b-practice-reveal");
 
-  /* the clue button is help, not an error */
+  /* HELP ME (Build 1.5.0): one step per press, never counted as an error,
+     and the child always taps the answer themselves. */
   await goHome(page); await clickStart(page, "verb"); await clickActivity(page, "practice");
-  await page.click("#practice-clue"); await sleep(70);
-  const cl = await page.evaluate(() => ({
-    attempts: window.SS_PRACTICE.state().attempts,
-    cls: document.getElementById("practice-feedback").className,
-    anyWrong: document.querySelectorAll("#practice-choices .is-wrong").length
-  }));
-  ok("6.9 asking for a clue is not counted as an error",
-    cl.attempts === 0 && cl.anyWrong === 0 && /is-clue/.test(cl.cls), cl.cls);
+  const helpProbe = async () => page.evaluate(() => {
+    const st = window.SS_PRACTICE.state();
+    const q = window.SS_LEARN_CONTENT.topics.verb.tryItBank.questions[st.order[st.pos]];
+    const ci = q.choices.findIndex(c => c.correct);
+    const btns = Array.from(document.querySelectorAll("#practice-choices .choice-btn"));
+    const right = btns.find(b => Number(b.dataset.ci) === ci);
+    return {
+      st, clue: q.clue, reveal: q.reveal,
+      txt: document.getElementById("practice-feedback").textContent,
+      cls: document.getElementById("practice-feedback").className,
+      anyWrong: document.querySelectorAll("#practice-choices .is-wrong").length,
+      ruledOut: document.querySelectorAll("#practice-choices .is-ruled-out").length,
+      rightRuledOut: right.classList.contains("is-ruled-out"),
+      rightHinted: right.classList.contains("is-hint"),
+      rightMarked: right.classList.contains("is-right"),
+      open: btns.filter(b => !b.disabled).length,
+      helpDisabled: document.getElementById("practice-help").disabled,
+      nextLocked: document.getElementById("practice-next").disabled
+    };
+  });
+  await page.click("#practice-help"); await sleep(70);
+  const h1 = await helpProbe();
+  ok("6.9 Help 1 gives the strategy and is not counted as an error",
+    h1.st.help === 1 && h1.st.attempts === 0 && h1.anyWrong === 0 && /is-clue/.test(h1.cls) &&
+    h1.txt.includes(h1.clue) && /hint 1 of 3/i.test(h1.txt), h1.txt.slice(0, 60));
+  await page.click("#practice-help"); await sleep(70);
+  const h2 = await helpProbe();
+  ok("6.10 Help 2 narrows it to two, never crossing out the answer",
+    h2.st.help === 2 && h2.ruledOut === 2 && h2.open === 2 && !h2.rightRuledOut &&
+    h2.st.attempts === 0 && /hint 2 of 3/i.test(h2.txt), `open=${h2.open} ruled=${h2.ruledOut}`);
+  await page.click("#practice-help"); await sleep(70);
+  const h3 = await helpProbe();
+  ok("6.11 Help 3 walks through it but does NOT answer for the child",
+    h3.st.help === 3 && h3.txt.includes(h3.reveal) && h3.rightHinted && !h3.rightMarked &&
+    h3.nextLocked && !h3.st.answered && h3.helpDisabled, h3.txt.slice(0, 60));
+  await page.evaluate(() => {
+    const st = window.SS_PRACTICE.state();
+    const q = window.SS_LEARN_CONTENT.topics.verb.tryItBank.questions[st.order[st.pos]];
+    const ci = q.choices.findIndex(c => c.correct);
+    Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
+      .find(b => Number(b.dataset.ci) === ci).click();
+  });
+  await sleep(70);
+  const h4 = await helpProbe();
+  ok("6.12 the child taps the answer themselves, and the hint ring clears",
+    h4.st.answered && h4.rightMarked && !h4.rightHinted && !h4.nextLocked);
+  ok("6.13 a walked-through question comes back once later in the stage",
+    h4.st.returned.length === 1 && h4.st.order.filter(i => i === h4.st.returned[0]).length === 2 &&
+    h4.st.total === 21, `total=${h4.st.total}`);
+  await shot(page, "desktop-06c-practice-help");
 
   /* ===== 7. MISSION RETIREMENT ===== */
   ok("7.1 no mission engine is loaded", globals.hasMission === false);
@@ -1418,7 +1482,14 @@ async function answerCorrect(page, choiceSel, dataProbe) {
      is a deliberate edit rather than a silent drift. */
   const BANK_SPEC = {
     verb:    { questions: 20, stages: 4, per: 5 },
-    subject: { questions: 20, stages: 4, per: 5 }
+    subject: { questions: 20, stages: 4, per: 5 },
+    /* Build 1.5.0 — the six Georgia grade 3 skills */
+    pronoun:             { questions: 20, stages: 4, per: 5 },
+    adverb:              { questions: 20, stages: 4, per: 5 },
+    "complete-sentence": { questions: 20, stages: 4, per: 5 },
+    "helping-linking":   { questions: 20, stages: 4, per: 5 },
+    "verb-tense":        { questions: 20, stages: 4, per: 5 },
+    agreement:           { questions: 20, stages: 4, per: 5 }
   };
 
   const bankTopics = await page.evaluate(() => {
@@ -1532,14 +1603,14 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       desc: document.getElementById("practice-stage-desc").textContent,
       tag: document.getElementById("practice-skill-tag").textContent,
       nextDisabled: document.getElementById("practice-next").disabled,
-      clueOffered: !document.getElementById("practice-clue").hidden
+      clueOffered: !document.getElementById("practice-help").hidden
     }));
     ok(N + "4 " + key + " Practice opens from its own card at question 1 of " + spec.questions,
       entry.screen === "practice" && entry.total === spec.questions &&
       new RegExp("question 1 of " + spec.questions, "i").test(entry.count) &&
       /stage 1:/i.test(entry.stage) && entry.desc.length > 0,
       entry.tag + " | " + entry.count + " | " + entry.stage);
-    ok(N + "4b " + key + " nothing auto-advances and a clue is offered",
+    ok(N + "4b " + key + " nothing auto-advances and Help me is offered",
       entry.nextDisabled === true && entry.clueOffered === true);
 
     /* ---- stage banding: stages stay in order, grouped ---- */
@@ -1671,9 +1742,9 @@ async function answerCorrect(page, choiceSel, dataProbe) {
 
     await clickCiP(wrongCis[1]);
     const w2 = await probe();
-    ok(N + "7c " + key + " second wrong gives that sentence's clue and still does not reveal",
-      w2.txt.indexOf(w2.clue) >= 0 && w2.txt.indexOf(w2.reveal) < 0 && w2.locked === true,
-      w2.clue.slice(0, 48));
+    ok(N + "7c " + key + " second wrong teaches, offers Help me, and still does not reveal",
+      /try again, or press help me/i.test(w2.txt) && w2.txt.indexOf(w2.reveal) < 0 && w2.locked === true,
+      w2.txt.slice(0, 48));
 
     await clickCiP(wrongCis[2]);
     const w3 = await probe();
@@ -1684,20 +1755,45 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       !!w3.marked && w3.marked.right === true && w3.marked.text === w3.correctText,
       w3.marked ? w3.marked.text : "no button");
 
-    /* clue on request must not count as an error */
+    /* Help me, all three steps, on this skill's own content: never an
+       error, never crosses out the answer, never answers for the child. */
     await page.evaluate(k => window.SS_PRACTICE.start(k), key);
     await sleep(60);
-    await page.evaluate(() => document.getElementById("practice-clue").click());
+    const helpState = async () => page.evaluate(k => {
+      const st = window.SS_PRACTICE.state();
+      const q = window.SS_LEARN_CONTENT.topics[k].tryItBank.questions[st.order[st.pos]];
+      const ci = q.choices.findIndex(c => c.correct);
+      const right = Array.from(document.querySelectorAll("#practice-choices .choice-btn"))
+        .find(b => Number(b.dataset.ci) === ci);
+      return {
+        cls: document.getElementById("practice-feedback").className,
+        txt: document.getElementById("practice-feedback").textContent,
+        clue: q.clue, reveal: q.reveal,
+        attempts: st.attempts, answered: st.answered, help: st.help,
+        wrongMarks: document.querySelectorAll("#practice-choices .choice-btn.is-wrong").length,
+        ruled: document.querySelectorAll("#practice-choices .choice-btn.is-ruled-out").length,
+        rightRuled: right.classList.contains("is-ruled-out"),
+        rightHint: right.classList.contains("is-hint"),
+        rightMarked: right.classList.contains("is-right")
+      };
+    }, key);
+    await page.evaluate(() => document.getElementById("practice-help").click());
     await sleep(45);
-    const askedClue = await page.evaluate(() => ({
-      cls: document.getElementById("practice-feedback").className,
-      attempts: window.SS_PRACTICE.state().attempts,
-      answered: window.SS_PRACTICE.state().answered,
-      wrongMarks: document.querySelectorAll("#practice-choices .choice-btn.is-wrong").length
-    }));
-    ok(N + "7f " + key + " asking for the clue is not counted as an error",
-      /is-clue/.test(askedClue.cls) && askedClue.attempts === 0 &&
-      askedClue.answered === false && askedClue.wrongMarks === 0);
+    const askedClue = await helpState();
+    ok(N + "7f " + key + " Help 1 gives this question's clue and is not counted as an error",
+      /is-clue/.test(askedClue.cls) && askedClue.txt.indexOf(askedClue.clue) >= 0 &&
+      askedClue.attempts === 0 && askedClue.answered === false && askedClue.wrongMarks === 0);
+    await page.evaluate(() => document.getElementById("practice-help").click());
+    await sleep(45);
+    const askedTwo = await helpState();
+    ok(N + "7g " + key + " Help 2 crosses out two wrong choices and never the answer",
+      askedTwo.ruled === 2 && !askedTwo.rightRuled && askedTwo.attempts === 0, "ruled=" + askedTwo.ruled);
+    await page.evaluate(() => document.getElementById("practice-help").click());
+    await sleep(45);
+    const askedThree = await helpState();
+    ok(N + "7h " + key + " Help 3 walks through it with this question's reveal, child still taps",
+      askedThree.txt.indexOf(askedThree.reveal) >= 0 && askedThree.rightHint &&
+      !askedThree.rightMarked && askedThree.answered === false);
 
     /* ---- walk the whole bank: milestones, then completion ---- */
     await page.evaluate(k => window.SS_PRACTICE.start(k), key);
@@ -1923,7 +2019,18 @@ async function answerCorrect(page, choiceSel, dataProbe) {
        maxShare  : no single index may hold more than this fraction of the bank
        lateStages: these stages must each carry at least one answer at index > 2 */
     verb:    { minIndices: 4, maxShare: 0.5, lateStages: [] },
-    subject: { minIndices: 4, maxShare: 0.5, lateStages: [2, 3] }
+    subject: { minIndices: 4, maxShare: 0.5, lateStages: [2, 3] },
+    /* Build 1.5.0. These apply to each bank's FIND-THE-WORD questions only
+       (every choice is a word in the sentence). Fill-in-the-blank, "Is this
+       complete?", "What job does the word do?" and "Which is the correct
+       way to write this sentence?" items have no answer position to game;
+       section E below checks their own integrity instead. */
+    pronoun:             { minIndices: 4, maxShare: 0.5, lateStages: [] },
+    adverb:              { minIndices: 4, maxShare: 0.5, lateStages: [] },
+    "helping-linking":   { minIndices: 4, maxShare: 0.5, lateStages: [] },
+    "complete-sentence": { minIndices: 0, maxShare: 1, lateStages: [] },
+    "verb-tense":        { minIndices: 0, maxShare: 1, lateStages: [] },
+    agreement:           { minIndices: 0, maxShare: 1, lateStages: [] }
   };
 
   const STAGE_SPEC = {
@@ -1961,7 +2068,14 @@ async function answerCorrect(page, choiceSel, dataProbe) {
           len: q.sentence.words.length,
           /* every choice must appear verbatim in its own sentence */
           choicesPresent: q.choices.every(c => bare.indexOf(c.text) >= 0),
-          answerOnce: bare.filter(w => w === corr.text).length === 1
+          answerOnce: bare.filter(w => w === corr.text).length === 1,
+          /* Build 1.5.0: the question's format. "find" = pick a word from
+             the sentence; anything else is a choose-the-right-form item. */
+          blanks: q.sentence.words.filter(w => w.indexOf("____") >= 0).length,
+          kind: (q.sentence.words.some(w => w.indexOf("____") >= 0)) ? "blank"
+              : q.choices.every(c => bare.indexOf(c.text) >= 0) ? "find" : "choose",
+          correctIsNotPrompt: corr.text !== q.sentence.words.join(" "),
+          distinct: new Set(q.choices.map(c => c.text)).size === q.choices.length
         };
       });
       out[k] = { total: B.questions.length, stages: B.stages.length, rows: rows };
@@ -1975,17 +2089,19 @@ async function answerCorrect(page, choiceSel, dataProbe) {
 
     /* ---- A. answer-position diversity: closes the positional shortcut ---- */
     const spec = POSITION_SPEC[key];
+    const findRows = P.rows.filter(r => r.kind === "find");
+    const otherRows = P.rows.filter(r => r.kind !== "find");
     const dist = {};
-    P.rows.forEach(r => dist[r.ai] = (dist[r.ai] || 0) + 1);
+    findRows.forEach(r => dist[r.ai] = (dist[r.ai] || 0) + 1);
     const indices = Object.keys(dist).map(Number).sort((a, b) => a - b);
-    const maxCount = Math.max.apply(null, Object.keys(dist).map(k2 => dist[k2]));
-    const share = maxCount / P.total;
+    const maxCount = findRows.length ? Math.max.apply(null, Object.keys(dist).map(k2 => dist[k2])) : 0;
+    const share = findRows.length ? maxCount / findRows.length : 0;
     ok(N + "1a " + key + " correct answers occupy at least " + spec.minIndices + " distinct sentence positions",
       indices.length >= spec.minIndices,
       "indices " + JSON.stringify(dist) + "  distinct=" + indices.length);
     ok(N + "1b " + key + " no single answer position holds more than " + Math.round(spec.maxShare * 100) + "% of the bank",
       share <= spec.maxShare + 1e-9,
-      maxCount + "/" + P.total + " = " + Math.round(share * 100) + "%");
+      maxCount + "/" + findRows.length + " find-the-word = " + Math.round(share * 100) + "%");
     spec.lateStages.forEach(st => {
       const late = P.rows.filter(r => r.stage === st && r.ai > 2);
       ok(N + "1c" + (st + 1) + " " + key + " stage " + (st + 1) + " has an answer later than word-index 2",
@@ -2018,12 +2134,23 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     }
 
     /* ---- E. choice integrity, which rule 6 requires and nothing asserted ---- */
-    const missing = P.rows.filter(r => !r.choicesPresent);
-    const twice = P.rows.filter(r => !r.answerOnce);
-    ok(N + "3a " + key + " every choice appears verbatim in its own sentence",
-      missing.length === 0, missing.length ? missing.map(r => r.id).join(", ") : P.total + " questions");
+    const missing = findRows.filter(r => !r.choicesPresent);
+    const twice = findRows.filter(r => !r.answerOnce);
+    ok(N + "3a " + key + " every find-the-word choice appears verbatim in its own sentence",
+      missing.length === 0, missing.length ? missing.map(r => r.id).join(", ") : findRows.length + " find-the-word questions");
     ok(N + "3b " + key + " the correct answer appears exactly once in its sentence",
-      twice.length === 0, twice.length ? twice.map(r => r.id).join(", ") : P.total + " questions");
+      twice.length === 0, twice.length ? twice.map(r => r.id).join(", ") : findRows.length + " find-the-word questions");
+    /* Build 1.5.0 — integrity of the other formats. */
+    const badBlank = otherRows.filter(r => r.kind === "blank" && r.blanks !== 1);
+    const sameAsPrompt = otherRows.filter(r => !r.correctIsNotPrompt);
+    const dupes = P.rows.filter(r => !r.distinct);
+    ok(N + "3c " + key + " every fill-in question has exactly one blank",
+      badBlank.length === 0, badBlank.length ? badBlank.map(r => r.id).join(", ") :
+        otherRows.filter(r => r.kind === "blank").length + " fill-in questions");
+    ok(N + "3d " + key + " no correct answer simply repeats the sentence shown",
+      sameAsPrompt.length === 0, sameAsPrompt.map(r => r.id).join(", "));
+    ok(N + "3e " + key + " the four choices are all different",
+      dupes.length === 0, dupes.map(r => r.id).join(", "));
   });
 
   /* ---- C. American English across every shipped child-facing string ---- */
@@ -2163,8 +2290,14 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   ]) {
     await page.setViewport({ width: w, height: h, deviceScaleFactor: 1 });
     await goHome(page); await sleep(120);
-    const cols = await page.evaluate(() =>
-      getComputedStyle(document.getElementById("skill-grid")).gridTemplateColumns.split(" ").length);
+    /* Build 1.5.0: Home is grouped, so the columns live on each group's
+       own grid. Every group must use the same column count. */
+    const cols = await page.evaluate(() => {
+      const grids = Array.from(document.querySelectorAll("#skill-grid .skill-grid-inner"));
+      const list = grids.length ? grids : [document.getElementById("skill-grid")];
+      const n = list.map(g => getComputedStyle(g).gridTemplateColumns.split(" ").length);
+      return n.every(x => x === n[0]) ? n[0] : n.join("/");
+    });
     ok(`11.cols.${label} skill grid is ${want} column(s)`, cols === want, cols);
   }
 

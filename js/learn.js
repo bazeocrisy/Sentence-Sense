@@ -279,6 +279,10 @@
     tryHost.hidden = !isTry;
     clearTry();
 
+    /* Build 1.5.0: the Georgia standards this skill teaches, small and
+       quiet at the foot of every Learn step. */
+    if (t.ga && window.SS_GA) body.appendChild(window.SS_GA.line(t.ga));
+
     if (isTry) {
       buildTry(block);
     } else {

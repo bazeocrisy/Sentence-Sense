@@ -34,7 +34,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.4.2";
+  const BUILD_NUMBER = "Build 1.5.0";
 
   const C = window.SS_LEARN_CONTENT;
   const S = window.SS_SENTENCE;
@@ -72,6 +72,20 @@
     people: 'M12 11.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2z M5.6 12.4a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.4 12.4a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M6.4 19.5c0-3.1 2.5-5.4 5.6-5.4s5.6 2.3 5.6 5.4 M1.8 18.2c0-2.3 1.5-4 3.8-4.2 M22.2 18.2c0-2.3-1.5-4-3.8-4.2',
     book: 'M12 6.6C10 4.9 7.3 4.4 4.2 4.9a1 1 0 0 0-.8 1v11.4a1 1 0 0 0 1.2 1c2.6-.4 5 0 7.4 1.8 2.4-1.8 4.8-2.2 7.4-1.8a1 1 0 0 0 1.2-1V5.9a1 1 0 0 0-.8-1c-3.1-.5-5.8 0-7.8 1.7z M12 6.6v13.5',
     pencil: 'M7.3 19.4 3 20.9l1.4-4.3L16.2 4.8l3 3zM16.2 4.8l2-2a2.1 2.1 0 0 1 3 3l-2 2M4.4 16.6l3 2.8',
+
+    /* Build 1.5.0 — six more skill symbols, same 24-unit grid and stroke.
+       pointback: an arrow curving back (a pronoun points back to a noun)
+       gauge:     a dial (how, how fast -- adverbs)
+       check:     a line of text with a tick (a complete sentence)
+       link:      two chain links (helping and linking verbs)
+       clock:     a clock face (verb tense: when)
+       scales:    a balance (subject and verb must match) */
+    pointback: 'M9 5 4 10l5 5 M4 10h10a6 6 0 0 1 0 12h-3',
+    gauge: 'M4 16a8 8 0 1 1 16 0 M12 16l4-5 M12 16h.01 M6.5 11.5l1 .8 M12 8.4V9.6 M17.5 11.5l-1 .8',
+    check: 'M3.5 7h11 M3.5 11.5h8 M3.5 16h6 M13 16.5l2.6 2.6 5-5.6',
+    link: 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1 M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+    clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 7v5l3.2 2',
+    scales: 'M12 3.5v17 M7.5 20.5h9 M4.5 7h15 M12 5.5V7 M4.5 7 2 13a2.6 2.6 0 0 0 5 0z M19.5 7 17 13a2.6 2.6 0 0 0 5 0z',
 
     /* The three activities. Distinct at a glance and at 34px: an idea, a
        hand writing, a finished sheet with a tick. */
@@ -153,15 +167,50 @@
     img.src = HERO_PHOTO;
   }
 
+  /* Build 1.5.0 — Georgia standard tags. Shown where the PARENT looks
+     (the Skill screen, each Learn step, each Practice question) and set
+     small and quiet so a child reads past them. */
+  function gaLine(codes) {
+    const p = make("p", "ga-tags");
+    p.appendChild(make("span", "ga-tags-label", "Georgia standards"));
+    (codes || []).forEach(c => {
+      const tag = make("span", "ga-tag");
+      tag.appendChild(make("span", "ga-code", c.code));
+      if (c.label) tag.appendChild(make("span", "ga-label", c.label));
+      p.appendChild(tag);
+    });
+    return p;
+  }
+
   function buildHome() {
     probeHeroPhoto();
 
     const grid = el("skill-grid");
     clear(grid);
 
-    C.homeOrder.forEach(key => {
+    /* Build 1.5.0: with `homeGroups`, each group is one list item holding a
+       heading and its own grid, so `#skill-grid .skill-card` still finds
+       every card in homeOrder. Without groups, Home renders exactly as 1.4. */
+    const groups = C.homeGroups && C.homeGroups.length
+      ? C.homeGroups : [{ name: "", skills: C.homeOrder }];
+    grid.classList.toggle("has-groups", !!(C.homeGroups && C.homeGroups.length));
+
+    groups.forEach(g => {
+     let target = grid;
+     if (g.name) {
+      const item = make("li", "skill-group");
+      const head = make("div", "skill-group-head");
+      head.appendChild(make("h3", "skill-group-title", g.name));
+      if (g.sub) head.appendChild(make("p", "skill-group-sub", g.sub));
+      item.appendChild(head);
+      target = make("ul", "skill-grid skill-grid-inner");
+      item.appendChild(target);
+      grid.appendChild(item);
+     }
+     g.skills.forEach(key => {
       const t = C.topics[key];
       if (!t) return;
+      const grid = target;
 
       const card = make("li", "skill-card skill-" + t.color);
 
@@ -191,6 +240,7 @@
       card.appendChild(btn);
 
       grid.appendChild(card);
+     });
     });
   }
 
@@ -215,6 +265,8 @@
     return false;
   }
 
+  window.SS_GA = { line: gaLine };
+
   function openSkill(key) {
     const t = C.topics[key];
     if (!t) return;
@@ -223,6 +275,14 @@
     el("screen-skill").dataset.topic = t.color;
     el("skill-heading").textContent = t.name;
     el("skill-ask-line").textContent = t.ask;
+    const oldGa = el("skill-ga");
+    if (oldGa) oldGa.remove();
+    if (t.ga && t.ga.length) {
+      const ga = gaLine(t.ga);
+      ga.id = "skill-ga";
+      /* Below the hero, not inside it: the hero is a fixed icon/title grid. */
+      document.querySelector("#screen-skill .skill-hero").insertAdjacentElement("afterend", ga);
+    }
 
     /* The skill carries its own identity over from its Home card: the same
        icon, the same colour, the same clue. A child should recognise where

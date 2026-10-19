@@ -1,5 +1,5 @@
 /* =========================================================
-   Sentence Sense — shared PRACTICE component (Build 1.4.0)
+   Sentence Sense — shared PRACTICE component (Build 1.4.0; Help me added in 1.5.0)
 
    One practice engine for every skill. A skill runs it if its content
    carries a `tryItBank`; otherwise Practice shows the honest "coming
@@ -30,9 +30,20 @@
    practiced finding verbs when they practiced something else.
 
    THIS IS PRACTICE, SO A WRONG ANSWER BUYS TEACHING, NOT A MARK
-     1st wrong -> what that word actually does in THIS sentence
-     2nd wrong -> the clue again, answer still hidden
-     3rd wrong -> guided reveal; the answer is shown and the child moves on
+     A wrong answer -> what that word actually does in THIS sentence,
+                       and an invitation to try again or press Help me.
+     3rd wrong      -> only the answer is left: guided reveal, move on.
+
+   HELP ME (Build 1.5.0, owner-approved 2026-10-19)
+   The child asks for help instead of guessing for it. Each press gives
+   ONE more step, and asking is never an error -- no attempt is counted:
+     Help 1 -> the strategy for this skill (the question's `clue`)
+     Help 2 -> narrow it down: all but one wrong choice is crossed out
+     Help 3 -> walk through it (`reveal`), with the answer outlined --
+               but the CHILD still taps it; the help never answers for them
+   A question finished with Help 3 or a third-miss reveal comes back once,
+   later in the same stage, reshuffled -- so walking through it becomes
+   doing it. No score, no message about it, nothing stored.
 
    Nothing is scored, timed or stored. Nothing auto-advances: the child
    always presses the button themselves.
@@ -59,6 +70,8 @@
     order: [],          // question indices, shuffled inside each stage
     pos: 0,             // 0-based position in `order`
     attempts: 0,        // wrong attempts on the CURRENT question (0-3)
+    help: 0,            // Help me steps used on the CURRENT question (0-3)
+    returned: [],       // question indices already sent back once
     answered: false,
     milestoneStage: -1, // stage index while a milestone screen is showing
     done: false
@@ -91,6 +104,8 @@
     run.order = [];
     run.pos = 0;
     run.attempts = 0;
+    run.help = 0;
+    run.returned = [];
     run.answered = false;
     run.milestoneStage = -1;
     run.done = false;
@@ -127,10 +142,50 @@
   /* =========================================================
      ONE QUESTION
      ========================================================= */
+  /* Build 1.5.0: the Georgia standard behind THIS question. Banks written
+     for 1.5.0 tag every question (`std`); older banks fall back to the
+     skill's own codes. GUM chart rows have no official code of their own,
+     so they show under 3-5.L.GC.1 with the chart skill named. */
+  const GUM_LEVEL = { M: "Master", C: "Continue", I: "Introduce", R: "Review" };
+  const GUM_NAME = {
+    "action-verbs": "Action verbs", "adjectives-adverbs": "Adjectives and adverbs",
+    "collective-abstract-nouns": "Collective nouns", "common-proper-nouns": "Common and proper nouns",
+    "coordinating-conjunctions": "Joining words: and, but, or, so", "helping-linking-verbs": "Helping and linking verbs",
+    "irregular-past-verbs": "Irregular past tense", "personal-pronouns": "Personal pronouns",
+    "prepositional-phrases": "Prepositional phrases", "reflexive-pronouns": "Reflexive pronouns",
+    "simple-verb-tenses": "Simple verb tenses", "verbs-add-s-es": "Verbs that add -s or -es",
+    "capitalize-first-word": "Capital at the start", "comma-coordinating-conjunction": "Comma before and, but, or, so",
+    "end-punctuation": "End marks", "complete-thoughts": "Complete thoughts", "pronoun-antecedent": "Pronoun agreement"
+  };
+  function gaFor(q) {
+    if (q.std && q.std.length) {
+      return q.std.map(tag => {
+        const m = /^GUM:[GUM]:([a-z0-9-]+):([ICMR])$/.exec(tag);
+        if (!m) return { code: tag, label: "" };
+        const words = GUM_NAME[m[1]] || m[1].replace(/-/g, " ");
+        return { code: "3-5.L.GC.1", label: words + " (" + GUM_LEVEL[m[2]] + ")" };
+      });
+    }
+    return C.topics[run.topicKey].ga || [];
+  }
+
   function renderHead(q) {
     const st = run.bank.stages[q.stage];
-    el("practice-count").textContent =
-      "Question " + (run.pos + 1) + " of " + run.order.length;
+    const oldGa = el("practice-ga");
+    if (oldGa) oldGa.remove();
+    if (window.SS_GA) {
+      const ga = window.SS_GA.line(gaFor(q));
+      ga.id = "practice-ga";
+      el("practice-stage-desc").insertAdjacentElement("afterend", ga);
+    }
+    /* The count is of DIFFERENT questions, so a question that comes back
+       never changes the total the child was promised. */
+    const qi = run.order[run.pos];
+    const firstAt = run.order.indexOf(qi);
+    const seen = new Set(run.order.slice(0, run.pos + 1)).size;
+    el("practice-count").textContent = (firstAt < run.pos)
+      ? "Let's try this one again"
+      : "Question " + seen + " of " + run.bank.questions.length;
     el("practice-stage").textContent = "Stage " + (q.stage + 1) + ": " + st.name;
     el("practice-stage-desc").textContent = st.desc;
 
@@ -155,6 +210,7 @@
     const q = current();
     if (!q) return;
     run.attempts = 0;
+    run.help = 0;
     run.answered = false;
 
     el("practice-milestone").hidden = true;
@@ -171,6 +227,7 @@
     clear(host);
     const longest = q.choices.reduce((n, c) => Math.max(n, c.text.length), 0);
     host.classList.toggle("is-wide", longest > 12);
+    host.classList.toggle("is-sentences", longest > 30);
 
     shuffled(q.choices.map((c, i) => i)).forEach(ci => {
       const choice = q.choices[ci];
@@ -187,9 +244,10 @@
     fb.className = "answer-feedback";
     clear(fb);
 
-    const clueBtn = el("practice-clue");
-    clueBtn.hidden = false;
-    clueBtn.disabled = false;
+    const helpBtn = el("practice-help");
+    helpBtn.hidden = false;
+    helpBtn.disabled = false;
+    helpBtn.textContent = "Help me";
 
     setNext(false);
   }
@@ -218,12 +276,13 @@
                             behavior: reduce ? "auto" : "smooth" });
   }
 
-  function feedback(kind, parts) {
+  function feedback(kind, parts, label) {
     const fb = el("practice-feedback");
     fb.hidden = false;
     fb.className = "answer-feedback is-" + kind;
     clear(fb);
     fb.appendChild(make("span", "fb-mark", kind === "right" ? "✓" : "✕"));
+    if (label) fb.appendChild(make("span", "fb-label", label));
     const body = make("span", "fb-body");
     parts.forEach((p, i) => {
       body.appendChild(make("span", i === 0 ? "fb-text" : "fb-again", p));
@@ -241,12 +300,12 @@
     if (choice.correct) {
       run.answered = true;
       lockAll(buttons);
-      Array.prototype.forEach.call(buttons, b => b.classList.remove("is-wrong"));
+      Array.prototype.forEach.call(buttons, b => b.classList.remove("is-wrong", "is-hint"));
       btn.classList.add("is-right");
       /* Feedback matters most when the child is RIGHT, and it teaches
          rather than praising the person. */
       feedback("right", [choice.feedback]);
-      el("practice-clue").disabled = true;
+      el("practice-help").disabled = true;
       setNext(true);
       el("practice-next").focus();
       return;
@@ -256,13 +315,12 @@
     btn.classList.add("is-wrong");
     btn.disabled = true;
 
-    if (run.attempts === 1) {
-      /* What that word actually does here, then where to look instead. */
-      feedback("wrong", [choice.feedback, "Have another look."]);
-      revealControls();
-    } else if (run.attempts === 2) {
-      /* The clue again. The answer is still the child's to find. */
-      feedback("wrong", [choice.feedback, q.clue]);
+    const remaining = Array.prototype.filter.call(buttons, x => !x.disabled).length;
+    if (remaining > 1) {
+      /* What that word actually does here, then the two ways forward:
+         try again, or ask for the next step of help. The child chooses. */
+      feedback("wrong", [choice.feedback,
+        run.help < 3 ? "Try again, or press Help me for a hint." : "Try again."]);
       revealControls();
     } else {
       /* Third miss: find it together rather than leave the child stuck.
@@ -272,10 +330,11 @@
       const right = Array.prototype.filter.call(buttons,
         b => Number(b.dataset.ci) === correctIndex)[0];
       lockAll(buttons);
-      if (right) right.classList.add("is-right");
+      if (right) { right.classList.add("is-right"); right.classList.remove("is-hint"); }
       feedback("right", [q.reveal]);
       run.answered = true;
-      el("practice-clue").disabled = true;
+      el("practice-help").disabled = true;
+      sendBack();
       setNext(true);
       el("practice-next").focus();
       return;
@@ -285,14 +344,58 @@
     if (nextChoice) nextChoice.focus();
   }
 
-  /* The child may ask for the clue instead of guessing for it. Asking is
-     not an error: no attempt is counted and nothing is marked wrong. */
-  function showClue() {
+  /* HELP ME — one step per press. Asking is not an error: no attempt is
+     counted and nothing the child chose is marked wrong by it. */
+  function help() {
     const q = current();
-    if (!q || run.answered) return;
-    feedback("clue", [q.clue]);
-    el("practice-clue").disabled = true;
+    if (!q || run.answered || run.help >= 3) return;
+    run.help += 1;
+    const buttons = el("practice-choices").querySelectorAll(".choice-btn");
+    const correctIndex = q.choices.findIndex(c => c.correct);
+
+    if (run.help === 1) {
+      /* The strategy, in this skill's own words. */
+      feedback("clue", [q.clue], "Hint 1 of 3");
+    } else if (run.help === 2) {
+      /* Narrow it down to two. Cross out every wrong choice still open
+         except one, picked at random so the survivor is not a pattern. */
+      const open = Array.prototype.filter.call(buttons,
+        b => !b.disabled && Number(b.dataset.ci) !== correctIndex);
+      shuffled(open).slice(1).forEach(b => {
+        b.disabled = true;
+        b.classList.add("is-ruled-out");
+      });
+      feedback("clue", ["Some answers are crossed out. It is one of the two that are left.", q.clue], "Hint 2 of 3");
+    } else {
+      /* Walk through it. The answer is outlined, never pressed for the
+         child: they still tap it themselves. */
+      Array.prototype.forEach.call(buttons, b => {
+        if (Number(b.dataset.ci) === correctIndex) b.classList.add("is-hint");
+      });
+      feedback("clue", [q.reveal, "Now tap the answer to keep going."], "Hint 3 of 3");
+      sendBack();
+    }
+
+    const btn = el("practice-help");
+    btn.disabled = run.help >= 3;
+    btn.textContent = run.help >= 3 ? "Help me" : "Help me (next hint)";
     revealControls();
+  }
+
+  /* A question the child needed walking through comes back ONCE, later in
+     the same stage and reshuffled. Never immediately: if nothing else is
+     left in this stage, it does not come back. */
+  function sendBack() {
+    const qi = run.order[run.pos];
+    if (run.returned.indexOf(qi) !== -1) return;
+    const stage = run.bank.questions[qi].stage;
+    let last = run.pos;
+    for (let i = run.pos + 1; i < run.order.length; i++) {
+      if (run.bank.questions[run.order[i]].stage === stage) last = i; else break;
+    }
+    if (last === run.pos) return;
+    run.returned.push(qi);
+    run.order.splice(last + 1, 0, qi);
   }
 
   /* =========================================================
@@ -374,7 +477,7 @@
      ========================================================= */
   function init() {
     el("practice-next").addEventListener("click", next);
-    el("practice-clue").addEventListener("click", showClue);
+    el("practice-help").addEventListener("click", help);
     el("practice-back").addEventListener("click",
       () => window.SS_SHELL.openSkill(run.topicKey));
     el("practice-home").addEventListener("click", () => window.SS_SHELL.goHome());
@@ -401,6 +504,8 @@
       pos: run.pos,
       order: run.order.slice(),
       attempts: run.attempts,
+      help: run.help,
+      returned: run.returned.slice(),
       answered: run.answered,
       milestone: run.milestoneStage,
       done: run.done,
