@@ -275,7 +275,17 @@
     btn.appendChild(arrow);
     btn.setAttribute("aria-label", "Start the " + g.name + ". " + g.ask);
     btn.addEventListener("click", () => window.SS_TEST.start("check"));
-    card.appendChild(btn);
+    const last = window.SS_TEST.lastCheckScore && window.SS_TEST.lastCheckScore();
+    const acts = make("div", "check-card-actions");
+    acts.appendChild(btn);
+    if (last) {
+      const see = make("button", "nav-btn check-last", "See my last check: " + last.overall + " of " + last.total);
+      see.type = "button";
+      see.id = "check-last";
+      see.addEventListener("click", () => window.SS_TEST.showLastCheck());
+      acts.appendChild(see);
+    }
+    card.appendChild(acts);
     host.appendChild(card);
   }
 
@@ -446,6 +456,10 @@
        a skill returns Home. */
     document.addEventListener("keydown", e => {
       if (e.key !== "Escape") return;
+      if (state.screen === "test" && window.SS_TEST && window.SS_TEST.state().topicKey === "check") {
+        goHome();
+        return;
+      }
       if (state.screen === "learn" || state.screen === "practice" ||
           state.screen === "test") {
         openSkill(state.skill);
@@ -459,7 +473,8 @@
       showScreen: showScreen,
       goHome: goHome,
       openSkill: openSkill,
-      openActivity: openActivity
+      openActivity: openActivity,
+      refreshCheck: buildCheckHome
     };
 
     if (window.SS_LEARN) window.SS_LEARN.init();

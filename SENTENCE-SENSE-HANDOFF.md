@@ -1,6 +1,6 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.7.0** (1.7.0: a Test for every skill, with "Show me how" after the test; 1.6.0: Noun and Adjective Practice, Help me in every Learn "Let me try")
+**Current build: Sentence Sense — Build 1.8.0** (1.8.0: the Grammar Check, 20 mixed questions across all ten skills; 1.7.0: a Test for every skill, with "Show me how" after the test; 1.6.0: Noun and Adjective Practice, Help me in every Learn "Let me try")
 **Last pass:** Georgia grade 3 upgrade — Help me hints, six new skills, grouped Home, standard tags — 2026-10-19
 **Previous:** Build 1.4.2 (Subject Practice). Rollback branch: `backup/live-build-1.4.2` (exact copy of 1.4.2, `274a298`).
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
@@ -137,8 +137,8 @@ Four governing rules:
 
 Current: **Build 1.5.0**. It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.7.0";`
-2. the rendered badge — `Sentence Sense — Build 1.7.0`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.8.0";`
+2. the rendered badge — `Sentence Sense — Build 1.8.0`
 3. the audit file name and heading
 4. this handoff
 
@@ -165,7 +165,7 @@ Current: **Build 1.5.0**. It must match in four places, and the audit checks all
 | ~~`assets/images/logo.png`, `logo-512.png`~~ | **DELETED in 1.4.0.** Unreferenced; the cartoon-mascot lockup contradicted the art direction. See §11 H-03. |
 | `assets/reference/home-screen-mockup.png` | The approved style reference. Not loaded by the site. |
 | `verification/serve.js` · `verification/guard.js` | Dev harness. Not part of the site. |
-| `AUDIT-REPORT-Build-1.7.0.md` | The current build audit — and the only one |
+| `AUDIT-REPORT-Build-1.8.0.md` | The current build audit — and the only one |
 | `SENTENCE-SENSE-HANDOFF.md` | This file |
 
 Script load order in `index.html` matters:
@@ -855,4 +855,18 @@ discrepancy **before** editing.
 - **No hints during a test.** After submitting, each missed item has **Show me how**: Hint 1 is the item's `clue` (Verb uses `testClue`), Hint 2 lists the right answer and one wrong one, and Hint 3 is the `why`. Only then does "The answer is" appear.
 - **Content source:** `/pools/*.json` in the build workspace, drafted to a written spec and machine-checked, then reviewed by four independent grammar reviewers, a final re-review and a screen audit of all 324 questions. Any new item must follow the same rules: one defensible answer, `why` names the answer, `clue` never does, no near-copy of a Learn or Practice sentence, and within what Learn teaches.
 
-*End of handoff. Last updated 2026-10-19 for Build 1.7.0.*
+## Grammar Check (Build 1.8.0)
+
+- **Config:** `grammarCheck` at the top level of `learn-content.js`. It is NOT in `homeOrder`; the banner is built into `#check-home` by `buildCheckHome()` in `js/app.js`, outside `#skill-grid`.
+- **Engine:** `js/test.js` treats `"check"` as a pseudo-topic. `buildCheckBank()` copies every skill's `testPool` question, setting `type` and `skill` to the skill key and `clue` to `q.clue || topic.testClue`. `checkOrder()` takes 2 questions per skill (one from bands 1-2, one from bands 2-3) and orders them by band.
+- **Tiers:**
+  - `mastered`: 20/20.
+  - `masteredPolish`: 17 or more, with every skill at 1 or more.
+  - `closeMiss`: 17 or more, but a skill at 0.
+  - `review`.
+  - `keepGoing`: under 13.
+- **Next-step buttons** list the skills with a miss, ordered by ratio.
+- **Last results** stay in memory (`lastCheck`) and reopen from the Home banner.
+- **Harness:** section 15G.
+
+*End of handoff. Last updated 2026-10-19 for Build 1.8.0.*

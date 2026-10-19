@@ -2261,14 +2261,24 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   ok("15G.4 no help, hint or Show me how during the Grammar Check", g1.help === 0, "seen=" + g1.help);
   ok("15G.5 20 of 20: mastered, celebration shown, no skills listed, Try again / Back to Home",
     g1.overall === 20 && g1.mastered && g1.mark && g1.next.length === 0 && g1.rows === 10 &&
-    g1.btns.join("|") === "Try again|Back to Home", g1.tier + " " + g1.btns.join("|"));
+    g1.btns.join("|") === "Back to Home|Try again", g1.tier + " " + g1.btns.join("|"));
 
-  const GC_REVIEW = await page.evaluate(() => window.SS_LEARN_CONTENT.grammarCheck.guidance.review);
+  const GC = await page.evaluate(() => window.SS_LEARN_CONTENT.grammarCheck.guidance);
+  const GC_REVIEW = GC.closeMiss;
   const g2 = await checkSit((k, i) => k !== "pronoun");
-  ok("15G.6 both Pronoun questions missed: not mastered, Practice Pronoun is the one next step",
-    g2.overall === 18 && !g2.mastered && !g2.mark && g2.tier === "review" &&
+  ok("15G.6 both Pronoun questions missed: 18/20 but not passed, says why, Practice Pronoun is the one next step",
+    g2.overall === 18 && !g2.mastered && !g2.mark && g2.tier === "closeMiss" &&
     g2.next.length === 1 && g2.next[0][0] === "pronoun" && g2.next[0][1] === "practice" &&
     g2.msg === GC_REVIEW, JSON.stringify(g2.next) + " " + g2.tier);
+  const g2b = await checkSit((k, i) => !(i === 0 && ["verb", "noun", "adverb"].indexOf(k) >= 0));
+  const g2bTitle = await page.evaluate(() => (document.querySelector("#test-next-steps .next-steps-title") || {}).textContent);
+  ok("15G.6b 17/20 with three skills at 1 of 2: passed, celebration, 'Skills to polish' (no mixed message)",
+    g2b.overall === 17 && g2b.mastered && g2b.mark && g2b.tier === "masteredPolish" && g2b.msg === GC.masteredPolish &&
+    g2b.next.length === 3 && g2bTitle === "Skills to polish", g2b.tier + " " + g2bTitle);
+  const pick = await page.evaluate(() => { window.SS_SHELL.goHome(); document.getElementById("check-start").click();
+    return { ask: document.getElementById("test-size-ask").hidden, sizes: document.getElementById("test-sizes").hidden,
+             note: document.getElementById("test-size-note").hidden }; });
+  ok("15G.6c a one-length test shows no length picker", pick.ask && pick.sizes && pick.note);
   const g3 = await checkSit(() => false);
   ok("15G.7 0 of 20: keep going, and every skill offers Learn",
     g3.overall === 0 && g3.tier === "keepGoing" && g3.next.length === 10 && g3.next.every(n => n[1] === "learn"),
@@ -2301,6 +2311,16 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   await page.click("#test-back"); await sleep(150);
   const back = await page.evaluate(() => !document.getElementById("screen-home").hidden);
   ok("15G.11 Back from the Grammar Check returns Home", back);
+  const last = await page.evaluate(() => {
+    const b = document.getElementById("check-last");
+    if (!b) return null;
+    const label = b.textContent; b.click();
+    return { label: label, screen: !document.getElementById("screen-test").hidden,
+             results: !document.getElementById("test-results").hidden,
+             score: document.getElementById("test-score-value").textContent };
+  });
+  ok("15G.12 Home offers the last check's results, and they reopen unchanged",
+    !!last && /0 of 20/.test(last.label) && last.screen && last.results && last.score === "0", JSON.stringify(last));
 
   /* ===== 16. INSTRUCTIONAL REGRESSION GUARDS (Build 1.4.2) =====
 

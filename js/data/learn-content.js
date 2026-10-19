@@ -118,12 +118,18 @@ window.SS_LEARN_CONTENT = {
     confirm: "You answered all {n}. Ready to see how you did?",
     /* overall [5,6] of 20 = 17; each skill needs 1 of its 2. */
     masteryRatio: { overall: [5, 6], sub: [1, 2], almost: [2, 3] },
+    /* Tiers: mastered (17+ and every skill 1+, nothing missed),
+       masteredPolish (passed, a few misses), closeMiss (17+ but a skill
+       at 0), review, keepGoing. */
     guidance: {
-      mastered: "Great work! You know your grammar. Try the Test on any skill to keep it strong.",
+      mastered: "Great work! You got every question right. You know your grammar.",
+      masteredPolish: "Great work! You passed the Grammar Check. A quick Practice on these skills will make them even stronger.",
+      closeMiss: "So close! To pass, get at least 1 right in every skill. Practice the skills below, then try again.",
       review: "Good work. Practice the skills listed below, then try the Grammar Check again.",
       keepGoing: "Keep going. Pick a skill below and start with Learn."
     },
     nextTitle: "Skills to practice next",
+    nextTitlePolish: "Skills to polish",
     nextTitleLearn: "Skills to learn next"
   },
 

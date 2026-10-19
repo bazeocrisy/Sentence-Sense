@@ -99,7 +99,7 @@
       intro: g.intro, confirm: g.confirm,
       sizes: [skills.length * (g.perSkill || 2)],
       perSkill: g.perSkill || 2,
-      subscales: skills.map(k => ({ key: k, label: C.topics[k].tag || C.topics[k].name, share: 1 / skills.length })),
+      subscales: skills.map(k => ({ key: k, label: C.topics[k].name, share: 1 / skills.length })),
       masteryRatio: g.masteryRatio, guidance: g.guidance,
       questions: questions
     };
@@ -481,6 +481,11 @@
   function renderSizes() {
     const host = el("test-sizes");
     clear(host);
+    /* One length only: no picker, and no note about "longer". */
+    const single = sizesFor(run.bank).length < 2;
+    host.hidden = single;
+    el("test-size-ask").hidden = single;
+    if (el("test-size-note")) el("test-size-note").hidden = single;
     sizesFor(run.bank).forEach(n => {
       const btn = make("button", "size-btn" + (n === run.size ? " is-picked" : ""));
       btn.type = "button";
@@ -645,7 +650,12 @@
     else if (overall >= thresholds.overall && weak.length) tier = weak[0].key + "Weak";
     else if (overall >= thresholds.almost) tier = "almost";
     else tier = "keepGoing";
-    if (bank.kind === "check" && tier !== "mastered" && tier !== "keepGoing") tier = "review";
+    if (bank.kind === "check") {
+      const zero = subs.some(s => s.of > 0 && s.got === 0);
+      if (mastered) tier = overall === total ? "mastered" : "masteredPolish";
+      else if (overall >= thresholds.overall && zero) tier = "closeMiss";
+      else if (tier !== "keepGoing") tier = "review";
+    }
     return { overall, total, subs, thresholds, mastered, tier,
              message: bank.guidance[tier] || bank.guidance.keepGoing, rows };
   }
@@ -708,8 +718,31 @@
   /* =========================================================
      RESULTS
      ========================================================= */
+  /* Build 1.8.0: the last Grammar Check result stays reachable from Home
+     for this visit, so following a next-step button doesn't lose it.
+     Memory only -- nothing is stored. */
+  let lastCheck = null;
+  function showLastCheck() {
+    if (!lastCheck) return false;
+    Object.assign(run, lastCheck);
+    const t = topicOf("check");
+    el("screen-test").dataset.topic = t.color;
+    el("test-skill-tag").textContent = t.tag || t.name;
+    el("test-heading").textContent = t.name;
+    renderResults();
+    window.SS_SHELL.showScreen("test");
+    showPhase("results");
+    el("test-score").focus();
+    return true;
+  }
+
   function submit() {
     run.result = score();
+    if (run.topicKey === "check") {
+      lastCheck = { topicKey: run.topicKey, bank: run.bank, size: run.size, order: run.order.slice(),
+                    answers: run.answers.slice(), pos: run.pos, result: run.result };
+      if (window.SS_SHELL.refreshCheck) window.SS_SHELL.refreshCheck();
+    }
     /* Remember this sitting so an immediate retest feels different.
        IDs only -- no score, no name, nothing about the child. */
     writeRecent(run.topicKey, run.order.map(i => run.bank.questions[i].id));
@@ -760,7 +793,12 @@
   /* Build 1.7.0: generic pools get their own labels -- "Practice verbs"
      lower-cased cannot be rewritten into another skill's name. */
   function genericPlan(tier) {
-    if (run.topicKey === "check") return { primary: ["Try again", "again"], tertiary: ["Back to Home", "home"] };
+    /* The next-step buttons are the real actions after a check; the
+       primary goes Home, never straight into another 20 questions. */
+    if (run.topicKey === "check") {
+      if (tier === "mastered") return { primary: ["Back to Home", "home"], tertiary: ["Try again", "again"] };
+      return { primary: ["Back to Home", "home"], tertiary: ["Try the check again", "again"] };
+    }
     const t = C.topics[run.topicKey];
     const back = "Back to " + (t.tag || t.name);
     if (tier === "mastered") return { primary: [back, "skill"], tertiary: ["Try again", "again"] };
@@ -799,14 +837,18 @@
   function renderNextSteps(r) {
     clearNextSteps();
     if (run.topicKey !== "check" || !r.subs) return;
-    const weak = r.subs.filter(s => s.of > 0 && s.got < s.of);
+    /* Skills with nothing right come first: they are what blocks a pass. */
+    const weak = r.subs.filter(s => s.of > 0 && s.got < s.of)
+      .sort((a, b) => (a.got / a.of) - (b.got / b.of));
     if (!weak.length) return;
     const g = C.grammarCheck;
     const act = r.tier === "keepGoing" ? "learn" : "practice";
     const box = make("div", "next-steps");
     box.id = "test-next-steps";
-    box.appendChild(make("h3", "next-steps-title",
-      act === "learn" ? (g.nextTitleLearn || "Skills to learn next") : (g.nextTitle || "Skills to practice next")));
+    const title = act === "learn" ? (g.nextTitleLearn || "Skills to learn next")
+      : r.tier === "masteredPolish" ? (g.nextTitlePolish || "Skills to polish")
+      : (g.nextTitle || "Skills to practice next");
+    box.appendChild(make("h3", "next-steps-title", title));
     const list = make("div", "next-steps-list");
     weak.forEach(s => {
       const b = make("button", "nav-btn next-step-btn",
@@ -973,6 +1015,8 @@
   window.SS_TEST = {
     init: init,
     start: start,
+    showLastCheck: showLastCheck,
+    lastCheckScore: () => lastCheck ? { overall: lastCheck.result.overall, total: lastCheck.result.total } : null,
     hasBank: hasBank,
     /* read-only hooks for the audit harness */
     state: () => ({
