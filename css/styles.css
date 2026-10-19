@@ -290,7 +290,13 @@ img{max-width:100%;}
   border-radius:var(--radius-pill);
   padding:7px 14px;
   white-space:nowrap;
+  /* Build 1.5.0 (audit M-1): a long skill name may shrink and ellipsize;
+     the Back and Home controls never do. */
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
+.app-header .nav-btn{flex-shrink:0;}
 
 .controls{
   display:flex;

@@ -234,7 +234,7 @@
 
     const t = C.topics[topicKey];
     el("screen-learn").dataset.topic = t.color;
-    el("learn-skill-tag").textContent = t.name;
+    el("learn-skill-tag").textContent = t.tag || t.name;
 
     window.SS_SHELL.showScreen("learn");
     render();
@@ -279,10 +279,6 @@
     tryHost.hidden = !isTry;
     clearTry();
 
-    /* Build 1.5.0: the Georgia standards this skill teaches, small and
-       quiet at the foot of every Learn step. */
-    if (t.ga && window.SS_GA) body.appendChild(window.SS_GA.line(t.ga));
-
     if (isTry) {
       buildTry(block);
     } else {
@@ -290,6 +286,16 @@
       /* The reference material belongs with the clue: it is what a child
          reaches for while working out which word to pick. */
       if (state.key === "clue") renderReference(body, t);
+    }
+
+    /* Build 1.5.0: the Georgia standards this skill teaches, small and
+       quiet at the FOOT of every Learn step -- after the teaching, never
+       before it. On Let me try it follows the question. */
+    if (t.ga && window.SS_GA) {
+      const ga = window.SS_GA.line(t.ga);
+      ga.id = "learn-ga";
+      const old = el("learn-ga"); if (old) old.remove();
+      (isTry ? el("learn-try") : body).appendChild(ga);
     }
 
     el("learn-prev").disabled = (lesson.stateIndex === 0);

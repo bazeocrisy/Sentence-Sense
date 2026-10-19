@@ -14,7 +14,7 @@
 | **Six Georgia grade 3 skills**, each Learn + a 20-question Practice bank (Test "coming next"): Pronoun, Adverb, Complete Sentence, Helping & Linking Verbs, Verb Tense, Subject-Verb Agreement | `js/data/learn-content.js` |
 | **Home in two labelled rows**: Words (7) · Sentences (3) | `homeGroups` in content; `buildHome()` |
 | **Georgia standard tags** on the Skill screen, at the foot of every Learn step, and under every Practice question | `ga` per topic; `std` per question; `window.SS_GA` |
-| Harness updated to the approved behaviour | `verification/guard.js` — 655 pass |
+| Harness updated to the approved behaviour | `verification/guard.js` — 655 pass (4 sandbox-only font failures) |
 
 The six banks were written and independently reviewed outside the owner's
 approval loop (owner approved going live directly). The content is held to

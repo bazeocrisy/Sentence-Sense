@@ -132,7 +132,7 @@
 
     const t = C.topics[topicKey];
     el("screen-practice").dataset.topic = t.color;
-    el("practice-skill-tag").textContent = t.name;
+    el("practice-skill-tag").textContent = t.tag || t.name;
 
     window.SS_SHELL.showScreen("practice");
     buildQuestion();
@@ -146,6 +146,11 @@
      for 1.5.0 tag every question (`std`); older banks fall back to the
      skill's own codes. GUM chart rows have no official code of their own,
      so they show under 3-5.L.GC.1 with the chart skill named. */
+  const CODE_NAME = {
+    "3.L.GC.2.a": "Correctly built sentences", "3.L.GC.2.b": "Sentence variety and keeping the tense",
+    "3.L.GC.2.c": "Subject-verb agreement", "3.L.GC.2.d": "Add detail with adjectives and adverbs",
+    "3.L.V.2.b": "Word endings signal the part of speech"
+  };
   const GUM_LEVEL = { M: "Master", C: "Continue", I: "Introduce", R: "Review" };
   const GUM_NAME = {
     "action-verbs": "Action verbs", "adjectives-adverbs": "Adjectives and adverbs",
@@ -161,7 +166,7 @@
     if (q.std && q.std.length) {
       return q.std.map(tag => {
         const m = /^GUM:[GUM]:([a-z0-9-]+):([ICMR])$/.exec(tag);
-        if (!m) return { code: tag, label: "" };
+        if (!m) return { code: tag, label: CODE_NAME[tag] || "" };
         const words = GUM_NAME[m[1]] || m[1].replace(/-/g, " ");
         return { code: "3-5.L.GC.1", label: words + " (" + GUM_LEVEL[m[2]] + ")" };
       });
@@ -192,7 +197,8 @@
     /* A plain, non-numeric sense of place. Never a score or a percentage. */
     const bar = el("practice-bar");
     if (bar) {
-      const pct = Math.round((run.pos / run.order.length) * 100);
+      const done = new Set(run.order.slice(0, run.pos)).size;
+      const pct = Math.round((done / run.bank.questions.length) * 100);
       bar.style.width = pct + "%";
       bar.parentNode.setAttribute("aria-hidden", "true");
     }
@@ -331,7 +337,9 @@
         b => Number(b.dataset.ci) === correctIndex)[0];
       lockAll(buttons);
       if (right) { right.classList.add("is-right"); right.classList.remove("is-hint"); }
-      feedback("right", [q.reveal]);
+      /* Audit S-10: the child missed three times, so this is a walk-through,
+         not a celebration -- the neutral help style, never a green tick. */
+      feedback("clue", [q.reveal], "Let's find it together");
       run.answered = true;
       el("practice-help").disabled = true;
       sendBack();
@@ -365,6 +373,7 @@
         b.disabled = true;
         b.classList.add("is-ruled-out");
       });
+      /* The strategy stays on screen with it: Help 2 replaces Help 1's panel. */
       feedback("clue", ["Some answers are crossed out. It is one of the two that are left.", q.clue], "Hint 2 of 3");
     } else {
       /* Walk through it. The answer is outlined, never pressed for the

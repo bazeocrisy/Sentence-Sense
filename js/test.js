@@ -390,7 +390,7 @@
 
     const t = C.topics[topicKey];
     el("screen-test").dataset.topic = t.color;
-    el("test-skill-tag").textContent = t.name;
+    el("test-skill-tag").textContent = t.tag || t.name;
     el("test-heading").textContent = t.name + " Test";
     renderSizes();
     renderIntroCopy();

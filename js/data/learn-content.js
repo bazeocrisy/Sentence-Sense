@@ -131,7 +131,7 @@ window.SS_LEARN_CONTENT = {
                       and none is faked (brief section 17).
          ---- */
       /* Build 1.5.0: Georgia K-12 ELA codes shown on the Skill screen. */
-      ga: [{ code: "3-5.L.GC.1", label: "Action verbs (R)" }, { code: "3-5.L.GC.1", label: "Being verbs (helping and linking, I)" }],
+      ga: [{ code: "3-5.L.GC.1", label: "Action verbs (Review)" }, { code: "3-5.L.GC.1", label: "Being verbs, helping and linking (Introduce)" }],
       ask: "What is happening?",
       icon: "run",
       preview: { words: ["The", "boy", "runs", "fast."], start: 2, end: 2 },
@@ -310,7 +310,7 @@ window.SS_LEARN_CONTENT = {
         ],
         questions: [
           /* Q1 -- stage 1 */
-          { stage: 0,
+          { stage: 0, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["The", "playful", "dog", "jumped", "over", "the", "fallen", "log."] },
             question: "Which word tells what happened?",
             choices: [
@@ -322,7 +322,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. jumped tells what the dog did, so jumped is the verb." },
           /* Q2 -- stage 1 */
-          { stage: 0,
+          { stage: 0, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["Our", "baseball", "team", "practices", "before", "the", "Saturday", "games."] },
             question: "Which word tells what happens?",
             choices: [
@@ -334,7 +334,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. practices tells what the team does, so practices is the verb." },
           /* Q3 -- stage 1 */
-          { stage: 0,
+          { stage: 0, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["The", "brown", "rabbit", "hopped", "across", "the", "grassy", "field."] },
             question: "Which word tells what happened?",
             choices: [
@@ -346,7 +346,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. hopped tells what the rabbit did, so hopped is the verb." },
           /* Q4 -- stage 1 */
-          { stage: 0,
+          { stage: 0, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["Maya", "opens", "her", "colorful", "notebook", "during", "science", "class."] },
             question: "Which word tells what happens?",
             choices: [
@@ -358,7 +358,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. opens tells what Maya does, so opens is the verb." },
           /* Q5 BEING -- stage 1 */
-          { stage: 0,
+          { stage: 0, std: ["GUM:G:helping-linking-verbs:I"],
             sentence: { words: ["The", "friendly", "puppy", "is", "happy", "in", "its", "new", "home."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -370,7 +370,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: a verb can also tell what someone or something is.",
             reveal: "Let's find it together. 'is' tells what the puppy is, so 'is' is the verb." },
           /* Q6 -- stage 2 */
-          { stage: 1,
+          { stage: 1, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["The", "talented", "pitcher", "threw", "the", "baseball", "toward", "home", "plate."] },
             question: "Which word tells what happened?",
             choices: [
@@ -382,7 +382,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. threw tells what the pitcher did, so threw is the verb." },
           /* Q7 -- stage 2 */
-          { stage: 1,
+          { stage: 1, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["Several", "noisy", "birds", "gather", "beside", "the", "school", "playground."] },
             question: "Which word tells what happens?",
             choices: [
@@ -394,7 +394,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. gather tells what the birds do, so gather is the verb." },
           /* Q8 BEING -- stage 2 */
-          { stage: 1,
+          { stage: 1, std: ["GUM:G:helping-linking-verbs:I"],
             sentence: { words: ["The", "long", "hallways", "are", "quiet", "after", "the", "final", "bell."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -406,7 +406,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: a verb can also tell what someone or something is.",
             reveal: "Let's find it together. are tells what the hallways are, so are is the verb." },
           /* Q9 -- stage 2 */
-          { stage: 1,
+          { stage: 1, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["Jordan", "packed", "his", "clean", "uniform", "before", "soccer", "practice."] },
             question: "Which word tells what happened?",
             choices: [
@@ -418,7 +418,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. packed tells what Jordan did, so packed is the verb." },
           /* Q10 -- stage 2 */
-          { stage: 1,
+          { stage: 1, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["The", "young", "artist", "paints", "a", "colorful", "picture", "for", "the", "hallway."] },
             question: "Which word tells what happens?",
             choices: [
@@ -430,7 +430,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What is happening?",
             reveal: "Let's find it together. paints tells what the artist does, so paints is the verb." },
           /* Q11 -- stage 3 */
-          { stage: 2,
+          { stage: 2, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["After", "lunch,", "the", "students", "carried", "their", "projects", "into", "the", "classroom."] },
             question: "Which word tells what happened?",
             choices: [
@@ -442,7 +442,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. carried tells what the students did, so carried is the verb." },
           /* Q12 -- stage 3 */
-          { stage: 2,
+          { stage: 2, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["Near", "the", "fence,", "a", "curious", "squirrel", "climbed", "the", "tall", "oak", "tree."] },
             question: "Which word tells what happened?",
             choices: [
@@ -454,7 +454,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. climbed tells what the squirrel did, so climbed is the verb." },
           /* Q13 -- stage 3 */
-          { stage: 2,
+          { stage: 2, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["During", "practice,", "the", "catcher", "blocked", "the", "bouncing", "baseball."] },
             question: "Which word tells what happened?",
             choices: [
@@ -466,7 +466,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. blocked tells what the catcher did, so blocked is the verb." },
           /* Q14 BEING -- stage 3 */
-          { stage: 2,
+          { stage: 2, std: ["GUM:G:helping-linking-verbs:I"],
             sentence: { words: ["After", "the", "storm,", "the", "wide", "fields", "were", "full", "of", "water."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -478,7 +478,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: a verb can also tell what someone or something is.",
             reveal: "Let's find it together. were tells what the fields were, so were is the verb." },
           /* Q15 -- stage 3 */
-          { stage: 2,
+          { stage: 2, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["On", "Friday,", "our", "class", "visited", "the", "local", "science", "museum."] },
             question: "Which word tells what happened?",
             choices: [
@@ -490,7 +490,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. visited tells what the class did, so visited is the verb." },
           /* Q16 BEING -- stage 4 */
-          { stage: 3,
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
             sentence: { words: ["The", "whole", "classroom", "was", "quiet", "after", "the", "long", "morning", "announcements."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -502,7 +502,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: a verb can also tell what someone or something is.",
             reveal: "Let's find it together. was tells what the classroom was, so was is the verb." },
           /* Q17 wording fixed -- stage 4 */
-          { stage: 3,
+          { stage: 3, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["The", "muddy", "shoes", "rested", "beside", "the", "back", "door", "all", "afternoon."] },
             question: "Which word tells what happened?",
             choices: [
@@ -514,7 +514,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: ask yourself, What happened?",
             reveal: "Let's find it together. rested tells what the shoes did, so rested is the verb." },
           /* Q18 BEING -- stage 4 */
-          { stage: 3,
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
             sentence: { words: ["Those", "tall", "glass", "buildings", "are", "visible", "from", "the", "new", "highway."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -526,7 +526,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: a verb can also tell what someone or something is.",
             reveal: "Let's find it together. are tells what the buildings are, so are is the verb." },
           /* Q19 BEING am -- stage 4 */
-          { stage: 3,
+          { stage: 3, std: ["GUM:G:helping-linking-verbs:I"],
             sentence: { words: ["I", "am", "always", "ready", "for", "the", "spelling", "test", "on", "Friday", "morning."] },
             question: "Which word is the verb in this sentence?",
             choices: [
@@ -538,7 +538,7 @@ window.SS_LEARN_CONTENT = {
             clue: "Remember: a verb can also tell what someone or something is.",
             reveal: "Let's find it together. am tells what I am, so am is the verb." },
           /* Q20 -- stage 4 */
-          { stage: 3,
+          { stage: 3, std: ["GUM:G:action-verbs:R"],
             sentence: { words: ["During", "family", "reading", "night,", "our", "library", "welcomed", "many", "new", "visitors."] },
             question: "Which word tells what happened?",
             choices: [
@@ -1877,7 +1877,7 @@ window.SS_LEARN_CONTENT = {
       color: "noun",
 
       /* Build 1.5.0: Georgia K-12 ELA codes shown on the Skill screen. */
-      ga: [{ code: "3-5.L.GC.1", label: "Common and proper nouns (R)" }, { code: "3-5.L.GC.1", label: "Abstract nouns (Master)" }],
+      ga: [{ code: "3-5.L.GC.1", label: "Common and proper nouns (Review)" }, { code: "3-5.L.GC.1", label: "Abstract nouns (Master)" }],
       ask: "Names a person, place, thing, or idea.",
       icon: "book",
       preview: { words: ["The", "cat", "sat", "on", "the", "mat."], start: 1, end: 1 },
@@ -1979,7 +1979,7 @@ window.SS_LEARN_CONTENT = {
       color: "adjective",
 
       /* Build 1.5.0: Georgia K-12 ELA codes shown on the Skill screen. */
-      ga: [{ code: "3.L.GC.2.d", label: "Add detail with adjectives" }, { code: "3-5.L.GC.1", label: "Adjectives (R)" }],
+      ga: [{ code: "3.L.GC.2.d", label: "Add detail with adjectives" }, { code: "3-5.L.GC.1", label: "Adjectives (Review)" }],
       ask: "Describes a noun.",
       icon: "pencil",
       preview: { words: ["The", "loud", "dog", "barked."], start: 1, end: 1 },
@@ -2127,7 +2127,7 @@ window.SS_LEARN_CONTENT = {
       "ga": [
         {
           "code": "3-5.L.GC.1",
-          "label": "Personal pronouns (R)"
+          "label": "Personal pronouns (Review)"
         },
         {
           "code": "3-5.L.GC.1",
@@ -2135,7 +2135,7 @@ window.SS_LEARN_CONTENT = {
         },
         {
           "code": "3-5.L.GC.1",
-          "label": "Pronoun agreement (C)"
+          "label": "Pronoun agreement (Continue)"
         }
       ],
       "definition": {
@@ -3294,7 +3294,7 @@ window.SS_LEARN_CONTENT = {
         },
         {
           "code": "3-5.L.GC.1",
-          "label": "Adjectives and adverbs (R)"
+          "label": "Adjectives and adverbs (Review)"
         },
         {
           "code": "3.L.V.2.b",
@@ -3462,35 +3462,34 @@ window.SS_LEARN_CONTENT = {
         "title": "Let me try",
         "sentence": {
           "words": [
-            "After",
-            "lunch,",
+            "Grandpa",
+            "whistled",
+            "happily",
+            "while",
+            "he",
+            "raked",
             "the",
-            "kids",
-            "ran",
-            "outside",
-            "to",
-            "the",
-            "playground."
+            "leaves."
           ]
         },
-        "question": "Which word tells where the kids ran?",
+        "question": "Which word tells how Grandpa whistled?",
         "choices": [
           {
-            "text": "lunch",
-            "feedback": "The word lunch names a meal. It is a noun. After lunch tells when, not where."
+            "text": "Grandpa",
+            "feedback": "The word Grandpa names a person. It is a noun. Look for the word that tells how he whistled."
           },
           {
-            "text": "kids",
-            "feedback": "The word kids names people. It is a noun. Ask: Where did the kids run?"
+            "text": "whistled",
+            "feedback": "The word whistled is the verb. Now look for the word that tells how he whistled."
           },
           {
-            "text": "ran",
-            "feedback": "The word ran is the verb. Now ask: Where did the kids run?"
-          },
-          {
-            "text": "outside",
-            "feedback": "You found it! outside tells where the kids ran, so it is the adverb.",
+            "text": "happily",
+            "feedback": "You found it! happily tells how Grandpa whistled, so it is the adverb.",
             "correct": true
+          },
+          {
+            "text": "leaves",
+            "feedback": "The word leaves names things. It is a noun. Look for the word that tells how Grandpa whistled."
           }
         ]
       },
@@ -4435,6 +4434,7 @@ window.SS_LEARN_CONTENT = {
     /* ===================================================== */
     "complete-sentence": {
       "name": "Complete Sentence",
+      "tag": "Sentences",
       "badge": "who + did what",
       "card": "Spot fragments and run-ons.",
       "color": "complete-sentence",
@@ -4470,7 +4470,7 @@ window.SS_LEARN_CONTENT = {
       "definition": {
         "title": "What is a complete sentence?",
         "callout": {
-          "title": "A complete sentence has two parts and one complete thought.",
+          "title": "A complete sentence has a subject and a predicate, and it makes sense by itself.",
           "rows": [
             {
               "key": "SUBJECT",
@@ -4597,28 +4597,29 @@ window.SS_LEARN_CONTENT = {
         "title": "Let me try",
         "sentence": {
           "words": [
-            "Walked",
-            "home",
-            "from",
-            "the",
-            "bus",
-            "stop."
+            "Played",
+            "catch",
+            "with",
+            "his",
+            "dad",
+            "after",
+            "dinner."
           ]
         },
         "question": "Is this a complete sentence?",
         "choices": [
           {
             "text": "Yes, it is complete.",
-            "feedback": "We do not know who walked home. The sentence never says. Something is missing."
+            "feedback": "We do not know who played catch. The sentence never says. Something is missing."
           },
           {
             "text": "No, it needs a subject.",
-            "feedback": "You found it! We do not know who walked home. It needs a subject.",
+            "feedback": "You found it! No, it needs a subject. We do not know who played catch.",
             "correct": true
           },
           {
             "text": "No, it needs a predicate.",
-            "feedback": "It has a predicate: walked home from the bus stop. What is missing is who did it."
+            "feedback": "It has a predicate: played catch with his dad after dinner. What is missing is who did it."
           },
           {
             "text": "No, it is a run-on.",
@@ -4691,7 +4692,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a subject.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a subject. We do not know who jumped into the cool water at the pool. It needs a subject."
+                "feedback": "You found it! No, it needs a subject. We do not know who jumped into the cool water at the pool."
               },
               {
                 "text": "No, it needs a predicate.",
@@ -4774,7 +4775,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a subject.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a subject. We do not know who painted a bright picture of the ocean. It needs a subject."
+                "feedback": "You found it! No, it needs a subject. We do not know who painted a bright picture of the ocean."
               },
               {
                 "text": "No, it needs a predicate.",
@@ -4814,7 +4815,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a subject.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a subject. We do not know who carried the heavy groceries up the stairs. It needs a subject."
+                "feedback": "You found it! No, it needs a subject. We do not know who carried the heavy groceries up the stairs."
               },
               {
                 "text": "No, it needs a predicate.",
@@ -4900,7 +4901,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a predicate.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a predicate. We know what it is about, the tall girl with the red backpack, but not what happened. It needs a predicate."
+                "feedback": "You found it! No, it needs a predicate. We know what it is about, the tall girl with the red backpack, but not what happened."
               },
               {
                 "text": "No, it is a run-on.",
@@ -4940,7 +4941,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a predicate.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a predicate. We know what it is about, the noisy crowd at the baseball game, but not what happened. It needs a predicate."
+                "feedback": "You found it! No, it needs a predicate. We know what it is about, the noisy crowd at the baseball game, but not what happened."
               },
               {
                 "text": "No, it is a run-on.",
@@ -5020,7 +5021,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a predicate.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a predicate. We know what it is about, my grandmother's garden behind the house, but not what happened. It needs a predicate."
+                "feedback": "You found it! No, it needs a predicate. We know what it is about, my grandmother's garden behind the house, but not what happened."
               },
               {
                 "text": "No, it is a run-on.",
@@ -5055,7 +5056,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a subject.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a subject. We do not know who walked slowly to the bus stop. It needs a subject."
+                "feedback": "You found it! No, it needs a subject. We do not know who walked slowly to the bus stop."
               },
               {
                 "text": "No, it needs a predicate.",
@@ -5072,8 +5073,7 @@ window.SS_LEARN_CONTENT = {
           {
             "stage": 2,
             "std": [
-              "3.L.GC.2.a",
-              "3.L.GC.2.b"
+              "3.L.GC.2.a"
             ],
             "sentence": {
               "words": [
@@ -5113,8 +5113,7 @@ window.SS_LEARN_CONTENT = {
           {
             "stage": 2,
             "std": [
-              "3.L.GC.2.a",
-              "3.L.GC.2.b"
+              "3.L.GC.2.a"
             ],
             "sentence": {
               "words": [
@@ -5197,8 +5196,7 @@ window.SS_LEARN_CONTENT = {
           {
             "stage": 2,
             "std": [
-              "3.L.GC.2.a",
-              "3.L.GC.2.b"
+              "3.L.GC.2.a"
             ],
             "sentence": {
               "words": [
@@ -5266,7 +5264,7 @@ window.SS_LEARN_CONTENT = {
               {
                 "text": "No, it needs a predicate.",
                 "correct": true,
-                "feedback": "You found it! No, it needs a predicate. We know what it is about, the tall tree near our house, but not what happened. It needs a predicate."
+                "feedback": "You found it! No, it needs a predicate. We know what it is about, the tall tree near our house, but not what happened."
               },
               {
                 "text": "No, it is a run-on.",
@@ -5280,7 +5278,6 @@ window.SS_LEARN_CONTENT = {
             "stage": 3,
             "std": [
               "3.L.GC.2.a",
-              "3.L.GC.2.b",
               "GUM:M:end-punctuation:R",
               "GUM:M:capitalize-first-word:R"
             ],
@@ -5508,6 +5505,7 @@ window.SS_LEARN_CONTENT = {
     /* ===================================================== */
     "helping-linking": {
       "name": "Helping & Linking Verbs",
+      "tag": "Help & Link",
       "badge": "is running",
       "card": "Verbs that help and verbs that link.",
       "color": "helping-linking",
@@ -5528,7 +5526,7 @@ window.SS_LEARN_CONTENT = {
       "ga": [
         {
           "code": "3-5.L.GC.1",
-          "label": "Helping and linking verbs (I)"
+          "label": "Helping and linking verbs (Introduce)"
         }
       ],
       "definition": {
@@ -5597,7 +5595,7 @@ window.SS_LEARN_CONTENT = {
             }
           ]
         },
-        "note": "Helping verbs: will, can, should, must, am, is, are, was, were. Linking verbs: am, is, are, was, were, seems, becomes."
+        "note": "Helping verbs: will, can, could, should, must, am, is, are, was, were. Linking verbs: am, is, are, was, were, seems, becomes."
       },
       "clue": {
         "title": "How do I tell them apart?",
@@ -5654,7 +5652,7 @@ window.SS_LEARN_CONTENT = {
         },
         "routine": [
           "Read the sentence.",
-          "The word is comes before ready. ready describes the class, so it is a linking verb.",
+          "The word is comes before ready. ready describes the class, so “is” is a linking verb.",
           "The word will comes before start. start is an action, so will is a helping verb.",
           "start is the main verb."
         ]
@@ -6660,7 +6658,7 @@ window.SS_LEARN_CONTENT = {
       "ga": [
         {
           "code": "3-5.L.GC.1",
-          "label": "Simple verb tenses (R)"
+          "label": "Simple verb tenses (Review)"
         },
         {
           "code": "3-5.L.GC.1",
@@ -7781,6 +7779,7 @@ window.SS_LEARN_CONTENT = {
     /* ===================================================== */
     "agreement": {
       "name": "Subject-Verb Agreement",
+      "tag": "Agreement",
       "badge": "dogs bark",
       "card": "Make the subject and verb match.",
       "color": "agreement",
@@ -7809,7 +7808,7 @@ window.SS_LEARN_CONTENT = {
         },
         {
           "code": "3-5.L.GC.1",
-          "label": "Prepositional phrases (C)"
+          "label": "Prepositional phrases (Continue)"
         }
       ],
       "definition": {
@@ -7952,7 +7951,7 @@ window.SS_LEARN_CONTENT = {
         "routine": [
           "Read the sentence.",
           "Find the verb: walk.",
-          "Who walks? Maya and her brother. That is two people.",
+          "Find the subject: Maya and her brother. That is two people.",
           "More than one goes with walk, not walks."
         ],
         "noteTitle": "A group is one",
