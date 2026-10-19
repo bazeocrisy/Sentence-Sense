@@ -240,7 +240,7 @@ img{max-width:100%;}
    colour and fell back to the user-agent default `buttontext` -- pure
    BLACK on a #1B4FA8 ground, measured at 2.73:1, well under AA. Any new
    solid button must join this selector, not re-declare its own colour. */
-.btn-next,.btn-start,.btn-activity{
+.btn-next,.btn-start,.btn-activity,.btn-check{
   background:var(--navy);
   color:#fff;
   border-color:var(--navy);
@@ -253,7 +253,8 @@ img{max-width:100%;}
    white label beside a dark arrow was the other half of the same bug. */
 .btn-next .btn-label,.btn-next .btn-arrow,
 .btn-start .btn-label,.btn-start .btn-arrow,
-.btn-activity .btn-label,.btn-activity .btn-arrow{color:#fff;}
+.btn-activity .btn-label,.btn-activity .btn-arrow,
+.btn-check .btn-label,.btn-check .btn-arrow{color:#fff;}
 
 .btn:disabled{
   background:#E3E9F2;color:#8395AE;border-color:#E3E9F2;
@@ -2094,3 +2095,30 @@ img{max-width:100%;}
 .show-how-lead{display:block;}
 .show-how-pair{margin:6px 0 0;padding-left:1.2em;}
 .show-how-pair li{margin:2px 0;line-height:1.35;}
+
+/* ===== Build 1.8.0: GRAMMAR CHECK ===== */
+:root{ --check-ink:#4338A0; --check-tint:#EFEDFB; --check-edge:#D3CEF3; }
+.check-home{margin:4px 0 26px;}
+.check-card{
+  background:var(--check-tint);border:1px solid var(--check-edge);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-card);
+  padding:20px 16px;display:flex;flex-direction:column;gap:12px;
+}
+.check-card-head{display:flex;align-items:center;gap:14px;}
+.check-card .skill-icon{background:#fff;color:var(--check-ink);border:1px solid var(--check-edge);}
+.check-card .skill-name{text-align:left;font-size:1.4rem;}
+.check-card .skill-ask{text-align:left;min-height:0;margin:2px 0 0;}
+.check-card-line{color:var(--text);font-size:1rem;}
+.btn-check{width:100%;font-size:1.05rem;background:var(--check-ink);border-color:var(--check-ink);}
+.btn-check:hover{background:#352C85;}
+@media (min-width:820px){
+  .check-card{flex-direction:row;align-items:center;gap:22px;padding:20px 24px;}
+  .check-card-head{flex:0 0 auto;}
+  .check-card-line{flex:1 1 auto;}
+  .btn-check{width:auto;min-width:200px;}
+}
+.screen-test[data-topic="check"] .choice-btn.is-picked{border-color:var(--check-ink);background:var(--check-tint);box-shadow:inset 0 0 0 1px var(--check-ink);}
+.next-steps{margin:14px 0 4px;text-align:left;}
+.next-steps-title{font-size:1.05rem;font-weight:800;color:var(--navy-deep);margin:0 0 8px;}
+.next-steps-list{display:flex;flex-wrap:wrap;gap:8px;}
+.next-step-btn{flex:1 1 calc(50% - 8px);min-width:140px;}

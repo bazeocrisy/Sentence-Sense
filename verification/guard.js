@@ -162,8 +162,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     fontsLoaded: document.fonts ? document.fonts.status : "n/a"
   }));
 
-  ok("1.4 BUILD_NUMBER is Build 1.7.0", globals.build === "Build 1.7.0", globals.build);
-  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.7.0", globals.badge);
+  ok("1.4 BUILD_NUMBER is Build 1.8.0", globals.build === "Build 1.8.0", globals.build);
+  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.8.0", globals.badge);
   ok("1.6 the three component globals are present",
     globals.hasLearn && globals.hasPractice && globals.hasSentence);
   ok("1.7 localStorage and sessionStorage empty on load",
@@ -2182,6 +2182,125 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       s3.txt[2] === row.why && !s3.ansHidden && s3.disabled,
       JSON.stringify(s2.txt[1] || "").slice(0, 80));
   }
+
+  /* ===== 15G. GRAMMAR CHECK (Build 1.8.0) =====
+     One mixed test across the ten skills, drawn only from their reviewed
+     pools: two per skill, scored by skill, with next-step buttons. */
+  await goHome(page);
+  const gh = await page.evaluate(() => {
+    const host = document.getElementById("check-home");
+    const btn = document.getElementById("check-start");
+    return { exists: !!host && !host.hidden, outside: !!host && !host.closest("#skill-grid"),
+             btn: !!btn && btn.offsetParent !== null,
+             title: host ? (host.querySelector(".skill-name") || {}).textContent : "" };
+  });
+  ok("15G.1 Home shows the Grammar Check banner outside the skill grid", gh.exists && gh.outside && gh.btn, gh.title);
+
+  async function checkSit(plan) {
+    /* plan(skill, k) -> true to answer right; k = 0 or 1 within the skill */
+    await goHome(page);
+    await page.click("#check-start"); await sleep(200);
+    await page.click("#test-start"); await sleep(120);
+    const seen = {};
+    let help = 0;
+    const st0 = await page.evaluate(() => window.SS_TEST.state());
+    for (let i = 0; i < st0.total; i++) {
+      const w = await page.evaluate(() => {
+        const s = window.SS_TEST.state();
+        const id = s.ids[s.pos];
+        const C = window.SS_LEARN_CONTENT;
+        let q = null, skill = null;
+        C.homeOrder.forEach(k => { const f = C.topics[k].testPool.questions.find(x => x.id === id); if (f) { q = f; skill = k; } });
+        const vis = Array.from(document.querySelectorAll("#screen-test button"))
+          .filter(b => b.offsetParent !== null && !b.classList.contains("choice-btn") && /help|hint|show me/i.test(b.textContent)).length;
+        return { skill: skill, c: q.choices.findIndex(x => x.correct), w: q.choices.findIndex(x => !x.correct), vis: vis };
+      });
+      help += w.vis;
+      seen[w.skill] = (seen[w.skill] || 0);
+      const right = plan(w.skill, seen[w.skill]);
+      seen[w.skill]++;
+      await page.evaluate(c => Array.from(document.querySelectorAll("#test-choices .choice-btn"))
+        .find(x => Number(x.dataset.ci) === c).click(), right ? w.c : w.w);
+      await sleep(25);
+      await page.click("#test-next"); await sleep(35);
+    }
+    await page.click("#test-submit"); await sleep(200);
+    const r = await page.evaluate(() => {
+      const s = window.SS_TEST.state();
+      const m = document.querySelector("#test-results .done-mark");
+      return { ids: s.ids, total: s.total, overall: s.result.overall, tier: s.result.tier, mastered: s.result.mastered,
+               mark: !!(m && m.offsetParent !== null),
+               msg: document.getElementById("test-guidance").textContent,
+               rows: document.querySelectorAll("#test-subscores > *").length,
+               next: Array.from(document.querySelectorAll("#test-next-steps .next-step-btn")).map(b => [b.dataset.skill, b.dataset.activity, b.textContent]),
+               btns: [document.getElementById("test-primary").textContent, document.getElementById("test-tertiary").textContent] };
+    });
+    r.help = help; r.seen = seen;
+    return r;
+  }
+
+  const g1 = await checkSit(() => true);
+  const integ = await page.evaluate(ids => {
+    const C = window.SS_LEARN_CONTENT;
+    const per = {}, bands = [];
+    let same = true;
+    const bank = window.SS_TEST.state();
+    ids.forEach(id => {
+      let src = null, k = null;
+      C.homeOrder.forEach(kk => { const f = C.topics[kk].testPool.questions.find(x => x.id === id); if (f) { src = f; k = kk; } });
+      if (!src) { same = false; return; }
+      per[k] = (per[k] || 0) + 1; bands.push(src.band);
+    });
+    const sorted = bands.every((b, i) => i === 0 || bands[i - 1] <= b);
+    return { skills: Object.keys(per).length, two: Object.values(per).every(n => n === 2), same: same,
+             unique: new Set(ids).size === ids.length, sorted: sorted };
+  }, g1.ids);
+  ok("15G.2 a sitting is 20 questions, exactly 2 from each of the 10 skills, no repeats",
+    g1.total === 20 && integ.skills === 10 && integ.two && integ.unique, JSON.stringify(integ));
+  ok("15G.3 every question comes from a skill's reviewed pool, easiest band first", integ.same && integ.sorted);
+  ok("15G.4 no help, hint or Show me how during the Grammar Check", g1.help === 0, "seen=" + g1.help);
+  ok("15G.5 20 of 20: mastered, celebration shown, no skills listed, Try again / Back to Home",
+    g1.overall === 20 && g1.mastered && g1.mark && g1.next.length === 0 && g1.rows === 10 &&
+    g1.btns.join("|") === "Try again|Back to Home", g1.tier + " " + g1.btns.join("|"));
+
+  const GC_REVIEW = await page.evaluate(() => window.SS_LEARN_CONTENT.grammarCheck.guidance.review);
+  const g2 = await checkSit((k, i) => k !== "pronoun");
+  ok("15G.6 both Pronoun questions missed: not mastered, Practice Pronoun is the one next step",
+    g2.overall === 18 && !g2.mastered && !g2.mark && g2.tier === "review" &&
+    g2.next.length === 1 && g2.next[0][0] === "pronoun" && g2.next[0][1] === "practice" &&
+    g2.msg === GC_REVIEW, JSON.stringify(g2.next) + " " + g2.tier);
+  const g3 = await checkSit(() => false);
+  ok("15G.7 0 of 20: keep going, and every skill offers Learn",
+    g3.overall === 0 && g3.tier === "keepGoing" && g3.next.length === 10 && g3.next.every(n => n[1] === "learn"),
+    g3.tier + " next=" + g3.next.length);
+  const overlap = g3.ids.filter(id => g1.ids.indexOf(id) >= 0).length;
+  ok("15G.8 the next sitting draws mostly fresh questions", overlap <= 10, "overlap=" + overlap);
+
+  /* Show me how on a missed item uses the source skill's clue */
+  await page.click("#test-review-btn"); await sleep(150);
+  for (let i = 0; i < 3; i++) { await page.click("#test-review .show-how-btn"); await sleep(40); }
+  const sh = await page.evaluate(() => {
+    const s = window.SS_TEST.state(), C = window.SS_LEARN_CONTENT, id = s.ids[0];
+    let src = null, k = null;
+    C.homeOrder.forEach(kk => { const f = C.topics[kk].testPool.questions.find(x => x.id === id); if (f) { src = f; k = kk; } });
+    const item = document.querySelector("#test-review .review-item");
+    const txt = Array.from(item.querySelectorAll(".show-how-text")).map(x => x.textContent);
+    return { clueOK: txt[0] === (src.clue || C.topics[k].testClue), whyOK: txt[2] === src.why,
+             ans: !item.querySelector(".review-correct").hidden };
+  });
+  ok("15G.9 Show me how on a missed item uses that skill's own clue and explanation", sh.clueOK && sh.whyOK && sh.ans);
+
+  /* a next-step button lands on that skill */
+  await page.evaluate(() => document.querySelector("#test-next-steps .next-step-btn[data-skill='adverb']").click());
+  await sleep(200);
+  const land = await page.evaluate(() => ({ screen: Array.from(document.querySelectorAll(".screen")).filter(x => !x.hidden).map(x => x.id).join(","),
+    tag: (document.querySelector(".screen:not([hidden]) .header-tag") || {}).textContent }));
+  ok("15G.10 a next-step button opens that skill", /screen-learn/.test(land.screen) && land.tag === "Adverb", land.screen + " " + land.tag);
+  await goHome(page);
+  await page.click("#check-start"); await sleep(150);
+  await page.click("#test-back"); await sleep(150);
+  const back = await page.evaluate(() => !document.getElementById("screen-home").hidden);
+  ok("15G.11 Back from the Grammar Check returns Home", back);
 
   /* ===== 16. INSTRUCTIONAL REGRESSION GUARDS (Build 1.4.2) =====
 

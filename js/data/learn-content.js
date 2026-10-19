@@ -99,6 +99,34 @@ window.SS_LEARN_CONTENT = {
       skills: ["subject", "complete-sentence", "agreement"] }
   ],
 
+  /* Build 1.8.0 — GRAMMAR CHECK. One mixed test across all ten skills,
+     drawn from each skill's reviewed test pool (no new questions), so a
+     child and parent can see at a glance which skills to practice next.
+     It lives OUTSIDE homeOrder: it is not a skill and has no Learn or
+     Practice of its own. */
+  grammarCheck: {
+    name: "Grammar Check",
+    tag: "Check",
+    color: "check",
+    icon: "target",
+    groupName: "Check yourself",
+    groupSub: "Mixed questions from all ten skills.",
+    ask: "How much do I know?",
+    card: "20 questions, 2 from each skill. See which skills to practice next.",
+    perSkill: 2,
+    intro: "{n} questions, 2 from each skill. No hints this time \u2014 you've got this.",
+    confirm: "You answered all {n}. Ready to see how you did?",
+    /* overall [5,6] of 20 = 17; each skill needs 1 of its 2. */
+    masteryRatio: { overall: [5, 6], sub: [1, 2], almost: [2, 3] },
+    guidance: {
+      mastered: "Great work! You know your grammar. Try the Test on any skill to keep it strong.",
+      review: "Good work. Practice the skills listed below, then try the Grammar Check again.",
+      keepGoing: "Keep going. Pick a skill below and start with Learn."
+    },
+    nextTitle: "Skills to practice next",
+    nextTitleLearn: "Skills to learn next"
+  },
+
   topics: {
 
     /* ===================================================== */

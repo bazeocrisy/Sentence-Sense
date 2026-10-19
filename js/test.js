@@ -75,7 +75,43 @@
     return a;
   }
 
+  /* Build 1.8.0 — GRAMMAR CHECK. "check" is a pseudo-topic: its pool is
+     assembled from every skill's reviewed test pool, two per skill per
+     sitting, scored by skill. It adds no question of its own. */
+  let checkBank = null;
+  function buildCheckBank() {
+    const g = C.grammarCheck;
+    if (!g) return null;
+    const skills = C.homeOrder.filter(k => {
+      const t = C.topics[k];
+      return t && t.test === "pool" && t.testPool && t.testPool.questions && t.testPool.questions.length;
+    });
+    if (!skills.length) return null;
+    const questions = [];
+    skills.forEach(k => {
+      const t = C.topics[k];
+      t.testPool.questions.forEach(q => {
+        questions.push(Object.assign({}, q, { type: k, skill: k, clue: q.clue || t.testClue || null }));
+      });
+    });
+    return {
+      kind: "check",
+      intro: g.intro, confirm: g.confirm,
+      sizes: [skills.length * (g.perSkill || 2)],
+      perSkill: g.perSkill || 2,
+      subscales: skills.map(k => ({ key: k, label: C.topics[k].tag || C.topics[k].name, share: 1 / skills.length })),
+      masteryRatio: g.masteryRatio, guidance: g.guidance,
+      questions: questions
+    };
+  }
+  function topicOf(topicKey) {
+    return topicKey === "check" ? C.grammarCheck : C.topics[topicKey];
+  }
   function bankFor(topicKey) {
+    if (topicKey === "check") {
+      if (!checkBank) checkBank = buildCheckBank();
+      return checkBank;
+    }
     const t = C.topics[topicKey];
     return (t && t.testPool && t.testPool.questions && t.testPool.questions.length)
       ? t.testPool : null;
@@ -315,7 +351,32 @@
      fresh ++ stale, the blueprint is satisfied whether or not fresh
      questions remain -- freshness can never cost balance.
      ========================================================= */
+  /* Grammar Check sampling: per skill, one question from bands 1-2 and
+     one from bands 2-3 (fresh before recent), then ordered by band so the
+     sitting still starts with the easiest questions. */
+  function checkOrder(bank, recent) {
+    const picked = [];
+    bank.subscales.forEach(s => {
+      const idx = bank.questions.map((q, i) => i).filter(i => bank.questions[i].type === s.key);
+      const fresh = i => recent.indexOf(bank.questions[i].id) < 0;
+      const take = bands => {
+        const c = idx.filter(i => bands.indexOf(bank.questions[i].band) >= 0 && picked.indexOf(i) < 0);
+        const pool = shuffled(c.filter(fresh)).concat(shuffled(c.filter(i => !fresh(i))));
+        if (pool.length) picked.push(pool[0]);
+      };
+      const per = bank.perSkill || 2;
+      for (let j = 0; j < per; j++) take(j % 2 === 0 ? [1, 2] : [2, 3]);
+    });
+    const out = [];
+    BANDS.forEach(band => {
+      shuffled(picked.filter(i => bank.questions[i].band === band)).forEach(i => out.push(i));
+    });
+    lastSwaps = 0;
+    return out;
+  }
+
   function sampleOrder(bank, n, recent) {
+    if (bank.kind === "check") return checkOrder(bank, recent);
     const bp = blueprint(bank, n);
     let picked = [];
 
@@ -365,6 +426,7 @@
      now being asked. A Test engine whose first rule is "no explanation
      before submission" should not keep one word of it in the page. */
   function clearReview() {
+    clearNextSteps();
     const rev = el("test-review");
     if (!rev) return;
     clear(rev);
@@ -441,10 +503,10 @@
     if (!hasBank(topicKey)) return;
     reset(topicKey, size);
 
-    const t = C.topics[topicKey];
+    const t = topicOf(topicKey);
     el("screen-test").dataset.topic = t.color;
     el("test-skill-tag").textContent = t.tag || t.name;
-    el("test-heading").textContent = t.name + " Test";
+    el("test-heading").textContent = topicKey === "check" ? t.name : t.name + " Test";
     renderSizes();
     renderIntroCopy();
 
@@ -565,7 +627,7 @@
       if (sub) { sub.of++; if (right) sub.got++; }
       if (right) overall++;
       rows.push({ pos: pos + 1, id: q.id, sentence: q.sentence, question: q.question,
-        type: q.type, chosenIndex: chosen, correctIndex: correctIndex,
+        type: q.type, skill: q.skill || null, chosenIndex: chosen, correctIndex: correctIndex,
         chosen: chosen === null ? null : q.choices[chosen].text,
         correct: q.choices[correctIndex].text, right: right, why: q.why,
         clue: q.clue || null, choices: q.choices.map(c => c.text) });
@@ -583,6 +645,7 @@
     else if (overall >= thresholds.overall && weak.length) tier = weak[0].key + "Weak";
     else if (overall >= thresholds.almost) tier = "almost";
     else tier = "keepGoing";
+    if (bank.kind === "check" && tier !== "mastered" && tier !== "keepGoing") tier = "review";
     return { overall, total, subs, thresholds, mastered, tier,
              message: bank.guidance[tier] || bank.guidance.keepGoing, rows };
   }
@@ -697,6 +760,7 @@
   /* Build 1.7.0: generic pools get their own labels -- "Practice verbs"
      lower-cased cannot be rewritten into another skill's name. */
   function genericPlan(tier) {
+    if (run.topicKey === "check") return { primary: ["Try again", "again"], tertiary: ["Back to Home", "home"] };
     const t = C.topics[run.topicKey];
     const back = "Back to " + (t.tag || t.name);
     if (tier === "mastered") return { primary: [back, "skill"], tertiary: ["Try again", "again"] };
@@ -706,6 +770,7 @@
 
   function doAction(kind) {
     if (kind === "again") { again(); return; }
+    if (kind === "home") { window.SS_SHELL.goHome(); return; }
     if (kind === "skill") { window.SS_SHELL.openSkill(run.topicKey); return; }
     window.SS_SHELL.openActivity(run.topicKey, kind);
   }
@@ -722,6 +787,38 @@
     const t = el("test-tertiary");
     t.textContent = label(plan.tertiary[0]);
     t.dataset.action = plan.tertiary[1];
+  }
+
+  /* Build 1.8.0: after a Grammar Check, one button per skill with a
+     miss, straight to that skill's Practice (or Learn when the child is
+     just starting). Removed on every reset. */
+  function clearNextSteps() {
+    const old = el("test-next-steps");
+    if (old) old.remove();
+  }
+  function renderNextSteps(r) {
+    clearNextSteps();
+    if (run.topicKey !== "check" || !r.subs) return;
+    const weak = r.subs.filter(s => s.of > 0 && s.got < s.of);
+    if (!weak.length) return;
+    const g = C.grammarCheck;
+    const act = r.tier === "keepGoing" ? "learn" : "practice";
+    const box = make("div", "next-steps");
+    box.id = "test-next-steps";
+    box.appendChild(make("h3", "next-steps-title",
+      act === "learn" ? (g.nextTitleLearn || "Skills to learn next") : (g.nextTitle || "Skills to practice next")));
+    const list = make("div", "next-steps-list");
+    weak.forEach(s => {
+      const b = make("button", "nav-btn next-step-btn",
+        (act === "learn" ? "Learn " : "Practice ") + s.label);
+      b.type = "button";
+      b.dataset.skill = s.key;
+      b.dataset.activity = act;
+      b.addEventListener("click", () => window.SS_SHELL.openActivity(s.key, act));
+      list.appendChild(b);
+    });
+    box.appendChild(list);
+    el("test-guidance").insertAdjacentElement("afterend", box);
   }
 
   function renderResults() {
@@ -743,6 +840,7 @@
     }
 
     el("test-guidance").textContent = r.message;
+    renderNextSteps(r);
     renderCtas(r.tier);
 
     /* The review is built now but stays closed. Teaching returns only
@@ -792,7 +890,7 @@
   }
 
   function showMeHow(row, corr) {
-    const t = C.topics[run.topicKey];
+    const t = topicOf(run.topicKey);
     const clue = row.clue || t.testClue || "";
     const wrap = make("div", "show-how");
     const out = make("div", "show-how-steps");
@@ -868,7 +966,7 @@
     el("test-tertiary").addEventListener("click",
       () => doAction(el("test-tertiary").dataset.action));
     el("test-back").addEventListener("click",
-      () => window.SS_SHELL.openSkill(run.topicKey));
+      () => run.topicKey === "check" ? window.SS_SHELL.goHome() : window.SS_SHELL.openSkill(run.topicKey));
     el("test-home").addEventListener("click", () => window.SS_SHELL.goHome());
   }
 

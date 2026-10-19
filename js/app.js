@@ -34,7 +34,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.7.0";
+  const BUILD_NUMBER = "Build 1.8.0";
 
   const C = window.SS_LEARN_CONTENT;
   const S = window.SS_SENTENCE;
@@ -83,6 +83,7 @@
     pointback: 'M9 5 4 10l5 5 M4 10h10a6 6 0 0 1 0 12h-3',
     gauge: 'M4 16a8 8 0 1 1 16 0 M12 16l4-5 M12 16h.01 M6.5 11.5l1 .8 M12 8.4V9.6 M17.5 11.5l-1 .8',
     check: 'M3.5 7h11 M3.5 11.5h8 M3.5 16h6 M13 16.5l2.6 2.6 5-5.6',
+    target: 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18 M12 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10 M12 11a1 1 0 1 0 0 2a1 1 0 1 0 0-2',
     link: 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1 M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
     clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 7v5l3.2 2',
     scales: 'M12 3.5v17 M7.5 20.5h9 M4.5 7h15 M12 5.5V7 M4.5 7 2 13a2.6 2.6 0 0 0 5 0z M19.5 7 17 13a2.6 2.6 0 0 0 5 0z',
@@ -244,6 +245,40 @@
     });
   }
 
+  /* Build 1.8.0: the Grammar Check banner under the skill groups. */
+  function buildCheckHome() {
+    const host = el("check-home");
+    if (!host) return;
+    clear(host);
+    const g = C.grammarCheck;
+    if (!g || !window.SS_TEST || !window.SS_TEST.hasBank("check")) { host.hidden = true; return; }
+    host.hidden = false;
+    const head = make("div", "skill-group-head");
+    head.appendChild(make("h3", "skill-group-title", g.groupName));
+    head.appendChild(make("p", "skill-group-sub", g.groupSub));
+    host.appendChild(head);
+    const card = make("div", "check-card skill-check");
+    const top = make("div", "check-card-head");
+    top.appendChild(iconNode(g.icon));
+    const words = make("div", "check-card-words");
+    words.appendChild(make("h3", "skill-name", g.name));
+    words.appendChild(make("p", "skill-ask", g.ask));
+    top.appendChild(words);
+    card.appendChild(top);
+    card.appendChild(make("p", "check-card-line", g.card));
+    const btn = make("button", "btn btn-check");
+    btn.type = "button";
+    btn.id = "check-start";
+    btn.appendChild(make("span", "btn-label", "Start"));
+    const arrow = make("span", "btn-arrow", "\u2192");
+    arrow.setAttribute("aria-hidden", "true");
+    btn.appendChild(arrow);
+    btn.setAttribute("aria-label", "Start the " + g.name + ". " + g.ask);
+    btn.addEventListener("click", () => window.SS_TEST.start("check"));
+    card.appendChild(btn);
+    host.appendChild(card);
+  }
+
   /* =========================================================
      SKILL SCREEN — one component, all four skills.
      Learn / Practice / Test. Test is shown so the structure is clear,
@@ -400,6 +435,7 @@
      ========================================================= */
   function init() {
     buildHome();
+    buildCheckHome();
     renderBuildBadge();
 
     /* ONE way back from the Skill screen. It previously had two buttons
