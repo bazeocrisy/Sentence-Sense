@@ -2090,7 +2090,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
           if (has(ans) && !q.choices.some(x => !x.correct && has(x.text))) bad.push(q.id + " clue leaks");
         }
         const words = q.sentence.words.map(strip);
-        if (/^Which word/.test(q.question)) {
+        if (/^Which word/.test(q.question) && !q.sentence.words.some(w => w.indexOf("____") >= 0)) {
           q.choices.forEach(x => { const t = x.text.toLowerCase().split(" ");
             if (!t.every(w => words.indexOf(w) >= 0)) bad.push(q.id + " choice not in sentence: " + x.text); });
           if (ans.split(" ").length === 1 && words.filter(w => w === ans.toLowerCase()).length !== 1) bad.push(q.id + " answer count");
@@ -2120,7 +2120,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
         const s = window.SS_TEST.state();
         const q = window.SS_LEARN_CONTENT.topics[k].testPool.questions[s.order[s.pos]];
         const vis = Array.from(document.querySelectorAll("#screen-test button"))
-          .filter(b => b.offsetParent !== null && /help|hint|show me/i.test(b.textContent)).length;
+          .filter(b => b.offsetParent !== null && !b.classList.contains("choice-btn") &&
+            /help|hint|show me/i.test(b.textContent)).length;
         return { c: q.choices.findIndex(x => x.correct), w: q.choices.findIndex(x => !x.correct), vis: vis,
                  leak: document.getElementById("screen-test").innerHTML.indexOf(q.why) >= 0 };
       }, key);

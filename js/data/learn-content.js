@@ -137,6 +137,8 @@ window.SS_LEARN_CONTENT = {
       preview: { words: ["The", "boy", "runs", "fast."], start: 2, end: 2 },
       practice: "bank",
       test: "pool",
+      /* Build 1.7.0: Hint 1 of "Show me how" after a Verb test. */
+      testClue: "Remember: ask yourself, What happened? If nothing happens, look for a being verb like is, are, was, or were.",
 
       definition: {
         title: "What is a verb?",
@@ -1232,7 +1234,1402 @@ window.SS_LEARN_CONTENT = {
          which is the complete subject and a different topic. */
       preview: { words: ["The", "dog", "chased", "the", "ball."], start: 1, end: 1 },
       practice: "bank",
-      test: "soon",
+      test: "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      testPool: {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "simple",
+            "label": "Finding the subject",
+            "share": 0.6667
+          },
+          {
+            "key": "tricky",
+            "label": "Tricky subjects",
+            "share": 0.3333
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You found the subject every way we tested it. You know how to use the verb to ask Who? or What?",
+          "simpleWeak": "You did well with tricky subjects. Review how to find the verb first and then ask Who? or What? to find the subject.",
+          "trickyWeak": "You found subjects in clear sentences. Review sentences that start with extra words, have a noun near the verb, or use is and are.",
+          "almost": "You are almost there with subjects. Find the verb first, then ask Who? or What?",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "SU001",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "My",
+                "little",
+                "sister",
+                "drew",
+                "a",
+                "funny",
+                "map",
+                "of",
+                "our",
+                "street."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "sister",
+                "correct": true
+              },
+              {
+                "text": "little"
+              },
+              {
+                "text": "drew"
+              },
+              {
+                "text": "street"
+              }
+            ],
+            "why": "The verb is drew. Who drew a map? My little sister. So sister is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU002",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Grandpa",
+                "grilled",
+                "hot",
+                "dogs",
+                "in",
+                "the",
+                "backyard",
+                "on",
+                "Saturday."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "grilled"
+              },
+              {
+                "text": "Grandpa",
+                "correct": true
+              },
+              {
+                "text": "dogs"
+              },
+              {
+                "text": "backyard"
+              }
+            ],
+            "why": "The verb is grilled. Who grilled the hot dogs? Grandpa. So Grandpa is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU003",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "A",
+                "gray",
+                "rabbit",
+                "nibbled",
+                "the",
+                "lettuce",
+                "in",
+                "our",
+                "garden."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "gray"
+              },
+              {
+                "text": "nibbled"
+              },
+              {
+                "text": "rabbit",
+                "correct": true
+              },
+              {
+                "text": "lettuce"
+              }
+            ],
+            "why": "The verb is nibbled. Who nibbled the lettuce? A gray rabbit. So rabbit is the simple subject. gray only describes it.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU004",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Our",
+                "coach",
+                "blew",
+                "the",
+                "whistle",
+                "at",
+                "the",
+                "end",
+                "of",
+                "practice."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "blew"
+              },
+              {
+                "text": "whistle"
+              },
+              {
+                "text": "practice"
+              },
+              {
+                "text": "coach",
+                "correct": true
+              }
+            ],
+            "why": "The verb is blew. Who blew the whistle? Our coach. So coach is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU005",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Heavy",
+                "rain",
+                "fell",
+                "on",
+                "the",
+                "roof",
+                "all",
+                "night",
+                "long."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "rain",
+                "correct": true
+              },
+              {
+                "text": "Heavy"
+              },
+              {
+                "text": "fell"
+              },
+              {
+                "text": "roof"
+              }
+            ],
+            "why": "The verb is fell. What fell on the roof? Heavy rain. So rain is the simple subject. Heavy only describes it.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU006",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "The",
+                "librarian",
+                "showed",
+                "our",
+                "class",
+                "a",
+                "new",
+                "book",
+                "about",
+                "frogs."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "showed"
+              },
+              {
+                "text": "librarian",
+                "correct": true
+              },
+              {
+                "text": "class"
+              },
+              {
+                "text": "book"
+              }
+            ],
+            "why": "The verb is showed. Who showed the book? The librarian. So librarian is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU007",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "A",
+                "green",
+                "turtle",
+                "swam",
+                "slowly",
+                "near",
+                "the",
+                "boat."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "green"
+              },
+              {
+                "text": "swam"
+              },
+              {
+                "text": "turtle",
+                "correct": true
+              },
+              {
+                "text": "boat"
+              }
+            ],
+            "why": "The verb is swam. Who swam? A green turtle. So turtle is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU008",
+            "band": 1,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Jamal",
+                "baked",
+                "pumpkin",
+                "muffins",
+                "for",
+                "the",
+                "Thanksgiving",
+                "party."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "baked"
+              },
+              {
+                "text": "muffins"
+              },
+              {
+                "text": "party"
+              },
+              {
+                "text": "Jamal",
+                "correct": true
+              }
+            ],
+            "why": "The verb is baked. Who baked the muffins? Jamal. So Jamal is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU009",
+            "band": 1,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "The",
+                "cookies",
+                "are",
+                "warm",
+                "from",
+                "the",
+                "oven."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "cookies",
+                "correct": true
+              },
+              {
+                "text": "are"
+              },
+              {
+                "text": "warm"
+              },
+              {
+                "text": "oven"
+              }
+            ],
+            "why": "Find the verb: are. What are warm? The cookies. So cookies is the simple subject.",
+            "clue": "Remember: is, are, was and were are verbs too. Find the verb, then use it to ask: Who? or What?"
+          },
+          {
+            "id": "SU010",
+            "band": 1,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "My",
+                "new",
+                "puppy",
+                "is",
+                "hungry",
+                "after",
+                "a",
+                "long",
+                "walk."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "new"
+              },
+              {
+                "text": "puppy",
+                "correct": true
+              },
+              {
+                "text": "hungry"
+              },
+              {
+                "text": "walk"
+              }
+            ],
+            "why": "Find the verb: is. Who is hungry? My new puppy. So puppy is the simple subject.",
+            "clue": "Remember: is, are, was and were are verbs too. Find the verb, then use it to ask: Who? or What?"
+          },
+          {
+            "id": "SU011",
+            "band": 1,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "The",
+                "museum",
+                "is",
+                "quiet",
+                "on",
+                "Monday",
+                "mornings."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "is"
+              },
+              {
+                "text": "quiet"
+              },
+              {
+                "text": "museum",
+                "correct": true
+              },
+              {
+                "text": "mornings"
+              }
+            ],
+            "why": "Find the verb: is. What is quiet? The museum. So museum is the simple subject.",
+            "clue": "Remember: is, are, was and were are verbs too. Find the verb, then use it to ask: Who? or What?"
+          },
+          {
+            "id": "SU012",
+            "band": 1,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "Our",
+                "teacher",
+                "was",
+                "proud",
+                "of",
+                "the",
+                "whole",
+                "class."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "was"
+              },
+              {
+                "text": "proud"
+              },
+              {
+                "text": "class"
+              },
+              {
+                "text": "teacher",
+                "correct": true
+              }
+            ],
+            "why": "Find the verb: was. Who was proud? Our teacher. So teacher is the simple subject. class tells who the teacher was proud of.",
+            "clue": "Remember: is, are, was and were are verbs too. Find the verb, then use it to ask: Who? or What?"
+          },
+          {
+            "id": "SU013",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "The",
+                "hungry",
+                "pelican",
+                "splashed",
+                "into",
+                "the",
+                "ocean",
+                "near",
+                "Tybee",
+                "Island."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "pelican",
+                "correct": true
+              },
+              {
+                "text": "hungry"
+              },
+              {
+                "text": "splashed"
+              },
+              {
+                "text": "ocean"
+              }
+            ],
+            "why": "The verb is splashed. Who splashed into the ocean? The hungry pelican. So pelican is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU014",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Two",
+                "noisy",
+                "squirrels",
+                "raced",
+                "up",
+                "the",
+                "oak",
+                "tree",
+                "behind",
+                "our",
+                "school."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "noisy"
+              },
+              {
+                "text": "squirrels",
+                "correct": true
+              },
+              {
+                "text": "tree"
+              },
+              {
+                "text": "school"
+              }
+            ],
+            "why": "The verb is raced. Who raced up the tree? Two noisy squirrels. So squirrels is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU015",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "My",
+                "older",
+                "brother",
+                "carried",
+                "the",
+                "groceries",
+                "into",
+                "the",
+                "kitchen",
+                "for",
+                "Mom."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "older"
+              },
+              {
+                "text": "groceries"
+              },
+              {
+                "text": "brother",
+                "correct": true
+              },
+              {
+                "text": "Mom"
+              }
+            ],
+            "why": "The verb is carried. Who carried the groceries? My older brother. So brother is the simple subject. Mom is who he helped.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU016",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "A",
+                "cold",
+                "north",
+                "wind",
+                "blew",
+                "the",
+                "leaves",
+                "across",
+                "the",
+                "soccer",
+                "field."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "cold"
+              },
+              {
+                "text": "leaves"
+              },
+              {
+                "text": "field"
+              },
+              {
+                "text": "wind",
+                "correct": true
+              }
+            ],
+            "why": "The verb is blew. What blew the leaves? A cold north wind. So wind is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU017",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "The",
+                "smallest",
+                "kitten",
+                "climbed",
+                "into",
+                "a",
+                "basket",
+                "of",
+                "warm",
+                "towels."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "kitten",
+                "correct": true
+              },
+              {
+                "text": "smallest"
+              },
+              {
+                "text": "basket"
+              },
+              {
+                "text": "towels"
+              }
+            ],
+            "why": "The verb is climbed. Who climbed into the basket? The smallest kitten. So kitten is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU018",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Maya",
+                "packed",
+                "sandwiches",
+                "and",
+                "apples",
+                "for",
+                "our",
+                "picnic",
+                "at",
+                "the",
+                "lake."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "packed"
+              },
+              {
+                "text": "Maya",
+                "correct": true
+              },
+              {
+                "text": "sandwiches"
+              },
+              {
+                "text": "picnic"
+              }
+            ],
+            "why": "The verb is packed. Who packed the food? Maya. So Maya is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU019",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Our",
+                "class",
+                "sang",
+                "three",
+                "songs",
+                "at",
+                "the",
+                "winter",
+                "concert."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "sang"
+              },
+              {
+                "text": "songs"
+              },
+              {
+                "text": "class",
+                "correct": true
+              },
+              {
+                "text": "concert"
+              }
+            ],
+            "why": "The verb is sang. Who sang? Our class. So class is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU020",
+            "band": 2,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "The",
+                "bright",
+                "moon",
+                "lit",
+                "the",
+                "dark",
+                "path",
+                "through",
+                "the",
+                "woods."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "bright"
+              },
+              {
+                "text": "path"
+              },
+              {
+                "text": "woods"
+              },
+              {
+                "text": "moon",
+                "correct": true
+              }
+            ],
+            "why": "The verb is lit. What lit the path? The bright moon. So moon is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU021",
+            "band": 2,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "After",
+                "lunch,",
+                "the",
+                "students",
+                "played",
+                "kickball",
+                "on",
+                "the",
+                "field."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "students",
+                "correct": true
+              },
+              {
+                "text": "lunch"
+              },
+              {
+                "text": "played"
+              },
+              {
+                "text": "kickball"
+              }
+            ],
+            "why": "After lunch only tells when. The verb is played. Who played kickball? The students. So students is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU022",
+            "band": 2,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "The",
+                "jar",
+                "of",
+                "pickles",
+                "is",
+                "hard",
+                "to",
+                "open."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "pickles"
+              },
+              {
+                "text": "jar",
+                "correct": true
+              },
+              {
+                "text": "is"
+              },
+              {
+                "text": "hard"
+              }
+            ],
+            "why": "Find the verb: is. What is hard to open? The jar. The words of pickles only tell which jar, so jar is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU023",
+            "band": 2,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "In",
+                "the",
+                "spring,",
+                "pink",
+                "flowers",
+                "bloom",
+                "all",
+                "over",
+                "the",
+                "park."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "spring"
+              },
+              {
+                "text": "pink"
+              },
+              {
+                "text": "flowers",
+                "correct": true
+              },
+              {
+                "text": "park"
+              }
+            ],
+            "why": "In the spring only tells when. The verb is bloom. What blooms? Pink flowers. So flowers is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU024",
+            "band": 2,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "The",
+                "sky",
+                "over",
+                "the",
+                "city",
+                "was",
+                "gray",
+                "and",
+                "cloudy."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "city"
+              },
+              {
+                "text": "gray"
+              },
+              {
+                "text": "cloudy"
+              },
+              {
+                "text": "sky",
+                "correct": true
+              }
+            ],
+            "why": "Find the verb: was. What was gray and cloudy? The sky. The words over the city only tell where, so sky is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU025",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "The",
+                "patient",
+                "doctor",
+                "gently",
+                "checked",
+                "my",
+                "baby",
+                "brother's",
+                "ears",
+                "with",
+                "a",
+                "light."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "doctor",
+                "correct": true
+              },
+              {
+                "text": "patient"
+              },
+              {
+                "text": "ears"
+              },
+              {
+                "text": "light"
+              }
+            ],
+            "why": "The verb is checked. Who checked the ears? The patient doctor. So doctor is the simple subject. patient only describes the doctor here.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU026",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "In",
+                "our",
+                "yard,",
+                "a",
+                "tiny",
+                "hummingbird",
+                "drank",
+                "sweet",
+                "nectar",
+                "from",
+                "the",
+                "red",
+                "flowers."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "yard"
+              },
+              {
+                "text": "tiny"
+              },
+              {
+                "text": "hummingbird",
+                "correct": true
+              },
+              {
+                "text": "nectar"
+              }
+            ],
+            "why": "In our yard only tells where. The verb is drank. Who drank the nectar? A tiny hummingbird. So hummingbird is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU027",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "The",
+                "excited",
+                "fans",
+                "cheered",
+                "loudly",
+                "for",
+                "the",
+                "Atlanta",
+                "Braves",
+                "at",
+                "the",
+                "game."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "excited"
+              },
+              {
+                "text": "loudly"
+              },
+              {
+                "text": "fans",
+                "correct": true
+              },
+              {
+                "text": "game"
+              }
+            ],
+            "why": "The verb is cheered. Who cheered? The excited fans. So fans is the simple subject. excited only describes the fans.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU028",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Behind",
+                "the",
+                "bakery",
+                "last",
+                "night,",
+                "three",
+                "hungry",
+                "raccoons",
+                "tipped",
+                "over",
+                "the",
+                "trash",
+                "can."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "bakery"
+              },
+              {
+                "text": "night"
+              },
+              {
+                "text": "hungry"
+              },
+              {
+                "text": "raccoons",
+                "correct": true
+              }
+            ],
+            "why": "Behind the bakery last night only tells where and when. The verb is tipped. Who tipped over the trash can? Three hungry raccoons. So raccoons is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU029",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "On",
+                "the",
+                "snowy",
+                "runway,",
+                "a",
+                "careful",
+                "young",
+                "pilot",
+                "landed",
+                "the",
+                "big",
+                "airplane."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "pilot",
+                "correct": true
+              },
+              {
+                "text": "young"
+              },
+              {
+                "text": "airplane"
+              },
+              {
+                "text": "runway"
+              }
+            ],
+            "why": "On the snowy runway only tells where. The verb is landed. Who landed the airplane? A careful young pilot. So pilot is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU030",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "A",
+                "big",
+                "brown",
+                "bear",
+                "caught",
+                "a",
+                "shiny",
+                "fish",
+                "in",
+                "the",
+                "cold",
+                "mountain",
+                "stream."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "brown"
+              },
+              {
+                "text": "bear",
+                "correct": true
+              },
+              {
+                "text": "fish"
+              },
+              {
+                "text": "stream"
+              }
+            ],
+            "why": "The verb is caught. Who caught the fish? A big brown bear. So bear is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
+          },
+          {
+            "id": "SU031",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "In",
+                "the",
+                "last",
+                "minute",
+                "of",
+                "the",
+                "game,",
+                "the",
+                "smallest",
+                "player",
+                "scored",
+                "the",
+                "winning",
+                "goal."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "game"
+              },
+              {
+                "text": "smallest"
+              },
+              {
+                "text": "player",
+                "correct": true
+              },
+              {
+                "text": "goal"
+              }
+            ],
+            "why": "In the last minute of the game only tells when. The verb is scored. Who scored the goal? The smallest player. So player is the simple subject. smallest only describes the player.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU032",
+            "band": 3,
+            "type": "simple",
+            "sentence": {
+              "words": [
+                "Last",
+                "Sunday,",
+                "my",
+                "grandfather",
+                "hung",
+                "a",
+                "new",
+                "swing",
+                "from",
+                "the",
+                "big",
+                "oak",
+                "tree."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "Sunday"
+              },
+              {
+                "text": "hung"
+              },
+              {
+                "text": "swing"
+              },
+              {
+                "text": "grandfather",
+                "correct": true
+              }
+            ],
+            "why": "Last Sunday only tells when. The verb is hung. Who hung the swing? My grandfather. So grandfather is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU033",
+            "band": 3,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "On",
+                "Thanksgiving",
+                "morning,",
+                "the",
+                "smell",
+                "of",
+                "fresh",
+                "pies",
+                "filled",
+                "the",
+                "whole",
+                "kitchen."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "smell",
+                "correct": true
+              },
+              {
+                "text": "pies"
+              },
+              {
+                "text": "filled"
+              },
+              {
+                "text": "kitchen"
+              }
+            ],
+            "why": "On Thanksgiving morning only tells when. The verb is filled. What filled the kitchen? The smell. The words of fresh pies only tell which smell, so smell is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU034",
+            "band": 3,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "field",
+                "trip,",
+                "the",
+                "guide",
+                "at",
+                "the",
+                "nature",
+                "center",
+                "showed",
+                "us",
+                "a",
+                "sleepy",
+                "owl."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "center"
+              },
+              {
+                "text": "guide",
+                "correct": true
+              },
+              {
+                "text": "showed"
+              },
+              {
+                "text": "owl"
+              }
+            ],
+            "why": "During the field trip only tells when. The verb is showed. Who showed us the owl? The guide. The words at the nature center only tell which guide, so guide is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU035",
+            "band": 3,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "long",
+                "hike,",
+                "the",
+                "bottles",
+                "of",
+                "water",
+                "in",
+                "my",
+                "backpack",
+                "were",
+                "empty."
+              ]
+            },
+            "question": "Which word tells who or what the sentence is about?",
+            "choices": [
+              {
+                "text": "water"
+              },
+              {
+                "text": "backpack"
+              },
+              {
+                "text": "bottles",
+                "correct": true
+              },
+              {
+                "text": "empty"
+              }
+            ],
+            "why": "After the long hike only tells when. Find the verb: were. What were empty? The bottles. The words of water in my backpack only tell which bottles, so bottles is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          },
+          {
+            "id": "SU036",
+            "band": 3,
+            "type": "tricky",
+            "sentence": {
+              "words": [
+                "Before",
+                "the",
+                "parade,",
+                "the",
+                "band",
+                "from",
+                "our",
+                "school",
+                "was",
+                "ready",
+                "to",
+                "march."
+              ]
+            },
+            "question": "Which word is the simple subject?",
+            "choices": [
+              {
+                "text": "parade"
+              },
+              {
+                "text": "school"
+              },
+              {
+                "text": "ready"
+              },
+              {
+                "text": "band",
+                "correct": true
+              }
+            ],
+            "why": "Before the parade only tells when. Find the verb: was. Who was ready to march? The band. The words from our school only tell which band, so band is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+          }
+        ]
+      },
 
       definition: {
         title: "What is a subject?",
@@ -1888,7 +3285,1376 @@ window.SS_LEARN_CONTENT = {
       icon: "book",
       preview: { words: ["The", "cat", "sat", "on", "the", "mat."], start: 1, end: 1 },
       practice: "bank",
-      test: "soon",
+      test: "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      testPool: {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "concrete",
+            "label": "People, places and things",
+            "share": 0.6667
+          },
+          {
+            "key": "idea",
+            "label": "Idea nouns",
+            "share": 0.3333
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You found nouns that name people, places, things, and ideas. Great work with nouns!",
+          "concreteWeak": "You found idea nouns well. Review nouns that name people, places, and things, and check what each word does in the sentence.",
+          "ideaWeak": "You found people, places, and things well. Review idea nouns, the ones you cannot see or touch, like joy or hope.",
+          "almost": "You are almost there with nouns. Ask: Is it a person, place, thing, or idea?",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "NO001",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "farmer",
+                "drove",
+                "his",
+                "red",
+                "tractor",
+                "to",
+                "the",
+                "barn."
+              ]
+            },
+            "question": "Which word names a place?",
+            "choices": [
+              {
+                "text": "barn",
+                "correct": true
+              },
+              {
+                "text": "farmer"
+              },
+              {
+                "text": "drove"
+              },
+              {
+                "text": "red"
+              }
+            ],
+            "why": "barn names a place on a farm, so barn is the noun we want. farmer is a noun too, but it names a person.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO002",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "My",
+                "aunt",
+                "baked",
+                "a",
+                "chocolate",
+                "cake",
+                "for",
+                "my",
+                "birthday."
+              ]
+            },
+            "question": "Which word names a person?",
+            "choices": [
+              {
+                "text": "baked"
+              },
+              {
+                "text": "aunt",
+                "correct": true
+              },
+              {
+                "text": "chocolate"
+              },
+              {
+                "text": "cake"
+              }
+            ],
+            "why": "aunt names a person in my family, so aunt is the noun that names a person.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO003",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "We",
+                "packed",
+                "a",
+                "big",
+                "lunch",
+                "for",
+                "our",
+                "trip",
+                "to",
+                "the",
+                "zoo."
+              ]
+            },
+            "question": "Which word names a place?",
+            "choices": [
+              {
+                "text": "packed"
+              },
+              {
+                "text": "big"
+              },
+              {
+                "text": "zoo",
+                "correct": true
+              },
+              {
+                "text": "lunch"
+              }
+            ],
+            "why": "A zoo is a place you can visit, so zoo is the noun that names a place. lunch is a thing.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO004",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "Grandpa",
+                "keeps",
+                "his",
+                "old",
+                "fishing",
+                "pole",
+                "in",
+                "the",
+                "shed."
+              ]
+            },
+            "question": "Which word names a thing?",
+            "choices": [
+              {
+                "text": "Grandpa"
+              },
+              {
+                "text": "keeps"
+              },
+              {
+                "text": "old"
+              },
+              {
+                "text": "pole",
+                "correct": true
+              }
+            ],
+            "why": "A fishing pole is a thing you can hold, so pole is the noun that names a thing. Grandpa names a person.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO005",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "Our",
+                "family",
+                "drove",
+                "to",
+                "Savannah",
+                "for",
+                "a",
+                "long",
+                "weekend."
+              ]
+            },
+            "question": "Which word names a place?",
+            "choices": [
+              {
+                "text": "Savannah",
+                "correct": true
+              },
+              {
+                "text": "family"
+              },
+              {
+                "text": "drove"
+              },
+              {
+                "text": "long"
+              }
+            ],
+            "why": "Savannah is a city in Georgia, so Savannah is the noun that names a place.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO006",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "dentist",
+                "gave",
+                "me",
+                "a",
+                "new",
+                "toothbrush",
+                "today."
+              ]
+            },
+            "question": "Which word names a person?",
+            "choices": [
+              {
+                "text": "gave"
+              },
+              {
+                "text": "dentist",
+                "correct": true
+              },
+              {
+                "text": "new"
+              },
+              {
+                "text": "toothbrush"
+              }
+            ],
+            "why": "A dentist is a person who takes care of teeth, so dentist is the noun that names a person.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO007",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "happy",
+                "baby",
+                "giggled",
+                "loudly",
+                "at",
+                "the",
+                "puppy."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "happy"
+              },
+              {
+                "text": "giggled"
+              },
+              {
+                "text": "baby",
+                "correct": true
+              },
+              {
+                "text": "loudly"
+              }
+            ],
+            "why": "You can say the baby, and a baby is a person. So baby is the noun. happy describes the baby.",
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it."
+          },
+          {
+            "id": "NO008",
+            "band": 1,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "We",
+                "quietly",
+                "read",
+                "our",
+                "books",
+                "in",
+                "the",
+                "library."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "in"
+              },
+              {
+                "text": "quietly"
+              },
+              {
+                "text": "read"
+              },
+              {
+                "text": "books",
+                "correct": true
+              }
+            ],
+            "why": "books names things you can hold, so books is the noun. quietly tells how, and read is the verb.",
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it."
+          },
+          {
+            "id": "NO009",
+            "band": 1,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "The",
+                "new",
+                "puppy",
+                "brought",
+                "so",
+                "much",
+                "happiness",
+                "to",
+                "our",
+                "home."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "happiness",
+                "correct": true
+              },
+              {
+                "text": "puppy"
+              },
+              {
+                "text": "brought"
+              },
+              {
+                "text": "new"
+              }
+            ],
+            "why": "You cannot see or touch happiness, but the puppy brought it to our home. So happiness is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO010",
+            "band": 1,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "My",
+                "friend",
+                "showed",
+                "kindness",
+                "to",
+                "the",
+                "new",
+                "student."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "friend"
+              },
+              {
+                "text": "kindness",
+                "correct": true
+              },
+              {
+                "text": "showed"
+              },
+              {
+                "text": "student"
+              }
+            ],
+            "why": "You cannot touch kindness, but my friend showed it. So kindness is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO011",
+            "band": 1,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "Our",
+                "class",
+                "felt",
+                "pride",
+                "when",
+                "we",
+                "won",
+                "the",
+                "spelling",
+                "bee."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "class"
+              },
+              {
+                "text": "felt"
+              },
+              {
+                "text": "pride",
+                "correct": true
+              },
+              {
+                "text": "won"
+              }
+            ],
+            "why": "pride is a feeling. You cannot see or touch it, so pride is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO012",
+            "band": 1,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "The",
+                "firefighter",
+                "talked",
+                "to",
+                "us",
+                "about",
+                "safety",
+                "at",
+                "home."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "firefighter"
+              },
+              {
+                "text": "talked"
+              },
+              {
+                "text": "us"
+              },
+              {
+                "text": "safety",
+                "correct": true
+              }
+            ],
+            "why": "You cannot see or touch safety, but you can learn about it. So safety is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO013",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "Grandma",
+                "gently",
+                "placed",
+                "the",
+                "warm",
+                "pie",
+                "on",
+                "the",
+                "table."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "table",
+                "correct": true
+              },
+              {
+                "text": "gently"
+              },
+              {
+                "text": "placed"
+              },
+              {
+                "text": "warm"
+              }
+            ],
+            "why": "You can say the table, and a table is a thing. So table is the noun. gently tells how, and warm describes the pie.",
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it."
+          },
+          {
+            "id": "NO014",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "proud",
+                "parents",
+                "waved",
+                "signs",
+                "during",
+                "the",
+                "football",
+                "game."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "proud"
+              },
+              {
+                "text": "parents",
+                "correct": true
+              },
+              {
+                "text": "waved"
+              },
+              {
+                "text": "during"
+              }
+            ],
+            "why": "Parents are people, and you can say the parents. So parents is the noun. proud describes the parents, and waved is the verb.",
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it."
+          },
+          {
+            "id": "NO015",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "farmer",
+                "sold",
+                "fresh",
+                "peaches",
+                "at",
+                "the",
+                "market."
+              ]
+            },
+            "question": "Which word names a place?",
+            "choices": [
+              {
+                "text": "farmer"
+              },
+              {
+                "text": "sold"
+              },
+              {
+                "text": "market",
+                "correct": true
+              },
+              {
+                "text": "peaches"
+              }
+            ],
+            "why": "A market is a place where people buy food, so market is the noun that names a place. peaches names things.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO016",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "pilot",
+                "waved",
+                "from",
+                "the",
+                "window",
+                "of",
+                "the",
+                "airplane."
+              ]
+            },
+            "question": "Which word names a person?",
+            "choices": [
+              {
+                "text": "waved"
+              },
+              {
+                "text": "window"
+              },
+              {
+                "text": "airplane"
+              },
+              {
+                "text": "pilot",
+                "correct": true
+              }
+            ],
+            "why": "A pilot is a person who flies a plane, so pilot is the noun that names a person. window and airplane are things.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO017",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "My",
+                "sister",
+                "wore",
+                "a",
+                "purple",
+                "scarf",
+                "to",
+                "the",
+                "park."
+              ]
+            },
+            "question": "Which word names a thing?",
+            "choices": [
+              {
+                "text": "scarf",
+                "correct": true
+              },
+              {
+                "text": "sister"
+              },
+              {
+                "text": "purple"
+              },
+              {
+                "text": "park"
+              }
+            ],
+            "why": "A scarf is a thing you can wear, so scarf is the noun that names a thing. sister is a person, and park is a place.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO018",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "She",
+                "carefully",
+                "poured",
+                "cold",
+                "milk",
+                "into",
+                "the",
+                "glass."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "poured"
+              },
+              {
+                "text": "milk",
+                "correct": true
+              },
+              {
+                "text": "carefully"
+              },
+              {
+                "text": "cold"
+              }
+            ],
+            "why": "You can say the milk, and milk is a thing. So milk is the noun. poured is the verb, and cold describes the milk.",
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it."
+          },
+          {
+            "id": "NO019",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "players",
+                "ran",
+                "onto",
+                "the",
+                "field",
+                "before",
+                "the",
+                "big",
+                "game."
+              ]
+            },
+            "question": "Which word names a place?",
+            "choices": [
+              {
+                "text": "players"
+              },
+              {
+                "text": "ran"
+              },
+              {
+                "text": "field",
+                "correct": true
+              },
+              {
+                "text": "big"
+              }
+            ],
+            "why": "A field is a place where people play sports, so field is the noun that names a place.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO020",
+            "band": 2,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "Every",
+                "morning,",
+                "Rosa",
+                "happily",
+                "feeds",
+                "her",
+                "goldfish."
+              ]
+            },
+            "question": "Which word is a noun?",
+            "choices": [
+              {
+                "text": "happily"
+              },
+              {
+                "text": "feeds"
+              },
+              {
+                "text": "Every"
+              },
+              {
+                "text": "goldfish",
+                "correct": true
+              }
+            ],
+            "why": "A goldfish is an animal, a living thing, and you can say the goldfish. So goldfish is the noun.",
+            "clue": "Remember: a noun names a person, place, thing, or idea. You can often put the or a in front of it."
+          },
+          {
+            "id": "NO021",
+            "band": 2,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "The",
+                "big",
+                "dog",
+                "filled",
+                "my",
+                "little",
+                "brother",
+                "with",
+                "fear."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "fear",
+                "correct": true
+              },
+              {
+                "text": "big"
+              },
+              {
+                "text": "dog"
+              },
+              {
+                "text": "brother"
+              }
+            ],
+            "why": "fear is a feeling. You cannot see or touch it, so fear is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO022",
+            "band": 2,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "On",
+                "Veterans",
+                "Day,",
+                "our",
+                "class",
+                "showed",
+                "respect",
+                "to",
+                "the",
+                "veterans",
+                "in",
+                "town."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "class"
+              },
+              {
+                "text": "respect",
+                "correct": true
+              },
+              {
+                "text": "showed"
+              },
+              {
+                "text": "town"
+              }
+            ],
+            "why": "You cannot see or touch respect, but our class showed it. So respect is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO023",
+            "band": 2,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "My",
+                "grandfather",
+                "taught",
+                "me",
+                "about",
+                "honesty",
+                "on",
+                "our",
+                "fishing",
+                "trip."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "grandfather"
+              },
+              {
+                "text": "taught"
+              },
+              {
+                "text": "honesty",
+                "correct": true
+              },
+              {
+                "text": "me"
+              }
+            ],
+            "why": "You cannot see or touch honesty, but you can learn about it. So honesty is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO024",
+            "band": 2,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "Mom",
+                "held",
+                "the",
+                "tiny",
+                "baby",
+                "with",
+                "so",
+                "much",
+                "love."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "Mom"
+              },
+              {
+                "text": "held"
+              },
+              {
+                "text": "baby"
+              },
+              {
+                "text": "love",
+                "correct": true
+              }
+            ],
+            "why": "love is a feeling. You cannot see or touch it, so love is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO025",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "After",
+                "dinner,",
+                "my",
+                "sister",
+                "and",
+                "I",
+                "took",
+                "a",
+                "long",
+                "walk."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "walk",
+                "correct": true
+              },
+              {
+                "text": "After"
+              },
+              {
+                "text": "took"
+              },
+              {
+                "text": "long"
+              }
+            ],
+            "why": "Here walk comes after a long, and you can say a walk. So walk is the noun in this sentence. It is not the verb here. The verb is took.",
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
+          },
+          {
+            "id": "NO026",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "Every",
+                "Saturday,",
+                "the",
+                "boys",
+                "fish",
+                "in",
+                "the",
+                "pond",
+                "behind",
+                "their",
+                "house."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "fish"
+              },
+              {
+                "text": "pond",
+                "correct": true
+              },
+              {
+                "text": "behind"
+              },
+              {
+                "text": "Every"
+              }
+            ],
+            "why": "Here fish tells what the boys do, so it is the verb. pond names a place, so pond is the noun.",
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
+          },
+          {
+            "id": "NO027",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "Before",
+                "the",
+                "storm,",
+                "Dad",
+                "will",
+                "park",
+                "the",
+                "car",
+                "in",
+                "the",
+                "garage."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "Before"
+              },
+              {
+                "text": "will"
+              },
+              {
+                "text": "car",
+                "correct": true
+              },
+              {
+                "text": "park"
+              }
+            ],
+            "why": "Here park tells what Dad will do, so it is the verb. car names a thing, so car is the noun.",
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
+          },
+          {
+            "id": "NO028",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "At",
+                "recess,",
+                "my",
+                "friends",
+                "and",
+                "I",
+                "play",
+                "tag",
+                "near",
+                "the",
+                "swings."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "play"
+              },
+              {
+                "text": "near"
+              },
+              {
+                "text": "At"
+              },
+              {
+                "text": "swings",
+                "correct": true
+              }
+            ],
+            "why": "Here play tells what we do, so it is the verb. swings names things on the playground, so swings is the noun.",
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
+          },
+          {
+            "id": "NO029",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "Last",
+                "summer,",
+                "our",
+                "neighbor",
+                "let",
+                "us",
+                "ride",
+                "in",
+                "her",
+                "new",
+                "boat."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "boat",
+                "correct": true
+              },
+              {
+                "text": "ride"
+              },
+              {
+                "text": "let"
+              },
+              {
+                "text": "new"
+              }
+            ],
+            "why": "Here ride tells what we did, so it is the verb. You can say the boat, and a boat is a thing. So boat is the noun.",
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
+          },
+          {
+            "id": "NO030",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "At",
+                "the",
+                "beach,",
+                "my",
+                "sister",
+                "built",
+                "a",
+                "sandcastle",
+                "near",
+                "the",
+                "water."
+              ]
+            },
+            "question": "Which word names a thing?",
+            "choices": [
+              {
+                "text": "beach"
+              },
+              {
+                "text": "sandcastle",
+                "correct": true
+              },
+              {
+                "text": "sister"
+              },
+              {
+                "text": "built"
+              }
+            ],
+            "why": "A sandcastle is a thing you can build and touch, so sandcastle is the noun that names a thing. beach is a place, and sister is a person.",
+            "clue": "Remember: ask about each word. Is it a person? A place? A thing?"
+          },
+          {
+            "id": "NO031",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "The",
+                "light",
+                "from",
+                "the",
+                "lamp",
+                "kept",
+                "the",
+                "room",
+                "bright",
+                "all",
+                "night."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "from"
+              },
+              {
+                "text": "kept"
+              },
+              {
+                "text": "light",
+                "correct": true
+              },
+              {
+                "text": "bright"
+              }
+            ],
+            "why": "Here light names a thing that comes from the lamp, and you can say the light. So light is the noun.",
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
+          },
+          {
+            "id": "NO032",
+            "band": 3,
+            "type": "concrete",
+            "sentence": {
+              "words": [
+                "My",
+                "brother",
+                "and",
+                "I",
+                "watch",
+                "the",
+                "parade",
+                "from",
+                "the",
+                "sidewalk",
+                "every",
+                "year."
+              ]
+            },
+            "question": "Which word is a noun in this sentence?",
+            "choices": [
+              {
+                "text": "from"
+              },
+              {
+                "text": "watch"
+              },
+              {
+                "text": "every"
+              },
+              {
+                "text": "parade",
+                "correct": true
+              }
+            ],
+            "why": "Here watch tells what we do, so it is the verb. You can say the parade, so parade is the noun.",
+            "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
+          },
+          {
+            "id": "NO033",
+            "band": 3,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "hard",
+                "climb",
+                "up",
+                "Stone",
+                "Mountain,",
+                "my",
+                "dad",
+                "showed",
+                "great",
+                "bravery."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "bravery",
+                "correct": true
+              },
+              {
+                "text": "showed"
+              },
+              {
+                "text": "dad"
+              },
+              {
+                "text": "great"
+              }
+            ],
+            "why": "You cannot see or touch bravery, but my dad showed it. So bravery is the noun that names an idea.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO034",
+            "band": 3,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "The",
+                "honest",
+                "girl",
+                "told",
+                "the",
+                "truth",
+                "about",
+                "the",
+                "broken",
+                "window."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "honest"
+              },
+              {
+                "text": "truth",
+                "correct": true
+              },
+              {
+                "text": "girl"
+              },
+              {
+                "text": "window"
+              }
+            ],
+            "why": "You cannot see or touch the truth, but you can tell it. So truth is the noun that names an idea. honest describes the girl.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO035",
+            "band": 3,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "On",
+                "the",
+                "first",
+                "day",
+                "of",
+                "school,",
+                "my",
+                "little",
+                "brother",
+                "was",
+                "full",
+                "of",
+                "worry."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "first"
+              },
+              {
+                "text": "brother"
+              },
+              {
+                "text": "worry",
+                "correct": true
+              },
+              {
+                "text": "full"
+              }
+            ],
+            "why": "worry is a feeling. You cannot see or touch it, so worry is the noun that names an idea. brother names a person.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          },
+          {
+            "id": "NO036",
+            "band": 3,
+            "type": "idea",
+            "sentence": {
+              "words": [
+                "When",
+                "the",
+                "puppy",
+                "got",
+                "lost,",
+                "our",
+                "whole",
+                "family",
+                "felt",
+                "deep",
+                "sadness."
+              ]
+            },
+            "question": "Which word names an idea?",
+            "choices": [
+              {
+                "text": "puppy"
+              },
+              {
+                "text": "family"
+              },
+              {
+                "text": "deep"
+              },
+              {
+                "text": "sadness",
+                "correct": true
+              }
+            ],
+            "why": "sadness is a feeling. You cannot see or touch it, so sadness is the noun that names an idea. deep describes it.",
+            "clue": "Remember: an idea is something you cannot see or touch, like joy or hope. It is still a noun."
+          }
+        ]
+      },
 
       definition: {
         title: "What is a noun?",
@@ -2830,7 +5596,1379 @@ window.SS_LEARN_CONTENT = {
       icon: "pencil",
       preview: { words: ["The", "loud", "dog", "barked."], start: 1, end: 1 },
       practice: "bank",
-      test: "soon",
+      test: "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      testPool: {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "kind",
+            "label": "What kind",
+            "share": 0.6667
+          },
+          {
+            "key": "count",
+            "label": "How many and which one",
+            "share": 0.3333
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You found adjectives and the nouns they describe. Great work with adjectives!",
+          "kindWeak": "You found how many and which one well. Review adjectives that tell what kind, and check which noun each one describes.",
+          "countWeak": "You found what kind well. Review adjectives that tell how many and which one, like three, this, and that.",
+          "almost": "You are almost there with adjectives. Find the noun, then ask: What kind? Which one? How many?",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "AJ001",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "A",
+                "fluffy",
+                "cat",
+                "napped",
+                "in",
+                "the",
+                "warm",
+                "sun."
+              ]
+            },
+            "question": "Which word describes the noun cat?",
+            "choices": [
+              {
+                "text": "fluffy",
+                "correct": true
+              },
+              {
+                "text": "warm"
+              },
+              {
+                "text": "napped"
+              },
+              {
+                "text": "sun"
+              }
+            ],
+            "why": "fluffy describes the noun cat. What kind of cat? A fluffy one. warm describes the sun.",
+            "clue": "Remember: find the noun cat. Then ask: What kind of cat?"
+          },
+          {
+            "id": "AJ002",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "The",
+                "farmer",
+                "picked",
+                "ripe",
+                "peaches",
+                "from",
+                "the",
+                "tree."
+              ]
+            },
+            "question": "Which word describes the noun peaches?",
+            "choices": [
+              {
+                "text": "farmer"
+              },
+              {
+                "text": "ripe",
+                "correct": true
+              },
+              {
+                "text": "picked"
+              },
+              {
+                "text": "tree"
+              }
+            ],
+            "why": "ripe describes the noun peaches. What kind of peaches? Ripe ones.",
+            "clue": "Remember: find the noun peaches. Then ask: What kind of peaches?"
+          },
+          {
+            "id": "AJ003",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "My",
+                "brother",
+                "wore",
+                "a",
+                "green",
+                "jacket",
+                "to",
+                "school."
+              ]
+            },
+            "question": "Which word describes the noun jacket?",
+            "choices": [
+              {
+                "text": "brother"
+              },
+              {
+                "text": "wore"
+              },
+              {
+                "text": "green",
+                "correct": true
+              },
+              {
+                "text": "school"
+              }
+            ],
+            "why": "green describes the noun jacket. What kind of jacket? A green one.",
+            "clue": "Remember: find the noun jacket. Then ask: What kind of jacket?"
+          },
+          {
+            "id": "AJ004",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "The",
+                "little",
+                "boy",
+                "found",
+                "a",
+                "smooth",
+                "rock",
+                "in",
+                "the",
+                "creek."
+              ]
+            },
+            "question": "Which word describes the noun rock?",
+            "choices": [
+              {
+                "text": "little"
+              },
+              {
+                "text": "found"
+              },
+              {
+                "text": "creek"
+              },
+              {
+                "text": "smooth",
+                "correct": true
+              }
+            ],
+            "why": "smooth describes the noun rock. What kind of rock? A smooth one. little describes the boy, not the rock.",
+            "clue": "Remember: find the noun rock. Then ask: What kind of rock?"
+          },
+          {
+            "id": "AJ005",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "We",
+                "drank",
+                "cold",
+                "lemonade",
+                "on",
+                "a",
+                "hot",
+                "day."
+              ]
+            },
+            "question": "Which word describes the noun lemonade?",
+            "choices": [
+              {
+                "text": "cold",
+                "correct": true
+              },
+              {
+                "text": "hot"
+              },
+              {
+                "text": "drank"
+              },
+              {
+                "text": "day"
+              }
+            ],
+            "why": "cold describes the noun lemonade. What kind of lemonade? Cold lemonade. hot describes the day.",
+            "clue": "Remember: find the noun lemonade. Then ask: What kind of lemonade?"
+          },
+          {
+            "id": "AJ006",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "The",
+                "brave",
+                "firefighter",
+                "climbed",
+                "the",
+                "tall",
+                "ladder."
+              ]
+            },
+            "question": "Which noun does tall describe?",
+            "choices": [
+              {
+                "text": "firefighter"
+              },
+              {
+                "text": "ladder",
+                "correct": true
+              },
+              {
+                "text": "brave"
+              },
+              {
+                "text": "climbed"
+              }
+            ],
+            "why": "tall describes ladder. What kind of ladder? A tall one. So ladder is the noun.",
+            "clue": "Remember: an adjective describes the noun it goes with. Find tall, then look for the noun it tells about."
+          },
+          {
+            "id": "AJ007",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "A",
+                "loud",
+                "bell",
+                "rang",
+                "at",
+                "the",
+                "end",
+                "of",
+                "recess."
+              ]
+            },
+            "question": "Which noun does loud describe?",
+            "choices": [
+              {
+                "text": "rang"
+              },
+              {
+                "text": "end"
+              },
+              {
+                "text": "bell",
+                "correct": true
+              },
+              {
+                "text": "recess"
+              }
+            ],
+            "why": "loud describes bell. What kind of bell? A loud one. So bell is the noun.",
+            "clue": "Remember: an adjective describes the noun it goes with. Find loud, then look for the noun it tells about."
+          },
+          {
+            "id": "AJ008",
+            "band": 1,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "The",
+                "____",
+                "kitten",
+                "drank",
+                "all",
+                "of",
+                "the",
+                "warm",
+                "milk."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "hunger"
+              },
+              {
+                "text": "hungrily"
+              },
+              {
+                "text": "hungers"
+              },
+              {
+                "text": "hungry",
+                "correct": true
+              }
+            ],
+            "why": "hungry is an adjective. It tells what kind of kitten: the hungry kitten.",
+            "clue": "Remember: the blank comes right before the noun kitten. A word that describes a noun is an adjective."
+          },
+          {
+            "id": "AJ009",
+            "band": 1,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "Four",
+                "ducks",
+                "swam",
+                "across",
+                "the",
+                "pond",
+                "at",
+                "the",
+                "park."
+              ]
+            },
+            "question": "Which word tells how many ducks?",
+            "choices": [
+              {
+                "text": "Four",
+                "correct": true
+              },
+              {
+                "text": "swam"
+              },
+              {
+                "text": "pond"
+              },
+              {
+                "text": "park"
+              }
+            ],
+            "why": "Four tells how many ducks. How many ducks? Four ducks.",
+            "clue": "Remember: find the noun ducks. Then ask: How many ducks?"
+          },
+          {
+            "id": "AJ010",
+            "band": 1,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "I",
+                "ate",
+                "two",
+                "pancakes",
+                "for",
+                "breakfast",
+                "this",
+                "morning."
+              ]
+            },
+            "question": "Which word tells how many pancakes?",
+            "choices": [
+              {
+                "text": "ate"
+              },
+              {
+                "text": "two",
+                "correct": true
+              },
+              {
+                "text": "breakfast"
+              },
+              {
+                "text": "morning"
+              }
+            ],
+            "why": "two tells how many pancakes. How many pancakes? Two pancakes.",
+            "clue": "Remember: find the noun pancakes. Then ask: How many pancakes?"
+          },
+          {
+            "id": "AJ011",
+            "band": 1,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "I",
+                "want",
+                "to",
+                "read",
+                "this",
+                "book",
+                "about",
+                "sharks."
+              ]
+            },
+            "question": "Which word tells which book?",
+            "choices": [
+              {
+                "text": "want"
+              },
+              {
+                "text": "book"
+              },
+              {
+                "text": "this",
+                "correct": true
+              },
+              {
+                "text": "sharks"
+              }
+            ],
+            "why": "this tells which book. Which book? This book.",
+            "clue": "Remember: find the noun book. Then ask: Which book?"
+          },
+          {
+            "id": "AJ012",
+            "band": 1,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "I",
+                "left",
+                "that",
+                "jacket",
+                "on",
+                "the",
+                "bus",
+                "after",
+                "school."
+              ]
+            },
+            "question": "Which word tells which jacket?",
+            "choices": [
+              {
+                "text": "left"
+              },
+              {
+                "text": "bus"
+              },
+              {
+                "text": "school"
+              },
+              {
+                "text": "that",
+                "correct": true
+              }
+            ],
+            "why": "that tells which jacket. Which jacket? That jacket.",
+            "clue": "Remember: find the noun jacket. Then ask: Which jacket?"
+          },
+          {
+            "id": "AJ013",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "The",
+                "curious",
+                "monkey",
+                "grabbed",
+                "a",
+                "yellow",
+                "banana",
+                "from",
+                "the",
+                "zookeeper."
+              ]
+            },
+            "question": "Which word describes the noun banana?",
+            "choices": [
+              {
+                "text": "yellow",
+                "correct": true
+              },
+              {
+                "text": "curious"
+              },
+              {
+                "text": "grabbed"
+              },
+              {
+                "text": "zookeeper"
+              }
+            ],
+            "why": "yellow describes the noun banana. What kind of banana? A yellow one. curious describes the monkey.",
+            "clue": "Remember: find the noun banana. Then ask: What kind of banana?"
+          },
+          {
+            "id": "AJ014",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "My",
+                "grandmother",
+                "knitted",
+                "a",
+                "soft",
+                "blanket",
+                "for",
+                "the",
+                "new",
+                "baby."
+              ]
+            },
+            "question": "Which word describes the noun baby?",
+            "choices": [
+              {
+                "text": "soft"
+              },
+              {
+                "text": "new",
+                "correct": true
+              },
+              {
+                "text": "knitted"
+              },
+              {
+                "text": "blanket"
+              }
+            ],
+            "why": "new describes the noun baby. What kind of baby? A new one. soft describes the blanket.",
+            "clue": "Remember: find the noun baby. Then ask: What kind of baby?"
+          },
+          {
+            "id": "AJ015",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "storm,",
+                "the",
+                "strong",
+                "wind",
+                "bent",
+                "the",
+                "thin",
+                "branches."
+              ]
+            },
+            "question": "Which word describes the noun wind?",
+            "choices": [
+              {
+                "text": "thin"
+              },
+              {
+                "text": "bent"
+              },
+              {
+                "text": "strong",
+                "correct": true
+              },
+              {
+                "text": "storm"
+              }
+            ],
+            "why": "strong describes the noun wind. What kind of wind? A strong one. thin describes the branches.",
+            "clue": "Remember: find the noun wind. Then ask: What kind of wind?"
+          },
+          {
+            "id": "AJ016",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "We",
+                "saw",
+                "a",
+                "huge",
+                "alligator",
+                "in",
+                "the",
+                "muddy",
+                "water",
+                "at",
+                "the",
+                "swamp."
+              ]
+            },
+            "question": "Which word describes the noun alligator?",
+            "choices": [
+              {
+                "text": "muddy"
+              },
+              {
+                "text": "saw"
+              },
+              {
+                "text": "swamp"
+              },
+              {
+                "text": "huge",
+                "correct": true
+              }
+            ],
+            "why": "huge describes the noun alligator. What kind of alligator? A huge one. muddy describes the water.",
+            "clue": "Remember: find the noun alligator. Then ask: What kind of alligator?"
+          },
+          {
+            "id": "AJ017",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "The",
+                "quiet",
+                "student",
+                "handed",
+                "the",
+                "teacher",
+                "a",
+                "neat",
+                "drawing."
+              ]
+            },
+            "question": "Which noun does neat describe?",
+            "choices": [
+              {
+                "text": "drawing",
+                "correct": true
+              },
+              {
+                "text": "student"
+              },
+              {
+                "text": "teacher"
+              },
+              {
+                "text": "quiet"
+              }
+            ],
+            "why": "neat describes drawing. What kind of drawing? A neat one. So drawing is the noun.",
+            "clue": "Remember: an adjective describes the noun it goes with. Find neat, then look for the noun it tells about."
+          },
+          {
+            "id": "AJ018",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "A",
+                "gray",
+                "squirrel",
+                "buried",
+                "an",
+                "acorn",
+                "under",
+                "the",
+                "tall",
+                "oak."
+              ]
+            },
+            "question": "Which noun does gray describe?",
+            "choices": [
+              {
+                "text": "acorn"
+              },
+              {
+                "text": "squirrel",
+                "correct": true
+              },
+              {
+                "text": "oak"
+              },
+              {
+                "text": "tall"
+              }
+            ],
+            "why": "gray describes squirrel. What kind of squirrel? A gray one. So squirrel is the noun.",
+            "clue": "Remember: an adjective describes the noun it goes with. Find gray, then look for the noun it tells about."
+          },
+          {
+            "id": "AJ019",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "The",
+                "____",
+                "children",
+                "built",
+                "a",
+                "snowman",
+                "in",
+                "the",
+                "yard."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "cheer"
+              },
+              {
+                "text": "cheers"
+              },
+              {
+                "text": "cheerful",
+                "correct": true
+              },
+              {
+                "text": "cheerfully"
+              }
+            ],
+            "why": "cheerful is an adjective. It tells what kind of children: the cheerful children.",
+            "clue": "Remember: the blank comes right before the noun children. A word that describes a noun is an adjective."
+          },
+          {
+            "id": "AJ020",
+            "band": 2,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "Dad",
+                "made",
+                "a",
+                "____",
+                "salad",
+                "with",
+                "tomatoes",
+                "and",
+                "cucumbers."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "freshly"
+              },
+              {
+                "text": "freshness"
+              },
+              {
+                "text": "freshen"
+              },
+              {
+                "text": "fresh",
+                "correct": true
+              }
+            ],
+            "why": "fresh is an adjective. It tells what kind of salad, so a fresh salad is correct.",
+            "clue": "Remember: the blank comes right before the noun salad. A word that describes a noun is an adjective."
+          },
+          {
+            "id": "AJ021",
+            "band": 2,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "Twelve",
+                "geese",
+                "flew",
+                "over",
+                "the",
+                "lake",
+                "in",
+                "a",
+                "long",
+                "line."
+              ]
+            },
+            "question": "Which word tells how many geese?",
+            "choices": [
+              {
+                "text": "Twelve",
+                "correct": true
+              },
+              {
+                "text": "flew"
+              },
+              {
+                "text": "lake"
+              },
+              {
+                "text": "long"
+              }
+            ],
+            "why": "Twelve tells how many geese. How many geese? Twelve geese.",
+            "clue": "Remember: find the noun geese. Then ask: How many geese?"
+          },
+          {
+            "id": "AJ022",
+            "band": 2,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "Mom",
+                "bought",
+                "three",
+                "green",
+                "apples",
+                "and",
+                "a",
+                "big",
+                "melon."
+              ]
+            },
+            "question": "Which word tells how many apples?",
+            "choices": [
+              {
+                "text": "bought"
+              },
+              {
+                "text": "three",
+                "correct": true
+              },
+              {
+                "text": "big"
+              },
+              {
+                "text": "melon"
+              }
+            ],
+            "why": "three tells how many apples. How many apples? Three apples. big describes the melon.",
+            "clue": "Remember: find the noun apples. Then ask: How many apples?"
+          },
+          {
+            "id": "AJ023",
+            "band": 2,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "My",
+                "uncle",
+                "trains",
+                "five",
+                "horses",
+                "on",
+                "his",
+                "farm."
+              ]
+            },
+            "question": "Which word tells how many horses?",
+            "choices": [
+              {
+                "text": "uncle"
+              },
+              {
+                "text": "trains"
+              },
+              {
+                "text": "five",
+                "correct": true
+              },
+              {
+                "text": "farm"
+              }
+            ],
+            "why": "five tells how many horses. How many horses? Five horses.",
+            "clue": "Remember: find the noun horses. Then ask: How many horses?"
+          },
+          {
+            "id": "AJ024",
+            "band": 2,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "Our",
+                "team",
+                "scored",
+                "six",
+                "goals",
+                "in",
+                "the",
+                "soccer",
+                "game."
+              ]
+            },
+            "question": "Which word tells how many goals?",
+            "choices": [
+              {
+                "text": "team"
+              },
+              {
+                "text": "scored"
+              },
+              {
+                "text": "game"
+              },
+              {
+                "text": "six",
+                "correct": true
+              }
+            ],
+            "why": "six tells how many goals. How many goals? Six goals.",
+            "clue": "Remember: find the noun goals. Then ask: How many goals?"
+          },
+          {
+            "id": "AJ025",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "long",
+                "game,",
+                "the",
+                "thirsty",
+                "players",
+                "drank",
+                "cold",
+                "water",
+                "quickly."
+              ]
+            },
+            "question": "Which word describes the noun players?",
+            "choices": [
+              {
+                "text": "thirsty",
+                "correct": true
+              },
+              {
+                "text": "long"
+              },
+              {
+                "text": "cold"
+              },
+              {
+                "text": "quickly"
+              }
+            ],
+            "why": "thirsty describes the noun players. What kind of players? Thirsty ones. long describes the game, and cold describes the water.",
+            "clue": "Remember: find the noun players. Then ask: What kind of players?"
+          },
+          {
+            "id": "AJ026",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "Outside",
+                "my",
+                "window,",
+                "a",
+                "tiny",
+                "bird",
+                "sang",
+                "sweetly",
+                "every",
+                "morning."
+              ]
+            },
+            "question": "Which word describes the noun bird?",
+            "choices": [
+              {
+                "text": "sweetly"
+              },
+              {
+                "text": "tiny",
+                "correct": true
+              },
+              {
+                "text": "sang"
+              },
+              {
+                "text": "window"
+              }
+            ],
+            "why": "tiny describes the noun bird. What kind of bird? A tiny one. sweetly tells how the bird sang, so it does not describe a noun.",
+            "clue": "Remember: find the noun bird. Then ask: What kind of bird?"
+          },
+          {
+            "id": "AJ027",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "My",
+                "friendly",
+                "neighbor",
+                "gave",
+                "us",
+                "fresh",
+                "tomatoes",
+                "from",
+                "her",
+                "garden."
+              ]
+            },
+            "question": "Which word describes the noun tomatoes?",
+            "choices": [
+              {
+                "text": "friendly"
+              },
+              {
+                "text": "gave"
+              },
+              {
+                "text": "fresh",
+                "correct": true
+              },
+              {
+                "text": "garden"
+              }
+            ],
+            "why": "fresh describes the noun tomatoes. What kind of tomatoes? Fresh ones. friendly describes the neighbor.",
+            "clue": "Remember: find the noun tomatoes. Then ask: What kind of tomatoes?"
+          },
+          {
+            "id": "AJ028",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "At",
+                "the",
+                "fair",
+                "in",
+                "Perry,",
+                "the",
+                "shy",
+                "girl",
+                "petted",
+                "a",
+                "woolly",
+                "lamb."
+              ]
+            },
+            "question": "Which noun does shy describe?",
+            "choices": [
+              {
+                "text": "fair"
+              },
+              {
+                "text": "lamb"
+              },
+              {
+                "text": "woolly"
+              },
+              {
+                "text": "girl",
+                "correct": true
+              }
+            ],
+            "why": "shy describes girl. What kind of girl? A shy one. So girl is the noun. woolly describes the lamb.",
+            "clue": "Remember: an adjective describes the noun it goes with. Find shy, then look for the noun it tells about."
+          },
+          {
+            "id": "AJ029",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "On",
+                "the",
+                "hike,",
+                "Dad",
+                "carried",
+                "a",
+                "heavy",
+                "cooler",
+                "up",
+                "the",
+                "rocky",
+                "trail."
+              ]
+            },
+            "question": "Which noun does rocky describe?",
+            "choices": [
+              {
+                "text": "trail",
+                "correct": true
+              },
+              {
+                "text": "cooler"
+              },
+              {
+                "text": "heavy"
+              },
+              {
+                "text": "hike"
+              }
+            ],
+            "why": "rocky describes trail. What kind of trail? A rocky one. So trail is the noun. heavy describes the cooler.",
+            "clue": "Remember: an adjective describes the noun it goes with. Find rocky, then look for the noun it tells about."
+          },
+          {
+            "id": "AJ030",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "Every",
+                "morning,",
+                "our",
+                "____",
+                "neighbor",
+                "waves",
+                "to",
+                "us",
+                "from",
+                "her",
+                "porch."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "friend"
+              },
+              {
+                "text": "friendly",
+                "correct": true
+              },
+              {
+                "text": "friends"
+              },
+              {
+                "text": "friendship"
+              }
+            ],
+            "why": "friendly is an adjective. It tells what kind of neighbor, so our friendly neighbor is correct. friendly ends in -ly, but it still describes a noun.",
+            "clue": "Remember: the blank comes right before the noun neighbor. A word that describes a noun is an adjective."
+          },
+          {
+            "id": "AJ031",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "At",
+                "the",
+                "Georgia",
+                "Aquarium,",
+                "we",
+                "watched",
+                "a",
+                "____",
+                "whale",
+                "shark",
+                "swim",
+                "by."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "grace"
+              },
+              {
+                "text": "gracefully"
+              },
+              {
+                "text": "graceful",
+                "correct": true
+              },
+              {
+                "text": "graces"
+              }
+            ],
+            "why": "graceful is an adjective. It tells what kind of whale shark, so a graceful whale shark is correct.",
+            "clue": "Remember: the blank comes right before the noun whale shark. A word that describes a noun is an adjective."
+          },
+          {
+            "id": "AJ032",
+            "band": 3,
+            "type": "kind",
+            "sentence": {
+              "words": [
+                "Before",
+                "the",
+                "big",
+                "test,",
+                "our",
+                "teacher",
+                "gave",
+                "us",
+                "a",
+                "____",
+                "reminder."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "quickly"
+              },
+              {
+                "text": "quickness"
+              },
+              {
+                "text": "quicken"
+              },
+              {
+                "text": "quick",
+                "correct": true
+              }
+            ],
+            "why": "quick is an adjective. It tells what kind of reminder, so a quick reminder is correct. quickly tells how, so it cannot describe a noun.",
+            "clue": "Remember: the blank comes right before the noun reminder. A word that describes a noun is an adjective."
+          },
+          {
+            "id": "AJ033",
+            "band": 3,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "At",
+                "the",
+                "Fourth",
+                "of",
+                "July",
+                "parade,",
+                "we",
+                "counted",
+                "nine",
+                "fire",
+                "trucks",
+                "with",
+                "shiny",
+                "lights."
+              ]
+            },
+            "question": "Which word tells how many fire trucks?",
+            "choices": [
+              {
+                "text": "nine",
+                "correct": true
+              },
+              {
+                "text": "shiny"
+              },
+              {
+                "text": "counted"
+              },
+              {
+                "text": "parade"
+              }
+            ],
+            "why": "nine tells how many fire trucks. How many trucks? Nine trucks. shiny describes the lights, not the trucks.",
+            "clue": "Remember: find the noun fire trucks. Then ask: How many fire trucks?"
+          },
+          {
+            "id": "AJ034",
+            "band": 3,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "During",
+                "recess,",
+                "that",
+                "boy",
+                "traded",
+                "baseball",
+                "cards",
+                "by",
+                "the",
+                "fence."
+              ]
+            },
+            "question": "Which word tells which boy?",
+            "choices": [
+              {
+                "text": "that",
+                "correct": true
+              },
+              {
+                "text": "traded"
+              },
+              {
+                "text": "cards"
+              },
+              {
+                "text": "fence"
+              }
+            ],
+            "why": "that tells which boy. Which boy? That boy.",
+            "clue": "Remember: find the noun boy. Then ask: Which boy?"
+          },
+          {
+            "id": "AJ035",
+            "band": 3,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "On",
+                "our",
+                "trip",
+                "to",
+                "Savannah,",
+                "a",
+                "red",
+                "trolley",
+                "took",
+                "us",
+                "past",
+                "twenty",
+                "houses."
+              ]
+            },
+            "question": "Which word tells how many houses?",
+            "choices": [
+              {
+                "text": "red"
+              },
+              {
+                "text": "took"
+              },
+              {
+                "text": "twenty",
+                "correct": true
+              },
+              {
+                "text": "trolley"
+              }
+            ],
+            "why": "twenty tells how many houses. How many houses? Twenty houses. red describes the trolley.",
+            "clue": "Remember: find the noun houses. Then ask: How many houses?"
+          },
+          {
+            "id": "AJ036",
+            "band": 3,
+            "type": "count",
+            "sentence": {
+              "words": [
+                "For",
+                "the",
+                "class",
+                "party,",
+                "we",
+                "will",
+                "share",
+                "this",
+                "cake",
+                "with",
+                "purple",
+                "frosting."
+              ]
+            },
+            "question": "Which word tells which cake?",
+            "choices": [
+              {
+                "text": "purple"
+              },
+              {
+                "text": "share"
+              },
+              {
+                "text": "party"
+              },
+              {
+                "text": "this",
+                "correct": true
+              }
+            ],
+            "why": "this tells which cake. Which cake? This cake. purple describes the frosting.",
+            "clue": "Remember: find the noun cake. Then ask: Which cake?"
+          }
+        ]
+      },
 
       definition: {
         title: "What is an adjective?",
@@ -3818,7 +7956,1383 @@ window.SS_LEARN_CONTENT = {
         "end": 2
       },
       "practice": "bank",
-      "test": "soon",
+      "test": "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      "testPool": {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "personal",
+            "label": "Pronouns and what they stand for",
+            "share": 0.6667
+          },
+          {
+            "key": "reflexive",
+            "label": "Myself, themselves",
+            "share": 0.3333
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You know pronouns! You can find them, tell what they stand for, and use words like myself.",
+          "personalWeak": "You are strong with words like myself, so review how a pronoun stands for a noun and matches it.",
+          "reflexiveWeak": "You are strong at finding pronouns, so review words like myself and themselves that point back to who did the action.",
+          "almost": "You are almost there with pronouns, so review the ones you missed and try again.",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "PR001",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "They",
+                "planted",
+                "tomatoes",
+                "in",
+                "the",
+                "school",
+                "garden."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "planted"
+              },
+              {
+                "text": "They",
+                "correct": true
+              },
+              {
+                "text": "tomatoes"
+              },
+              {
+                "text": "garden"
+              }
+            ],
+            "why": "The word They takes the place of the people who planted, so They is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR002",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Grandpa",
+                "took",
+                "him",
+                "fishing",
+                "at",
+                "the",
+                "lake."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "Grandpa"
+              },
+              {
+                "text": "took"
+              },
+              {
+                "text": "him",
+                "correct": true
+              },
+              {
+                "text": "lake"
+              }
+            ],
+            "why": "him takes the place of a boy's name, so him is the pronoun. Grandpa is a noun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR003",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "kitten",
+                "licked",
+                "its",
+                "paw",
+                "after",
+                "breakfast."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "kitten"
+              },
+              {
+                "text": "licked"
+              },
+              {
+                "text": "its",
+                "correct": true
+              },
+              {
+                "text": "paw"
+              }
+            ],
+            "why": "its stands for the kitten and tells whose paw it is, so its is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR004",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "We",
+                "watched",
+                "the",
+                "big",
+                "parade",
+                "on",
+                "Thanksgiving",
+                "Day."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "We",
+                "correct": true
+              },
+              {
+                "text": "watched"
+              },
+              {
+                "text": "parade"
+              },
+              {
+                "text": "big"
+              }
+            ],
+            "why": "The word We stands for the people talking, so the word We is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR005",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Coach",
+                "Davis",
+                "gave",
+                "us",
+                "new",
+                "jerseys",
+                "for",
+                "the",
+                "game."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "new"
+              },
+              {
+                "text": "gave"
+              },
+              {
+                "text": "us",
+                "correct": true
+              },
+              {
+                "text": "jerseys"
+              }
+            ],
+            "why": "us stands for the people who got the jerseys, so us is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR006",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "farmer",
+                "fed",
+                "the",
+                "cows,",
+                "and",
+                "they",
+                "mooed",
+                "loudly."
+              ]
+            },
+            "question": "What does the word they stand for in this sentence?",
+            "choices": [
+              {
+                "text": "farmer"
+              },
+              {
+                "text": "fed"
+              },
+              {
+                "text": "cows",
+                "correct": true
+              },
+              {
+                "text": "mooed"
+              }
+            ],
+            "why": "they stands for the cows. The cows mooed, and cows means more than one.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR007",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Mia",
+                "lost",
+                "her",
+                "mitten,",
+                "but",
+                "Dad",
+                "found",
+                "it."
+              ]
+            },
+            "question": "What does the word it stand for in this sentence?",
+            "choices": [
+              {
+                "text": "Mia"
+              },
+              {
+                "text": "mitten",
+                "correct": true
+              },
+              {
+                "text": "Dad"
+              },
+              {
+                "text": "found"
+              }
+            ],
+            "why": "it stands for the mitten. Dad found the mitten.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR008",
+            "band": 1,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "My",
+                "brother",
+                "loves",
+                "trains,",
+                "so",
+                "____",
+                "read",
+                "a",
+                "train",
+                "book",
+                "last",
+                "night."
+              ]
+            },
+            "question": "Which pronoun belongs in the blank?",
+            "choices": [
+              {
+                "text": "he",
+                "correct": true
+              },
+              {
+                "text": "they"
+              },
+              {
+                "text": "she"
+              },
+              {
+                "text": "it"
+              }
+            ],
+            "why": "he stands for my brother. My brother is one boy, so the word is he.",
+            "clue": "Remember: find the noun the blank stands for. Make them match: one person or thing, or more than one."
+          },
+          {
+            "id": "PR009",
+            "band": 1,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "Last",
+                "summer,",
+                "I",
+                "taught",
+                "____",
+                "to",
+                "whistle",
+                "a",
+                "song."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "me"
+              },
+              {
+                "text": "myself",
+                "correct": true
+              },
+              {
+                "text": "himself"
+              },
+              {
+                "text": "themselves"
+              }
+            ],
+            "why": "myself points back to I, the one who did the teaching. The word I goes with myself.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR010",
+            "band": 1,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "Grandma",
+                "hummed",
+                "to",
+                "____",
+                "while",
+                "she",
+                "baked",
+                "bread."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "himself"
+              },
+              {
+                "text": "herself",
+                "correct": true
+              },
+              {
+                "text": "themselves"
+              },
+              {
+                "text": "ourselves"
+              }
+            ],
+            "why": "herself points back to Grandma. One woman goes with herself.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR011",
+            "band": 1,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "The",
+                "boys",
+                "washed",
+                "____",
+                "off",
+                "with",
+                "the",
+                "garden",
+                "hose."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "himself"
+              },
+              {
+                "text": "herself"
+              },
+              {
+                "text": "themselves",
+                "correct": true
+              },
+              {
+                "text": "myself"
+              }
+            ],
+            "why": "themselves points back to the boys. More than one goes with themselves.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR012",
+            "band": 1,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "We",
+                "sang",
+                "to",
+                "____",
+                "on",
+                "the",
+                "long",
+                "bus",
+                "ride",
+                "home."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "myself"
+              },
+              {
+                "text": "ourselves",
+                "correct": true
+              },
+              {
+                "text": "themselves"
+              },
+              {
+                "text": "himself"
+              }
+            ],
+            "why": "ourselves points back to We, the people who sang. The word We goes with ourselves.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR013",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Jada",
+                "packed",
+                "the",
+                "snacks",
+                "into",
+                "her",
+                "blue",
+                "backpack."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "Jada"
+              },
+              {
+                "text": "packed"
+              },
+              {
+                "text": "snacks"
+              },
+              {
+                "text": "her",
+                "correct": true
+              }
+            ],
+            "why": "her stands for Jada and tells whose backpack it is, so her is the pronoun. Jada is a noun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR014",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "little",
+                "puppies",
+                "chased",
+                "their",
+                "tails",
+                "around",
+                "the",
+                "kitchen",
+                "floor."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "puppies"
+              },
+              {
+                "text": "chased"
+              },
+              {
+                "text": "their",
+                "correct": true
+              },
+              {
+                "text": "tails"
+              }
+            ],
+            "why": "their stands for the puppies and tells whose tails they are, so their is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR015",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Every",
+                "Sunday,",
+                "my",
+                "grandmother",
+                "bakes",
+                "bread",
+                "for",
+                "the",
+                "neighbors."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "my",
+                "correct": true
+              },
+              {
+                "text": "grandmother"
+              },
+              {
+                "text": "bakes"
+              },
+              {
+                "text": "bread"
+              }
+            ],
+            "why": "my stands for the person talking and tells whose grandmother she is, so my is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR016",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "coach",
+                "handed",
+                "me",
+                "the",
+                "trophy",
+                "at",
+                "the",
+                "team",
+                "party."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "coach"
+              },
+              {
+                "text": "handed"
+              },
+              {
+                "text": "me",
+                "correct": true
+              },
+              {
+                "text": "trophy"
+              }
+            ],
+            "why": "me stands for the person talking, the one who got the trophy, so me is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR017",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "twins",
+                "found",
+                "an",
+                "old",
+                "kite,",
+                "and",
+                "they",
+                "flew",
+                "it."
+              ]
+            },
+            "question": "Who does the word they stand for in this sentence?",
+            "choices": [
+              {
+                "text": "twins",
+                "correct": true
+              },
+              {
+                "text": "kite"
+              },
+              {
+                "text": "flew"
+              },
+              {
+                "text": "old"
+              }
+            ],
+            "why": "they stands for the twins. The twins flew the kite, and twins means more than one.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR018",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Leo",
+                "dropped",
+                "the",
+                "glass,",
+                "and",
+                "it",
+                "broke",
+                "on",
+                "the",
+                "floor."
+              ]
+            },
+            "question": "What does the word it stand for in this sentence?",
+            "choices": [
+              {
+                "text": "Leo"
+              },
+              {
+                "text": "glass",
+                "correct": true
+              },
+              {
+                "text": "floor"
+              },
+              {
+                "text": "broke"
+              }
+            ],
+            "why": "it stands for the glass. The glass broke on the floor.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR019",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Maya",
+                "helped",
+                "her",
+                "grandfather,",
+                "and",
+                "he",
+                "thanked",
+                "her",
+                "with",
+                "a",
+                "hug."
+              ]
+            },
+            "question": "Who does the word he stand for in this sentence?",
+            "choices": [
+              {
+                "text": "Maya"
+              },
+              {
+                "text": "grandfather",
+                "correct": true
+              },
+              {
+                "text": "hug"
+              },
+              {
+                "text": "thanked"
+              }
+            ],
+            "why": "he stands for her grandfather. He is one man, and the grandfather thanked Maya.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR020",
+            "band": 2,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "geese",
+                "waited",
+                "at",
+                "the",
+                "pond,",
+                "and",
+                "____",
+                "ate",
+                "the",
+                "bread",
+                "crumbs."
+              ]
+            },
+            "question": "Which pronoun belongs in the blank?",
+            "choices": [
+              {
+                "text": "it"
+              },
+              {
+                "text": "they",
+                "correct": true
+              },
+              {
+                "text": "he"
+              },
+              {
+                "text": "she"
+              }
+            ],
+            "why": "they stands for the geese. The geese are more than one, so the word is they.",
+            "clue": "Remember: find the noun the blank stands for. Make them match: one person or thing, or more than one."
+          },
+          {
+            "id": "PR021",
+            "band": 2,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "Ben",
+                "and",
+                "Leo",
+                "set",
+                "up",
+                "the",
+                "tent",
+                "by",
+                "____."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "himself"
+              },
+              {
+                "text": "theirselves"
+              },
+              {
+                "text": "themselves",
+                "correct": true
+              },
+              {
+                "text": "ourselves"
+              }
+            ],
+            "why": "themselves points back to Ben and Leo. Two boys go with themselves. theirselves is not correct in school English.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR022",
+            "band": 2,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "I",
+                "tied",
+                "my",
+                "shoes",
+                "all",
+                "by",
+                "____",
+                "this",
+                "morning."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "me"
+              },
+              {
+                "text": "myself",
+                "correct": true
+              },
+              {
+                "text": "himself"
+              },
+              {
+                "text": "yourself"
+              }
+            ],
+            "why": "myself points back to I. I goes with myself.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR023",
+            "band": 2,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "Dad",
+                "reminded",
+                "____",
+                "to",
+                "buy",
+                "more",
+                "peaches."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "hisself"
+              },
+              {
+                "text": "himself",
+                "correct": true
+              },
+              {
+                "text": "herself"
+              },
+              {
+                "text": "themselves"
+              }
+            ],
+            "why": "himself points back to Dad. One man goes with himself. hisself is not correct in school English.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR024",
+            "band": 2,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "You",
+                "should",
+                "wear",
+                "a",
+                "helmet",
+                "to",
+                "protect",
+                "____."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "myself"
+              },
+              {
+                "text": "yourself",
+                "correct": true
+              },
+              {
+                "text": "himself"
+              },
+              {
+                "text": "herself"
+              }
+            ],
+            "why": "yourself points back to you, the one wearing the helmet. The word you goes with yourself.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR025",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "thunderstorm,",
+                "the",
+                "nervous",
+                "puppy",
+                "hid",
+                "under",
+                "our",
+                "bed."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "puppy"
+              },
+              {
+                "text": "hid"
+              },
+              {
+                "text": "under"
+              },
+              {
+                "text": "our",
+                "correct": true
+              }
+            ],
+            "why": "our stands for the people talking and tells whose bed it is, so our is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR026",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "On",
+                "Jekyll",
+                "Island,",
+                "the",
+                "ranger",
+                "showed",
+                "them",
+                "a",
+                "sea",
+                "turtle",
+                "nest."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "ranger"
+              },
+              {
+                "text": "showed"
+              },
+              {
+                "text": "nest"
+              },
+              {
+                "text": "them",
+                "correct": true
+              }
+            ],
+            "why": "them takes the place of the people who saw the nest, so them is the pronoun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR027",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "On",
+                "Saturday",
+                "morning,",
+                "Grandpa",
+                "and",
+                "I",
+                "raked",
+                "leaves",
+                "in",
+                "the",
+                "yard."
+              ]
+            },
+            "question": "Which word is a pronoun?",
+            "choices": [
+              {
+                "text": "Grandpa"
+              },
+              {
+                "text": "I",
+                "correct": true
+              },
+              {
+                "text": "raked"
+              },
+              {
+                "text": "leaves"
+              }
+            ],
+            "why": "I stands for the person talking, so I is the pronoun. Grandpa is a noun.",
+            "clue": "Remember: look for the word that takes the place of a noun or tells whose something is."
+          },
+          {
+            "id": "PR028",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "After",
+                "recess,",
+                "the",
+                "teacher",
+                "counted",
+                "the",
+                "students",
+                "before",
+                "she",
+                "opened",
+                "the",
+                "door."
+              ]
+            },
+            "question": "Who does the word she stand for in this sentence?",
+            "choices": [
+              {
+                "text": "teacher",
+                "correct": true
+              },
+              {
+                "text": "students"
+              },
+              {
+                "text": "recess"
+              },
+              {
+                "text": "door"
+              }
+            ],
+            "why": "she stands for the teacher. She is one person, and students means more than one.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR029",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "boys",
+                "followed",
+                "the",
+                "puppy",
+                "until",
+                "it",
+                "hid",
+                "behind",
+                "the",
+                "shed."
+              ]
+            },
+            "question": "What does the word it stand for in this sentence?",
+            "choices": [
+              {
+                "text": "boys"
+              },
+              {
+                "text": "puppy",
+                "correct": true
+              },
+              {
+                "text": "shed"
+              },
+              {
+                "text": "hid"
+              }
+            ],
+            "why": "it stands for the puppy. The puppy hid behind the shed. boys means more than one, so it cannot stand for them.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR030",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "In",
+                "the",
+                "spring,",
+                "Aunt",
+                "Rosa",
+                "planted",
+                "tulips,",
+                "and",
+                "they",
+                "bloomed",
+                "near",
+                "the",
+                "porch."
+              ]
+            },
+            "question": "What does the word they stand for in this sentence?",
+            "choices": [
+              {
+                "text": "Aunt Rosa"
+              },
+              {
+                "text": "tulips",
+                "correct": true
+              },
+              {
+                "text": "porch"
+              },
+              {
+                "text": "bloomed"
+              }
+            ],
+            "why": "they stands for the tulips. The tulips bloomed, and tulips means more than one.",
+            "clue": "Remember: put each noun in place of the pronoun and see which one makes sense. Check one or more than one."
+          },
+          {
+            "id": "PR031",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "Before",
+                "each",
+                "game,",
+                "the",
+                "players",
+                "met",
+                "Mr.",
+                "Ellis,",
+                "and",
+                "____",
+                "gave",
+                "them",
+                "a",
+                "plan."
+              ]
+            },
+            "question": "Which pronoun belongs in the blank?",
+            "choices": [
+              {
+                "text": "he",
+                "correct": true
+              },
+              {
+                "text": "they"
+              },
+              {
+                "text": "she"
+              },
+              {
+                "text": "it"
+              }
+            ],
+            "why": "he stands for Mr. Ellis, the one who gave the plan. Mr. Ellis is one man, so the word is he. The players are the ones who got the plan.",
+            "clue": "Remember: find the noun the blank stands for. Make them match: one person or thing, or more than one."
+          },
+          {
+            "id": "PR032",
+            "band": 3,
+            "type": "personal",
+            "sentence": {
+              "words": [
+                "The",
+                "loud",
+                "alarm",
+                "clock",
+                "rang",
+                "at",
+                "sunrise,",
+                "and",
+                "____",
+                "woke",
+                "up",
+                "the",
+                "whole",
+                "house."
+              ]
+            },
+            "question": "Which pronoun belongs in the blank?",
+            "choices": [
+              {
+                "text": "it",
+                "correct": true
+              },
+              {
+                "text": "they"
+              },
+              {
+                "text": "she"
+              },
+              {
+                "text": "he"
+              }
+            ],
+            "why": "it stands for the alarm clock. A clock is one thing, so the word is it.",
+            "clue": "Remember: find the noun the blank stands for. Make them match: one person or thing, or more than one."
+          },
+          {
+            "id": "PR033",
+            "band": 3,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "After",
+                "school,",
+                "Lily's",
+                "brother",
+                "made",
+                "a",
+                "snack",
+                "for",
+                "____."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "herself"
+              },
+              {
+                "text": "himself",
+                "correct": true
+              },
+              {
+                "text": "themselves"
+              },
+              {
+                "text": "myself"
+              }
+            ],
+            "why": "himself points back to Lily's brother, the one who made the snack. One boy goes with himself.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR034",
+            "band": 3,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "soccer",
+                "game,",
+                "Marcus's",
+                "sister",
+                "kicked",
+                "the",
+                "ball",
+                "and",
+                "hurt",
+                "____."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "himself"
+              },
+              {
+                "text": "herself",
+                "correct": true
+              },
+              {
+                "text": "themselves"
+              },
+              {
+                "text": "itself"
+              }
+            ],
+            "why": "herself points back to Marcus's sister, the one who kicked the ball. One girl goes with herself.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR035",
+            "band": 3,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "After",
+                "you",
+                "finish",
+                "your",
+                "science",
+                "project,",
+                "you",
+                "can",
+                "be",
+                "proud",
+                "of",
+                "____."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "myself"
+              },
+              {
+                "text": "yourself",
+                "correct": true
+              },
+              {
+                "text": "itself"
+              },
+              {
+                "text": "themselves"
+              }
+            ],
+            "why": "yourself points back to you, the one who finished the project. The word you goes with yourself.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          },
+          {
+            "id": "PR036",
+            "band": 3,
+            "type": "reflexive",
+            "sentence": {
+              "words": [
+                "At",
+                "camp,",
+                "my",
+                "friend",
+                "and",
+                "I",
+                "roasted",
+                "marshmallows",
+                "for",
+                "____",
+                "over",
+                "the",
+                "fire."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "myself"
+              },
+              {
+                "text": "ourselves",
+                "correct": true
+              },
+              {
+                "text": "themselves"
+              },
+              {
+                "text": "herself"
+              }
+            ],
+            "why": "ourselves points back to my friend and I. My friend and I means we, and we goes with ourselves.",
+            "clue": "Remember: a word that ends in -self or -selves points back to who did the action. Find who did it, then make them match."
+          }
+        ]
+      },
       "ga": [
         {
           "code": "3-5.L.GC.1",
@@ -4984,7 +10498,1355 @@ window.SS_LEARN_CONTENT = {
         "end": 3
       },
       "practice": "bank",
-      "test": "soon",
+      "test": "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      "testPool": {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "find",
+            "label": "Finding adverbs",
+            "share": 0.6667
+          },
+          {
+            "key": "choose",
+            "label": "Adverb or adjective",
+            "share": 0.3333
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You know adverbs! You can find words that tell how, when, and where.",
+          "findWeak": "You are strong at telling adverbs from adjectives, so review finding the verb and asking How? When? Where?",
+          "chooseWeak": "You are strong at finding adverbs, so review how an adverb tells about a verb and an adjective describes a noun.",
+          "almost": "You are almost there with adverbs, so review the ones you missed and try again.",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "AV001",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "The",
+                "baby",
+                "giggled",
+                "happily",
+                "at",
+                "the",
+                "striped",
+                "balloon."
+              ]
+            },
+            "question": "Which word tells how the baby giggled?",
+            "choices": [
+              {
+                "text": "baby"
+              },
+              {
+                "text": "giggled"
+              },
+              {
+                "text": "happily",
+                "correct": true
+              },
+              {
+                "text": "balloon"
+              }
+            ],
+            "why": "The verb is giggled. How did the baby giggle? Happily. So happily is the adverb.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV002",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Dad",
+                "drove",
+                "carefully",
+                "through",
+                "the",
+                "heavy",
+                "rain."
+              ]
+            },
+            "question": "Which word tells how Dad drove?",
+            "choices": [
+              {
+                "text": "Dad"
+              },
+              {
+                "text": "drove"
+              },
+              {
+                "text": "carefully",
+                "correct": true
+              },
+              {
+                "text": "rain"
+              }
+            ],
+            "why": "The verb is drove. How did Dad drive? Carefully. So carefully is the adverb.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV003",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "The",
+                "old",
+                "turtle",
+                "slowly",
+                "crept",
+                "toward",
+                "the",
+                "pond."
+              ]
+            },
+            "question": "Which word tells how the turtle crept?",
+            "choices": [
+              {
+                "text": "old"
+              },
+              {
+                "text": "turtle"
+              },
+              {
+                "text": "slowly",
+                "correct": true
+              },
+              {
+                "text": "pond"
+              }
+            ],
+            "why": "The verb is crept. How did the turtle creep? Slowly. So slowly is the adverb.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV004",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Tomorrow",
+                "we",
+                "will",
+                "visit",
+                "the",
+                "zoo",
+                "in",
+                "Atlanta."
+              ]
+            },
+            "question": "Which word tells when we will visit the zoo?",
+            "choices": [
+              {
+                "text": "Tomorrow",
+                "correct": true
+              },
+              {
+                "text": "visit"
+              },
+              {
+                "text": "zoo"
+              },
+              {
+                "text": "Atlanta"
+              }
+            ],
+            "why": "The verb is will visit. When will we visit? Tomorrow. So tomorrow is the adverb.",
+            "clue": "Remember: find the verb, then ask: When?"
+          },
+          {
+            "id": "AV005",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "The",
+                "kids",
+                "played",
+                "outside",
+                "in",
+                "the",
+                "warm",
+                "sunshine."
+              ]
+            },
+            "question": "Which word tells where the kids played?",
+            "choices": [
+              {
+                "text": "kids"
+              },
+              {
+                "text": "played"
+              },
+              {
+                "text": "outside",
+                "correct": true
+              },
+              {
+                "text": "warm"
+              }
+            ],
+            "why": "The verb is played. Where did the kids play? Outside. So outside is the adverb.",
+            "clue": "Remember: find the verb, then ask: Where?"
+          },
+          {
+            "id": "AV006",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Keisha",
+                "answered",
+                "the",
+                "tricky",
+                "math",
+                "question",
+                "correctly."
+              ]
+            },
+            "question": "Which word tells how Keisha answered the question?",
+            "choices": [
+              {
+                "text": "Keisha"
+              },
+              {
+                "text": "answered"
+              },
+              {
+                "text": "tricky"
+              },
+              {
+                "text": "correctly",
+                "correct": true
+              }
+            ],
+            "why": "The verb is answered. How did Keisha answer? Correctly. So correctly is the adverb.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV007",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "The",
+                "big",
+                "plane",
+                "landed",
+                "early",
+                "at",
+                "the",
+                "airport."
+              ]
+            },
+            "question": "Which word tells when the plane landed?",
+            "choices": [
+              {
+                "text": "big"
+              },
+              {
+                "text": "plane"
+              },
+              {
+                "text": "landed"
+              },
+              {
+                "text": "early",
+                "correct": true
+              }
+            ],
+            "why": "The verb is landed. When did the plane land? Early. So early is the adverb.",
+            "clue": "Remember: find the verb, then ask: When?"
+          },
+          {
+            "id": "AV008",
+            "band": 1,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Grandma",
+                "waited",
+                "nearby",
+                "with",
+                "a",
+                "cold",
+                "drink."
+              ]
+            },
+            "question": "Which word tells where Grandma waited?",
+            "choices": [
+              {
+                "text": "Grandma"
+              },
+              {
+                "text": "waited"
+              },
+              {
+                "text": "nearby",
+                "correct": true
+              },
+              {
+                "text": "drink"
+              }
+            ],
+            "why": "The verb is waited. Where did Grandma wait? Nearby. So nearby is the adverb.",
+            "clue": "Remember: find the verb, then ask: Where?"
+          },
+          {
+            "id": "AV009",
+            "band": 1,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "The",
+                "friendly",
+                "bus",
+                "driver",
+                "waved",
+                "cheerfully",
+                "at",
+                "us."
+              ]
+            },
+            "question": "Which word is the adverb?",
+            "choices": [
+              {
+                "text": "friendly"
+              },
+              {
+                "text": "driver"
+              },
+              {
+                "text": "waved"
+              },
+              {
+                "text": "cheerfully",
+                "correct": true
+              }
+            ],
+            "why": "cheerfully tells how the driver waved, so it is the adverb. friendly describes the driver, so it is an adjective.",
+            "clue": "Remember: an -ly ending is only a clue. Find the verb and ask: How? When? Where?"
+          },
+          {
+            "id": "AV010",
+            "band": 1,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "My",
+                "lonely",
+                "kitten",
+                "purred",
+                "softly",
+                "in",
+                "my",
+                "lap."
+              ]
+            },
+            "question": "Which word is the adverb?",
+            "choices": [
+              {
+                "text": "lonely"
+              },
+              {
+                "text": "kitten"
+              },
+              {
+                "text": "purred"
+              },
+              {
+                "text": "softly",
+                "correct": true
+              }
+            ],
+            "why": "softly tells how the kitten purred, so it is the adverb. lonely describes the kitten, so it is an adjective.",
+            "clue": "Remember: an -ly ending is only a clue. Find the verb and ask: How? When? Where?"
+          },
+          {
+            "id": "AV011",
+            "band": 1,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "The",
+                "firefighter",
+                "carried",
+                "the",
+                "puppy",
+                "____",
+                "down",
+                "the",
+                "stairs."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "brave"
+              },
+              {
+                "text": "bravely",
+                "correct": true
+              },
+              {
+                "text": "bravery"
+              },
+              {
+                "text": "braves"
+              }
+            ],
+            "why": "The blank tells how the firefighter carried the puppy. A word that tells how is an adverb, so the answer is bravely.",
+            "clue": "Remember: ask whether the blank tells about a noun or about the verb."
+          },
+          {
+            "id": "AV012",
+            "band": 1,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "The",
+                "____",
+                "farmer",
+                "fed",
+                "the",
+                "pigs",
+                "and",
+                "goats",
+                "at",
+                "dawn."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "busy",
+                "correct": true
+              },
+              {
+                "text": "busily"
+              },
+              {
+                "text": "business"
+              },
+              {
+                "text": "busies"
+              }
+            ],
+            "why": "The blank describes the farmer. farmer is a noun, and a word that describes a noun is an adjective, so the answer is busy.",
+            "clue": "Remember: ask whether the blank tells about a noun or about the verb."
+          },
+          {
+            "id": "AV013",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "The",
+                "hungry",
+                "students",
+                "walked",
+                "quietly",
+                "to",
+                "the",
+                "busy",
+                "cafeteria."
+              ]
+            },
+            "question": "Which word tells how the students walked?",
+            "choices": [
+              {
+                "text": "hungry"
+              },
+              {
+                "text": "quietly",
+                "correct": true
+              },
+              {
+                "text": "busy"
+              },
+              {
+                "text": "cafeteria"
+              }
+            ],
+            "why": "The verb is walked. How did the students walk? Quietly. So quietly is the adverb. hungry and busy describe nouns.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV014",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Mom",
+                "gently",
+                "wrapped",
+                "the",
+                "birthday",
+                "gift",
+                "in",
+                "shiny",
+                "paper."
+              ]
+            },
+            "question": "Which word tells how Mom wrapped the gift?",
+            "choices": [
+              {
+                "text": "Mom"
+              },
+              {
+                "text": "gently",
+                "correct": true
+              },
+              {
+                "text": "birthday"
+              },
+              {
+                "text": "shiny"
+              }
+            ],
+            "why": "The verb is wrapped. How did Mom wrap the gift? Gently. So gently is the adverb.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV015",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Our",
+                "class",
+                "will",
+                "take",
+                "the",
+                "spelling",
+                "test",
+                "later."
+              ]
+            },
+            "question": "Which word tells when the class will take the test?",
+            "choices": [
+              {
+                "text": "class"
+              },
+              {
+                "text": "take"
+              },
+              {
+                "text": "spelling"
+              },
+              {
+                "text": "later",
+                "correct": true
+              }
+            ],
+            "why": "The verb is will take. When will the class take the test? Later. So later is the adverb.",
+            "clue": "Remember: find the verb, then ask: When?"
+          },
+          {
+            "id": "AV016",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Our",
+                "fluffy",
+                "gray",
+                "cat",
+                "sleeps",
+                "downstairs",
+                "during",
+                "the",
+                "day."
+              ]
+            },
+            "question": "Which word tells where the cat sleeps?",
+            "choices": [
+              {
+                "text": "fluffy"
+              },
+              {
+                "text": "gray"
+              },
+              {
+                "text": "sleeps"
+              },
+              {
+                "text": "downstairs",
+                "correct": true
+              }
+            ],
+            "why": "The verb is sleeps. Where does the cat sleep? Downstairs. So downstairs is the adverb.",
+            "clue": "Remember: find the verb, then ask: Where?"
+          },
+          {
+            "id": "AV017",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "The",
+                "holiday",
+                "parade",
+                "started",
+                "late",
+                "because",
+                "of",
+                "the",
+                "rain."
+              ]
+            },
+            "question": "Which word tells when the parade started?",
+            "choices": [
+              {
+                "text": "parade"
+              },
+              {
+                "text": "started"
+              },
+              {
+                "text": "late",
+                "correct": true
+              },
+              {
+                "text": "rain"
+              }
+            ],
+            "why": "The verb is started. When did the parade start? Late. So late is the adverb.",
+            "clue": "Remember: find the verb, then ask: When?"
+          },
+          {
+            "id": "AV018",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "In",
+                "the",
+                "open",
+                "field,",
+                "the",
+                "young",
+                "horse",
+                "galloped",
+                "freely."
+              ]
+            },
+            "question": "Which word tells how the horse galloped?",
+            "choices": [
+              {
+                "text": "open"
+              },
+              {
+                "text": "young"
+              },
+              {
+                "text": "galloped"
+              },
+              {
+                "text": "freely",
+                "correct": true
+              }
+            ],
+            "why": "The verb is galloped. How did the horse gallop? Freely. So freely is the adverb.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV019",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "After",
+                "breakfast,",
+                "Grandpa",
+                "went",
+                "outside",
+                "to",
+                "feed",
+                "the",
+                "chickens."
+              ]
+            },
+            "question": "Which word tells where Grandpa went?",
+            "choices": [
+              {
+                "text": "Grandpa"
+              },
+              {
+                "text": "went"
+              },
+              {
+                "text": "outside",
+                "correct": true
+              },
+              {
+                "text": "chickens"
+              }
+            ],
+            "why": "The verb is went. Where did Grandpa go? Outside. So outside is the adverb.",
+            "clue": "Remember: find the verb, then ask: Where?"
+          },
+          {
+            "id": "AV020",
+            "band": 2,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Lena",
+                "finished",
+                "her",
+                "long",
+                "chapter",
+                "book",
+                "yesterday."
+              ]
+            },
+            "question": "Which word tells when Lena finished her book?",
+            "choices": [
+              {
+                "text": "Lena"
+              },
+              {
+                "text": "finished"
+              },
+              {
+                "text": "long"
+              },
+              {
+                "text": "yesterday",
+                "correct": true
+              }
+            ],
+            "why": "The verb is finished. When did Lena finish? Yesterday. So yesterday is the adverb.",
+            "clue": "Remember: find the verb, then ask: When?"
+          },
+          {
+            "id": "AV021",
+            "band": 2,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "The",
+                "lonely",
+                "puppy",
+                "whimpered",
+                "sadly",
+                "by",
+                "the",
+                "gate."
+              ]
+            },
+            "question": "Which word is the adverb?",
+            "choices": [
+              {
+                "text": "lonely"
+              },
+              {
+                "text": "puppy"
+              },
+              {
+                "text": "whimpered"
+              },
+              {
+                "text": "sadly",
+                "correct": true
+              }
+            ],
+            "why": "sadly tells how the puppy whimpered, so it is the adverb. lonely describes the puppy, so it is an adjective.",
+            "clue": "Remember: an -ly ending is only a clue. Find the verb and ask: How? When? Where?"
+          },
+          {
+            "id": "AV022",
+            "band": 2,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "The",
+                "ugly",
+                "duckling",
+                "proudly",
+                "paddled",
+                "across",
+                "the",
+                "lake."
+              ]
+            },
+            "question": "Which word is the adverb?",
+            "choices": [
+              {
+                "text": "ugly"
+              },
+              {
+                "text": "duckling"
+              },
+              {
+                "text": "proudly",
+                "correct": true
+              },
+              {
+                "text": "paddled"
+              }
+            ],
+            "why": "proudly tells how the duckling paddled, so it is the adverb. ugly describes the duckling, so it is an adjective.",
+            "clue": "Remember: an -ly ending is only a clue. Find the verb and ask: How? When? Where?"
+          },
+          {
+            "id": "AV023",
+            "band": 2,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "The",
+                "students",
+                "waited",
+                "____",
+                "for",
+                "the",
+                "field",
+                "trip",
+                "bus."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "patient"
+              },
+              {
+                "text": "patiently",
+                "correct": true
+              },
+              {
+                "text": "patience"
+              },
+              {
+                "text": "patients"
+              }
+            ],
+            "why": "The blank tells how the students waited. A word that tells how is an adverb, so the answer is patiently.",
+            "clue": "Remember: ask whether the blank tells about a noun or about the verb."
+          },
+          {
+            "id": "AV024",
+            "band": 2,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "Coach",
+                "Lee",
+                "was",
+                "____",
+                "of",
+                "the",
+                "hardworking",
+                "team."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "proud",
+                "correct": true
+              },
+              {
+                "text": "proudly"
+              },
+              {
+                "text": "pride"
+              },
+              {
+                "text": "prides"
+              }
+            ],
+            "why": "The blank tells what Coach Lee was. It describes Coach Lee, so it needs an adjective: proud.",
+            "clue": "Remember: after was, the word often describes the subject. A word that describes a noun is an adjective."
+          },
+          {
+            "id": "AV025",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "At",
+                "the",
+                "Thanksgiving",
+                "parade,",
+                "the",
+                "school",
+                "band",
+                "played",
+                "joyfully",
+                "along",
+                "Main",
+                "Street."
+              ]
+            },
+            "question": "Which word tells how the band played?",
+            "choices": [
+              {
+                "text": "Thanksgiving"
+              },
+              {
+                "text": "school"
+              },
+              {
+                "text": "played"
+              },
+              {
+                "text": "joyfully",
+                "correct": true
+              }
+            ],
+            "why": "The verb is played. How did the band play? Joyfully. So joyfully is the adverb.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV026",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "During",
+                "recess,",
+                "the",
+                "girls",
+                "jumped",
+                "rope",
+                "quickly",
+                "on",
+                "the",
+                "chilly",
+                "playground."
+              ]
+            },
+            "question": "Which word tells how the girls jumped rope?",
+            "choices": [
+              {
+                "text": "girls"
+              },
+              {
+                "text": "jumped"
+              },
+              {
+                "text": "quickly",
+                "correct": true
+              },
+              {
+                "text": "chilly"
+              }
+            ],
+            "why": "The verb is jumped. How did the girls jump rope? Quickly. So quickly is the adverb. chilly describes the playground.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV027",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "To",
+                "see",
+                "our",
+                "cousins,",
+                "our",
+                "family",
+                "will",
+                "drive",
+                "to",
+                "Athens",
+                "tomorrow."
+              ]
+            },
+            "question": "Which word tells when the family will drive to Athens?",
+            "choices": [
+              {
+                "text": "family"
+              },
+              {
+                "text": "drive"
+              },
+              {
+                "text": "Athens"
+              },
+              {
+                "text": "tomorrow",
+                "correct": true
+              }
+            ],
+            "why": "The verb is will drive. When will the family drive? Tomorrow. So tomorrow is the adverb.",
+            "clue": "Remember: find the verb, then ask: When?"
+          },
+          {
+            "id": "AV028",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "rain,",
+                "the",
+                "playful",
+                "puppy",
+                "buried",
+                "its",
+                "bone",
+                "nearby."
+              ]
+            },
+            "question": "Which word tells where the puppy buried the bone?",
+            "choices": [
+              {
+                "text": "rain"
+              },
+              {
+                "text": "playful"
+              },
+              {
+                "text": "buried"
+              },
+              {
+                "text": "nearby",
+                "correct": true
+              }
+            ],
+            "why": "The verb is buried. Where did the puppy bury its bone? Nearby. So nearby is the adverb.",
+            "clue": "Remember: find the verb, then ask: Where?"
+          },
+          {
+            "id": "AV029",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Last",
+                "Saturday,",
+                "Mr.",
+                "Brown",
+                "carefully",
+                "fixed",
+                "the",
+                "wobbly",
+                "fence."
+              ]
+            },
+            "question": "Which word tells how Mr. Brown fixed the fence?",
+            "choices": [
+              {
+                "text": "Saturday"
+              },
+              {
+                "text": "carefully",
+                "correct": true
+              },
+              {
+                "text": "fixed"
+              },
+              {
+                "text": "wobbly"
+              }
+            ],
+            "why": "The verb is fixed. How did Mr. Brown fix the fence? Carefully. So carefully is the adverb. wobbly describes the fence.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV030",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "With",
+                "help",
+                "from",
+                "parents,",
+                "the",
+                "students",
+                "will",
+                "plant",
+                "the",
+                "garden",
+                "soon."
+              ]
+            },
+            "question": "Which word tells when the students will plant the garden?",
+            "choices": [
+              {
+                "text": "parents"
+              },
+              {
+                "text": "students"
+              },
+              {
+                "text": "plant"
+              },
+              {
+                "text": "soon",
+                "correct": true
+              }
+            ],
+            "why": "The verb is will plant. When will the students plant? Soon. So soon is the adverb.",
+            "clue": "Remember: find the verb, then ask: When?"
+          },
+          {
+            "id": "AV031",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "Because",
+                "of",
+                "the",
+                "thunderstorm,",
+                "the",
+                "children",
+                "waited",
+                "inside",
+                "with",
+                "their",
+                "teacher."
+              ]
+            },
+            "question": "Which word tells where the children waited?",
+            "choices": [
+              {
+                "text": "thunderstorm"
+              },
+              {
+                "text": "children"
+              },
+              {
+                "text": "waited"
+              },
+              {
+                "text": "inside",
+                "correct": true
+              }
+            ],
+            "why": "The verb is waited. Where did the children wait? Inside. So inside is the adverb.",
+            "clue": "Remember: find the verb, then ask: Where?"
+          },
+          {
+            "id": "AV032",
+            "band": 3,
+            "type": "find",
+            "sentence": {
+              "words": [
+                "On",
+                "the",
+                "big",
+                "stage,",
+                "the",
+                "lovely",
+                "dancers",
+                "moved",
+                "gracefully",
+                "to",
+                "the",
+                "music."
+              ]
+            },
+            "question": "Which word tells how the dancers moved?",
+            "choices": [
+              {
+                "text": "lovely"
+              },
+              {
+                "text": "dancers"
+              },
+              {
+                "text": "moved"
+              },
+              {
+                "text": "gracefully",
+                "correct": true
+              }
+            ],
+            "why": "The verb is moved. How did the dancers move? Gracefully. So gracefully is the adverb. lovely describes the dancers.",
+            "clue": "Remember: find the verb, then ask: How?"
+          },
+          {
+            "id": "AV033",
+            "band": 3,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "On",
+                "the",
+                "chilly",
+                "porch,",
+                "the",
+                "friendly",
+                "neighbor",
+                "waved",
+                "warmly",
+                "at",
+                "Grandma."
+              ]
+            },
+            "question": "Which word is the adverb?",
+            "choices": [
+              {
+                "text": "chilly"
+              },
+              {
+                "text": "friendly"
+              },
+              {
+                "text": "waved"
+              },
+              {
+                "text": "warmly",
+                "correct": true
+              }
+            ],
+            "why": "warmly tells how the neighbor waved, so it is the adverb. chilly describes the porch and friendly describes the neighbor, so they are adjectives.",
+            "clue": "Remember: an -ly ending is only a clue. Find the verb and ask: How? When? Where?"
+          },
+          {
+            "id": "AV034",
+            "band": 3,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "With",
+                "his",
+                "curly",
+                "wig,",
+                "the",
+                "silly",
+                "actor",
+                "bowed",
+                "politely",
+                "to",
+                "the",
+                "crowd."
+              ]
+            },
+            "question": "Which word is the adverb?",
+            "choices": [
+              {
+                "text": "curly"
+              },
+              {
+                "text": "silly"
+              },
+              {
+                "text": "bowed"
+              },
+              {
+                "text": "politely",
+                "correct": true
+              }
+            ],
+            "why": "politely tells how the actor bowed, so it is the adverb. curly describes the wig and silly describes the actor, so they are adjectives.",
+            "clue": "Remember: an -ly ending is only a clue. Find the verb and ask: How? When? Where?"
+          },
+          {
+            "id": "AV035",
+            "band": 3,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "fire",
+                "drill,",
+                "the",
+                "students",
+                "walked",
+                "____",
+                "to",
+                "the",
+                "playground."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "calm"
+              },
+              {
+                "text": "calmly",
+                "correct": true
+              },
+              {
+                "text": "calmness"
+              },
+              {
+                "text": "calms"
+              }
+            ],
+            "why": "The blank tells how the students walked. A word that tells how is an adverb, so the answer is calmly.",
+            "clue": "Remember: ask whether the blank tells about a noun or about the verb."
+          },
+          {
+            "id": "AV036",
+            "band": 3,
+            "type": "choose",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "long",
+                "hike,",
+                "the",
+                "____",
+                "campers",
+                "went",
+                "to",
+                "bed",
+                "early."
+              ]
+            },
+            "question": "Which word belongs in the blank?",
+            "choices": [
+              {
+                "text": "sleepily"
+              },
+              {
+                "text": "sleepy",
+                "correct": true
+              },
+              {
+                "text": "sleep"
+              },
+              {
+                "text": "sleeps"
+              }
+            ],
+            "why": "The blank describes the campers. campers is a noun, and a word that describes a noun is an adjective, so the answer is sleepy.",
+            "clue": "Remember: ask whether the blank tells about a noun or about the verb."
+          }
+        ]
+      },
       "ga": [
         {
           "code": "3.L.GC.2.d",
@@ -6153,7 +13015,1376 @@ window.SS_LEARN_CONTENT = {
         "end": 4
       },
       "practice": "bank",
-      "test": "soon",
+      "test": "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      "testPool": {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "fragment",
+            "label": "Fragments",
+            "share": 0.5
+          },
+          {
+            "key": "runon",
+            "label": "Run-ons and fixes",
+            "share": 0.5
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You know complete sentences! You can spot fragments and run-ons and fix them.",
+          "fragmentWeak": "You are strong with run-ons, so review how a complete sentence needs a subject and a predicate.",
+          "runonWeak": "You are strong with fragments, so review how to spot two sentences stuck together and join them the right way.",
+          "almost": "You are almost there with complete sentences, so review the ones you missed and try again.",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "CS001",
+            "band": 1,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "Splashed",
+                "in",
+                "the",
+                "puddles",
+                "after",
+                "the",
+                "rain."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "What happened? splashed in the puddles after the rain. But who did it? The sentence never says, so it needs a subject. So the answer is: No, it needs a subject.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS002",
+            "band": 1,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "The",
+                "little",
+                "brown",
+                "rabbit",
+                "in",
+                "the",
+                "garden."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate.",
+                "correct": true
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? the little brown rabbit in the garden. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS003",
+            "band": 1,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "Our",
+                "teacher",
+                "hung",
+                "the",
+                "drawings",
+                "on",
+                "the",
+                "wall."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? Our teacher. What did the teacher do? hung the drawings on the wall. Both parts are there. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS004",
+            "band": 1,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "Climbed",
+                "to",
+                "the",
+                "top",
+                "of",
+                "the",
+                "jungle",
+                "gym."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "What happened? climbed to the top of the jungle gym. But who did it? The sentence never says, so it needs a subject. So the answer is: No, it needs a subject.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS005",
+            "band": 1,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "A",
+                "big",
+                "yellow",
+                "bus",
+                "with",
+                "a",
+                "flat",
+                "tire."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate.",
+                "correct": true
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? a big yellow bus with a flat tire. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS006",
+            "band": 1,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "My",
+                "uncle",
+                "cut",
+                "a",
+                "big",
+                "watermelon",
+                "for",
+                "the",
+                "family",
+                "picnic."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? My uncle. What did he do? cut a big watermelon for the family picnic. Both parts are there. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS007",
+            "band": 1,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "The",
+                "bell",
+                "rang",
+                "we",
+                "lined",
+                "up",
+                "at",
+                "the",
+                "door."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on.",
+                "correct": true
+              }
+            ],
+            "why": "“The bell rang” is one complete thought, and “we lined up at the door” is another. Nothing separates them. So the answer is: No, it is a run-on.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS008",
+            "band": 1,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "My",
+                "cat",
+                "is",
+                "hungry",
+                "she",
+                "wants",
+                "her",
+                "dinner."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on.",
+                "correct": true
+              }
+            ],
+            "why": "“My cat is hungry” is one complete thought, and “she wants her dinner” is another. Nothing separates them. So the answer is: No, it is a run-on.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS009",
+            "band": 1,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "Dad",
+                "cooked",
+                "dinner,",
+                "and",
+                "we",
+                "set",
+                "the",
+                "table."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "“Dad cooked dinner” is one complete thought, and “we set the table” is another. A comma and the word and join them correctly. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS010",
+            "band": 1,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "Leo",
+                "found",
+                "a",
+                "shell",
+                "he",
+                "gave",
+                "it",
+                "to",
+                "Mom."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on.",
+                "correct": true
+              }
+            ],
+            "why": "“Leo found a shell” is one complete thought, and “he gave it to Mom” is another. Nothing separates them. So the answer is: No, it is a run-on.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS011",
+            "band": 1,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "It",
+                "was",
+                "raining,",
+                "so",
+                "we",
+                "played",
+                "a",
+                "board",
+                "game."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "“It was raining” is one complete thought, and “we played a board game” is another. A comma and the word so join them correctly. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS012",
+            "band": 1,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "The",
+                "dog",
+                "barked",
+                "it",
+                "saw",
+                "a",
+                "squirrel."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "The dog barked. It saw a squirrel.",
+                "correct": true
+              },
+              {
+                "text": "The dog barked, it saw a squirrel."
+              },
+              {
+                "text": "The dog barked it. Saw a squirrel."
+              },
+              {
+                "text": "the dog barked. it saw a squirrel."
+              }
+            ],
+            "why": "“The dog barked” is one thought. “It saw a squirrel” is another. Put a period after barked and start It with a capital letter. So the answer is: The dog barked. It saw a squirrel.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          },
+          {
+            "id": "CS013",
+            "band": 2,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "Sings",
+                "in",
+                "the",
+                "church",
+                "choir",
+                "every",
+                "Sunday",
+                "morning."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "What happened? sings in the church choir every Sunday morning. But who did it? The sentence never says, so it needs a subject. So the answer is: No, it needs a subject.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS014",
+            "band": 2,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "My",
+                "best",
+                "friend",
+                "from",
+                "my",
+                "old",
+                "school",
+                "in",
+                "Augusta."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate.",
+                "correct": true
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? my best friend from my old school in Augusta. But what did my friend do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS015",
+            "band": 2,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "The",
+                "tiny",
+                "fireflies",
+                "glowed",
+                "above",
+                "the",
+                "dark",
+                "backyard",
+                "all",
+                "night."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? The tiny fireflies. What did they do? glowed above the dark backyard all night. Both parts are there. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS016",
+            "band": 2,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "Wrote",
+                "a",
+                "long",
+                "letter",
+                "to",
+                "her",
+                "grandmother",
+                "in",
+                "Macon."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "What happened? wrote a long letter to her grandmother in Macon. But who did it? The sentence never says, so it needs a subject. So the answer is: No, it needs a subject.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS017",
+            "band": 2,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "A",
+                "family",
+                "of",
+                "ducks",
+                "near",
+                "the",
+                "edge",
+                "of",
+                "the",
+                "pond."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate.",
+                "correct": true
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? a family of ducks near the edge of the pond. But what did the ducks do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS018",
+            "band": 2,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "Every",
+                "Friday,",
+                "the",
+                "whole",
+                "class",
+                "reads",
+                "quietly",
+                "together."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? the whole class. What does it do? reads quietly together. Every Friday only tells when. Both parts are there. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS019",
+            "band": 2,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "Grandma",
+                "planted",
+                "roses",
+                "in",
+                "May",
+                "they",
+                "bloomed",
+                "in",
+                "June."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on.",
+                "correct": true
+              }
+            ],
+            "why": "“Grandma planted roses in May” is one complete thought, and “they bloomed in June” is another. Nothing separates them. So the answer is: No, it is a run-on.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS020",
+            "band": 2,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "We",
+                "can",
+                "go",
+                "to",
+                "the",
+                "library,",
+                "or",
+                "we",
+                "can",
+                "stay",
+                "home."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "“We can go to the library” is one complete thought, and “we can stay home” is another. A comma and the word or join them correctly. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS021",
+            "band": 2,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "Jamal",
+                "studied",
+                "his",
+                "spelling",
+                "words",
+                "he",
+                "got",
+                "every",
+                "one",
+                "right."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on.",
+                "correct": true
+              }
+            ],
+            "why": "“Jamal studied his spelling words” is one complete thought, and “he got every one right” is another. Nothing separates them. So the answer is: No, it is a run-on.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS022",
+            "band": 2,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "The",
+                "lights",
+                "went",
+                "out",
+                "we",
+                "lit",
+                "a",
+                "candle."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "The lights went out, so we lit a candle.",
+                "correct": true
+              },
+              {
+                "text": "The lights went out so, we lit a candle."
+              },
+              {
+                "text": "The lights went out, we lit a candle."
+              },
+              {
+                "text": "The lights went, out so we lit a candle."
+              }
+            ],
+            "why": "“The lights went out” is one thought. “we lit a candle” is another. Join them with a comma and the word so. So the answer is: The lights went out, so we lit a candle.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          },
+          {
+            "id": "CS023",
+            "band": 2,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "Maya",
+                "wanted",
+                "a",
+                "snack",
+                "the",
+                "cookie",
+                "jar",
+                "was",
+                "empty."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "Maya wanted a snack but, the cookie jar was empty."
+              },
+              {
+                "text": "Maya wanted a snack, the cookie jar was empty."
+              },
+              {
+                "text": "Maya wanted a snack, but the cookie jar was empty.",
+                "correct": true
+              },
+              {
+                "text": "Maya wanted, a snack but the cookie jar was empty."
+              }
+            ],
+            "why": "“Maya wanted a snack” is one thought. “the cookie jar was empty” is another. Join them with a comma and the word but. So the answer is: Maya wanted a snack, but the cookie jar was empty.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          },
+          {
+            "id": "CS024",
+            "band": 2,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "The",
+                "game",
+                "ended",
+                "our",
+                "team",
+                "shook",
+                "hands",
+                "with",
+                "the",
+                "winners."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "The game ended our. Team shook hands with the winners."
+              },
+              {
+                "text": "The game ended, our team shook hands with the winners."
+              },
+              {
+                "text": "the game ended. our team shook hands with the winners."
+              },
+              {
+                "text": "The game ended. Our team shook hands with the winners.",
+                "correct": true
+              }
+            ],
+            "why": "“The game ended” is one thought. “our team shook hands with the winners” is another. Put a period after ended and start Our with a capital letter. So the answer is: The game ended. Our team shook hands with the winners.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          },
+          {
+            "id": "CS025",
+            "band": 3,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "soccer",
+                "game,",
+                "ate",
+                "orange",
+                "slices",
+                "under",
+                "the",
+                "big",
+                "tree."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "What happened? ate orange slices under the big tree. But who did it? The sentence never says, so it needs a subject. After the soccer game only tells when. So the answer is: No, it needs a subject.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS026",
+            "band": 3,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "long",
+                "car",
+                "ride",
+                "to",
+                "Grandma's",
+                "house,",
+                "my",
+                "sleepy",
+                "little",
+                "brother."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate.",
+                "correct": true
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? my sleepy little brother. But what did he do? The sentence never says. During the long car ride to Grandma's house only tells when. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS027",
+            "band": 3,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "On",
+                "a",
+                "cold",
+                "winter",
+                "morning,",
+                "the",
+                "frost",
+                "on",
+                "the",
+                "car",
+                "windows",
+                "sparkled."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? the frost on the car windows. What did it do? sparkled. On a cold winter morning only tells when. Both parts are there. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS028",
+            "band": 3,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "The",
+                "shiny",
+                "new",
+                "bike",
+                "with",
+                "the",
+                "bell",
+                "and",
+                "the",
+                "bright",
+                "blue",
+                "streamers."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate.",
+                "correct": true
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? the shiny new bike with the bell and the bright blue streamers. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS029",
+            "band": 3,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "Before",
+                "dinner,",
+                "carefully",
+                "placed",
+                "the",
+                "plates",
+                "and",
+                "cups",
+                "on",
+                "the",
+                "table."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "What happened? carefully placed the plates and cups on the table. But who did it? The sentence never says, so it needs a subject. Before dinner only tells when. So the answer is: No, it needs a subject.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS030",
+            "band": 3,
+            "type": "fragment",
+            "sentence": {
+              "words": [
+                "In",
+                "the",
+                "shade",
+                "of",
+                "the",
+                "old",
+                "oak",
+                "tree,",
+                "two",
+                "sleepy",
+                "dogs",
+                "rested."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "Who or what? two sleepy dogs. What did they do? rested. In the shade of the old oak tree only tells where. Both parts are there. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS031",
+            "band": 3,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "game,",
+                "the",
+                "sky",
+                "cleared",
+                "we",
+                "saw",
+                "the",
+                "bright",
+                "stars."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete."
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on.",
+                "correct": true
+              }
+            ],
+            "why": "“After the game, the sky cleared” is one complete thought, and “we saw the bright stars” is another. Nothing separates them. So the answer is: No, it is a run-on.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS032",
+            "band": 3,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "On",
+                "Saturday",
+                "morning,",
+                "Dad",
+                "washed",
+                "the",
+                "car,",
+                "and",
+                "I",
+                "swept",
+                "the",
+                "porch."
+              ]
+            },
+            "question": "Is this a complete sentence?",
+            "choices": [
+              {
+                "text": "Yes, it is complete.",
+                "correct": true
+              },
+              {
+                "text": "No, it needs a subject."
+              },
+              {
+                "text": "No, it needs a predicate."
+              },
+              {
+                "text": "No, it is a run-on."
+              }
+            ],
+            "why": "“On Saturday morning, Dad washed the car” is one complete thought, and “I swept the porch” is another. A comma and the word and join them correctly. So the answer is: Yes, it is complete.",
+            "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
+          },
+          {
+            "id": "CS033",
+            "band": 3,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "At",
+                "the",
+                "beach,",
+                "we",
+                "built",
+                "a",
+                "sandcastle",
+                "the",
+                "waves",
+                "knocked",
+                "it",
+                "down."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "At the beach, we built a sandcastle, the waves knocked it down."
+              },
+              {
+                "text": "At the beach, we built a sandcastle but, the waves knocked it down."
+              },
+              {
+                "text": "At the beach, we built a sandcastle, but the waves knocked it down.",
+                "correct": true
+              },
+              {
+                "text": "At the beach, we built a sandcastle. the waves knocked it down."
+              }
+            ],
+            "why": "“At the beach, we built a sandcastle” is one thought. “the waves knocked it down” is another. Join them with a comma and the word but. So the answer is: At the beach, we built a sandcastle, but the waves knocked it down.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          },
+          {
+            "id": "CS034",
+            "band": 3,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "fire",
+                "drill,",
+                "the",
+                "alarm",
+                "was",
+                "loud",
+                "the",
+                "students",
+                "covered",
+                "their",
+                "ears."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "During the fire drill, the alarm was loud, the students covered their ears."
+              },
+              {
+                "text": "During the fire drill, the alarm was loud. The students covered their ears.",
+                "correct": true
+              },
+              {
+                "text": "During the fire drill, the alarm was loud the students. Covered their ears."
+              },
+              {
+                "text": "During the fire drill, the alarm was loud. the students covered their ears."
+              }
+            ],
+            "why": "“During the fire drill, the alarm was loud” is one thought. “the students covered their ears” is another. Put a period after loud and start The with a capital letter. So the answer is: During the fire drill, the alarm was loud. The students covered their ears.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          },
+          {
+            "id": "CS035",
+            "band": 3,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "My",
+                "sister",
+                "practiced",
+                "her",
+                "lines",
+                "all",
+                "week",
+                "she",
+                "was",
+                "ready",
+                "for",
+                "the",
+                "play."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "My sister practiced her lines all week, she was ready for the play."
+              },
+              {
+                "text": "My sister practiced her lines all week. she was ready for the play."
+              },
+              {
+                "text": "My sister practiced her lines all week so, she was ready for the play."
+              },
+              {
+                "text": "My sister practiced her lines all week, so she was ready for the play.",
+                "correct": true
+              }
+            ],
+            "why": "“My sister practiced her lines all week” is one thought. “she was ready for the play” is another. Join them with a comma and the word so. So the answer is: My sister practiced her lines all week, so she was ready for the play.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          },
+          {
+            "id": "CS036",
+            "band": 3,
+            "type": "runon",
+            "sentence": {
+              "words": [
+                "Last",
+                "summer,",
+                "we",
+                "visited",
+                "Stone",
+                "Mountain",
+                "we",
+                "rode",
+                "the",
+                "cable",
+                "car."
+              ]
+            },
+            "question": "Which is the best way to fix it?",
+            "choices": [
+              {
+                "text": "Last summer, we visited Stone Mountain, and we rode the cable car.",
+                "correct": true
+              },
+              {
+                "text": "Last summer, we visited Stone Mountain and, we rode the cable car."
+              },
+              {
+                "text": "Last summer, we visited Stone Mountain, we rode the cable car."
+              },
+              {
+                "text": "Last summer, we visited Stone Mountain. we rode the cable car."
+              }
+            ],
+            "why": "“Last summer, we visited Stone Mountain” is one thought. “we rode the cable car” is another. Join them with a comma and the word and. So the answer is: Last summer, we visited Stone Mountain, and we rode the cable car.",
+            "clue": "Remember: find the two complete thoughts. Join them with a period, or with a comma and a joining word like and, but, or so."
+          }
+        ]
+      },
       "ga": [
         {
           "code": "3.L.GC.2.a",
@@ -7226,7 +15457,1368 @@ window.SS_LEARN_CONTENT = {
         "end": 2
       },
       "practice": "bank",
-      "test": "soon",
+      "test": "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      "testPool": {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "helping",
+            "label": "Helping verbs",
+            "share": 0.5
+          },
+          {
+            "key": "linking",
+            "label": "Linking verbs",
+            "share": 0.5
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You know your helping and linking verbs!",
+          "helpingWeak": "You are strong with linking verbs. Review helping verbs and the main verbs they help.",
+          "linkingWeak": "You are strong with helping verbs. Review linking verbs that link the subject to a describing or naming word.",
+          "almost": "You are almost there with helping and linking verbs. Look at the word after each verb.",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "HL001",
+            "band": 1,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "Our",
+                "class",
+                "will",
+                "visit",
+                "the",
+                "zoo",
+                "in",
+                "Atlanta."
+              ]
+            },
+            "question": "Which word is the helping verb?",
+            "choices": [
+              {
+                "text": "class"
+              },
+              {
+                "text": "will",
+                "correct": true
+              },
+              {
+                "text": "visit"
+              },
+              {
+                "text": "zoo"
+              }
+            ],
+            "why": "will is the helping verb. It helps the main verb visit.",
+            "clue": "Remember: find the main verb first. The helping verb comes before it."
+          },
+          {
+            "id": "HL002",
+            "band": 1,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "Grandpa",
+                "can",
+                "fix",
+                "the",
+                "wobbly",
+                "wheel",
+                "on",
+                "my",
+                "wagon."
+              ]
+            },
+            "question": "Which word is the helping verb?",
+            "choices": [
+              {
+                "text": "Grandpa"
+              },
+              {
+                "text": "can",
+                "correct": true
+              },
+              {
+                "text": "fix"
+              },
+              {
+                "text": "wheel"
+              }
+            ],
+            "why": "can is the helping verb. It comes right before the main verb fix.",
+            "clue": "Remember: find the main verb first. The helping verb comes before it."
+          },
+          {
+            "id": "HL003",
+            "band": 1,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "You",
+                "should",
+                "wear",
+                "a",
+                "jacket",
+                "on",
+                "cold",
+                "mornings."
+              ]
+            },
+            "question": "Which word is the helping verb?",
+            "choices": [
+              {
+                "text": "should",
+                "correct": true
+              },
+              {
+                "text": "wear"
+              },
+              {
+                "text": "jacket"
+              },
+              {
+                "text": "mornings"
+              }
+            ],
+            "why": "should is the helping verb. It helps the main verb wear.",
+            "clue": "Remember: find the main verb first. The helping verb comes before it."
+          },
+          {
+            "id": "HL004",
+            "band": 1,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "My",
+                "sister",
+                "must",
+                "clean",
+                "her",
+                "room",
+                "before",
+                "lunch."
+              ]
+            },
+            "question": "Which word is the main verb?",
+            "choices": [
+              {
+                "text": "sister"
+              },
+              {
+                "text": "must"
+              },
+              {
+                "text": "clean",
+                "correct": true
+              },
+              {
+                "text": "room"
+              }
+            ],
+            "why": "clean is the main verb. It tells the action, and must helps it.",
+            "clue": "Remember: the main verb tells the action. It comes after the helping verb."
+          },
+          {
+            "id": "HL005",
+            "band": 1,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "Dad",
+                "could",
+                "carry",
+                "all",
+                "the",
+                "grocery",
+                "bags",
+                "at",
+                "once."
+              ]
+            },
+            "question": "Which word is the main verb?",
+            "choices": [
+              {
+                "text": "Dad"
+              },
+              {
+                "text": "could"
+              },
+              {
+                "text": "bags"
+              },
+              {
+                "text": "carry",
+                "correct": true
+              }
+            ],
+            "why": "carry is the main verb. It tells the action, and could helps it.",
+            "clue": "Remember: the main verb tells the action. It comes after the helping verb."
+          },
+          {
+            "id": "HL006",
+            "band": 1,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "The",
+                "ducks",
+                "are",
+                "swimming",
+                "across",
+                "the",
+                "quiet",
+                "pond."
+              ]
+            },
+            "question": "What job does the word “are” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb",
+                "correct": true
+              },
+              {
+                "text": "linking verb"
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“are” is a helping verb here. It helps the action word swimming.",
+            "clue": "Remember: look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL007",
+            "band": 1,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "The",
+                "pancakes",
+                "were",
+                "warm",
+                "and",
+                "fluffy",
+                "this",
+                "morning."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "pancakes"
+              },
+              {
+                "text": "were",
+                "correct": true
+              },
+              {
+                "text": "warm"
+              },
+              {
+                "text": "morning"
+              }
+            ],
+            "why": "“were” is the linking verb. It links pancakes to warm. The pancakes = warm.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL008",
+            "band": 1,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "My",
+                "new",
+                "puppy",
+                "is",
+                "small",
+                "and",
+                "very",
+                "soft."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "puppy"
+              },
+              {
+                "text": "small"
+              },
+              {
+                "text": "is",
+                "correct": true
+              },
+              {
+                "text": "soft"
+              }
+            ],
+            "why": "“is” is the linking verb. It links puppy to small. No action happens.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL009",
+            "band": 1,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "I",
+                "am",
+                "hungry",
+                "after",
+                "the",
+                "long",
+                "bus",
+                "ride."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "I"
+              },
+              {
+                "text": "am",
+                "correct": true
+              },
+              {
+                "text": "hungry"
+              },
+              {
+                "text": "ride"
+              }
+            ],
+            "why": "“am” is the linking verb. It links I to hungry. I = hungry.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL010",
+            "band": 1,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "This",
+                "garden",
+                "seems",
+                "full",
+                "of",
+                "bright",
+                "red",
+                "flowers."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "garden"
+              },
+              {
+                "text": "full"
+              },
+              {
+                "text": "flowers"
+              },
+              {
+                "text": "seems",
+                "correct": true
+              }
+            ],
+            "why": "seems is the linking verb. It links garden to full. No action happens.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL011",
+            "band": 1,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "I",
+                "am",
+                "proud",
+                "of",
+                "my",
+                "new",
+                "spelling",
+                "grade."
+              ]
+            },
+            "question": "What job does the word “am” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb"
+              },
+              {
+                "text": "linking verb",
+                "correct": true
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“am” is a linking verb here. It links I to proud, a describing word.",
+            "clue": "Remember: look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL012",
+            "band": 1,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "Ms.",
+                "Lopez",
+                "is",
+                "the",
+                "new",
+                "art",
+                "teacher",
+                "at",
+                "our",
+                "school."
+              ]
+            },
+            "question": "What job does the word “is” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb"
+              },
+              {
+                "text": "linking verb",
+                "correct": true
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“is” is a linking verb here. It links Ms. Lopez to teacher, a naming word.",
+            "clue": "Remember: skip little words like a, the, and very. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL013",
+            "band": 2,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "The",
+                "players",
+                "on",
+                "our",
+                "team",
+                "were",
+                "stretching",
+                "before",
+                "the",
+                "big",
+                "game."
+              ]
+            },
+            "question": "Which word is the helping verb?",
+            "choices": [
+              {
+                "text": "players"
+              },
+              {
+                "text": "team"
+              },
+              {
+                "text": "were",
+                "correct": true
+              },
+              {
+                "text": "stretching"
+              }
+            ],
+            "why": "“were” is the helping verb. It helps the main verb stretching.",
+            "clue": "Remember: find the main verb first. The helping verb comes before it."
+          },
+          {
+            "id": "HL014",
+            "band": 2,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "My",
+                "little",
+                "cousin",
+                "could",
+                "read",
+                "chapter",
+                "books",
+                "in",
+                "first",
+                "grade."
+              ]
+            },
+            "question": "Which word is the helping verb?",
+            "choices": [
+              {
+                "text": "cousin"
+              },
+              {
+                "text": "could",
+                "correct": true
+              },
+              {
+                "text": "read"
+              },
+              {
+                "text": "books"
+              }
+            ],
+            "why": "could is the helping verb. It helps the main verb read.",
+            "clue": "Remember: find the main verb first. The helping verb comes before it."
+          },
+          {
+            "id": "HL015",
+            "band": 2,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "This",
+                "weekend,",
+                "a",
+                "firefighter",
+                "will",
+                "show",
+                "us",
+                "the",
+                "big",
+                "red",
+                "truck."
+              ]
+            },
+            "question": "Which word is the main verb?",
+            "choices": [
+              {
+                "text": "weekend"
+              },
+              {
+                "text": "firefighter"
+              },
+              {
+                "text": "will"
+              },
+              {
+                "text": "show",
+                "correct": true
+              }
+            ],
+            "why": "show is the main verb. It tells the action, and will helps it.",
+            "clue": "Remember: the main verb tells the action. It comes after the helping verb."
+          },
+          {
+            "id": "HL016",
+            "band": 2,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "Our",
+                "neighbor",
+                "is",
+                "planting",
+                "tomatoes",
+                "in",
+                "her",
+                "sunny",
+                "backyard."
+              ]
+            },
+            "question": "Which word is the main verb?",
+            "choices": [
+              {
+                "text": "neighbor"
+              },
+              {
+                "text": "is"
+              },
+              {
+                "text": "planting",
+                "correct": true
+              },
+              {
+                "text": "tomatoes"
+              }
+            ],
+            "why": "planting is the main verb. It tells the action, and is helps it.",
+            "clue": "Remember: the main verb tells the action. It comes after the helping verb."
+          },
+          {
+            "id": "HL017",
+            "band": 2,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "Dad",
+                "was",
+                "grilling",
+                "corn",
+                "and",
+                "chicken",
+                "for",
+                "the",
+                "cookout."
+              ]
+            },
+            "question": "What job does the word “was” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb",
+                "correct": true
+              },
+              {
+                "text": "linking verb"
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“was” is a helping verb here. It helps the action word grilling.",
+            "clue": "Remember: look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL018",
+            "band": 2,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "The",
+                "two",
+                "squirrels",
+                "were",
+                "racing",
+                "up",
+                "the",
+                "tall",
+                "pine",
+                "tree."
+              ]
+            },
+            "question": "What job does the word “were” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb",
+                "correct": true
+              },
+              {
+                "text": "linking verb"
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“were” is a helping verb here. It helps the action word racing.",
+            "clue": "Remember: look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL019",
+            "band": 2,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "The",
+                "little",
+                "caterpillar",
+                "became",
+                "a",
+                "beautiful",
+                "orange",
+                "butterfly."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "became",
+                "correct": true
+              },
+              {
+                "text": "caterpillar"
+              },
+              {
+                "text": "orange"
+              },
+              {
+                "text": "butterfly"
+              }
+            ],
+            "why": "became is the linking verb. It links caterpillar to butterfly. No action word follows it.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL020",
+            "band": 2,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "Those",
+                "peaches",
+                "from",
+                "the",
+                "farm",
+                "stand",
+                "are",
+                "sweet",
+                "and",
+                "juicy."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "peaches"
+              },
+              {
+                "text": "farm"
+              },
+              {
+                "text": "are",
+                "correct": true
+              },
+              {
+                "text": "sweet"
+              }
+            ],
+            "why": "“are” is the linking verb. It links peaches to sweet. The peaches = sweet.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL021",
+            "band": 2,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "After",
+                "recess,",
+                "the",
+                "whole",
+                "class",
+                "seems",
+                "sleepy",
+                "and",
+                "quiet."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "recess"
+              },
+              {
+                "text": "class"
+              },
+              {
+                "text": "seems",
+                "correct": true
+              },
+              {
+                "text": "sleepy"
+              }
+            ],
+            "why": "seems is the linking verb. It links class to sleepy. No action happens.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL022",
+            "band": 2,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "My",
+                "big",
+                "brother",
+                "is",
+                "the",
+                "fastest",
+                "runner",
+                "on",
+                "his",
+                "team."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "brother"
+              },
+              {
+                "text": "is",
+                "correct": true
+              },
+              {
+                "text": "fastest"
+              },
+              {
+                "text": "runner"
+              }
+            ],
+            "why": "“is” is the linking verb. It links brother to runner. My brother = the fastest runner.",
+            "clue": "Remember: a linking verb shows no action. Put = in its place. If the sentence still makes sense, you found it."
+          },
+          {
+            "id": "HL023",
+            "band": 2,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "The",
+                "sand",
+                "at",
+                "Tybee",
+                "Beach",
+                "is",
+                "hot",
+                "in",
+                "July."
+              ]
+            },
+            "question": "What job does the word “is” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb"
+              },
+              {
+                "text": "linking verb",
+                "correct": true
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“is” is a linking verb here. It links sand to hot, a describing word.",
+            "clue": "Remember: look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL024",
+            "band": 2,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "Those",
+                "two",
+                "puppies",
+                "are",
+                "best",
+                "friends",
+                "now."
+              ]
+            },
+            "question": "What job does the word “are” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb"
+              },
+              {
+                "text": "linking verb",
+                "correct": true
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“are” is a linking verb here. It links puppies to friends, a naming word.",
+            "clue": "Remember: look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL025",
+            "band": 3,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "The",
+                "puppy",
+                "is",
+                "small,",
+                "but",
+                "it",
+                "can",
+                "jump",
+                "over",
+                "the",
+                "fence."
+              ]
+            },
+            "question": "Which word is the helping verb?",
+            "choices": [
+              {
+                "text": "is"
+              },
+              {
+                "text": "can",
+                "correct": true
+              },
+              {
+                "text": "small"
+              },
+              {
+                "text": "jump"
+              }
+            ],
+            "why": "can is the helping verb. It helps the main verb jump. The word is links puppy to small.",
+            "clue": "Remember: some sentences have more than one verb. Find the action word first, then look before it."
+          },
+          {
+            "id": "HL026",
+            "band": 3,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "Before",
+                "the",
+                "field",
+                "trip,",
+                "every",
+                "student",
+                "must",
+                "pack",
+                "a",
+                "lunch."
+              ]
+            },
+            "question": "Which word is the helping verb?",
+            "choices": [
+              {
+                "text": "trip"
+              },
+              {
+                "text": "student"
+              },
+              {
+                "text": "must",
+                "correct": true
+              },
+              {
+                "text": "pack"
+              }
+            ],
+            "why": "must is the helping verb. It comes right before the main verb pack.",
+            "clue": "Remember: skip the opening words. Find the action word first, then look before it."
+          },
+          {
+            "id": "HL027",
+            "band": 3,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "On",
+                "Saturday",
+                "morning,",
+                "Mom",
+                "and",
+                "I",
+                "will",
+                "paint",
+                "the",
+                "porch."
+              ]
+            },
+            "question": "Which word is the main verb?",
+            "choices": [
+              {
+                "text": "Saturday"
+              },
+              {
+                "text": "Mom"
+              },
+              {
+                "text": "will"
+              },
+              {
+                "text": "paint",
+                "correct": true
+              }
+            ],
+            "why": "paint is the main verb. It tells the action, and will helps it.",
+            "clue": "Remember: skip the opening words. Find the helping verb, then the action word that comes after it."
+          },
+          {
+            "id": "HL028",
+            "band": 3,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "My",
+                "grandpa",
+                "from",
+                "Savannah",
+                "can",
+                "whistle",
+                "every",
+                "song",
+                "on",
+                "the",
+                "radio."
+              ]
+            },
+            "question": "Which word is the main verb?",
+            "choices": [
+              {
+                "text": "grandpa"
+              },
+              {
+                "text": "Savannah"
+              },
+              {
+                "text": "can"
+              },
+              {
+                "text": "whistle",
+                "correct": true
+              }
+            ],
+            "why": "whistle is the main verb. It tells the action, and can helps it.",
+            "clue": "Remember: skip the words in between. Find the helping verb, then the action word that comes after it."
+          },
+          {
+            "id": "HL029",
+            "band": 3,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "At",
+                "the",
+                "pool,",
+                "my",
+                "brother",
+                "was",
+                "splashing",
+                "everyone",
+                "near",
+                "him."
+              ]
+            },
+            "question": "What job does the word “was” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb",
+                "correct": true
+              },
+              {
+                "text": "linking verb"
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“was” is a helping verb here. It helps the action word splashing.",
+            "clue": "Remember: skip the opening words. Look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL030",
+            "band": 3,
+            "type": "helping",
+            "sentence": {
+              "words": [
+                "Right",
+                "now,",
+                "I",
+                "am",
+                "reading",
+                "a",
+                "funny",
+                "book",
+                "about",
+                "sharks."
+              ]
+            },
+            "question": "What job does the word “am” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb",
+                "correct": true
+              },
+              {
+                "text": "linking verb"
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“am” is a helping verb here. It helps the action word reading.",
+            "clue": "Remember: skip the opening words. Look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL031",
+            "band": 3,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "Grandma",
+                "will",
+                "make",
+                "sandwiches",
+                "because",
+                "we",
+                "are",
+                "hungry."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "will"
+              },
+              {
+                "text": "make"
+              },
+              {
+                "text": "are",
+                "correct": true
+              },
+              {
+                "text": "hungry"
+              }
+            ],
+            "why": "“are” is the linking verb. It links we to hungry. The words will make show an action.",
+            "clue": "Remember: some sentences have more than one verb. Look for the one that shows no action and works like =."
+          },
+          {
+            "id": "HL032",
+            "band": 3,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "On",
+                "the",
+                "first",
+                "day,",
+                "the",
+                "new",
+                "student",
+                "was",
+                "shy",
+                "and",
+                "quiet."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "day"
+              },
+              {
+                "text": "student"
+              },
+              {
+                "text": "was",
+                "correct": true
+              },
+              {
+                "text": "shy"
+              }
+            ],
+            "why": "“was” is the linking verb. It links student to shy. No action happens.",
+            "clue": "Remember: skip the opening words. Look for the verb that shows no action and works like =."
+          },
+          {
+            "id": "HL033",
+            "band": 3,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "When",
+                "the",
+                "sun",
+                "went",
+                "down,",
+                "the",
+                "clouds",
+                "became",
+                "pink",
+                "and",
+                "purple."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "went"
+              },
+              {
+                "text": "clouds"
+              },
+              {
+                "text": "pink"
+              },
+              {
+                "text": "became",
+                "correct": true
+              }
+            ],
+            "why": "became is the linking verb. It links clouds to pink. The word went shows an action.",
+            "clue": "Remember: some sentences have more than one verb. Look for the one that shows no action and works like =."
+          },
+          {
+            "id": "HL034",
+            "band": 3,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "After",
+                "a",
+                "long",
+                "day",
+                "at",
+                "school,",
+                "I",
+                "am",
+                "ready",
+                "for",
+                "a",
+                "snack."
+              ]
+            },
+            "question": "Which word is the linking verb?",
+            "choices": [
+              {
+                "text": "school"
+              },
+              {
+                "text": "I"
+              },
+              {
+                "text": "am",
+                "correct": true
+              },
+              {
+                "text": "ready"
+              }
+            ],
+            "why": "“am” is the linking verb. It links I to ready. I = ready.",
+            "clue": "Remember: skip the opening words. Look for the verb that shows no action and works like =."
+          },
+          {
+            "id": "HL035",
+            "band": 3,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "long",
+                "hike,",
+                "Dad",
+                "and",
+                "I",
+                "were",
+                "thirsty,",
+                "so",
+                "we",
+                "drank",
+                "water."
+              ]
+            },
+            "question": "What job does the word “were” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb"
+              },
+              {
+                "text": "linking verb",
+                "correct": true
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“were” is a linking verb here. It links Dad and I to thirsty, a describing word.",
+            "clue": "Remember: skip the opening words. Look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          },
+          {
+            "id": "HL036",
+            "band": 3,
+            "type": "linking",
+            "sentence": {
+              "words": [
+                "In",
+                "the",
+                "fall,",
+                "the",
+                "big",
+                "maple",
+                "tree",
+                "in",
+                "our",
+                "yard",
+                "becomes",
+                "bright",
+                "orange."
+              ]
+            },
+            "question": "What job does the word “becomes” do in this sentence?",
+            "choices": [
+              {
+                "text": "helping verb"
+              },
+              {
+                "text": "linking verb",
+                "correct": true
+              },
+              {
+                "text": "action verb"
+              },
+              {
+                "text": "noun"
+              }
+            ],
+            "why": "“becomes” is a linking verb here. It links tree to orange, a describing word.",
+            "clue": "Remember: skip the opening words. Look at the word right after it. An action word next means it helps. A describing or naming word next means it links."
+          }
+        ]
+      },
       "ga": [
         {
           "code": "3-5.L.GC.1",
@@ -8361,7 +17953,1416 @@ window.SS_LEARN_CONTENT = {
         "end": 2
       },
       "practice": "bank",
-      "test": "soon",
+      "test": "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      "testPool": {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "tense",
+            "label": "Past, present, future",
+            "share": 0.5
+          },
+          {
+            "key": "irregular",
+            "label": "Special past tense",
+            "share": 0.5
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You know how verb tense tells when something happens!",
+          "tenseWeak": "You are strong with special past tense words. Review time words and keeping the tense the same.",
+          "irregularWeak": "You are strong with past, present, and future. Review special past tense words like went and ate.",
+          "almost": "You are almost there with verb tense. Look for the time words in each sentence.",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "VT001",
+            "band": 1,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Yesterday,",
+                "Grandpa",
+                "____",
+                "the",
+                "grass",
+                "in",
+                "the",
+                "backyard."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "mowed",
+                "correct": true
+              },
+              {
+                "text": "mows"
+              },
+              {
+                "text": "will mow"
+              },
+              {
+                "text": "mowing"
+              }
+            ],
+            "why": "mowed is right. Yesterday means it already happened, so the verb is past.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT002",
+            "band": 1,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Last",
+                "night,",
+                "the",
+                "baby",
+                "____",
+                "for",
+                "a",
+                "long",
+                "time."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "cries"
+              },
+              {
+                "text": "cried",
+                "correct": true
+              },
+              {
+                "text": "will cry"
+              },
+              {
+                "text": "crying"
+              }
+            ],
+            "why": "cried is right. Last night means the past, so the verb is past.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT003",
+            "band": 1,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Tomorrow,",
+                "my",
+                "cousins",
+                "____",
+                "to",
+                "my",
+                "birthday",
+                "party."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "came"
+              },
+              {
+                "text": "comes"
+              },
+              {
+                "text": "will come",
+                "correct": true
+              },
+              {
+                "text": "coming"
+              }
+            ],
+            "why": "will come is right. Tomorrow means it has not happened yet. The future uses will.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT004",
+            "band": 1,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Next",
+                "Saturday,",
+                "the",
+                "girls",
+                "____",
+                "soccer",
+                "at",
+                "the",
+                "city",
+                "park."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "played"
+              },
+              {
+                "text": "plays"
+              },
+              {
+                "text": "playing"
+              },
+              {
+                "text": "will play",
+                "correct": true
+              }
+            ],
+            "why": "will play is right. Next Saturday has not happened yet, so the verb uses will.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT005",
+            "band": 1,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Our",
+                "cat",
+                "sleeps",
+                "in",
+                "the",
+                "sun",
+                "and",
+                "____",
+                "her",
+                "paws",
+                "every",
+                "day."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "licks",
+                "correct": true
+              },
+              {
+                "text": "licked"
+              },
+              {
+                "text": "will lick"
+              },
+              {
+                "text": "licking"
+              }
+            ],
+            "why": "licks is right. sleeps is present, so the next verb is present too.",
+            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+          },
+          {
+            "id": "VT006",
+            "band": 1,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Every",
+                "night,",
+                "Mom",
+                "____",
+                "a",
+                "story",
+                "and",
+                "turns",
+                "off",
+                "the",
+                "light."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "told"
+              },
+              {
+                "text": "tells",
+                "correct": true
+              },
+              {
+                "text": "will tell"
+              },
+              {
+                "text": "telling"
+              }
+            ],
+            "why": "tells is right. turns is present, and the words every night mean it happens again and again.",
+            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+          },
+          {
+            "id": "VT007",
+            "band": 1,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "My",
+                "family",
+                "____",
+                "to",
+                "Stone",
+                "Mountain",
+                "two",
+                "weeks",
+                "ago."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "went",
+                "correct": true
+              },
+              {
+                "text": "goed"
+              },
+              {
+                "text": "goes"
+              },
+              {
+                "text": "will go"
+              }
+            ],
+            "why": "went is right. Two weeks ago means the past, and the past of go is went.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT008",
+            "band": 1,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "At",
+                "lunch",
+                "yesterday,",
+                "the",
+                "hungry",
+                "boys",
+                "____",
+                "every",
+                "slice",
+                "of",
+                "pizza."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "eated"
+              },
+              {
+                "text": "eat"
+              },
+              {
+                "text": "ate",
+                "correct": true
+              },
+              {
+                "text": "will eat"
+              }
+            ],
+            "why": "ate is right. Yesterday means the past, and the past of eat is ate.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT009",
+            "band": 1,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Last",
+                "night,",
+                "my",
+                "sister",
+                "____",
+                "the",
+                "bus",
+                "just",
+                "in",
+                "time."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "catched"
+              },
+              {
+                "text": "caught",
+                "correct": true
+              },
+              {
+                "text": "catches"
+              },
+              {
+                "text": "will catch"
+              }
+            ],
+            "why": "caught is right. Last night means the past, and the past of catch is caught.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT010",
+            "band": 1,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Yesterday,",
+                "I",
+                "____",
+                "a",
+                "shiny",
+                "quarter",
+                "under",
+                "the",
+                "couch."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "finded"
+              },
+              {
+                "text": "find"
+              },
+              {
+                "text": "will find"
+              },
+              {
+                "text": "found",
+                "correct": true
+              }
+            ],
+            "why": "found is right. Yesterday means the past, and the past of find is found.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT011",
+            "band": 1,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Last",
+                "week,",
+                "my",
+                "brother",
+                "____",
+                "the",
+                "ball",
+                "over",
+                "the",
+                "fence."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "throwed"
+              },
+              {
+                "text": "throws"
+              },
+              {
+                "text": "threw",
+                "correct": true
+              },
+              {
+                "text": "will throw"
+              }
+            ],
+            "why": "threw is right. Last week means the past, and the past of throw is threw.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT012",
+            "band": 1,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Last",
+                "Monday,",
+                "I",
+                "____",
+                "a",
+                "shiny",
+                "penny",
+                "on",
+                "the",
+                "sidewalk."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "found",
+                "correct": true
+              },
+              {
+                "text": "finded"
+              },
+              {
+                "text": "finds"
+              },
+              {
+                "text": "will find"
+              }
+            ],
+            "why": "found is right. Last Monday means the past, and the past of find is found.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT013",
+            "band": 2,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Last",
+                "spring,",
+                "my",
+                "brother",
+                "____",
+                "to",
+                "ride",
+                "his",
+                "bike",
+                "without",
+                "help."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "learned",
+                "correct": true
+              },
+              {
+                "text": "learns"
+              },
+              {
+                "text": "will learn"
+              },
+              {
+                "text": "learning"
+              }
+            ],
+            "why": "learned is right. Last spring already happened, so the verb is past.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT014",
+            "band": 2,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "The",
+                "children",
+                "laughed",
+                "at",
+                "the",
+                "clown",
+                "and",
+                "____",
+                "their",
+                "hands."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "clap"
+              },
+              {
+                "text": "clapped",
+                "correct": true
+              },
+              {
+                "text": "will clap"
+              },
+              {
+                "text": "clapping"
+              }
+            ],
+            "why": "clapped is right. laughed is past, so the next verb is past too.",
+            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+          },
+          {
+            "id": "VT015",
+            "band": 2,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "My",
+                "grandmother",
+                "picks",
+                "peaches",
+                "and",
+                "____",
+                "them",
+                "with",
+                "our",
+                "neighbors",
+                "every",
+                "summer."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "shared"
+              },
+              {
+                "text": "will share"
+              },
+              {
+                "text": "sharing"
+              },
+              {
+                "text": "shares",
+                "correct": true
+              }
+            ],
+            "why": "shares is right. picks is present, so the next verb is present too.",
+            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+          },
+          {
+            "id": "VT016",
+            "band": 2,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "The",
+                "third",
+                "graders",
+                "____",
+                "the",
+                "Georgia",
+                "Aquarium",
+                "next",
+                "month."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "visited"
+              },
+              {
+                "text": "visits"
+              },
+              {
+                "text": "will visit",
+                "correct": true
+              },
+              {
+                "text": "visiting"
+              }
+            ],
+            "why": "will visit is right. The words next month mean it has not happened yet, so the verb uses will.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT017",
+            "band": 2,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Tomorrow,",
+                "after",
+                "the",
+                "bell",
+                "rings,",
+                "Coach",
+                "Davis",
+                "____",
+                "our",
+                "new",
+                "uniforms."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "brought"
+              },
+              {
+                "text": "will bring",
+                "correct": true
+              },
+              {
+                "text": "bring"
+              },
+              {
+                "text": "bringing"
+              }
+            ],
+            "why": "will bring is right. Tomorrow has not happened yet, so the verb uses will.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT018",
+            "band": 2,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Every",
+                "fall,",
+                "the",
+                "geese",
+                "leave",
+                "our",
+                "pond",
+                "and",
+                "____",
+                "south."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "fly",
+                "correct": true
+              },
+              {
+                "text": "flew"
+              },
+              {
+                "text": "will fly"
+              },
+              {
+                "text": "flying"
+              }
+            ],
+            "why": "fly is right. leave is present, and the words every fall mean it happens again and again.",
+            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+          },
+          {
+            "id": "VT019",
+            "band": 2,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Ava",
+                "jumped",
+                "into",
+                "the",
+                "pool",
+                "and",
+                "____",
+                "to",
+                "the",
+                "other",
+                "side."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "swimmed"
+              },
+              {
+                "text": "swims"
+              },
+              {
+                "text": "swam",
+                "correct": true
+              },
+              {
+                "text": "will swim"
+              }
+            ],
+            "why": "swam is right. jumped is past, so the next verb is past. The past of swim is swam.",
+            "clue": "Remember: look at the first verb. Keep the next verb in the same tense. Some verbs have a special past tense."
+          },
+          {
+            "id": "VT020",
+            "band": 2,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Last",
+                "winter,",
+                "the",
+                "water",
+                "in",
+                "the",
+                "birdbath",
+                "____",
+                "solid."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "freezed"
+              },
+              {
+                "text": "froze",
+                "correct": true
+              },
+              {
+                "text": "freezes"
+              },
+              {
+                "text": "will freeze"
+              }
+            ],
+            "why": "froze is right. Last winter means the past, and the past of freeze is froze.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT021",
+            "band": 2,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Earlier",
+                "this",
+                "week,",
+                "my",
+                "aunt",
+                "____",
+                "me",
+                "a",
+                "book",
+                "about",
+                "whales."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "buyed"
+              },
+              {
+                "text": "buys"
+              },
+              {
+                "text": "will buy"
+              },
+              {
+                "text": "bought",
+                "correct": true
+              }
+            ],
+            "why": "bought is right. Earlier this week means the past, and the past of buy is bought.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT022",
+            "band": 2,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "The",
+                "baby",
+                "woke",
+                "up",
+                "and",
+                "____",
+                "a",
+                "whole",
+                "bottle",
+                "of",
+                "milk."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "drank",
+                "correct": true
+              },
+              {
+                "text": "drinked"
+              },
+              {
+                "text": "drinks"
+              },
+              {
+                "text": "will drink"
+              }
+            ],
+            "why": "drank is right. woke is past, so the next verb is past. The past of drink is drank.",
+            "clue": "Remember: look at the first verb. Keep the next verb in the same tense. Some verbs have a special past tense."
+          },
+          {
+            "id": "VT023",
+            "band": 2,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Last",
+                "month,",
+                "Mr.",
+                "Hill",
+                "____",
+                "us",
+                "how",
+                "to",
+                "make",
+                "paper",
+                "boats."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "teached"
+              },
+              {
+                "text": "teaches"
+              },
+              {
+                "text": "taught",
+                "correct": true
+              },
+              {
+                "text": "will teach"
+              }
+            ],
+            "why": "taught is right. Last month means the past, and the past of teach is taught.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT024",
+            "band": 2,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "When",
+                "I",
+                "was",
+                "six,",
+                "my",
+                "brother",
+                "____",
+                "a",
+                "horse",
+                "at",
+                "the",
+                "farm."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "rided"
+              },
+              {
+                "text": "rode",
+                "correct": true
+              },
+              {
+                "text": "rides"
+              },
+              {
+                "text": "will ride"
+              }
+            ],
+            "why": "rode is right. When I was six means the past, and the past of ride is rode.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT025",
+            "band": 3,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Last",
+                "Friday,",
+                "our",
+                "class",
+                "visits",
+                "the",
+                "fire",
+                "station",
+                "and",
+                "met",
+                "a",
+                "firefighter."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Last Friday, our class visits the fire station and meets a firefighter."
+              },
+              {
+                "text": "Last Friday, our class visited the fire station and met a firefighter.",
+                "correct": true
+              },
+              {
+                "text": "Last Friday, our class will visit the fire station and met a firefighter."
+              },
+              {
+                "text": "Last Friday, our class visited the fire station and meeted a firefighter."
+              }
+            ],
+            "why": "Last Friday, our class visited the fire station and met a firefighter. Last Friday is the past, so visited and met are both past.",
+            "clue": "Remember: find the time words. Then check that every verb tells the same time."
+          },
+          {
+            "id": "VT026",
+            "band": 3,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Tomorrow",
+                "morning,",
+                "Grandpa",
+                "planted",
+                "a",
+                "small",
+                "peach",
+                "tree",
+                "in",
+                "his",
+                "front",
+                "yard."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Tomorrow morning, Grandpa plant a small peach tree in his front yard."
+              },
+              {
+                "text": "Tomorrow morning, Grandpa planting a small peach tree in his front yard."
+              },
+              {
+                "text": "Tomorrow morning, Grandpa will plant a small peach tree in his front yard.",
+                "correct": true
+              },
+              {
+                "text": "Tomorrow morning, Grandpa will planted a small peach tree in his front yard."
+              }
+            ],
+            "why": "Tomorrow morning, Grandpa will plant a small peach tree in his front yard. Tomorrow means the future, and the future uses will plant.",
+            "clue": "Remember: find the time words. Then check that every verb tells the same time."
+          },
+          {
+            "id": "VT027",
+            "band": 3,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "Every",
+                "Sunday,",
+                "Grandma",
+                "cooks",
+                "a",
+                "big",
+                "dinner",
+                "and",
+                "invited",
+                "the",
+                "whole",
+                "family."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Every Sunday, Grandma cooks a big dinner and invites the whole family.",
+                "correct": true
+              },
+              {
+                "text": "Every Sunday, Grandma cooked a big dinner and invites the whole family."
+              },
+              {
+                "text": "Every Sunday, Grandma cooks a big dinner and inviting the whole family."
+              },
+              {
+                "text": "Every Sunday, Grandma will cook a big dinner and invited the whole family."
+              }
+            ],
+            "why": "Every Sunday, Grandma cooks a big dinner and invites the whole family. cooks is present, so invites is present too.",
+            "clue": "Remember: find the time words. Then check that every verb tells the same time."
+          },
+          {
+            "id": "VT028",
+            "band": 3,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "long",
+                "thunderstorm",
+                "last",
+                "night,",
+                "muddy",
+                "water",
+                "____",
+                "across",
+                "our",
+                "street."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "flows"
+              },
+              {
+                "text": "will flow"
+              },
+              {
+                "text": "flowed",
+                "correct": true
+              },
+              {
+                "text": "flowing"
+              }
+            ],
+            "why": "flowed is right. The words last night mean the past, so the verb is past.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT029",
+            "band": 3,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "During",
+                "recess",
+                "each",
+                "day,",
+                "Marcus",
+                "climbs",
+                "the",
+                "monkey",
+                "bars",
+                "and",
+                "____",
+                "down",
+                "the",
+                "slide."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "slid"
+              },
+              {
+                "text": "will slide"
+              },
+              {
+                "text": "sliding"
+              },
+              {
+                "text": "slides",
+                "correct": true
+              }
+            ],
+            "why": "slides is right. climbs is present, so the next verb is present too.",
+            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+          },
+          {
+            "id": "VT030",
+            "band": 3,
+            "type": "tense",
+            "sentence": {
+              "words": [
+                "All",
+                "the",
+                "classes",
+                "at",
+                "our",
+                "school",
+                "____",
+                "a",
+                "fire",
+                "drill",
+                "next",
+                "Friday."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "practiced"
+              },
+              {
+                "text": "will practice",
+                "correct": true
+              },
+              {
+                "text": "practices"
+              },
+              {
+                "text": "practicing"
+              }
+            ],
+            "why": "will practice is right. The words next Friday mean it has not happened yet, so the verb uses will.",
+            "clue": "Remember: look for time words. They tell you past, present, or future."
+          },
+          {
+            "id": "VT031",
+            "band": 3,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Last",
+                "weekend,",
+                "my",
+                "cousins",
+                "throwed",
+                "the",
+                "football",
+                "and",
+                "ran",
+                "across",
+                "the",
+                "yard."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Last weekend, my cousins throwed the football and runned across the yard."
+              },
+              {
+                "text": "Last weekend, my cousins throw the football and ran across the yard."
+              },
+              {
+                "text": "Last weekend, my cousins threw the football and will run across the yard."
+              },
+              {
+                "text": "Last weekend, my cousins threw the football and ran across the yard.",
+                "correct": true
+              }
+            ],
+            "why": "Last weekend, my cousins threw the football and ran across the yard. The past of throw is threw, not throwed.",
+            "clue": "Remember: check each past tense verb. Some verbs do not add -ed. They change to a new word."
+          },
+          {
+            "id": "VT032",
+            "band": 3,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Yesterday,",
+                "Lily",
+                "writed",
+                "a",
+                "letter",
+                "and",
+                "mailed",
+                "it",
+                "to",
+                "her",
+                "pen",
+                "pal."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Yesterday, Lily writes a letter and mailed it to her pen pal."
+              },
+              {
+                "text": "Yesterday, Lily wrote a letter and mailed it to her pen pal.",
+                "correct": true
+              },
+              {
+                "text": "Yesterday, Lily wrote a letter and mails it to her pen pal."
+              },
+              {
+                "text": "Yesterday, Lily writed a letter and mails it to her pen pal."
+              }
+            ],
+            "why": "Yesterday, Lily wrote a letter and mailed it to her pen pal. The past of write is wrote, not writed.",
+            "clue": "Remember: check each past tense verb. Some verbs do not add -ed. They change to a new word."
+          },
+          {
+            "id": "VT033",
+            "band": 3,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "For",
+                "the",
+                "science",
+                "fair",
+                "last",
+                "week,",
+                "Maria",
+                "____",
+                "a",
+                "model",
+                "of",
+                "a",
+                "volcano."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "built",
+                "correct": true
+              },
+              {
+                "text": "builded"
+              },
+              {
+                "text": "builds"
+              },
+              {
+                "text": "will build"
+              }
+            ],
+            "why": "built is right. The words last week mean the past, and the past of build is built.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT034",
+            "band": 3,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "The",
+                "puppy",
+                "heard",
+                "thunder,",
+                "so",
+                "it",
+                "ran",
+                "and",
+                "____",
+                "under",
+                "the",
+                "bed."
+              ]
+            },
+            "question": "Which verb keeps the same tense?",
+            "choices": [
+              {
+                "text": "hided"
+              },
+              {
+                "text": "hides"
+              },
+              {
+                "text": "hid",
+                "correct": true
+              },
+              {
+                "text": "will hide"
+              }
+            ],
+            "why": "hid is right. heard and ran are past, so the next verb is past. The past of hide is hid.",
+            "clue": "Remember: look at the first verb. Keep the next verb in the same tense. Some verbs have a special past tense."
+          },
+          {
+            "id": "VT035",
+            "band": 3,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "Before",
+                "the",
+                "game",
+                "started",
+                "yesterday,",
+                "Tyrone",
+                "____",
+                "his",
+                "lucky",
+                "red",
+                "socks."
+              ]
+            },
+            "question": "Which verb belongs in the blank?",
+            "choices": [
+              {
+                "text": "weared"
+              },
+              {
+                "text": "wears"
+              },
+              {
+                "text": "will wear"
+              },
+              {
+                "text": "wore",
+                "correct": true
+              }
+            ],
+            "why": "wore is right. The word yesterday means the past, and the past of wear is wore.",
+            "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
+          },
+          {
+            "id": "VT036",
+            "band": 3,
+            "type": "irregular",
+            "sentence": {
+              "words": [
+                "During",
+                "the",
+                "storm",
+                "last",
+                "night,",
+                "a",
+                "big",
+                "branch",
+                "falled",
+                "onto",
+                "our",
+                "car."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "During the storm last night, a big branch falls onto our car."
+              },
+              {
+                "text": "During the storm last night, a big branch will fall onto our car."
+              },
+              {
+                "text": "During the storm last night, a big branch fell onto our car.",
+                "correct": true
+              },
+              {
+                "text": "During the storm last night, a big branch falling onto our car."
+              }
+            ],
+            "why": "During the storm last night, a big branch fell onto our car. The past of fall is fell, not falled.",
+            "clue": "Remember: check each past tense verb. Some verbs do not add -ed. They change to a new word."
+          }
+        ]
+      },
       "ga": [
         {
           "code": "3-5.L.GC.1",
@@ -9476,6 +20477,21 @@ window.SS_LEARN_CONTENT = {
               "build: built",
               "lay: laid"
             ]
+          },
+          {
+            "heading": "More special past tense words",
+            "chips": [
+              "buy: bought",
+              "drink: drank",
+              "freeze: froze",
+              "hide: hid",
+              "ride: rode",
+              "run: ran",
+              "swim: swam",
+              "teach: taught",
+              "wear: wore",
+              "write: wrote"
+            ]
           }
         ],
         "reminder": "Look for time words, and keep every verb in a sentence in the same tense."
@@ -9506,7 +20522,1370 @@ window.SS_LEARN_CONTENT = {
         "end": 2
       },
       "practice": "bank",
-      "test": "soon",
+      "test": "pool",
+      /* Build 1.7.0: 36-question pool, 12 per band. Drafted to pools/SPEC.md, machine-checked, then two independent grammar reviews. */
+      "testPool": {
+        "intro": "{n} questions. No hints this time — you've got this.",
+        "confirm": "You answered all {n}. Ready to see how you did?",
+        "sizes": [
+          12
+        ],
+        "sizesBuilt": [
+          12
+        ],
+        "subscales": [
+          {
+            "key": "basic",
+            "label": "Matching subject and verb",
+            "share": 0.5
+          },
+          {
+            "key": "between",
+            "label": "Tricky subjects",
+            "share": 0.5
+          }
+        ],
+        "masteryRatio": {
+          "overall": [
+            5,
+            6
+          ],
+          "sub": [
+            3,
+            4
+          ],
+          "almost": [
+            2,
+            3
+          ]
+        },
+        "guidance": {
+          "mastered": "You know how to make subjects and verbs match!",
+          "basicWeak": "You are strong with tricky subjects. Review matching a verb to one or more than one.",
+          "betweenWeak": "You are strong at matching subjects and verbs. Review tricky subjects: words in between, names joined by and, and group words like team.",
+          "almost": "You are almost there with subject-verb agreement. Find the real subject before you choose.",
+          "keepGoing": "Keep going. Review Learn, then try Practice again."
+        },
+        "questions": [
+          {
+            "id": "AG001",
+            "band": 1,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "The",
+                "little",
+                "bird",
+                "____",
+                "a",
+                "happy",
+                "song",
+                "each",
+                "morning."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "sings",
+                "correct": true
+              },
+              {
+                "text": "sing"
+              },
+              {
+                "text": "singing"
+              },
+              {
+                "text": "to sing"
+              }
+            ],
+            "why": "sings is right. The subject bird is one, so the verb ends in -s.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG002",
+            "band": 1,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "My",
+                "cousins",
+                "____",
+                "soccer",
+                "at",
+                "the",
+                "park",
+                "on",
+                "Saturdays."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "plays"
+              },
+              {
+                "text": "play",
+                "correct": true
+              },
+              {
+                "text": "playing"
+              },
+              {
+                "text": "to play"
+              }
+            ],
+            "why": "play is right. The word cousins means more than one, so the verb has no -s.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG003",
+            "band": 1,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "The",
+                "tiny",
+                "baby",
+                "____",
+                "in",
+                "a",
+                "crib",
+                "after",
+                "lunch."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "sleep"
+              },
+              {
+                "text": "sleeping"
+              },
+              {
+                "text": "sleeps",
+                "correct": true
+              },
+              {
+                "text": "to sleep"
+              }
+            ],
+            "why": "sleeps is right. The subject baby is one, so the verb ends in -s.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG004",
+            "band": 1,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "I",
+                "____",
+                "ready",
+                "for",
+                "the",
+                "first",
+                "day",
+                "of",
+                "camp."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "is"
+              },
+              {
+                "text": "are"
+              },
+              {
+                "text": "am",
+                "correct": true
+              },
+              {
+                "text": "be"
+              }
+            ],
+            "why": "am is right. The subject is I, and I goes with am.",
+            "clue": "Remember: find the subject. Then choose the being verb that goes with I, with one, or with more than one."
+          },
+          {
+            "id": "AG005",
+            "band": 1,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "These",
+                "cookies",
+                "____",
+                "warm",
+                "from",
+                "the",
+                "oven."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "is"
+              },
+              {
+                "text": "are",
+                "correct": true
+              },
+              {
+                "text": "am"
+              },
+              {
+                "text": "be"
+              }
+            ],
+            "why": "are is right. The word cookies means more than one, so it goes with are.",
+            "clue": "Remember: find the subject. Then choose the being verb that goes with I, with one, or with more than one."
+          },
+          {
+            "id": "AG006",
+            "band": 1,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "My",
+                "dad",
+                "____",
+                "the",
+                "car",
+                "every",
+                "Saturday",
+                "morning."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "washes",
+                "correct": true
+              },
+              {
+                "text": "wash"
+              },
+              {
+                "text": "washing"
+              },
+              {
+                "text": "to wash"
+              }
+            ],
+            "why": "washes is right. The subject dad is one, so the verb ends in -es.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG007",
+            "band": 1,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "Ben",
+                "and",
+                "Kayla",
+                "____",
+                "their",
+                "bikes",
+                "to",
+                "school."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "rides"
+              },
+              {
+                "text": "ride",
+                "correct": true
+              },
+              {
+                "text": "riding"
+              },
+              {
+                "text": "to ride"
+              }
+            ],
+            "why": "ride is right. Ben and Kayla are two people, so the verb has no -s.",
+            "clue": "Remember: subjects joined by and make more than one."
+          },
+          {
+            "id": "AG008",
+            "band": 1,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "Our",
+                "class",
+                "____",
+                "in",
+                "the",
+                "gym",
+                "every",
+                "Monday."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "practices",
+                "correct": true
+              },
+              {
+                "text": "practice"
+              },
+              {
+                "text": "practicing"
+              },
+              {
+                "text": "to practice"
+              }
+            ],
+            "why": "practices is right. A class is one group, so the verb ends in -s.",
+            "clue": "Remember: a word for a group, like team or flock, names one group."
+          },
+          {
+            "id": "AG009",
+            "band": 1,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "apples",
+                "in",
+                "the",
+                "bowl",
+                "____",
+                "sweet",
+                "and",
+                "shiny."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "is"
+              },
+              {
+                "text": "are",
+                "correct": true
+              },
+              {
+                "text": "am"
+              },
+              {
+                "text": "be"
+              }
+            ],
+            "why": "are is right. The subject is apples, not bowl. The word apples means more than one.",
+            "clue": "Remember: find the real subject. Skip the words in between, then decide: one, or more than one?"
+          },
+          {
+            "id": "AG010",
+            "band": 1,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "dog",
+                "with",
+                "the",
+                "long",
+                "ears",
+                "____",
+                "under",
+                "the",
+                "porch."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "nap"
+              },
+              {
+                "text": "napping"
+              },
+              {
+                "text": "naps",
+                "correct": true
+              },
+              {
+                "text": "to nap"
+              }
+            ],
+            "why": "naps is right. The subject is dog, not ears. One dog goes with naps.",
+            "clue": "Remember: find the real subject. Skip the words in between, then decide: one, or more than one?"
+          },
+          {
+            "id": "AG011",
+            "band": 1,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "My",
+                "mom",
+                "and",
+                "dad",
+                "____",
+                "at",
+                "the",
+                "same",
+                "hospital."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "works"
+              },
+              {
+                "text": "working"
+              },
+              {
+                "text": "to work"
+              },
+              {
+                "text": "work",
+                "correct": true
+              }
+            ],
+            "why": "work is right. Mom and dad are two people, so the verb has no -s.",
+            "clue": "Remember: subjects joined by and make more than one."
+          },
+          {
+            "id": "AG012",
+            "band": 1,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "Our",
+                "family",
+                "____",
+                "pizza",
+                "every",
+                "Friday",
+                "night."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "eat"
+              },
+              {
+                "text": "eats",
+                "correct": true
+              },
+              {
+                "text": "eating"
+              },
+              {
+                "text": "to eat"
+              }
+            ],
+            "why": "eats is right. A family is one group, so the verb ends in -s.",
+            "clue": "Remember: a word for a group, like team or flock, names one group."
+          },
+          {
+            "id": "AG013",
+            "band": 2,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "You",
+                "____",
+                "the",
+                "best",
+                "hugs",
+                "in",
+                "the",
+                "whole",
+                "family."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "gives"
+              },
+              {
+                "text": "giving"
+              },
+              {
+                "text": "give",
+                "correct": true
+              },
+              {
+                "text": "to give"
+              }
+            ],
+            "why": "give is right. The subject is you, and you goes with a verb that has no -s.",
+            "clue": "Remember: find the subject. I and you go with a verb that has no -s. One other person or thing usually goes with -s."
+          },
+          {
+            "id": "AG014",
+            "band": 2,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "Every",
+                "afternoon,",
+                "the",
+                "ice",
+                "cream",
+                "truck",
+                "____",
+                "on",
+                "our",
+                "street."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "stop"
+              },
+              {
+                "text": "stopping"
+              },
+              {
+                "text": "to stop"
+              },
+              {
+                "text": "stops",
+                "correct": true
+              }
+            ],
+            "why": "stops is right. The word truck names one, so the verb ends in -s.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG015",
+            "band": 2,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "Yesterday,",
+                "the",
+                "puppies",
+                "____",
+                "sleepy",
+                "after",
+                "their",
+                "bath."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "was"
+              },
+              {
+                "text": "were",
+                "correct": true
+              },
+              {
+                "text": "is"
+              },
+              {
+                "text": "be"
+              }
+            ],
+            "why": "were is right. The word puppies means more than one, so it goes with were.",
+            "clue": "Remember: find the subject. Then choose the being verb that goes with I, with one, or with more than one."
+          },
+          {
+            "id": "AG016",
+            "band": 2,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "I",
+                "____",
+                "the",
+                "dishes",
+                "after",
+                "dinner",
+                "every",
+                "night."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "dries"
+              },
+              {
+                "text": "dry",
+                "correct": true
+              },
+              {
+                "text": "drying"
+              },
+              {
+                "text": "to dry"
+              }
+            ],
+            "why": "dry is right. The subject is I, and I goes with a verb that has no -s.",
+            "clue": "Remember: find the subject. I and you go with a verb that has no -s. One other person or thing usually goes with -s."
+          },
+          {
+            "id": "AG017",
+            "band": 2,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "Grandpa",
+                "____",
+                "his",
+                "old",
+                "truck",
+                "on",
+                "Sunday",
+                "afternoons."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "fixes",
+                "correct": true
+              },
+              {
+                "text": "fix"
+              },
+              {
+                "text": "fixing"
+              },
+              {
+                "text": "to fix"
+              }
+            ],
+            "why": "fixes is right. The subject Grandpa is one, so the verb ends in -es.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG018",
+            "band": 2,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "Last",
+                "week,",
+                "the",
+                "art",
+                "room",
+                "____",
+                "messy",
+                "after",
+                "the",
+                "project."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "was",
+                "correct": true
+              },
+              {
+                "text": "were"
+              },
+              {
+                "text": "are"
+              },
+              {
+                "text": "be"
+              }
+            ],
+            "why": "was is right. The subject room is one, so it goes with was.",
+            "clue": "Remember: find the subject. Then choose the being verb that goes with I, with one, or with more than one."
+          },
+          {
+            "id": "AG019",
+            "band": 2,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "players",
+                "on",
+                "the",
+                "baseball",
+                "team",
+                "____",
+                "hard",
+                "every",
+                "day."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "trains"
+              },
+              {
+                "text": "train",
+                "correct": true
+              },
+              {
+                "text": "training"
+              },
+              {
+                "text": "to train"
+              }
+            ],
+            "why": "train is right. The subject is players, not team. The word players means more than one.",
+            "clue": "Remember: find the real subject. Skip the words in between, then decide: one, or more than one?"
+          },
+          {
+            "id": "AG020",
+            "band": 2,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "leaves",
+                "on",
+                "the",
+                "old",
+                "oak",
+                "tree",
+                "____",
+                "yellow",
+                "in",
+                "fall."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "turns"
+              },
+              {
+                "text": "turning"
+              },
+              {
+                "text": "turn",
+                "correct": true
+              },
+              {
+                "text": "to turn"
+              }
+            ],
+            "why": "turn is right. The subject is leaves, not tree. The word leaves means more than one.",
+            "clue": "Remember: find the real subject. Skip the words in between, then decide: one, or more than one?"
+          },
+          {
+            "id": "AG021",
+            "band": 2,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "box",
+                "of",
+                "crayons",
+                "____",
+                "on",
+                "my",
+                "desk",
+                "at",
+                "school."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "sit"
+              },
+              {
+                "text": "sitting"
+              },
+              {
+                "text": "to sit"
+              },
+              {
+                "text": "sits",
+                "correct": true
+              }
+            ],
+            "why": "sits is right. The subject is box, not crayons. One box goes with sits.",
+            "clue": "Remember: find the real subject. Skip the words in between, then decide: one, or more than one?"
+          },
+          {
+            "id": "AG022",
+            "band": 2,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "Mom,",
+                "Dad,",
+                "and",
+                "I",
+                "____",
+                "to",
+                "the",
+                "library",
+                "on",
+                "Sunday."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "go",
+                "correct": true
+              },
+              {
+                "text": "goes"
+              },
+              {
+                "text": "going"
+              },
+              {
+                "text": "to go"
+              }
+            ],
+            "why": "go is right. Mom, Dad, and I are three people, so the verb has no -s.",
+            "clue": "Remember: subjects joined by and make more than one."
+          },
+          {
+            "id": "AG023",
+            "band": 2,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "crowd",
+                "____",
+                "when",
+                "our",
+                "team",
+                "scores",
+                "a",
+                "goal."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "cheer"
+              },
+              {
+                "text": "cheering"
+              },
+              {
+                "text": "cheers",
+                "correct": true
+              },
+              {
+                "text": "to cheer"
+              }
+            ],
+            "why": "cheers is right. A crowd is one group, so the verb ends in -s.",
+            "clue": "Remember: a word for a group, like team or flock, names one group."
+          },
+          {
+            "id": "AG024",
+            "band": 2,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "My",
+                "brother",
+                "and",
+                "his",
+                "friend",
+                "____",
+                "late",
+                "for",
+                "the",
+                "bus",
+                "yesterday."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "was"
+              },
+              {
+                "text": "is"
+              },
+              {
+                "text": "be"
+              },
+              {
+                "text": "were",
+                "correct": true
+              }
+            ],
+            "why": "were is right. My brother and his friend are two people, so they go with were.",
+            "clue": "Remember: subjects joined by and make more than one."
+          },
+          {
+            "id": "AG025",
+            "band": 3,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "Every",
+                "summer,",
+                "my",
+                "aunt",
+                "make",
+                "peach",
+                "jam",
+                "for",
+                "our",
+                "family."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Every summer, my aunts makes peach jam for our family."
+              },
+              {
+                "text": "Every summer, my aunt makes peach jam for our family.",
+                "correct": true
+              },
+              {
+                "text": "Every summer, my aunt making peach jam for our family."
+              },
+              {
+                "text": "Every summer, my aunt is make peach jam for our family."
+              }
+            ],
+            "why": "Every summer, my aunt makes peach jam for our family. The word aunt names one, so the verb ends in -s.",
+            "clue": "Remember: find the real subject, then check that the verb matches it."
+          },
+          {
+            "id": "AG026",
+            "band": 3,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "The",
+                "kittens",
+                "plays",
+                "with",
+                "a",
+                "ball",
+                "of",
+                "yarn",
+                "every",
+                "morning."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "The kitten play with a ball of yarn every morning."
+              },
+              {
+                "text": "The kittens playing with a ball of yarn every morning."
+              },
+              {
+                "text": "The kittens play with a ball of yarn every morning.",
+                "correct": true
+              },
+              {
+                "text": "The kittens is play with a ball of yarn every morning."
+              }
+            ],
+            "why": "The kittens play with a ball of yarn every morning. The word kittens means more than one, so the verb has no -s.",
+            "clue": "Remember: find the real subject, then check that the verb matches it."
+          },
+          {
+            "id": "AG027",
+            "band": 3,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "You",
+                "is",
+                "my",
+                "favorite",
+                "person",
+                "to",
+                "play",
+                "with",
+                "at",
+                "recess."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "You are my favorite person to play with at recess.",
+                "correct": true
+              },
+              {
+                "text": "You am my favorite person to play with at recess."
+              },
+              {
+                "text": "You be my favorite person to play with at recess."
+              },
+              {
+                "text": "You was my favorite person to play with at recess."
+              }
+            ],
+            "why": "You are my favorite person to play with at recess. You goes with are.",
+            "clue": "Remember: find the real subject, then check that the verb matches it."
+          },
+          {
+            "id": "AG028",
+            "band": 3,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "After",
+                "the",
+                "games",
+                "at",
+                "the",
+                "fair,",
+                "my",
+                "little",
+                "brother",
+                "____",
+                "a",
+                "nap."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "need"
+              },
+              {
+                "text": "needs",
+                "correct": true
+              },
+              {
+                "text": "needing"
+              },
+              {
+                "text": "to need"
+              }
+            ],
+            "why": "needs is right. The subject is brother, not games. One brother goes with needs.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG029",
+            "band": 3,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "On",
+                "rainy",
+                "days,",
+                "my",
+                "sisters",
+                "____",
+                "board",
+                "games",
+                "at",
+                "the",
+                "kitchen",
+                "table."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "plays"
+              },
+              {
+                "text": "playing"
+              },
+              {
+                "text": "play",
+                "correct": true
+              },
+              {
+                "text": "to play"
+              }
+            ],
+            "why": "play is right. The word sisters means more than one, so the verb has no -s.",
+            "clue": "Remember: find the subject. Decide: one, or more than one? One usually goes with a verb that ends in -s."
+          },
+          {
+            "id": "AG030",
+            "band": 3,
+            "type": "basic",
+            "sentence": {
+              "words": [
+                "When",
+                "it",
+                "snows",
+                "in",
+                "Atlanta,",
+                "I",
+                "____",
+                "a",
+                "snowman",
+                "in",
+                "the",
+                "yard."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "makes"
+              },
+              {
+                "text": "making"
+              },
+              {
+                "text": "to make"
+              },
+              {
+                "text": "make",
+                "correct": true
+              }
+            ],
+            "why": "make is right. The subject is I, and I goes with a verb that has no -s.",
+            "clue": "Remember: find the subject. I and you go with a verb that has no -s. One other person or thing usually goes with -s."
+          },
+          {
+            "id": "AG031",
+            "band": 3,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "cookies",
+                "in",
+                "the",
+                "blue",
+                "jar",
+                "is",
+                "for",
+                "the",
+                "bake",
+                "sale."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "The cookie in the blue jar are for the bake sale."
+              },
+              {
+                "text": "The cookies in the blue jar am for the bake sale."
+              },
+              {
+                "text": "The cookies in the blue jars is for the bake sale."
+              },
+              {
+                "text": "The cookies in the blue jar are for the bake sale.",
+                "correct": true
+              }
+            ],
+            "why": "The cookies in the blue jar are for the bake sale. The subject is cookies, not jar, so it goes with are.",
+            "clue": "Remember: find the real subject, then check that the verb matches it."
+          },
+          {
+            "id": "AG032",
+            "band": 3,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "Jamal",
+                "and",
+                "his",
+                "sister",
+                "feeds",
+                "the",
+                "goldfish",
+                "every",
+                "morning."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Jamal and his sister feeding the goldfish every morning."
+              },
+              {
+                "text": "Jamal and his sister feed the goldfish every morning.",
+                "correct": true
+              },
+              {
+                "text": "Jamal and his sister is feed the goldfish every morning."
+              },
+              {
+                "text": "Jamal and his sisters feeds the goldfish every morning."
+              }
+            ],
+            "why": "Jamal and his sister feed the goldfish every morning. Two people joined by and are more than one, so the verb has no -s.",
+            "clue": "Remember: find the real subject, then check that the verb matches it."
+          },
+          {
+            "id": "AG033",
+            "band": 3,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "Every",
+                "Fourth",
+                "of",
+                "July,",
+                "the",
+                "band",
+                "march",
+                "down",
+                "Main",
+                "Street."
+              ]
+            },
+            "question": "Which is the correct way to write this sentence?",
+            "choices": [
+              {
+                "text": "Every Fourth of July, the band marches down Main Street.",
+                "correct": true
+              },
+              {
+                "text": "Every Fourth of July, the bands marches down Main Street."
+              },
+              {
+                "text": "Every Fourth of July, the band marching down Main Street."
+              },
+              {
+                "text": "Every Fourth of July, the band are march down Main Street."
+              }
+            ],
+            "why": "Every Fourth of July, the band marches down Main Street. A band is one group, so the verb ends in -es.",
+            "clue": "Remember: find the real subject, then check that the verb matches it."
+          },
+          {
+            "id": "AG034",
+            "band": 3,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "kite",
+                "with",
+                "the",
+                "long",
+                "purple",
+                "ribbons",
+                "____",
+                "high",
+                "in",
+                "the",
+                "sky."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "fly"
+              },
+              {
+                "text": "flies",
+                "correct": true
+              },
+              {
+                "text": "flying"
+              },
+              {
+                "text": "to fly"
+              }
+            ],
+            "why": "flies is right. The subject is kite, not ribbons. One kite goes with flies.",
+            "clue": "Remember: find the real subject. Skip the words in between, then decide: one, or more than one?"
+          },
+          {
+            "id": "AG035",
+            "band": 3,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "The",
+                "children",
+                "at",
+                "the",
+                "end",
+                "of",
+                "the",
+                "long",
+                "line",
+                "____",
+                "patiently."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "waits"
+              },
+              {
+                "text": "waiting"
+              },
+              {
+                "text": "wait",
+                "correct": true
+              },
+              {
+                "text": "to wait"
+              }
+            ],
+            "why": "wait is right. The subject is children, not line. The word children means more than one.",
+            "clue": "Remember: find the real subject. Skip the words in between, then decide: one, or more than one?"
+          },
+          {
+            "id": "AG036",
+            "band": 3,
+            "type": "between",
+            "sentence": {
+              "words": [
+                "Before",
+                "every",
+                "game,",
+                "the",
+                "team",
+                "____",
+                "in",
+                "a",
+                "big",
+                "circle."
+              ]
+            },
+            "question": "Which verb matches the subject?",
+            "choices": [
+              {
+                "text": "gather"
+              },
+              {
+                "text": "gathering"
+              },
+              {
+                "text": "to gather"
+              },
+              {
+                "text": "gathers",
+                "correct": true
+              }
+            ],
+            "why": "gathers is right. A team is one group, so the verb ends in -s.",
+            "clue": "Remember: a word for a group, like class or flock, names one group."
+          }
+        ]
+      },
       "ga": [
         {
           "code": "3.L.GC.2.c",
