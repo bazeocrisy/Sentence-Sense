@@ -1,5 +1,5 @@
 /* =========================================================
-   Sentence Sense — shared TEST component (Build 1.4.0)
+   Sentence Sense — shared TEST component (Build 1.4.0; generic pools and Show me how in 1.7.0)
 
    LEARN teaches. PRACTICE coaches. TEST measures.
 
@@ -112,11 +112,47 @@
      ========================================================= */
   const BANDS = [1, 2, 3];
 
+  /* Build 1.7.0 — GENERIC POOLS. A pool that declares `subscales`
+     ([{key, label, share}]) is balanced, scored and reported on those
+     subscales. Verb's pool declares none and keeps the exact action/being
+     path audited in 1.4.x, so nothing about the Verb Test changed. */
+  const isGeneric = bank => !!(bank && bank.subscales && bank.subscales.length);
+  const subKeys = bank => isGeneric(bank) ? bank.subscales.map(s => s.key) : ["action", "being"];
+
+  function genericBlueprint(bank, n) {
+    const t1 = Math.ceil(n / 3);
+    const t2 = Math.ceil((n - t1) / 2);
+    const T = [t1, t2, n - t1 - t2];
+    const keys = subKeys(bank);
+    const cells = {};
+    keys.forEach(k => { cells[k] = [0, 0, 0]; });
+    T.forEach((t, i) => {
+      /* largest-remainder split of this band by share, capped by the pool */
+      const raw = bank.subscales.map(s => s.share * t);
+      const base = raw.map(Math.floor);
+      let left = t - base.reduce((a, b) => a + b, 0);
+      raw.map((r, j) => [r - base[j], j]).sort((a, b) => b[0] - a[0] || a[1] - b[1])
+        .forEach(([, j]) => { if (left > 0) { base[j]++; left--; } });
+      keys.forEach((k, j) => {
+        const cap = cellCount(bank, BANDS[i], k);
+        cells[k][i] = Math.min(base[j], cap);
+      });
+      let short = t - keys.reduce((a, k) => a + cells[k][i], 0);
+      keys.forEach(k => {
+        const room = cellCount(bank, BANDS[i], k) - cells[k][i];
+        const add = Math.min(room, short);
+        cells[k][i] += add; short -= add;
+      });
+    });
+    return { total: n, T: T, cells: cells };
+  }
+
   function cellCount(bank, band, type) {
     return bank.questions.filter(q => q.band === band && q.type === type).length;
   }
 
   function blueprint(bank, n) {
+    if (isGeneric(bank)) return genericBlueprint(bank, n);
     const t1 = Math.ceil(n / 3);
     const t2 = Math.ceil((n - t1) / 2);
     const T = [t1, t2, n - t1 - t2];
@@ -273,8 +309,9 @@
     let picked = [];
 
     BANDS.forEach((band, bi) => {
-      ["action", "being"].forEach(type => {
-        const need = (type === "being" ? bp.being : bp.action)[bi];
+      subKeys(bank).forEach(type => {
+        const need = bp.cells ? bp.cells[type][bi]
+                              : (type === "being" ? bp.being : bp.action)[bi];
         if (need <= 0) return;
         const cand = bank.questions
           .map((q, i) => i)
@@ -285,9 +322,14 @@
       });
     });
 
-    const repaired = repairCoverage(bank, picked, n, recent);
-    picked = repaired.picked;
-    lastSwaps = repaired.swaps;
+    /* Concept-family repair is Verb's (its families are Verb-specific). */
+    if (!isGeneric(bank)) {
+      const repaired = repairCoverage(bank, picked, n, recent);
+      picked = repaired.picked;
+      lastSwaps = repaired.swaps;
+    } else {
+      lastSwaps = 0;
+    }
 
     /* BAND-SCOPED ORDER. Shuffled inside each band, bands in sequence,
        so the difficulty arc survives every reshuffle. */
@@ -496,7 +538,45 @@
      score must not hide weak being-verb understanding, and a strong
      being score must not hide weak action verbs.
      ========================================================= */
+  function genericScore() {
+    const bank = run.bank;
+    const subs = bank.subscales.map(s => ({ key: s.key, label: s.label, got: 0, of: 0 }));
+    const byKey = {}; subs.forEach(s => { byKey[s.key] = s; });
+    let overall = 0;
+    const rows = [];
+    run.order.forEach((qi, pos) => {
+      const q = bank.questions[qi];
+      const correctIndex = q.choices.findIndex(c => c.correct);
+      const chosen = run.answers[pos];
+      const right = (chosen === correctIndex);
+      const sub = byKey[q.type];
+      if (sub) { sub.of++; if (right) sub.got++; }
+      if (right) overall++;
+      rows.push({ pos: pos + 1, id: q.id, sentence: q.sentence, question: q.question,
+        type: q.type, chosenIndex: chosen, correctIndex: correctIndex,
+        chosen: chosen === null ? null : q.choices[chosen].text,
+        correct: q.choices[correctIndex].text, right: right, why: q.why,
+        clue: q.clue || null, choices: q.choices.map(c => c.text) });
+    });
+    const total = run.order.length;
+    const mr = bank.masteryRatio;
+    const thresholds = { overall: thresholdOf(total, mr.overall), almost: thresholdOf(total, mr.almost) };
+    subs.forEach(s => { s.need = thresholdOf(s.of, mr.sub || [3, 4]); thresholds[s.key] = s.need; });
+    /* Mastery is a conjunction, never an average: a strong total must not
+       hide a weak subscale. */
+    const weak = subs.filter(s => s.of > 0 && s.got < s.need);
+    const mastered = overall >= thresholds.overall && weak.length === 0;
+    let tier;
+    if (mastered) tier = "mastered";
+    else if (overall >= thresholds.overall && weak.length) tier = weak[0].key + "Weak";
+    else if (overall >= thresholds.almost) tier = "almost";
+    else tier = "keepGoing";
+    return { overall, total, subs, thresholds, mastered, tier,
+             message: bank.guidance[tier] || bank.guidance.keepGoing, rows };
+  }
+
   function score() {
+    if (isGeneric(run.bank)) return genericScore();
     let overall = 0, action = 0, being = 0, actionTotal = 0, beingTotal = 0;
     const rows = [];
 
@@ -519,7 +599,9 @@
         chosen: chosen === null ? null : q.choices[chosen].text,
         correct: q.choices[correctIndex].text,
         right: right,
-        why: q.why
+        why: q.why,
+        chosenIndex: chosen, correctIndex: correctIndex,
+        clue: q.clue || null, choices: q.choices.map(c => c.text)
       });
     });
 
@@ -600,6 +682,15 @@
     return text.split("Verb").join(t.name);
   }
 
+  /* Build 1.7.0: generic pools get their own labels -- "Practice verbs"
+     lower-cased cannot be rewritten into another skill's name. */
+  function genericPlan(tier) {
+    const t = C.topics[run.topicKey];
+    if (tier === "mastered") return { primary: ["Back to " + t.name, "skill"], tertiary: ["Try again", "again"] };
+    if (tier === "keepGoing") return { primary: ["Learn " + t.name, "learn"], tertiary: ["Back to " + t.name, "skill"] };
+    return { primary: ["Practice " + t.name, "practice"], tertiary: ["Back to " + t.name, "skill"] };
+  }
+
   function doAction(kind) {
     if (kind === "again") { again(); return; }
     if (kind === "skill") { window.SS_SHELL.openSkill(run.topicKey); return; }
@@ -607,7 +698,7 @@
   }
 
   function renderCtas(tier) {
-    const plan = CTA[tier] || CTA.keepGoing;
+    const plan = isGeneric(run.bank) ? genericPlan(tier) : (CTA[tier] || CTA.keepGoing);
     const p = el("test-primary");
     p.textContent = ctaLabel(plan.primary[0]);
     p.dataset.action = plan.primary[1];
@@ -628,8 +719,11 @@
 
     const host = el("test-subscores");
     clear(host);
-    host.appendChild(scoreRow("Action verbs", r.action, r.actionTotal));
-    host.appendChild(scoreRow("Being verbs", r.being, r.beingTotal));
+    if (r.subs) r.subs.forEach(sub => host.appendChild(scoreRow(sub.label, sub.got, sub.of)));
+    else {
+      host.appendChild(scoreRow("Action verbs", r.action, r.actionTotal));
+      host.appendChild(scoreRow("Being verbs", r.being, r.beingTotal));
+    }
 
     el("test-guidance").textContent = r.message;
     renderCtas(r.tier);
@@ -659,14 +753,57 @@
       ans.appendChild(yours);
       if (!row.right) {
         const corr = make("span", "review-correct");
-        corr.appendChild(make("span", "ra-label", "The verb is"));
+        corr.appendChild(make("span", "ra-label", isGeneric(run.bank) ? "The answer is" : "The verb is"));
         corr.appendChild(make("span", "ra-word", row.correct));
         ans.appendChild(corr);
       }
       item.appendChild(ans);
-      item.appendChild(make("p", "review-why", row.why));
+      if (row.right) {
+        item.appendChild(make("p", "review-why", row.why));
+      } else {
+        /* Build 1.7.0 — SHOW ME HOW. The same three steps as Help me in
+           Learn and Practice, one per press, AFTER the test is submitted,
+           so the score stays an honest measure. */
+        item.appendChild(showMeHow(row));
+      }
       rev.appendChild(item);
     });
+  }
+
+  function showMeHow(row) {
+    const t = C.topics[run.topicKey];
+    const clue = row.clue || t.testClue || "";
+    const wrap = make("div", "show-how");
+    const out = make("div", "show-how-steps");
+    out.setAttribute("aria-live", "polite");
+    const btn = make("button", "nav-btn btn-help show-how-btn", "Show me how");
+    btn.type = "button";
+    let step = 0;
+    const other = (() => {
+      if (row.chosenIndex !== null && row.chosenIndex !== row.correctIndex) return row.choices[row.chosenIndex];
+      const wrong = row.choices.filter((c, i) => i !== row.correctIndex);
+      return wrong[0];
+    })();
+    btn.addEventListener("click", () => {
+      step += 1;
+      let label, text;
+      if (step === 1 && clue) { label = "Hint 1 of 3"; text = clue; }
+      else if (step <= 2) {
+        step = 2;
+        const pair = [row.correct, other].sort();
+        label = "Hint 2 of 3";
+        text = "It is one of these two: " + pair[0] + " or " + pair[1] + ".";
+      } else { label = "Hint 3 of 3"; text = row.why; }
+      const p = make("p", "show-how-step");
+      p.appendChild(make("span", "fb-label", label));
+      p.appendChild(make("span", "show-how-text", text));
+      out.appendChild(p);
+      if (step >= 3) { btn.disabled = true; btn.textContent = "Show me how"; }
+      else btn.textContent = "Show me how (next hint)";
+    });
+    wrap.appendChild(btn);
+    wrap.appendChild(out);
+    return wrap;
   }
 
   function toggleReview() {
@@ -717,6 +854,7 @@
       answers: run.answers.slice(),
       total: run.order.length,
       result: run.result && {
+        subs: run.result.subs ? run.result.subs.map(x => Object.assign({}, x)) : null,
         overall: run.result.overall, action: run.result.action,
         being: run.result.being, actionTotal: run.result.actionTotal,
         beingTotal: run.result.beingTotal, total: run.result.total,
