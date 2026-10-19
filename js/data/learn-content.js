@@ -2075,7 +2075,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "Find the verb: is. What is hard to open? The jar. The words of pickles only tell which jar, so jar is the simple subject.",
-            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? The noun right next to the verb is not always the answer."
           },
           {
             "id": "SU023",
@@ -2148,7 +2148,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "Find the verb: was. What was gray and cloudy? The sky. The words over the city only tell where, so sky is the simple subject.",
-            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? The noun right next to the verb is not always the answer."
           },
           {
             "id": "SU025",
@@ -2195,12 +2195,11 @@ window.SS_LEARN_CONTENT = {
             "type": "simple",
             "sentence": {
               "words": [
-                "In",
-                "our",
-                "yard,",
-                "a",
+                "A",
                 "tiny",
+                "green",
                 "hummingbird",
+                "quickly",
                 "drank",
                 "sweet",
                 "nectar",
@@ -2213,21 +2212,21 @@ window.SS_LEARN_CONTENT = {
             "question": "Which word is the simple subject?",
             "choices": [
               {
-                "text": "yard"
-              },
-              {
-                "text": "tiny"
+                "text": "green"
               },
               {
                 "text": "hummingbird",
                 "correct": true
               },
               {
+                "text": "quickly"
+              },
+              {
                 "text": "nectar"
               }
             ],
-            "why": "In our yard only tells where. The verb is drank. Who drank the nectar? A tiny hummingbird. So hummingbird is the simple subject.",
-            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+            "why": "The verb is drank. Who drank the nectar? A tiny green hummingbird. So hummingbird is the simple subject. green only describes it.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
           },
           {
             "id": "SU027",
@@ -2274,39 +2273,38 @@ window.SS_LEARN_CONTENT = {
             "type": "simple",
             "sentence": {
               "words": [
-                "Behind",
-                "the",
-                "bakery",
-                "last",
-                "night,",
-                "three",
+                "Three",
                 "hungry",
                 "raccoons",
+                "noisily",
                 "tipped",
                 "over",
                 "the",
                 "trash",
-                "can."
+                "cans",
+                "behind",
+                "the",
+                "bakery."
               ]
             },
             "question": "Which word is the simple subject?",
             "choices": [
-              {
-                "text": "bakery"
-              },
-              {
-                "text": "night"
-              },
               {
                 "text": "hungry"
               },
               {
                 "text": "raccoons",
                 "correct": true
+              },
+              {
+                "text": "noisily"
+              },
+              {
+                "text": "bakery"
               }
             ],
-            "why": "Behind the bakery last night only tells where and when. The verb is tipped. Who tipped over the trash can? Three hungry raccoons. So raccoons is the simple subject.",
-            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+            "why": "The verb is tipped. Who tipped over the trash cans? Three hungry raccoons. So raccoons is the simple subject. hungry only describes them.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
           },
           {
             "id": "SU029",
@@ -2314,38 +2312,39 @@ window.SS_LEARN_CONTENT = {
             "type": "simple",
             "sentence": {
               "words": [
-                "On",
-                "the",
-                "snowy",
-                "runway,",
-                "a",
+                "A",
                 "careful",
                 "young",
                 "pilot",
+                "slowly",
                 "landed",
                 "the",
                 "big",
-                "airplane."
+                "airplane",
+                "on",
+                "the",
+                "snowy",
+                "runway."
               ]
             },
             "question": "Which word is the simple subject?",
             "choices": [
               {
+                "text": "young"
+              },
+              {
                 "text": "pilot",
                 "correct": true
               },
               {
-                "text": "young"
-              },
-              {
-                "text": "airplane"
+                "text": "slowly"
               },
               {
                 "text": "runway"
               }
             ],
-            "why": "On the snowy runway only tells where. The verb is landed. Who landed the airplane? A careful young pilot. So pilot is the simple subject.",
-            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+            "why": "The verb is landed. Who landed the airplane? A careful young pilot. So pilot is the simple subject. young only describes the pilot.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
           },
           {
             "id": "SU030",
@@ -2393,29 +2392,27 @@ window.SS_LEARN_CONTENT = {
             "type": "simple",
             "sentence": {
               "words": [
-                "In",
-                "the",
-                "last",
-                "minute",
-                "of",
-                "the",
-                "game,",
-                "the",
+                "The",
                 "smallest",
+                "soccer",
                 "player",
                 "scored",
                 "the",
                 "winning",
-                "goal."
+                "goal",
+                "in",
+                "the",
+                "last",
+                "minute."
               ]
             },
             "question": "Which word is the simple subject?",
             "choices": [
               {
-                "text": "game"
+                "text": "smallest"
               },
               {
-                "text": "smallest"
+                "text": "soccer"
               },
               {
                 "text": "player",
@@ -2425,8 +2422,8 @@ window.SS_LEARN_CONTENT = {
                 "text": "goal"
               }
             ],
-            "why": "In the last minute of the game only tells when. The verb is scored. Who scored the goal? The smallest player. So player is the simple subject. smallest only describes the player.",
-            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+            "why": "The verb is scored. Who scored the goal? The smallest soccer player. So player is the simple subject. smallest and soccer only describe the player.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
           },
           {
             "id": "SU032",
@@ -2434,25 +2431,26 @@ window.SS_LEARN_CONTENT = {
             "type": "simple",
             "sentence": {
               "words": [
-                "Last",
-                "Sunday,",
-                "my",
+                "My",
                 "grandfather",
                 "hung",
                 "a",
                 "new",
+                "tire",
                 "swing",
                 "from",
                 "the",
                 "big",
                 "oak",
-                "tree."
+                "tree",
+                "last",
+                "Sunday."
               ]
             },
             "question": "Which word is the simple subject?",
             "choices": [
               {
-                "text": "Sunday"
+                "text": "tire"
               },
               {
                 "text": "hung"
@@ -2465,8 +2463,8 @@ window.SS_LEARN_CONTENT = {
                 "correct": true
               }
             ],
-            "why": "Last Sunday only tells when. The verb is hung. Who hung the swing? My grandfather. So grandfather is the simple subject.",
-            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What? Words at the start that tell when or where are not the subject."
+            "why": "The verb is hung. Who hung the swing? My grandfather. So grandfather is the simple subject.",
+            "clue": "Remember: find the verb first. Then use the verb to ask: Who? or What?"
           },
           {
             "id": "SU033",
@@ -4229,7 +4227,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "long"
               }
             ],
-            "why": "Here walk comes after a long, and you can say a walk. So walk is the noun in this sentence. It is not the verb here. The verb is took.",
+            "why": "We took a long walk. You can say a walk, so walk names something here and is a noun. The verb is took.",
             "clue": "Remember: some words can do more than one job. Read the sentence to see what the word does here."
           },
           {
@@ -9107,6 +9105,7 @@ window.SS_LEARN_CONTENT = {
                 "the",
                 "players",
                 "met",
+                "with",
                 "Mr.",
                 "Ellis,",
                 "and",
@@ -9143,19 +9142,19 @@ window.SS_LEARN_CONTENT = {
             "sentence": {
               "words": [
                 "The",
-                "loud",
                 "alarm",
                 "clock",
+                "with",
+                "new",
+                "batteries",
                 "rang",
                 "at",
                 "sunrise,",
                 "and",
                 "____",
                 "woke",
-                "up",
-                "the",
-                "whole",
-                "house."
+                "everyone",
+                "up."
               ]
             },
             "question": "Which pronoun belongs in the blank?",
@@ -9174,7 +9173,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "he"
               }
             ],
-            "why": "it stands for the alarm clock. A clock is one thing, so the word is it.",
+            "why": "it stands for the alarm clock. One thing is it. The batteries did not wake anyone, so it is not they.",
             "clue": "Remember: find the noun the blank stands for. Make them match: one person or thing, or more than one."
           },
           {
@@ -10862,7 +10861,7 @@ window.SS_LEARN_CONTENT = {
             "sentence": {
               "words": [
                 "My",
-                "lonely",
+                "silly",
                 "kitten",
                 "purred",
                 "softly",
@@ -10874,7 +10873,7 @@ window.SS_LEARN_CONTENT = {
             "question": "Which word is the adverb?",
             "choices": [
               {
-                "text": "lonely"
+                "text": "silly"
               },
               {
                 "text": "kitten"
@@ -10887,7 +10886,7 @@ window.SS_LEARN_CONTENT = {
                 "correct": true
               }
             ],
-            "why": "softly tells how the kitten purred, so it is the adverb. lonely describes the kitten, so it is an adjective.",
+            "why": "softly tells how the kitten purred, so it is the adverb. silly describes the kitten, so it is an adjective.",
             "clue": "Remember: an -ly ending is only a clue. Find the verb and ask: How? When? Where?"
           },
           {
@@ -13125,7 +13124,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? the little brown rabbit in the garden. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "why": "Who or what? The little brown rabbit in the garden. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -13230,7 +13229,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? a big yellow bus with a flat tire. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "why": "Who or what? A big yellow bus with a flat tire. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -13550,7 +13549,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? my best friend from my old school in Augusta. But what did my friend do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "why": "Who or what? My best friend from my old school in Augusta. But what did my friend do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -13660,7 +13659,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? a family of ducks near the edge of the pond. But what did the ducks do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "why": "Who or what? A family of ducks near the edge of the pond. But what did the ducks do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -13695,7 +13694,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? the whole class. What does it do? reads quietly together. Every Friday only tells when. Both parts are there. So the answer is: Yes, it is complete.",
+            "why": "Who or what? The whole class. What does it do? reads quietly together. Every Friday only tells when. Both parts are there. So the answer is: Yes, it is complete.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -13991,7 +13990,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? my sleepy little brother. But what did he do? The sentence never says. During the long car ride to Grandma's house only tells when. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "why": "Who or what? My sleepy little brother. But what did he do? The sentence never says. During the long car ride to Grandma's house only tells when. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -14030,7 +14029,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? the frost on the car windows. What did it do? sparkled. On a cold winter morning only tells when. Both parts are there. So the answer is: Yes, it is complete.",
+            "why": "Who or what? The frost on the car windows. What did it do? sparkled. On a cold winter morning only tells when. Both parts are there. So the answer is: Yes, it is complete.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -14069,7 +14068,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? the shiny new bike with the bell and the bright blue streamers. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
+            "why": "Who or what? The shiny new bike with the bell and the bright blue streamers. But what did it do? The sentence never says. There is no verb, so it needs a predicate. So the answer is: No, it needs a predicate.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -14146,7 +14145,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "No, it is a run-on."
               }
             ],
-            "why": "Who or what? two sleepy dogs. What did they do? rested. In the shade of the old oak tree only tells where. Both parts are there. So the answer is: Yes, it is complete.",
+            "why": "Who or what? Two sleepy dogs. What did they do? rested. In the shade of the old oak tree only tells where. Both parts are there. So the answer is: Yes, it is complete.",
             "clue": "Remember: ask who or what it is about, ask what it does or is, and count the complete thoughts."
           },
           {
@@ -15512,10 +15511,11 @@ window.SS_LEARN_CONTENT = {
                 "class",
                 "will",
                 "visit",
-                "the",
-                "zoo",
+                "a",
+                "pumpkin",
+                "farm",
                 "in",
-                "Atlanta."
+                "October."
               ]
             },
             "question": "Which word is the helping verb?",
@@ -15531,7 +15531,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "visit"
               },
               {
-                "text": "zoo"
+                "text": "farm"
               }
             ],
             "why": "will is the helping verb. It helps the main verb visit.",
@@ -15689,10 +15689,12 @@ window.SS_LEARN_CONTENT = {
                 "ducks",
                 "are",
                 "swimming",
-                "across",
+                "in",
                 "the",
-                "quiet",
-                "pond."
+                "creek",
+                "behind",
+                "our",
+                "school."
               ]
             },
             "question": "What job does the word “are” do in this sentence?",
@@ -18373,14 +18375,16 @@ window.SS_LEARN_CONTENT = {
               "words": [
                 "Last",
                 "week,",
-                "my",
-                "brother",
+                "Grandpa",
                 "____",
+                "a",
+                "stick",
+                "into",
                 "the",
-                "ball",
-                "over",
-                "the",
-                "fence."
+                "pond",
+                "for",
+                "our",
+                "dog."
               ]
             },
             "question": "Which verb belongs in the blank?",
@@ -18410,33 +18414,35 @@ window.SS_LEARN_CONTENT = {
               "words": [
                 "Last",
                 "Monday,",
-                "I",
+                "our",
+                "neighbor",
                 "____",
                 "a",
-                "shiny",
-                "penny",
-                "on",
-                "the",
-                "sidewalk."
+                "deep",
+                "hole",
+                "for",
+                "a",
+                "fence",
+                "post."
               ]
             },
             "question": "Which verb belongs in the blank?",
             "choices": [
               {
-                "text": "found",
+                "text": "dug",
                 "correct": true
               },
               {
-                "text": "finded"
+                "text": "digged"
               },
               {
-                "text": "finds"
+                "text": "digs"
               },
               {
-                "text": "will find"
+                "text": "will dig"
               }
             ],
-            "why": "found is right. Last Monday means the past, and the past of find is found.",
+            "why": "dug is right. Last Monday means the past, and the past of dig is dug.",
             "clue": "Remember: some verbs do not add -ed for the past. They change to a new word."
           },
           {
@@ -19111,20 +19117,20 @@ window.SS_LEARN_CONTENT = {
             "question": "Which verb belongs in the blank?",
             "choices": [
               {
-                "text": "practiced"
+                "text": "had"
               },
               {
-                "text": "will practice",
+                "text": "will have",
                 "correct": true
               },
               {
-                "text": "practices"
+                "text": "has"
               },
               {
-                "text": "practicing"
+                "text": "having"
               }
             ],
-            "why": "will practice is right. The words next Friday mean it has not happened yet, so the verb uses will.",
+            "why": "will have is right. The words next Friday mean it has not happened yet, so the verb uses will.",
             "clue": "Remember: look for time words. They tell you past, present, or future."
           },
           {
@@ -20485,6 +20491,7 @@ window.SS_LEARN_CONTENT = {
               "drink: drank",
               "freeze: froze",
               "hide: hid",
+              "meet: met",
               "ride: rode",
               "run: ran",
               "swim: swam",
@@ -20683,13 +20690,14 @@ window.SS_LEARN_CONTENT = {
               "words": [
                 "I",
                 "____",
-                "ready",
-                "for",
                 "the",
-                "first",
-                "day",
-                "of",
-                "camp."
+                "line",
+                "leader",
+                "for",
+                "our",
+                "class",
+                "this",
+                "week."
               ]
             },
             "question": "Which verb matches the subject?",
@@ -20718,12 +20726,14 @@ window.SS_LEARN_CONTENT = {
             "sentence": {
               "words": [
                 "These",
-                "cookies",
+                "puzzles",
                 "____",
-                "warm",
-                "from",
-                "the",
-                "oven."
+                "too",
+                "hard",
+                "for",
+                "my",
+                "baby",
+                "brother."
               ]
             },
             "question": "Which verb matches the subject?",
@@ -20742,7 +20752,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "be"
               }
             ],
-            "why": "are is right. The word cookies means more than one, so it goes with are.",
+            "why": "are is right. The word puzzles means more than one, so it goes with are.",
             "clue": "Remember: find the subject. Then choose the being verb that goes with I, with one, or with more than one."
           },
           {
@@ -21539,7 +21549,7 @@ window.SS_LEARN_CONTENT = {
                 "text": "You was my favorite person to play with at recess."
               }
             ],
-            "why": "You are my favorite person to play with at recess. You goes with are.",
+            "why": "You are my favorite person to play with at recess. The word you goes with are.",
             "clue": "Remember: find the real subject, then check that the verb matches it."
           },
           {

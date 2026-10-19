@@ -2109,6 +2109,12 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     ok("15T." + key + ".2 every item: 4 choices, one answer, why names it, clue never does, choices in the sentence",
       st.bad.length === 0, st.bad.slice(0, 4).join("; "));
     ok("15T." + key + ".3 guidance covers mastered, almost, keepGoing and each subscale", st.guideOK);
+    const bp = await page.evaluate(k => {
+      const p = window.SS_LEARN_CONTENT.topics[k].testPool, b = window.SS_TEST.blueprintOf(k, 12);
+      return p.subscales.map(s => [b.cells[s.key].reduce((a, c) => a + c, 0), Math.round(s.share * 12)]);
+    }, key);
+    ok("15T." + key + ".3b a 12-question sitting keeps each subscale at its share (8/4 or 6/6)",
+      bp.every(([got, want]) => got === want), JSON.stringify(bp));
 
     /* one sitting: miss the first two, get the rest right */
     await page.evaluate(k => window.SS_SHELL.openActivity(k, "test"), key);
@@ -2138,11 +2144,16 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       const s = window.SS_TEST.state(), p = window.SS_LEARN_CONTENT.topics[k].testPool;
       return { overall: s.result.overall, tier: s.result.tier, msg: document.getElementById("test-guidance").textContent,
                want: p.guidance[s.result.tier], rows: document.querySelectorAll("#test-subscores > *").length,
-               subs: p.subscales.length, score: document.getElementById("test-score-value").textContent };
+               subs: p.subscales.length, score: document.getElementById("test-score-value").textContent,
+               btns: [document.getElementById("test-primary").textContent, document.getElementById("test-tertiary").textContent],
+               tag: window.SS_LEARN_CONTENT.topics[k].tag || window.SS_LEARN_CONTENT.topics[k].name };
     }, key);
     ok("15T." + key + ".5 results: 10 of 12, one row per subscale, guidance from content",
       r.overall === 10 && r.score === "10" && r.rows === r.subs && !!r.want && r.msg === r.want,
       r.overall + " tier=" + r.tier + " rows=" + r.rows);
+    ok("15T." + key + ".5b results buttons read cleanly",
+      r.btns.indexOf("Back to " + r.tag) >= 0 && r.btns.every(b => !/(\b\w+\b).*\b\1\b/i.test(b.replace(/^Back to /, "")) && !/ss\b/.test(b)),
+      r.btns.join(" | "));
     await page.click("#test-review-btn"); await sleep(150);
     const v = await page.evaluate(() => ({
       how: document.querySelectorAll("#test-review .show-how-btn").length,

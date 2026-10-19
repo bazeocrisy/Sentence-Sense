@@ -126,16 +126,26 @@
     const keys = subKeys(bank);
     const cells = {};
     keys.forEach(k => { cells[k] = [0, 0, 0]; });
-    T.forEach((t, i) => {
-      /* largest-remainder split of this band by share, capped by the pool */
-      const raw = bank.subscales.map(s => s.share * t);
-      const base = raw.map(Math.floor);
-      let left = t - base.reduce((a, b) => a + b, 0);
+    /* Whole-test targets first (12 at 2/3 + 1/3 is 8 + 4), then spread
+       across the bands by cumulative share, so rounding per band can't
+       turn 8/4 into 9/3 and leave a subscale judged on three items. */
+    const shares = bank.subscales.map(s => s.share);
+    const lr = (raw, total) => {
+      const base = raw.map(r => Math.floor(r + 1e-9));
+      let left = total - base.reduce((a, b) => a + b, 0);
       raw.map((r, j) => [r - base[j], j]).sort((a, b) => b[0] - a[0] || a[1] - b[1])
         .forEach(([, j]) => { if (left > 0) { base[j]++; left--; } });
+      return base;
+    };
+    const target = lr(shares.map(x => x * n), n);
+    const cum = keys.map(() => 0);
+    let cumT = 0;
+    T.forEach((t, i) => {
+      cumT += t;
+      const want = lr(target.map((g, j) => Math.max(0, g * cumT / n - cum[j])), t);
       keys.forEach((k, j) => {
         const cap = cellCount(bank, BANDS[i], k);
-        cells[k][i] = Math.min(base[j], cap);
+        cells[k][i] = Math.min(want[j], cap);
       });
       let short = t - keys.reduce((a, k) => a + cells[k][i], 0);
       keys.forEach(k => {
@@ -143,6 +153,7 @@
         const add = Math.min(room, short);
         cells[k][i] += add; short -= add;
       });
+      keys.forEach((k, j) => { cum[j] += cells[k][i]; });
     });
     return { total: n, T: T, cells: cells };
   }
@@ -467,6 +478,7 @@
     clear(host);
     const longest = q.choices.reduce((n, c) => Math.max(n, c.text.length), 0);
     host.classList.toggle("is-wide", longest > 12);
+    host.classList.toggle("is-sentences", longest > 30);
 
     const picked = run.answers[run.pos];
 
@@ -686,9 +698,10 @@
      lower-cased cannot be rewritten into another skill's name. */
   function genericPlan(tier) {
     const t = C.topics[run.topicKey];
-    if (tier === "mastered") return { primary: ["Back to " + t.name, "skill"], tertiary: ["Try again", "again"] };
-    if (tier === "keepGoing") return { primary: ["Learn " + t.name, "learn"], tertiary: ["Back to " + t.name, "skill"] };
-    return { primary: ["Practice " + t.name, "practice"], tertiary: ["Back to " + t.name, "skill"] };
+    const back = "Back to " + (t.tag || t.name);
+    if (tier === "mastered") return { primary: [back, "skill"], tertiary: ["Try again", "again"] };
+    if (tier === "keepGoing") return { primary: ["Go to Learn", "learn"], tertiary: [back, "skill"] };
+    return { primary: ["Go to Practice", "practice"], tertiary: [back, "skill"] };
   }
 
   function doAction(kind) {
@@ -698,12 +711,16 @@
   }
 
   function renderCtas(tier) {
-    const plan = isGeneric(run.bank) ? genericPlan(tier) : (CTA[tier] || CTA.keepGoing);
+    const generic = isGeneric(run.bank);
+    const plan = generic ? genericPlan(tier) : (CTA[tier] || CTA.keepGoing);
+    /* Verb's labels are templates ("Back to Verb"); generic labels are
+       already final and must not be rewritten again. */
+    const label = text => generic ? text : ctaLabel(text);
     const p = el("test-primary");
-    p.textContent = ctaLabel(plan.primary[0]);
+    p.textContent = label(plan.primary[0]);
     p.dataset.action = plan.primary[1];
     const t = el("test-tertiary");
-    t.textContent = ctaLabel(plan.tertiary[0]);
+    t.textContent = label(plan.tertiary[0]);
     t.dataset.action = plan.tertiary[1];
   }
 
@@ -796,11 +813,20 @@
         step = 2;
         const pair = [row.correct, other].sort();
         label = "Hint 2 of 3";
-        text = "It is one of these two: " + pair[0] + " or " + pair[1] + ".";
+        text = pair;
       } else { label = "Hint 3 of 3"; text = row.why; }
       const p = make("p", "show-how-step");
       p.appendChild(make("span", "fb-label", label));
-      p.appendChild(make("span", "show-how-text", text));
+      if (Array.isArray(text)) {
+        /* Two choices on their own lines, so whole-sentence choices read
+           cleanly and no word keeps a stray capital mid-sentence. */
+        const box = make("span", "show-how-text");
+        box.appendChild(make("span", "show-how-lead", "It is one of these two:"));
+        const ul = make("ul", "show-how-pair");
+        text.forEach(c => ul.appendChild(make("li", "", c)));
+        box.appendChild(ul);
+        p.appendChild(box);
+      } else p.appendChild(make("span", "show-how-text", text));
       out.appendChild(p);
       if (step >= 3) {
         btn.disabled = true; btn.textContent = "Show me how";

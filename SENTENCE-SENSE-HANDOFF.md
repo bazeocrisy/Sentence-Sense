@@ -1,6 +1,6 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.6.0** (1.6.0: Noun and Adjective Practice; Help me in every Learn "Let me try")
+**Current build: Sentence Sense — Build 1.7.0** (1.7.0: a Test for every skill, with "Show me how" after the test; 1.6.0: Noun and Adjective Practice, Help me in every Learn "Let me try")
 **Last pass:** Georgia grade 3 upgrade — Help me hints, six new skills, grouped Home, standard tags — 2026-10-19
 **Previous:** Build 1.4.2 (Subject Practice). Rollback branch: `backup/live-build-1.4.2` (exact copy of 1.4.2, `274a298`).
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
@@ -11,7 +11,7 @@
 | Change | Where |
 |---|---|
 | **Help me** replaces "Need a clue?" and the guess-to-get-help ladder in Practice | `js/practice.js` `help()`, `sendBack()`; §6 |
-| **Six Georgia grade 3 skills**, each Learn + a 20-question Practice bank (Test "coming next"): Pronoun, Adverb, Complete Sentence, Helping & Linking Verbs, Verb Tense, Subject-Verb Agreement | `js/data/learn-content.js` |
+| **Six Georgia grade 3 skills**, each Learn + a 20-question Practice bank (Test added in 1.7.0): Pronoun, Adverb, Complete Sentence, Helping & Linking Verbs, Verb Tense, Subject-Verb Agreement | `js/data/learn-content.js` |
 | **Home in two labelled rows**: Words (7) · Sentences (3) | `homeGroups` in content; `buildHome()` |
 | **Georgia standard tags** on the Skill screen, at the foot of every Learn step, and under every Practice question | `ga` per topic; `std` per question; `window.SS_GA` |
 | Harness updated to the approved behaviour | `verification/guard.js` — 655 pass (4 sandbox-only font failures) |
@@ -137,8 +137,8 @@ Four governing rules:
 
 Current: **Build 1.5.0**. It must match in four places, and the audit checks all four:
 
-1. `js/app.js` — `const BUILD_NUMBER = "Build 1.6.0";`
-2. the rendered badge — `Sentence Sense — Build 1.6.0`
+1. `js/app.js` — `const BUILD_NUMBER = "Build 1.7.0";`
+2. the rendered badge — `Sentence Sense — Build 1.7.0`
 3. the audit file name and heading
 4. this handoff
 
@@ -165,7 +165,7 @@ Current: **Build 1.5.0**. It must match in four places, and the audit checks all
 | ~~`assets/images/logo.png`, `logo-512.png`~~ | **DELETED in 1.4.0.** Unreferenced; the cartoon-mascot lockup contradicted the art direction. See §11 H-03. |
 | `assets/reference/home-screen-mockup.png` | The approved style reference. Not loaded by the site. |
 | `verification/serve.js` · `verification/guard.js` | Dev harness. Not part of the site. |
-| `AUDIT-REPORT-Build-1.6.0.md` | The current build audit — and the only one |
+| `AUDIT-REPORT-Build-1.7.0.md` | The current build audit — and the only one |
 | `SENTENCE-SENSE-HANDOFF.md` | This file |
 
 Script load order in `index.html` matters:
@@ -188,15 +188,15 @@ The child chooses **what** before **how**. The mode-first portal of Builds
 | Group | Skill | Child clue | Practice | Test |
 |---|---|---|---|---|
 | Words | **Verb** | What is happening? | 20-question bank | **12 / 20 / 30 from a 48-question pool** |
-| Words | **Helping & Linking Verbs** | Does it help or link? | 20-question bank | coming next |
-| Words | **Verb Tense** | When does it happen? | 20-question bank | coming next |
-| Words | **Noun** | Names a person, place, thing, or idea. | 20-question bank | coming next |
-| Words | **Pronoun** | Who or what does it stand for? | 20-question bank | coming next |
-| Words | **Adjective** | Describes a noun. | 20-question bank | coming next |
-| Words | **Adverb** | How? When? Where? | 20-question bank | coming next |
-| Sentences | **Subject** | Who or what? | 20-question bank | coming next |
-| Sentences | **Complete Sentence** | Is it a complete thought? | 20-question bank | coming next |
-| Sentences | **Subject-Verb Agreement** | Do the subject and verb match? | 20-question bank | coming next |
+| Words | **Helping & Linking Verbs** | Does it help or link? | 20-question bank | 36-question pool, 12 per sitting |
+| Words | **Verb Tense** | When does it happen? | 20-question bank | 36-question pool, 12 per sitting |
+| Words | **Noun** | Names a person, place, thing, or idea. | 20-question bank | 36-question pool, 12 per sitting |
+| Words | **Pronoun** | Who or what does it stand for? | 20-question bank | 36-question pool, 12 per sitting |
+| Words | **Adjective** | Describes a noun. | 20-question bank | 36-question pool, 12 per sitting |
+| Words | **Adverb** | How? When? Where? | 20-question bank | 36-question pool, 12 per sitting |
+| Sentences | **Subject** | Who or what? | 20-question bank | 36-question pool, 12 per sitting |
+| Sentences | **Complete Sentence** | Is it a complete thought? | 20-question bank | 36-question pool, 12 per sitting |
+| Sentences | **Subject-Verb Agreement** | Do the subject and verb match? | 20-question bank | 36-question pool, 12 per sitting |
 
 `homeGroups` drives the two rows; `homeOrder` stays the flat list and **must
 equal the groups flattened** (guard check 2.2c). The "no fifth skill" rule of
@@ -847,4 +847,12 @@ discrepancy **before** editing.
 
 ---
 
-*End of handoff. Last updated 2026-10-19 for Build 1.6.0.*
+## Tests for every skill (Build 1.7.0)
+
+- **Pools:** each of the nine skills has a `testPool` of 36 questions: 12 per band, split into two subscales by `share` (2/3 + 1/3 or 1/2 + 1/2). A sitting is 12. The engine (`js/test.js`) treats any pool that declares `subscales` as generic; Verb's pool declares none and keeps its owner-approved action/being logic unchanged.
+- **Blueprint:** whole-test subscale targets first (8/4 or 6/6), then spread across bands. Harness check 15T.*.3b holds it.
+- **Scoring:** `masteryRatio` gives overall [5,6], each subscale [3,4] and almost [2,3]. The tier picks `guidance[mastered | <key>Weak | almost | keepGoing]`.
+- **No hints during a test.** After submitting, each missed item has **Show me how**: Hint 1 is the item's `clue` (Verb uses `testClue`), Hint 2 lists the right answer and one wrong one, and Hint 3 is the `why`. Only then does "The answer is" appear.
+- **Content source:** `/pools/*.json` in the build workspace, drafted to a written spec and machine-checked, then reviewed by four independent grammar reviewers, a final re-review and a screen audit of all 324 questions. Any new item must follow the same rules: one defensible answer, `why` names the answer, `clue` never does, no near-copy of a Learn or Practice sentence, and within what Learn teaches.
+
+*End of handoff. Last updated 2026-10-19 for Build 1.7.0.*
