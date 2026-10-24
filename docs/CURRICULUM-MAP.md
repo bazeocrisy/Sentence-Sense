@@ -1,6 +1,6 @@
 # Curriculum map
 
-Suggested order; every lesson remains directly accessible. All 30 lessons have teaching, a 12-item guided session, a 10-task independent session, and a 29-task mixed-format test. Those counts describe the implemented engine, not an assertion of complete instructional validation.
+Suggested order; every lesson remains directly accessible. All 30 lessons have teaching, a 12-item guided session (15 for Verb), a 10-task independent session, and a 29-task mixed-format test. Those counts describe the implemented engine, not an assertion of complete instructional validation.
 
 | Unit | Lesson | Objective | Standards |
 |---|---|---|---|
@@ -37,6 +37,6 @@ Suggested order; every lesson remains directly accessible. All 30 lessons have t
 
 ## Content design and remaining depth
 
-The 26 scenario contexts support deterministic, inspectable question families. Form A uses selected responses; Form B asks for a constrained response from a shuffled word bank. Original writing is reviewed by a parent in both forms. These are not two fresh 29-question scenario banks. Several grammar families still repeat the same cognitive operation across many contexts. They require further item writing and independent instructional review before the complete-system acceptance criteria can be claimed.
+Two sets of 26 scenario contexts support deterministic, inspectable question families. Form A uses selected responses; Form B asks for a constrained response from a shuffled word bank. Original writing is reviewed by a parent in both forms. Form B uses fresh sentence contexts and a constrained response bank. Rules and target word forms recur; equivalent difficulty is not independently established. Several grammar families still repeat the same cognitive operation across many contexts. They require further item writing and independent instructional review before the complete-system acceptance criteria can be claimed.
 
-The writing lessons include purpose, audience, planning, drafts, revision, proofreading, and preservation of originals. Narrative/Weekend News, paragraph, opinion, and informational questions vary the tested role (main idea, supporting detail, sequence, opinion, evidence, conclusion). Some continued and introduced GUM subskills are discussed but not yet sufficiently assessed; see the standards matrix.
+The writing lessons include purpose, audience, planning, drafts, revision, proofreading, and preservation of originals. Narrative/Weekend News, paragraph, opinion, and informational questions vary the tested role (main idea, supporting detail, sequence, opinion, evidence, conclusion). Added review passes populated relative words, introductory commas, proper names/adjectives, irregular plural ownership, yes/no and question dialogue, comparison adverbs, confused words, and both singular/plural indefinite-pronoun agreement. See the standards matrix for the evidence and scope limits.

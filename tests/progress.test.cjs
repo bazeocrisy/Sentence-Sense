@@ -1,8 +1,119 @@
-const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-function setup(raw,blocked=false){const map=new Map(raw===undefined?[]:[['sentence-sense-v2',raw]]),ctx={console,Date,JSON,Set,localStorage:{getItem:k=>{if(blocked)throw Error('blocked');return map.get(k)||null;},setItem:(k,v)=>{if(blocked)throw Error('blocked');map.set(k,v);},removeItem:k=>map.delete(k)}};vm.createContext(ctx);for(const p of ['js/data/curriculum.js','js/data/questions.js','js/core/progress.js'])vm.runInContext(fs.readFileSync(p,'utf8'),ctx);return {P:ctx.SS_PROGRESS,C:ctx.SS_CURRICULUM,map};}
-test('new and returning sessions preserve exact place and assistance',()=>{const {P,map}=setup();const s=P.session('complete','independent');s.pos=4;s.answers[0].assisted=true;s.answers[0].shown=true;s.answers[0].attempts=1;P.bookmark('complete','independent');assert(P.save());const next=setup(map.get(P.KEY)).P;assert.equal(next.data.bookmark.mode,'independent');assert.equal(next.session('complete','independent').pos,4);assert(next.session('complete','independent').answers[0].assisted);});
-test('corrupt, old, and malformed data preserve recovery copy',()=>{for(const raw of ['{bad','{"version":1}','{"version":2,"lessons":{"complete":{}},"writing":[],"history":[]}']){const {P,map}=setup(raw);assert(P.warning);assert.equal(Object.keys(P.data.lessons).length,0);assert.equal(map.get(P.KEY+'-recovery'),raw);}});
-test('unavailable storage remains usable and warns honestly',()=>{const {P}=setup(undefined,true);assert(P.warning);assert.equal(P.save(),false);assert.equal(P.session('nouns','test').answers.length,29);});
-test('assisted completion never grants independent mastery; writing stays pending',()=>{const {P,C}=setup(),s=P.session('complete','test'),qs=C.questions('complete','test');s.submitted=true;s.answers.forEach(a=>{a.correct=true;a.assisted=true;a.firstCorrect=true;});let sc=P.score(s,qs);assert.equal(sc.auto,26);assert.equal(sc.pending,3);assert.equal(sc.independent,0);assert.equal(sc.mastered,false);for(let i=26;i<29;i++)s.answers[i].rubric=[true,true,true];sc=P.score(s,qs);assert.equal(sc.total,29);assert(sc.mastered);s.answers[26].rubric=[true,false,true];assert(!P.score(s,qs).mastered);});
-test('retakes alternate forms and preserve immutable result snapshots',()=>{const {P,C}=setup();const s=P.session('nouns','test');s.answers[26].text='My original sentence.';s.submitted=true;P.result('nouns','test',s,C.questions('nouns','test'));const next=P.session('nouns','test',true);assert.equal(next.form,1);assert.equal(P.record('nouns').results[0].responses[26].text,'My original sentence.');assert.equal(next.answers[26].text,'');});
-test('reset clears saved work and recovery copy',()=>{const {P,map}=setup('{bad');P.record('complete');P.save();assert(P.reset());assert.equal(P.data.writing.length,0);assert.equal(map.size,0);});
+const test = require("node:test"),
+  assert = require("node:assert/strict"),
+  fs = require("node:fs"),
+  vm = require("node:vm");
+function setup(raw, blocked = false) {
+  const map = new Map(raw === undefined ? [] : [["sentence-sense-v2", raw]]),
+    ctx = {
+      console,
+      Date,
+      JSON,
+      Set,
+      localStorage: {
+        getItem: (k) => {
+          if (blocked) throw Error("blocked");
+          return map.get(k) || null;
+        },
+        setItem: (k, v) => {
+          if (blocked) throw Error("blocked");
+          map.set(k, v);
+        },
+        removeItem: (k) => map.delete(k),
+      },
+    };
+  vm.createContext(ctx);
+  for (const p of [
+    "js/data/curriculum.js",
+    "js/data/verb-reference-bank.js",
+    "js/data/questions.js",
+    "js/core/progress.js",
+  ])
+    vm.runInContext(fs.readFileSync(p, "utf8"), ctx);
+  return { P: ctx.SS_PROGRESS, C: ctx.SS_CURRICULUM, map };
+}
+test("new and returning sessions preserve exact place and assistance", () => {
+  const { P, map } = setup();
+  const s = P.session("complete", "independent");
+  s.pos = 4;
+  s.answers[0].assisted = true;
+  s.answers[0].shown = true;
+  s.answers[0].attempts = 1;
+  P.bookmark("complete", "independent");
+  assert(P.save());
+  const next = setup(map.get(P.KEY)).P;
+  assert.equal(next.data.bookmark.mode, "independent");
+  assert.equal(next.session("complete", "independent").pos, 4);
+  assert(next.session("complete", "independent").answers[0].assisted);
+});
+test("corrupt, old, and malformed data preserve recovery copy", () => {
+  for (const raw of [
+    "{bad",
+    '{"version":1}',
+    '{"version":2,"lessons":{"complete":{}},"writing":[],"history":[]}',
+  ]) {
+    const { P, map } = setup(raw);
+    assert(P.warning);
+    assert.equal(Object.keys(P.data.lessons).length, 0);
+    assert.equal(map.get(P.KEY + "-recovery"), raw);
+  }
+});
+test("unavailable storage remains usable and warns honestly", () => {
+  const { P } = setup(undefined, true);
+  assert(P.warning);
+  assert.equal(P.save(), false);
+  assert.equal(P.session("nouns", "test").answers.length, 29);
+});
+test("assisted completion never grants independent mastery; writing stays pending", () => {
+  const { P, C } = setup(),
+    s = P.session("complete", "test"),
+    qs = C.questions("complete", "test");
+  s.submitted = true;
+  s.answers.forEach((a) => {
+    a.correct = true;
+    a.assisted = true;
+    a.firstCorrect = true;
+  });
+  let sc = P.score(s, qs);
+  assert.equal(sc.auto, 26);
+  assert.equal(sc.pending, 3);
+  assert.equal(sc.independent, 0);
+  assert.equal(sc.mastered, false);
+  for (let i = 26; i < 29; i++) s.answers[i].rubric = [true, true, true];
+  sc = P.score(s, qs);
+  assert.equal(sc.total, 29);
+  assert(sc.mastered);
+  s.answers[26].rubric = [true, false, true];
+  assert(!P.score(s, qs).mastered);
+});
+test("retakes alternate forms and preserve immutable result snapshots", () => {
+  const { P, C } = setup();
+  const s = P.session("nouns", "test");
+  s.answers[26].text = "My original sentence.";
+  s.submitted = true;
+  P.result("nouns", "test", s, C.questions("nouns", "test"));
+  const next = P.session("nouns", "test", true);
+  assert.equal(next.form, 1);
+  assert.equal(
+    P.record("nouns").results[0].responses[26].text,
+    "My original sentence.",
+  );
+  assert.equal(next.answers[26].text, "");
+});
+test("reset clears saved work and recovery copy", () => {
+  const { P, map } = setup("{bad");
+  P.record("complete");
+  P.save();
+  assert(P.reset());
+  assert.equal(P.data.writing.length, 0);
+  assert.equal(map.size, 0);
+});
+
+test("cross-tab conflict blocks stale saves", () => {
+  const { P, map } = setup();
+  P.save();
+  const before = map.get(P.KEY);
+  P.blockWrites();
+  P.record("nouns").teachStep = 2;
+  assert.equal(P.save(), false);
+  assert.equal(map.get(P.KEY), before);
+});

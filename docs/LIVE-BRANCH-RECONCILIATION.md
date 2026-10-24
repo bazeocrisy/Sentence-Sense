@@ -1,0 +1,11 @@
+# Repository and live-site mismatch — release gate
+
+The instructed main baseline is cc1f102924ad4bb74166b1ac056005c3854380e3 (Build 1.2.7), and the pre-existing requested feature branch initially pointed there. The read-only production check during development found **Build 1.8.0**, not 1.2.7. Production index.html matches `origin/build-1.8` and `origin/claude/build-1.4`. Build-1.8 tip: ccbfeb41784f7eef95aaa64e7de1426932f960c1.
+
+Production loads sentence.js, learn.js, practice.js and test.js. This newer system has ten surfaced grammar skills, Learn/Practice/Test, dynamic test pools, post-test explanation and a mixed Grammar Check. The newer content has 48 Verb assessment items and 36 items in each of nine other surfaced skills; each surfaced skill also has authored guided work. Its test engine persists recent item IDs in sessionStorage, not student scores or writing. Existing historical audit claims were read as historical claims, not treated as tests executed in this environment.
+
+The 2.0 branch is deliberately separate and based on main, as requested. It adds writing, the new learning path, persistent local results and the mandatory 29-task mixed assessments. It does **not** claim complete functional parity with the live 1.8 system: mixed Grammar Check, variable test lengths, and all existing larger assessment pools are not migrated into the new runner. Variable lengths conflict with the new fixed 29-question requirement, but mixed-skill checks and broad pools remain useful future work. The preserved 20-question production Verb bank is reused in the 2.0 guided engine with its stage ordering and authored per-choice feedback.
+
+No merge, Pages configuration change, or deployment has been performed. This draft must not be described as a production-ready replacement until live-branch compatibility, retained content, and intended deployment source are fully reconciled. Existing live branches and their content remain intact. Current product instructions authorize the new path and design; they supersede historical “locked” design notes, but do not eliminate the need to review content parity.
+
+Evidence: `evidence/production-check.json` and `evidence/production-app-metadata.json`. These record the source actually retrieved; the live website is not asserted byte-identical to main. The main branch and production are distinct baselines.

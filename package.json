@@ -1,6 +1,13 @@
 {
- "name":"sentence-sense","version":"2.0.0-dev","private":true,
- "description":"Static third-grade grammar and writing learning system",
- "scripts":{"test":"node --test tests/content.test.cjs tests/progress.test.cjs","test:browser":"node tests/browser.cjs"},
- "devDependencies":{"playwright":"1.62.1"}
+  "name": "sentence-sense",
+  "version": "2.0.0-dev",
+  "private": true,
+  "description": "Static third-grade grammar and writing learning system",
+  "scripts": {
+    "test": "node --test tests/content.test.cjs tests/progress.test.cjs",
+    "test:browser": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
 }

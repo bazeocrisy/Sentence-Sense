@@ -1,12 +1,114 @@
-const test=require('node:test'),assert=require('node:assert/strict');require('../js/data/curriculum.js');require('../js/data/questions.js');const C=global.SS_CURRICULUM;
-test('seven units contain real lessons with complete teaching contracts',()=>{assert.equal(C.units.length,7);assert.equal(new Set(C.lessons.map(l=>l.id)).size,C.lessons.length);for(let unit=0;unit<7;unit++)assert(C.lessons.some(l=>l.unit===unit));for(const l of C.lessons){for(const p of ['title','objective','definition','why','mistake','write'])assert(l[p]?.length>0,l.id+' '+p);assert(l.steps.length>=4);assert.equal(l.criteria.length,3);}});
-for(const l of C.lessons)test(`${l.id}: lesson bank, counts, stable answer identity and form coverage`,()=>{
- for(const mode of ['guided','independent','test'])for(const form of [0,1])for(const seed of [0,1,2]){
- const qs=C.questions(l.id,mode,form,seed);assert.equal(qs.length,{guided:12,independent:10,test:29}[mode]);assert.equal(new Set(qs.map(q=>q.id)).size,qs.length);
- assert.equal(new Set(qs.map(q=>q.prompt+'\n'+q.context)).size,qs.length,'duplicate full question');
- for(const q of qs){assert(q.prompt&&q.context);assert.equal(q.hints.length,3);assert(q.hints.every(Boolean));if(q.type==='writing'){assert.equal(q.criteria.length,3);assert(q.model);}else{assert(q.answer&&q.reason);if(q.choices){assert.equal(q.choices.filter(c=>c.id==='key').length,1);assert.equal(q.choices.find(c=>c.id==='key').text,q.answer);assert.equal(new Set(q.choices.map(c=>c.text)).size,q.choices.length);assert(q.choices.every(c=>c.feedback));}}}
- }
- const a=C.questions(l.id,'test',0),b=C.questions(l.id,'test',1);assert(a.slice(0,26).every(q=>q.type==='choice'));assert(b.slice(0,26).every(q=>q.type==='short'));assert.equal(a.filter(q=>q.type==='writing').length,3);assert.equal(b.filter(q=>q.type==='writing').length,3);assert(a.every((q,i)=>q.id!==b[i].id));
+const test = require("node:test"),
+  assert = require("node:assert/strict");
+require("../js/data/curriculum.js");
+require("../js/data/verb-reference-bank.js");
+require("../js/data/questions.js");
+const C = global.SS_CURRICULUM;
+test("seven units contain real lessons with complete teaching contracts", () => {
+  assert.equal(C.units.length, 7);
+  assert.equal(new Set(C.lessons.map((l) => l.id)).size, C.lessons.length);
+  for (let unit = 0; unit < 7; unit++)
+    assert(C.lessons.some((l) => l.unit === unit));
+  for (const l of C.lessons) {
+    for (const p of [
+      "title",
+      "objective",
+      "definition",
+      "why",
+      "mistake",
+      "write",
+    ])
+      assert(l[p]?.length > 0, l.id + " " + p);
+    assert(l.steps.length >= 4);
+    assert.equal(l.criteria.length, 3);
+  }
 });
-test('official exact standard codes exist; no invented code in curriculum',()=>{const source=require('../docs/sources/georgia-grade3-2026.json');const codes=new Set(source.items.map(x=>x.humanCodingScheme));for(const l of C.lessons)for(const code of l.codes)assert(codes.has(code),l.id+' '+code);assert.equal(source.document.statusStartDate,'2025-07-01');});
-test('abstract nouns are explicitly demonstrated and assessed',()=>{const qs=C.questions('nouns','test');assert(qs.some(q=>q.context.includes('courage')&&q.answer==='courage'));assert(qs.some(q=>q.reason?.includes('collective noun')));});
+for (const l of C.lessons)
+  test(`${l.id}: lesson bank, counts, stable answer identity and form coverage`, () => {
+    for (const mode of ["guided", "independent", "test"])
+      for (const form of [0, 1])
+        for (const seed of [0, 1, 2]) {
+          const qs = C.questions(l.id, mode, form, seed);
+          assert.equal(
+            qs.length,
+            { guided: l.id === "verbs" ? 15 : 12, independent: 10, test: 29 }[
+              mode
+            ],
+          );
+          assert.equal(new Set(qs.map((q) => q.id)).size, qs.length);
+          assert.equal(
+            new Set(qs.map((q) => q.prompt + "\n" + q.context)).size,
+            qs.length,
+            "duplicate full question",
+          );
+          for (const q of qs) {
+            assert(q.prompt && q.context);
+            assert.equal(q.hints.length, 3);
+            assert(q.hints.every(Boolean));
+            if (q.type === "writing") {
+              assert.equal(q.criteria.length, 3);
+              assert(q.model);
+            } else {
+              assert(q.answer && q.reason);
+              if (q.choices) {
+                assert.equal(q.choices.filter((c) => c.id === "key").length, 1);
+                assert.equal(
+                  q.choices.find((c) => c.id === "key").text,
+                  q.answer,
+                );
+                assert.equal(
+                  new Set(q.choices.map((c) => c.text)).size,
+                  q.choices.length,
+                );
+                assert(q.choices.every((c) => c.feedback));
+              }
+            }
+          }
+        }
+    const a = C.questions(l.id, "test", 0),
+      b = C.questions(l.id, "test", 1);
+    assert(a.slice(0, 26).every((q) => q.type === "choice"));
+    assert(b.slice(0, 26).every((q) => q.type === "short"));
+    assert.equal(a.filter((q) => q.type === "writing").length, 3);
+    assert.equal(b.filter((q) => q.type === "writing").length, 3);
+    assert(a.every((q, i) => q.id !== b[i].id));
+    assert(
+      a.slice(0, 26).every((q, i) => q.context !== b[i].context),
+      "Retake context must change",
+    );
+    assert(
+      b
+        .slice(0, 26)
+        .every((q) =>
+          q.responseBank.some((c) => c.id === "key" && c.text === q.answer),
+        ),
+    );
+    assert(
+      a.slice(0, 26).every((q) => q.hints[2] !== q.reason),
+      "Hint three should coach rather than copy full answer reasoning",
+    );
+  });
+test("official exact standard codes exist; no invented code in curriculum", () => {
+  const source = require("../docs/sources/georgia-grade3-2026.json");
+  const codes = new Set(source.items.map((x) => x.humanCodingScheme));
+  for (const l of C.lessons)
+    for (const code of l.codes) assert(codes.has(code), l.id + " " + code);
+  assert.equal(source.document.statusStartDate, "2025-07-01");
+});
+test("abstract nouns are explicitly demonstrated and assessed", () => {
+  const qs = C.questions("nouns", "test");
+  assert(
+    qs.some((q) => q.context.includes("courage") && q.answer === "courage"),
+  );
+  assert(qs.some((q) => q.reason?.includes("collective noun")));
+});
+
+test("production Verb content is reused with stage-scoped order and stable keys", () => {
+  const qs = C.questions("verbs", "guided");
+  assert.equal(qs.length, 15);
+  assert.deepEqual(
+    qs.map((q) => q.level),
+    [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4],
+  );
+  assert(qs.slice(0, 12).every((q) => q.id.includes("reference")));
+});

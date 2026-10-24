@@ -21,3 +21,24 @@ The following are confirmed by source inspection unless explicitly labelled susp
 Baseline bank safeguards worth preserving: stable answer identity using dataset.ci; Fisher–Yates answer choice shuffle; staged difficulty; authored per-choice feedback; plain sentence before annotations; being-verb Q20 uses “busy” rather than ambiguous participle “crowded.” No fetched user input is inserted through unsafe HTML in the baseline. No browser storage or personal-data collection exists at baseline. Static answer keys are inspectable source code; a child-facing no-answer-during-test rule cannot make static browser assets secret.
 
 Baseline tests: no runnable suite exists. Browser launch attempt failed due to missing executable; not a test pass. See WORK-PROGRESS and subsequent QA-RESULTS for actual execution evidence. Old reports are evidence about their own historic environments only.
+
+## Resolution review and additional live-source finding
+
+| ID | Current status | Evidence |
+|---|---|---|
+| F01 | New development engines implemented | Every lesson/stage opens; full guided, independent and assessment cycles execute |
+| F02 | Fixed in new runner | Exact refresh/place tests, local snapshots, Back/Exit |
+| F03 | Expanded to seven units / 30 lessons; breadth review remains | Curriculum/standards matrix and question contract tests |
+| F04 / D-20 | Fixed in new content | Explicit abstract noun worked sentence with labelled courage, collective/common/proper/abstract tasks |
+| F05 | Fixed | Three hint levels, I Don’t Know, direct answer, attempt-gated independent help |
+| F06 / D-35 | Legacy overlay replaced in new runner | Native modal; Escape/focus and background exclusion checks; real screen reader untested |
+| F07 / D-27 | New normal-flow controls; phone overlay found and fixed | Ten viewport sizes and visual screenshots; physical Safari untested |
+| F08 | Fixed | Completion, independent correctness, assisted work and reviewed mastery separated |
+| F09 | Current documentation and suite committed | New handoff and executed evidence |
+| F10 | Removed in new entry point | Local system fonts, no external stylesheet, CSP connect-src none |
+| F11 / D-26 | Accepted metadata placement | Footer remains in document flow |
+| F12 | **OPEN, HIGH — production/main divergence** | Live source is Build 1.8.0, main is 1.2.7; see below |
+
+F12 affected locations: baseline main js/app.js:40 and current production app.js BUILD_NUMBER declaration; production index script list. Reproduce by comparing fetched production HTML/app.js with main and build-1.8. Root cause: deployment-source history differs from main; production HTML exactly matches another remote branch. Impact: a main-based rewrite cannot be assumed to preserve all live behavior/content. Recommended fix: complete branch/parity reconciliation, preserve useful reviewed banks and mixed-skill behavior, determine intended deployment source before release. Regression risk: replacing newer live instruction with an older assumed baseline. Verification: compare source trees and run live-branch and candidate acceptance checks. Resolution: partial — newer branch inspected, production Verb authored bank preserved and reused; full live-pool/mixed-check parity remains open. No release-ready or complete claim is made.
+
+These new-engine resolutions do not retrospectively turn the baseline defects into production defects: live 1.8 already has practice/test capabilities absent from main. The original findings are explicitly tied to cc1f102; the later production finding corrects the product-wide interpretation.
