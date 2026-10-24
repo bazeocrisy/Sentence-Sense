@@ -21,3 +21,9 @@ Additional content passes added mixed writing-comprehension objectives, original
 ## Important live-baseline discovery
 
 Read-only production retrieval found Build 1.8.0, matching build-1.8 / claude/build-1.4 at ccbfeb4, whereas main and the initial feature branch were cc1f102 (1.2.7). The newer branch has ten skills, larger dynamic pools and mixed Grammar Check. This difference is documented as an open release gate, not hidden or overwritten. No production branch or deployment setting was changed. This checkpoint is not the full completed assignment; live parity/content validation and human usability/accessibility review remain.
+
+## Saved review checkpoint
+
+Code and complete evidence saved at GitHub commit `0d8f7de34c43ceece58b948e9523033348d39aa4`; verified uploaded tree exactly matched local tree `55aeb242c198c1cb5851937d152e456e71e99137`. Latest executed results: 41 unit/data/progress tests passed; 15 grouped browser checks passed, no failures. Screenshots and test output are committed. Main remains cc1f102 and live branch remains ccbfeb4.
+
+Draft PR #3: https://github.com/bazeocrisy/Sentence-Sense/pull/3 . It is explicitly WIP / do not merge, with owner instructions, evidence and remaining release gates. No merge, deployment, Pages setting change, or mutation of the production branch occurred. Continuing work should start with LIVE-BRANCH-RECONCILIATION.md rather than assuming main describes production.
