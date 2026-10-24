@@ -1,0 +1,53 @@
+
+> sentence-sense@2.0.0-dev test
+> node --test tests/content.test.cjs tests/progress.test.cjs
+
+✔ seven units contain real lessons with complete teaching contracts (7.857294ms)
+✔ complete: lesson bank, counts, stable answer identity and form coverage (38.467962ms)
+✔ subject: lesson bank, counts, stable answer identity and form coverage (3.918185ms)
+✔ capitals: lesson bank, counts, stable answer identity and form coverage (15.838636ms)
+✔ types: lesson bank, counts, stable answer identity and form coverage (7.756856ms)
+✔ nouns: lesson bank, counts, stable answer identity and form coverage (10.45328ms)
+✔ plurals: lesson bank, counts, stable answer identity and form coverage (1.80647ms)
+✔ verbs: lesson bank, counts, stable answer identity and form coverage (3.679879ms)
+✔ tense: lesson bank, counts, stable answer identity and form coverage (5.098142ms)
+✔ pronouns: lesson bank, counts, stable answer identity and form coverage (2.668855ms)
+✔ describers: lesson bank, counts, stable answer identity and form coverage (7.906112ms)
+✔ prepositions: lesson bank, counts, stable answer identity and form coverage (5.38329ms)
+✔ apostrophes: lesson bank, counts, stable answer identity and form coverage (4.650028ms)
+✔ dialogue: lesson bank, counts, stable answer identity and form coverage (1.735063ms)
+✔ word-choice: lesson bank, counts, stable answer identity and form coverage (4.618164ms)
+✔ hyphens: lesson bank, counts, stable answer identity and form coverage (1.829232ms)
+✔ complete-subject: lesson bank, counts, stable answer identity and form coverage (1.38011ms)
+✔ agreement: lesson bank, counts, stable answer identity and form coverage (2.902158ms)
+✔ compound: lesson bank, counts, stable answer identity and form coverage (2.124116ms)
+✔ complex: lesson bank, counts, stable answer identity and form coverage (5.702174ms)
+✔ builder: lesson bank, counts, stable answer identity and form coverage (3.9926ms)
+✔ fixer: lesson bank, counts, stable answer identity and form coverage (3.371991ms)
+✔ expand: lesson bank, counts, stable answer identity and form coverage (3.74961ms)
+✔ combine: lesson bank, counts, stable answer identity and form coverage (4.617969ms)
+✔ revise: lesson bank, counts, stable answer identity and form coverage (11.77591ms)
+✔ paragraph: lesson bank, counts, stable answer identity and form coverage (7.683768ms)
+✔ sequence: lesson bank, counts, stable answer identity and form coverage (13.645781ms)
+✔ narrative: lesson bank, counts, stable answer identity and form coverage (11.051118ms)
+✔ opinion: lesson bank, counts, stable answer identity and form coverage (10.224507ms)
+✔ informational: lesson bank, counts, stable answer identity and form coverage (12.124319ms)
+✔ weekend: lesson bank, counts, stable answer identity and form coverage (5.823714ms)
+✔ official exact standard codes exist; no invented code in curriculum (3.087856ms)
+✔ abstract nouns are explicitly demonstrated and assessed (0.382285ms)
+✔ production Verb content is reused with stage-scoped order and stable keys (1.578257ms)
+✔ new and returning sessions preserve exact place and assistance (25.210479ms)
+✔ corrupt, old, and malformed data preserve recovery copy (22.324588ms)
+✔ unavailable storage remains usable and warns honestly (16.779736ms)
+✔ assisted completion never grants independent mastery; writing stays pending (40.293042ms)
+✔ retakes alternate forms and preserve immutable result snapshots (11.695938ms)
+✔ reset clears saved work and recovery copy (6.359054ms)
+✔ cross-tab conflict blocks stale saves (6.596752ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 488.02114

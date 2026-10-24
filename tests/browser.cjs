@@ -1,0 +1,573 @@
+const fs = require("node:fs"),
+  path = require("node:path"),
+  assert = require("node:assert/strict");
+let pw;
+try {
+  pw = require("playwright");
+} catch (_) {
+  pw = require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES + "/playwright");
+}
+const executable = process.env.BROWSER_PATH;
+const out = path.resolve("docs/evidence");
+fs.mkdirSync(out, { recursive: true });
+let page,
+  browser,
+  checks = 0;
+const errors = [];
+const url = process.env.SS_URL || "file://" + path.resolve("index.html");
+const check = (name, fn) =>
+  Promise.resolve()
+    .then(fn)
+    .then(() => {
+      checks++;
+      console.log("PASS", name);
+    })
+    .catch((e) => {
+      errors.push({ name, error: e.stack });
+      console.error("FAIL", name, e.message);
+    });
+const b = (name) => page.getByRole("button", { name, exact: true });
+async function route(p) {
+  await page.goto(url + "#" + p);
+  await page.waitForFunction(() => document.querySelector("main h1"));
+  await page.waitForTimeout(30);
+}
+async function chooseKey() {
+  const text = await page.evaluate(() => {
+    const m = location.hash.split("/")[2],
+      l = location.hash.split("/")[1],
+      s = SS_PROGRESS.record(l).sessions[m];
+    const q = SS_CURRICULUM.questions(l, m, s.form, s.seed)[s.pos];
+    return q.answer;
+  });
+  await page
+    .locator(".choices button")
+    .filter({ hasText: text })
+    .filter({ visible: true })
+    .first()
+    .click();
+}
+(async () => {
+  browser = await pw.chromium.launch({
+    executablePath: executable || undefined,
+    headless: true,
+    args: ["--no-sandbox", "--no-zygote", "--single-process"],
+  });
+  page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.on("pageerror", (e) =>
+    errors.push({ name: "uncaught browser error", error: e.message }),
+  );
+  await page.goto(url);
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await check("first-time homepage and saved place", async () => {
+    assert(await b("Start My Learning Path").isVisible());
+    assert.equal(await b("Continue Learning").count(), 0);
+    await b("Start My Learning Path").click();
+    await page.waitForTimeout(30);
+    assert(
+      (await page.locator("h1").innerText()).includes("Complete thoughts"),
+    );
+    await b("Next").click();
+    await page.reload();
+    assert((await page.locator("main").innerText()).includes("page 2 of 5"));
+    await b("Home").click();
+    await page.waitForTimeout(30);
+    assert(await b("Continue Learning").isVisible());
+    await b("Continue Learning").click();
+    await page.waitForTimeout(30);
+    assert((await page.locator("main").innerText()).includes("page 2 of 5"));
+  });
+  await check(
+    "all 30 lesson entries, all five teaching pages and four stages render",
+    async () => {
+      await page.evaluate(() => localStorage.clear());
+      await page.reload();
+      const ids = await page.evaluate(() =>
+        SS_CURRICULUM.lessons.map((l) => l.id),
+      );
+      for (const id of ids) {
+        for (const mode of ["teach", "guided", "independent", "test"]) {
+          await route("lesson/" + id + "/" + mode);
+          assert.equal(
+            await page
+              .getByText("This screen could not open.", { exact: true })
+              .count(),
+            0,
+            id + " " + mode,
+          );
+          if (mode === "teach") {
+            for (let i = 1; i < 5; i++) await b("Next").click();
+            assert(await b("Start Practice Together").isVisible());
+          }
+        }
+      }
+    },
+  );
+  await check(
+    "Teach understanding check requires a correct response and saves completion",
+    async () => {
+      await route("lesson/complete/teach");
+      const wrong = await page.evaluate(
+        () =>
+          SS_CURRICULUM.example("complete").choices.find((c) => c.id !== "key")
+            .text,
+      );
+      const right = await page.evaluate(
+        () => SS_CURRICULUM.example("complete").answer,
+      );
+      await page.getByRole("button", { name: wrong, exact: true }).click();
+      assert(await b("Start Practice Together").isDisabled());
+      await page.getByRole("button", { name: right, exact: true }).click();
+      assert(await b("Start Practice Together").isEnabled());
+      await b("Start Practice Together").click();
+      assert(
+        await page.evaluate(() => SS_PROGRESS.record("complete").teachDone),
+      );
+    },
+  );
+  await check(
+    "guided help progression, correct identity, and state does not leak",
+    async () => {
+      await route("lesson/complete/guided");
+      await b("Get a Hint").click();
+      await b("I Don’t Know").click();
+      await b("Get a Hint").click();
+      assert.equal(await page.locator(".hint").count(), 3);
+      await b("Show Me the Answer").click();
+      assert((await page.locator("main").innerText()).includes("Answer:"));
+      await b("Next Question").click();
+      assert.equal(await page.locator(".hint").count(), 0);
+      assert(!(await page.locator("main").innerText()).includes("Answer:"));
+      await chooseKey();
+      await b("Next Question").click();
+      await page.reload();
+      assert(
+        (await page.locator("main").innerText()).includes("Question 3 of 12"),
+      );
+    },
+  );
+  await check(
+    "independent help gates on an attempt and first-attempt score remains separate",
+    async () => {
+      await route("lesson/complete/independent");
+      assert(await b("Get a Hint").isDisabled());
+      const wrong = await page.evaluate(() => {
+        const s = SS_PROGRESS.record("complete").sessions.independent;
+        return SS_CURRICULUM.questions("complete", "independent", 0, s.seed)[
+          s.pos
+        ].choices.find((c) => c.id !== "key").text;
+      });
+      await page.getByRole("button", { name: wrong, exact: true }).click();
+      assert(await b("Get a Hint").isEnabled());
+      await b("Get a Hint").click();
+      await chooseKey();
+      const a = await page.evaluate(
+        () => SS_PROGRESS.record("complete").sessions.independent.answers[0],
+      );
+      assert(a.assisted);
+      assert.equal(a.firstCorrect, false);
+      await b("Next Question").click();
+      assert.equal(await page.locator(".hint").count(), 0);
+    },
+  );
+  await check(
+    "29-question test: no help, no pre-submit answers, interruption and parent review",
+    async () => {
+      await route("lesson/complete/test");
+      const count = await page.evaluate(
+        () => SS_CURRICULUM.questions("complete", "test").length,
+      );
+      assert.equal(count, 29);
+      assert.equal(await b("Get a Hint").count(), 0);
+      assert.equal(await b("Show Me the Answer").count(), 0);
+      for (let i = 0; i < 29; i++) {
+        assert(
+          (await page.locator("main").innerText()).includes(
+            `Question ${i + 1} of 29`,
+          ),
+        );
+        assert.equal(await page.locator(".feedback").count(), 0);
+        if (i < 26) await chooseKey();
+        else
+          await page
+            .locator("#response")
+            .fill(
+              i === 26
+                ? "Our class explored the garden."
+                : i === 27
+                  ? "A careful gardener showed us growing plants."
+                  : "Original: We saw plants. Revision: We examined tiny green plants near the window. I added a useful detail.",
+            );
+        if (i === 4) {
+          await page.reload();
+          assert(
+            (await page.locator("main").innerText()).includes(
+              "Question 5 of 29",
+            ),
+          );
+        }
+        await b(i === 28 ? "Review & Submit" : "Next Question").click();
+      }
+      assert(await page.getByRole("dialog").isVisible());
+      await b("Submit Test").click();
+      assert((await page.locator("main").innerText()).includes("26/26"));
+      assert(
+        (await page.locator("main").innerText()).includes(
+          "Writing review is needed",
+        ),
+      );
+      const r = await page.evaluate(() =>
+        SS_PROGRESS.record("complete").results.find((r) => r.mode === "test"),
+      );
+      assert.equal(r.mastered, false);
+      assert.equal(r.responses.length, 29);
+      await b("Parent Writing Review").click();
+      await page.waitForTimeout(30);
+      await page
+        .locator("main details")
+        .first()
+        .locator("summary")
+        .first()
+        .click();
+      for (let k = 0; k < 3; k++) {
+        const panel = page.locator("main details").first();
+        for (let j = 0; j < 3; j++)
+          await panel
+            .locator("input[type=checkbox]")
+            .nth(k * 3 + j)
+            .check();
+        await panel
+          .getByRole("button", { name: "Save Writing Review", exact: true })
+          .nth(k)
+          .click();
+        if (k < 2)
+          await page
+            .locator("main details")
+            .first()
+            .locator("summary")
+            .first()
+            .click();
+      }
+      assert.equal(
+        await page.evaluate(
+          () =>
+            SS_PROGRESS.record("complete").results.find(
+              (r) => r.mode === "test",
+            ).mastered,
+        ),
+        true,
+      );
+      await route("lesson/complete/test");
+      await b("Start Retake").click();
+      assert((await page.locator("main").innerText()).includes("Form B"));
+      assert.equal(await page.locator("#response").count(), 1);
+      assert.equal(await page.locator(".wordbank li").count(), 3);
+    },
+  );
+  await check(
+    "word bank form B scoring and exact input survives refresh",
+    async () => {
+      await route("lesson/complete/test");
+      const answer = await page.evaluate(
+        () => SS_CURRICULUM.questions("complete", "test", 1)[0].answer,
+      );
+      await page.locator("#response").fill(answer);
+      await page.reload();
+      assert.equal(await page.locator("#response").inputValue(), answer);
+      await b("Next Question").click();
+      assert(
+        (await page.locator("main").innerText()).includes("Question 2 of 29"),
+      );
+    },
+  );
+  await check(
+    "full independent session has exactly ten tasks and separate assisted and writing totals",
+    async () => {
+      await route("lesson/complete/independent");
+      const start = await page.evaluate(
+        () => SS_PROGRESS.record("complete").sessions.independent.pos,
+      );
+      for (let i = start; i < 10; i++) {
+        if (i < 8) await chooseKey();
+        else {
+          await page
+            .locator("#response")
+            .fill("The careful player practiced beside the field.");
+          await b("Save My Attempt").click();
+        }
+        await b(i === 9 ? "Finish Session" : "Next Question").click();
+      }
+      const r = await page.evaluate(() =>
+        SS_PROGRESS.record("complete").results.find(
+          (r) => r.mode === "independent",
+        ),
+      );
+      assert.equal(r.responses.length, 10);
+      assert.equal(r.pending, 2);
+      assert.equal(r.assisted, 1);
+      assert.equal(r.independent, 7);
+      assert.equal(r.mastered, false);
+    },
+  );
+  await check(
+    "full Form B retake uses fresh contexts and scores constrained answers after submission",
+    async () => {
+      await route("lesson/complete/test");
+      const start = await page.evaluate(
+        () => SS_PROGRESS.record("complete").sessions.test.pos,
+      );
+      for (let i = start; i < 29; i++) {
+        const answer = await page.evaluate(() => {
+          const s = SS_PROGRESS.record("complete").sessions.test;
+          return SS_CURRICULUM.questions("complete", "test", s.form, s.seed)[
+            s.pos
+          ].answer;
+        });
+        await page
+          .locator("#response")
+          .fill(
+            i < 26
+              ? answer
+              : "Our class observed young plants beside the fence.",
+          );
+        await b(i === 28 ? "Review & Submit" : "Next Question").click();
+      }
+      await b("Submit Test").click();
+      assert((await page.locator("main").innerText()).includes("26/26"));
+      const rs = await page.evaluate(() =>
+        SS_PROGRESS.record("complete").results.filter((r) => r.mode === "test"),
+      );
+      assert.equal(rs.length, 2);
+      assert.equal(rs[0].mastered, true);
+      assert.equal(rs[1].mastered, false);
+      assert.equal(rs[1].pending, 3);
+    },
+  );
+  await check(
+    "writing notebook preserves originals, revisions, and safe text rendering",
+    async () => {
+      await route("notebook/weekend");
+      await page.locator("#plan").fill("First the game, then lunch.");
+      await page
+        .locator("#draft")
+        .fill("I played baseball. <img src=x onerror=alert(1)>");
+      await b("Preserve First Draft").click();
+      assert((await page.locator("#draft").getAttribute("readonly")) !== null);
+      await page
+        .locator("#revision")
+        .fill("On Saturday, I caught a low pitch at the field.");
+      await b("Save Revised Version").click();
+      await page.reload();
+      assert((await page.locator("#draft").inputValue()).includes("<img"));
+      assert.equal(await page.locator("main img").count(), 0);
+      assert.equal(
+        await page.evaluate(
+          () =>
+            SS_PROGRESS.data.writing.find((w) => w.lesson === "weekend")
+              .revisions.length,
+        ),
+        1,
+      );
+    },
+  );
+  await check(
+    "native study guide keyboard close and focus return",
+    async () => {
+      await route("lesson/nouns/teach");
+      await b("Study Guide").click();
+      assert(await page.getByRole("dialog").isVisible());
+      await page.keyboard.press("Escape");
+      assert(!(await page.getByRole("dialog").isVisible()));
+      assert.equal(
+        await page.evaluate(() => document.activeElement.textContent),
+        "Study Guide",
+      );
+    },
+  );
+  await check(
+    "responsive matrix: every route has no horizontal overflow or clipped controls",
+    async () => {
+      const sizes = [
+        [320, 568],
+        [375, 667],
+        [390, 844],
+        [768, 1024],
+        [1024, 768],
+        [1366, 768],
+        [1920, 1080],
+        [844, 390],
+        [667, 375],
+        [1920, 600],
+      ];
+      for (const [width, height] of sizes) {
+        await page.setViewportSize({ width, height });
+        for (const r of [
+          "home",
+          "lessons",
+          "writing",
+          "notebook/weekend",
+          "parents",
+          "lesson/complete/teach",
+          "lesson/complete/guided",
+          "lesson/complete/independent",
+          "lesson/complete/test",
+        ]) {
+          await route(r);
+          assert(
+            await page.evaluate(
+              () => document.documentElement.scrollWidth <= innerWidth + 1,
+            ),
+            width + " " + r + " overflow",
+          );
+          const bad = await page.locator("button:visible").evaluateAll((bs) =>
+            bs
+              .filter((b) => {
+                const r = b.getBoundingClientRect();
+                return (
+                  r.width < 43 ||
+                  r.height < 43 ||
+                  r.left < 0 ||
+                  r.right > innerWidth + 1
+                );
+              })
+              .map((b) => b.textContent),
+          );
+          assert.deepEqual(bad, [], width + " " + r + " button geometry");
+        }
+      }
+      await page.setViewportSize({ width: 390, height: 844 });
+      await route("home");
+      await page.screenshot({
+        path: path.join(out, "home-phone.png"),
+        fullPage: true,
+      });
+      await route("lesson/nouns/guided");
+      await page.screenshot({
+        path: path.join(out, "practice-phone.png"),
+        fullPage: true,
+      });
+      await page.setViewportSize({ width: 1366, height: 768 });
+      await route("home");
+      await page.screenshot({
+        path: path.join(out, "home-desktop.png"),
+        fullPage: true,
+      });
+      await route("lesson/paragraph/teach");
+      await page.screenshot({
+        path: path.join(out, "teach-desktop.png"),
+        fullPage: true,
+      });
+    },
+  );
+  await check(
+    "stale double advancement and fifteen-task preserved Verb cycle",
+    async () => {
+      await route("lesson/agreement/guided");
+      await chooseKey();
+      await b("Next Question").evaluate((el) => {
+        el.click();
+        el.click();
+      });
+      assert.equal(
+        await page.evaluate(
+          () => SS_PROGRESS.record("agreement").sessions.guided.pos,
+        ),
+        1,
+      );
+      await route("lesson/verbs/guided");
+      for (let i = 0; i < 15; i++) {
+        assert(
+          (await page.locator("main").innerText()).includes(
+            `Question ${i + 1} of 15`,
+          ),
+        );
+        await chooseKey();
+        await b(i === 14 ? "Finish Session" : "Next Question").click();
+      }
+      const r = await page.evaluate(() =>
+        SS_PROGRESS.record("verbs").results.find((r) => r.mode === "guided"),
+      );
+      assert.equal(r.responses.length, 15);
+      assert.equal(r.mastered, false);
+    },
+  );
+  await check(
+    "keyboard focus, native modal background exclusion and text contrast",
+    async () => {
+      await route("lesson/nouns/teach");
+      await b("Study Guide").click();
+      await page.locator("#global-nav button").first().focus();
+      assert(
+        await page.evaluate(
+          () => !document.activeElement.closest("#global-nav"),
+        ),
+      );
+      await page.keyboard.press("Escape");
+      await page.keyboard.press("Tab");
+      const outline = await page.evaluate(
+        () => getComputedStyle(document.activeElement).outlineWidth,
+      );
+      assert(parseFloat(outline) >= 3);
+      const pairs = [
+        ["183451", "f5f6ef"],
+        ["506174", "f5f6ef"],
+        ["ffffff", "176044"],
+        ["254d33", "e7efe5"],
+        ["174c9d", "f5f6ef"],
+      ];
+      const lum = (h) => {
+        const rgb = h
+          .match(/../g)
+          .map((c) => parseInt(c, 16) / 255)
+          .map((c) =>
+            c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4,
+          );
+        return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+      };
+      for (const [fg, bg] of pairs) {
+        const a = lum(fg),
+          c = lum(bg);
+        assert((Math.max(a, c) + 0.05) / (Math.min(a, c) + 0.05) >= 4.5);
+      }
+    },
+  );
+  await check(
+    "reset cancellation leaves data; confirmed reset removes it",
+    async () => {
+      await route("parents");
+      await b("Reset Progress").click();
+      await b("Close").click();
+      assert(await page.evaluate(() => SS_PROGRESS.data.writing.length > 0));
+      await b("Reset Progress").click();
+      await b("Confirm").click();
+      await page.waitForTimeout(30);
+      assert.equal(await b("Continue Learning").count(), 0);
+      assert.equal(
+        await page.evaluate(() => SS_PROGRESS.data.writing.length),
+        0,
+      );
+    },
+  );
+  await browser.close();
+  fs.writeFileSync(
+    path.join(out, "browser-results.json"),
+    JSON.stringify(
+      {
+        date: new Date().toISOString(),
+        checks,
+        errors,
+        browser:
+          "Chromium headless shell 143.0.7499.4; simulated viewports; single-process",
+      },
+      null,
+      2,
+    ),
+  );
+  if (errors.length) process.exitCode = 1;
+  console.log(`${checks} passed; ${errors.length} failures`);
+})().catch(async (e) => {
+  console.error(e);
+  if (browser) await browser.close();
+  process.exitCode = 1;
+});

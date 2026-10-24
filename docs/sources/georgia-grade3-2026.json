@@ -1,0 +1,1287 @@
+{
+  "retrieved": "2026-10-24",
+  "source": "https://case.georgiastandards.org/ims/case/v1p0/CFPackages/391c3abe-c1ec-4a4a-a942-c9e152b35102",
+  "document": {
+    "identifier": "391c3abe-c1ec-4a4a-a942-c9e152b35102",
+    "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFDocuments/391c3abe-c1ec-4a4a-a942-c9e152b35102",
+    "creator": "Georgia Department of Education",
+    "title": "English Language Arts - Georgia Department of Education",
+    "lastChangeDateTime": "2026-07-09T13:12:32+00:00",
+    "publisher": "Georgia Department of Education",
+    "description": "**Georgia\u2019s K-12 Standards for English Language Arts will be fully implemented in the 2025-2026 school year.**\nThe Georgia Standards of Excellence require that students gain, evaluate, and present incr\u200b\u200beasingly complex information, ideas and evidence through listening and speaking as well as through media. The standards recognize that students must be able to use formal Eng\u200blish in their writing and speaking but that they must also be able to make informed, skillful choices among the many ways to express themselves through language. It is important to note t\u200bhe impact of the standards on classroom instruction: building knowledge through content-rich nonfiction; reading, writing and speaking grounded in evidence from the text, both literary and informational; and regular practice with complex\u200b text and its academic language.\u200b  The GSE will remain the standards for instruction through the 2024-2025 school year, and the newly adopted K-12 Georgia Standards of English Language Arts will be fully implemented during the 2025-2026 school year. ",
+    "subject": [
+      "English"
+    ],
+    "language": "en",
+    "adoptionStatus": "Adopted",
+    "version": "1.0",
+    "licenseURI": {
+      "title": "Attribution-Non Commercial-Share Alike CC BY-NC-SA",
+      "identifier": "d882a8cd-deb9-41bc-8567-1df270735af6",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFLicenses/d882a8cd-deb9-41bc-8567-1df270735af6"
+    },
+    "notes": "Implementation Year 2025-2026 ",
+    "statusStartDate": "2025-07-01"
+  },
+  "items": [
+    {
+      "identifier": "644aa937-e40e-4ad9-9d12-abe14de3f29f",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/644aa937-e40e-4ad9-9d12-abe14de3f29f",
+      "fullStatement": "**I. BIG IDEA: Grammar Conventions** Students observe, analyze, and use the structures and conventions of Standard English grammar, usage, and mechanics as they interpret and construct texts.",
+      "humanCodingScheme": "3.L.GC",
+      "CFItemType": "Big Idea",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "55253c00-9eab-4ef7-abca-0bc27b2bf78b",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/55253c00-9eab-4ef7-abca-0bc27b2bf78b",
+      "fullStatement": "**Grammar, Usage, & Mechanics** Learn and apply conventions of Standard English grammar, usage, and mechanics to aid the comprehension and analysis of texts and to communicate clearly and precisely in written and spoken language.",
+      "humanCodingScheme": "3.L.GC.1",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2026-05-11T17:43:15+00:00",
+      "statusStartDate": "2025-07-01",
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      },
+      "level": 0
+    },
+    {
+      "identifier": "01e7199d-7d39-4705-a26b-fa296816f518",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/01e7199d-7d39-4705-a26b-fa296816f518",
+      "fullStatement": "**Mechanics:** Use apostrophes to form contractions and singular possessive nouns. (Master)",
+      "humanCodingScheme": "3.L.GC.1.18",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "958ae6c4-8b9b-49cc-a7c5-e09c0ebf23d7",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/958ae6c4-8b9b-49cc-a7c5-e09c0ebf23d7",
+      "fullStatement": "**Grammar:** Form and use irregular plural nouns. (Master)",
+      "humanCodingScheme": "3.L.GC.1.19",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "243d7a9b-c7f2-4087-ba46-3001680c89b2",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/243d7a9b-c7f2-4087-ba46-3001680c89b2",
+      "fullStatement": "**Grammar:** Form and use the past tense of irregular verbs. (Master)",
+      "humanCodingScheme": "3.L.GC.1.20",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "2a4f3780-3ac2-4793-89ff-c2d708e0f940",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/2a4f3780-3ac2-4793-89ff-c2d708e0f940",
+      "fullStatement": "**Grammar:** Use coordinating conjunctions to join words, phrases, or clauses. (Master)",
+      "humanCodingScheme": "3.L.GC.1.21",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "e29569ad-3d35-4496-a94c-f64f7603e562",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/e29569ad-3d35-4496-a94c-f64f7603e562",
+      "fullStatement": "**Grammar:** Use collective and abstract nouns. (Master)",
+      "humanCodingScheme": "3.L.GC.1.23",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "f436e5b3-bf83-47bb-96c0-c7237912e4a5",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/f436e5b3-bf83-47bb-96c0-c7237912e4a5",
+      "fullStatement": "**Grammar:** Use reflexive pronouns. (Master)",
+      "humanCodingScheme": "3.L.GC.1.24",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "063c565a-6521-4895-9b4c-18c27d615fe9",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/063c565a-6521-4895-9b4c-18c27d615fe9",
+      "fullStatement": "**Mechanics:** Use commas with coordinating conjunctions to join independent clauses. (Master)",
+      "humanCodingScheme": "3.L.GC.1.25",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "8643204c-5928-4921-8d3b-ae8b84415d68",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/8643204c-5928-4921-8d3b-ae8b84415d68",
+      "fullStatement": "**Mechanics:** Use hyphens to divide words at line breaks. (Master)",
+      "humanCodingScheme": "3.L.GC.1.26",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "51d88d1a-901e-4965-a2e4-0d6e17a4e100",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/51d88d1a-901e-4965-a2e4-0d6e17a4e100",
+      "fullStatement": "**Grammar:** Form and use prepositional phrases. (Continue)",
+      "humanCodingScheme": "3.L.GC.1.27",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-03-10T16:32:28+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "bd2310f8-de4b-4953-8d50-c2cd87fdf85a",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/bd2310f8-de4b-4953-8d50-c2cd87fdf85a",
+      "fullStatement": "**Grammar:** Form and use comparative and superlative adjectives and adverbs. (Continue)",
+      "humanCodingScheme": "3.L.GC.1.28",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "cf0ebad5-7d9a-4e16-8090-daa3b09036ed",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/cf0ebad5-7d9a-4e16-8090-daa3b09036ed",
+      "fullStatement": "**Usage:** Ensure pronoun-antecedent agreement. (Continue)",
+      "humanCodingScheme": "3.L.GC.1.29",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "522d373b-6f72-48a7-8598-499eb5a20f63",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/522d373b-6f72-48a7-8598-499eb5a20f63",
+      "fullStatement": "**Mechanics:** Recognize and use conventional capitalization, quotation marks, and commas to indicate exact words and dialogue. (Continue)",
+      "humanCodingScheme": "3.L.GC.1.30",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "6ec6c063-993e-4421-a769-dfd68fef8f3f",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/6ec6c063-993e-4421-a769-dfd68fef8f3f",
+      "fullStatement": "**Grammar:** Use relative pronouns and relative adverbs. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.31",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "2da537a8-fed9-44d7-b18a-6067f6de12cb",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/2da537a8-fed9-44d7-b18a-6067f6de12cb",
+      "fullStatement": "**Grammar:** Use interjections. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.32",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "96fc5a7e-c3fb-4e14-a237-35bb0f123ca7",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/96fc5a7e-c3fb-4e14-a237-35bb0f123ca7",
+      "fullStatement": "**Grammar:** Use helping and linking verbs. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.33",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "39bd06a5-fbf3-42d6-83fa-5132ef305f93",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/39bd06a5-fbf3-42d6-83fa-5132ef305f93",
+      "fullStatement": "**Usage:** Correctly use frequently confused words (e.g., to/too/two; there/their/they\u2019re; advice/advise). (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.34",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-11-24T14:59:15+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "1097f0a5-edc8-46a0-9c99-a1abcffe806c",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/1097f0a5-edc8-46a0-9c99-a1abcffe806c",
+      "fullStatement": "**Mechanics:** Recognize and use conventional capitalization in abbreviations, proper adjectives, and formal titles. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.35",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "8dce0fa7-1e52-4208-98e5-2a63fdd8ba15",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/8dce0fa7-1e52-4208-98e5-2a63fdd8ba15",
+      "fullStatement": "**Mechanics:** Use commas to indicate direct address and to set off the words *yes* and *no*. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.36",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "1d6689cd-14ef-4659-a65a-e5875e9036f1",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/1d6689cd-14ef-4659-a65a-e5875e9036f1",
+      "fullStatement": "**Mechanics:** Use apostrophes to form plural possessive nouns. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.37",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-11-25T17:17:27+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "1b7e215e-246d-4ee0-89ec-689b1a342176",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/1b7e215e-246d-4ee0-89ec-689b1a342176",
+      "fullStatement": "**Grammar:** Use indefinite pronouns, ensuring correct agreement. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.38",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-11-24T14:59:05+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "bfbbec86-3312-4d74-83d8-45b0a0039714",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/bfbbec86-3312-4d74-83d8-45b0a0039714",
+      "fullStatement": "**Grammar:** Use subordinating conjunctions to join clauses. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.39",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "4ae7b5b8-e37f-40bf-ab20-051243bbb70c",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/4ae7b5b8-e37f-40bf-ab20-051243bbb70c",
+      "fullStatement": "**Mechanics:** Use commas after introductory phrases or clauses. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.40",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "5e366a1d-bb6f-4065-bc3c-4a06a96c2937",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/5e366a1d-bb6f-4065-bc3c-4a06a96c2937",
+      "fullStatement": "**Mechanics:** Use conventional capitalization and underlining, quotation marks, or italics to indicate titles of works. (Introduce)",
+      "humanCodingScheme": "3.L.GC.1.41",
+      "CFItemType": "Skill",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Skill",
+        "identifier": "c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/c6e0ec35-4b78-4e7a-a7c7-3cfb5514ecaa"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "709cf399-14b9-467a-af75-1f544f7ac409",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/709cf399-14b9-467a-af75-1f544f7ac409",
+      "fullStatement": "**Syntax** Apply understandings of sentence structure to comprehend and compose varied sentences.",
+      "humanCodingScheme": "3.L.GC.2",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "42830305-e6ab-4fa1-97b7-a4483cb79277",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/42830305-e6ab-4fa1-97b7-a4483cb79277",
+      "fullStatement": "Distinguish between correctly structured simple, compound, and complex sentences. (I)",
+      "humanCodingScheme": "3.L.GC.2.a",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "59274b74-e5bd-4a2b-b08d-87a7a6f6b7df",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/59274b74-e5bd-4a2b-b08d-87a7a6f6b7df",
+      "fullStatement": "Use a variety of simple, compound, and complex sentences to strengthen clarity and coherence, establishing consistent verb tense within and between sentences. (C)",
+      "humanCodingScheme": "3.L.GC.2.b",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "8affa74d-bb97-45af-85a4-e5810f6745a9",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/8affa74d-bb97-45af-85a4-e5810f6745a9",
+      "fullStatement": "Use correct subject-verb agreement in a variety of sentences. (C)",
+      "humanCodingScheme": "3.L.GC.2.c",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-11-25T14:37:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "515b1621-e461-4226-859e-6264b5b52399",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/515b1621-e461-4226-859e-6264b5b52399",
+      "fullStatement": "Elaborate on ideas and information, using adjectives and adverbs when incorporating details and descriptions to convey precise meaning. (C)",
+      "humanCodingScheme": "3.L.GC.2.d",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "ef5e5de4-ac09-4052-b471-dd6c39d2c722",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/ef5e5de4-ac09-4052-b471-dd6c39d2c722",
+      "fullStatement": "**II. BIG IDEA: Structure & Style** Students build and apply knowledge about language and organizational structures and elements used to convey and arrange ideas and information in texts.",
+      "humanCodingScheme": "3.T.SS",
+      "CFItemType": "Big Idea",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-11-25T14:06:42+00:00",
+      "statusStartDate": "2025-07-01",
+      "CFItemTypeURI": {
+        "title": "Big Idea",
+        "identifier": "cd494fcb-defb-41b5-8d9c-57789fd04d82",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/cd494fcb-defb-41b5-8d9c-57789fd04d82"
+      }
+    },
+    {
+      "identifier": "9c974e2e-6252-4b85-b562-a7b1dd5e6a5a",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/9c974e2e-6252-4b85-b562-a7b1dd5e6a5a",
+      "fullStatement": "**Organization** Demonstrate and apply understanding of organizational structures and elements to create coherent and engaging texts.",
+      "humanCodingScheme": "3.T.SS.1",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "bed491ae-d75b-4d9e-b8ad-17ac7af1498f",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/bed491ae-d75b-4d9e-b8ad-17ac7af1498f",
+      "fullStatement": "Describe how texts are arranged to represent information and ideas using text features (e.g., map, captions) and organizational structures (e.g., cause/effect), referring to parts of texts using terms such as chapter or section. (I)",
+      "humanCodingScheme": "3.T.SS.1.a",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "81468832-344e-4aa4-853c-3dd52e5ef466",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/81468832-344e-4aa4-853c-3dd52e5ef466",
+      "fullStatement": "Design texts using a variety of text structures and features, according to purpose and audience. (C)",
+      "humanCodingScheme": "3.T.SS.1.b",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "6bf2898a-13b9-43c5-977d-5ca4effa9116",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/6bf2898a-13b9-43c5-977d-5ca4effa9116",
+      "fullStatement": "Use conjunctions and transition words or phrases, such as *although* and *since,* to add cohesion and link ideas and information. (C)",
+      "humanCodingScheme": "3.T.SS.1.c",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "1c64dedc-e536-4ada-9511-26ed383ec02b",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/1c64dedc-e536-4ada-9511-26ed383ec02b",
+      "fullStatement": "Craft related sentences into clear and cohesive paragraphs. (C)",
+      "humanCodingScheme": "3.T.SS.1.d",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "64a246fc-549d-48a5-9536-2a529c5aafb9",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/64a246fc-549d-48a5-9536-2a529c5aafb9",
+      "fullStatement": "**Craft** Use language to interpret meaning and craft engaging texts.",
+      "humanCodingScheme": "3.T.SS.2",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "f54a038a-7b63-4bbd-afb9-7aa0c89134f9",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/f54a038a-7b63-4bbd-afb9-7aa0c89134f9",
+      "fullStatement": "Identify and describe the use of figurative language, such as similes, metaphors, and idioms in a wide variety of texts. (I)",
+      "humanCodingScheme": "3.T.SS.2.a",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "0aca4f2e-d1e5-45e8-91c6-78afb29c291e",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/0aca4f2e-d1e5-45e8-91c6-78afb29c291e",
+      "fullStatement": "Use figurative language, such as similes, metaphors, and idioms, to show relationships between ideas and information. (C)",
+      "humanCodingScheme": "3.T.SS.2.b",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "f29774dd-cd7b-47d0-8682-7e4ea1f7f14e",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/f29774dd-cd7b-47d0-8682-7e4ea1f7f14e",
+      "fullStatement": "**III. BIG IDEA: Techniques** Students explain, analyze, and use various techniques to comprehend and shape meaning.",
+      "humanCodingScheme": "3.T.T",
+      "CFItemType": "Big Idea",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "16aed613-9dd0-418e-9240-23d41d22c054",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/16aed613-9dd0-418e-9240-23d41d22c054",
+      "fullStatement": "**Narrative Techniques** Explain, analyze, and use narrative techniques to shape understandings.",
+      "humanCodingScheme": "3.T.T.1",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "c7f92d59-66c0-4099-ae97-cc1708d71f0a",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/c7f92d59-66c0-4099-ae97-cc1708d71f0a",
+      "fullStatement": "Explain how narrative techniques are used to present ideas, design texts, and convey information about characters, setting, and plot. (I)",
+      "humanCodingScheme": "3.T.T.1.a",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "ef7cba40-7790-4282-8b5d-380729bff611",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/ef7cba40-7790-4282-8b5d-380729bff611",
+      "fullStatement": "Explain how characters, setting, problem, and solution function in the plot. (I)",
+      "humanCodingScheme": "3.T.T.1.b",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "8e86c6e2-1cfd-40ab-a837-d3ddeadd6583",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/8e86c6e2-1cfd-40ab-a837-d3ddeadd6583",
+      "fullStatement": "Describe characters\u2019 traits, motivations, actions, thoughts, and feelings and explain their connection to the central message, lesson, or moral of the story. (I)",
+      "humanCodingScheme": "3.T.T.1.c",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "fa368dba-26d3-448c-9be9-97b8ae5c2663",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/fa368dba-26d3-448c-9be9-97b8ae5c2663",
+      "fullStatement": "Compare and contrast two or more characters, settings, central messages, or events within texts across diverse cultures. (I)",
+      "humanCodingScheme": "3.T.T.1.d",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "1881115a-25f7-481d-9552-a00d6dd592a7",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/1881115a-25f7-481d-9552-a00d6dd592a7",
+      "fullStatement": "Apply narrative techniques (e.g., character, setting, problem, resolution, dialogue) to develop a real or imagined experience using descriptive details, clear event sequences, and a sense of closure. (C)",
+      "humanCodingScheme": "3.T.T.1.e",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "e77875e8-da2b-4381-b8fd-f7b52604c127",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/e77875e8-da2b-4381-b8fd-f7b52604c127",
+      "fullStatement": "**Expository Techniques** Explain, analyze, and use expository techniques to shape understandings.",
+      "humanCodingScheme": "3.T.T.2",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "6d8861d5-3da3-4889-8da9-75bbde3c1f5d",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/6d8861d5-3da3-4889-8da9-75bbde3c1f5d",
+      "fullStatement": "Describe the techniques used to present and design expository texts, including facts and key details used to support the main idea. (I)",
+      "humanCodingScheme": "3.T.T.2.a",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "286b787b-30a2-48e7-8926-2498869532bc",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/286b787b-30a2-48e7-8926-2498869532bc",
+      "fullStatement": "Describe the relationship between a series of historical events, scientific ideas or concepts, or steps in technical procedures in a text. (I)",
+      "humanCodingScheme": "3.T.T.2.b",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "6889d819-cbd2-45b0-bd31-2037db7011e9",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/6889d819-cbd2-45b0-bd31-2037db7011e9",
+      "fullStatement": "Integrate and explain information from two texts on the same topic in relationship to important points and key details. (I)",
+      "humanCodingScheme": "3.T.T.2.c",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-04-05T16:23:46+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "0a154786-d817-4d6e-a11e-1eb972cae3ee",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/0a154786-d817-4d6e-a11e-1eb972cae3ee",
+      "fullStatement": "**Opinion Techniques** Explain, analyze, and use opinion techniques to shape understandings.",
+      "humanCodingScheme": "3.T.T.3",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "20bcf7c3-7564-4825-acf4-98f06a5ea6e0",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/20bcf7c3-7564-4825-acf4-98f06a5ea6e0",
+      "fullStatement": "Describe and discuss the techniques used to present and design opinion texts, including author\u2019s opinion statement, supporting reasons, and evidence. (I)",
+      "humanCodingScheme": "3.T.T.3.a",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "87286793-b7ca-4bdd-a0f5-69fe64cd9291",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/87286793-b7ca-4bdd-a0f5-69fe64cd9291",
+      "fullStatement": "Apply opinion techniques to create opinion pieces that introduce the topic, state an opinion about the topic, supply reasons to support the opinion with linking words (e.g., because, therefore, since, for example) to connect the opinion and reasons, and provide a concluding statement or section. (C)",
+      "humanCodingScheme": "3.T.T.3.c",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "745945b7-69ff-4f34-8e55-9c445ab4145d",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/745945b7-69ff-4f34-8e55-9c445ab4145d",
+      "fullStatement": "**Poetic Techniques** Explain, analyze, and use poetic techniques to shape understandings.",
+      "humanCodingScheme": "3.T.T.4",
+      "CFItemType": "Standard",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "db77b3aa-a812-4b13-852d-b35badc2d11e",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/db77b3aa-a812-4b13-852d-b35badc2d11e",
+      "fullStatement": "Discuss and explain techniques used to present and design poetry, including rhyme scheme. (I)",
+      "humanCodingScheme": "3.T.T.4.a",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "956b4327-28c0-40bb-89cb-2d79aca57d14",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/956b4327-28c0-40bb-89cb-2d79aca57d14",
+      "fullStatement": "Apply poetic techniques to produce poetry and engage audiences that use rhyme in at least two stanzas to achieve an intended effect. (C)",
+      "humanCodingScheme": "3.T.T.4.b",
+      "CFItemType": "Expectation",
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "37701668-4c7b-49d7-9248-f496f677f6ba",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/37701668-4c7b-49d7-9248-f496f677f6ba",
+      "fullStatement": "**Writing Processes** Compose a range of texts for a variety of purposes and audiences, flexibly engaging in writing processes to plan, draft, evaluate, revise, and edit texts.",
+      "humanCodingScheme": "3.P.EICC.4",
+      "CFItemType": "Standard",
+      "language": "en",
+      "lastChangeDateTime": "2025-10-22T20:47:45+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "statusStartDate": "2025-07-01",
+      "level": 0,
+      "CFItemTypeURI": {
+        "title": "Standard",
+        "identifier": "d6c7d4bb-d921-4bc6-ac80-244b3b188493",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/d6c7d4bb-d921-4bc6-ac80-244b3b188493"
+      }
+    },
+    {
+      "identifier": "072bd103-3a0a-4d64-8b34-c902b654833d",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/072bd103-3a0a-4d64-8b34-c902b654833d",
+      "fullStatement": "Establish a purpose and goals for writing and identify a target audience. (C)",
+      "humanCodingScheme": "3.P.EICC.4.a",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "b1191d73-1291-44b8-8df2-ed8c1ea21e3b",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/b1191d73-1291-44b8-8df2-ed8c1ea21e3b",
+      "fullStatement": "Plan how to organize the text by selecting modes, genres, and structures that will achieve the purpose and meet the needs of the target audience. (C)",
+      "humanCodingScheme": "3.P.EICC.4.b",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "1dade9fb-f960-46d2-81b0-ff39d40d0f2c",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/1dade9fb-f960-46d2-81b0-ff39d40d0f2c",
+      "fullStatement": "Generate ideas for content by assessing prior knowledge, gathering information from texts, and engaging in discussions with others. (C)",
+      "humanCodingScheme": "3.P.EICC.4.c",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "8e167b29-de44-418c-869f-44261cba86a4",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/8e167b29-de44-418c-869f-44261cba86a4",
+      "fullStatement": "Link ideas and information to the organization plan, highlighting ideas and information that are most relevant, useful, and impactful. (C)",
+      "humanCodingScheme": "3.P.EICC.4.d",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "014a95be-7e44-4849-ab1c-2fe1cb04face",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/014a95be-7e44-4849-ab1c-2fe1cb04face",
+      "fullStatement": "Construct an initial draft by integrating ideas and information; selecting words, phrases, and sentences; and incorporating craft techniques that will best achieve the purpose of the text and resonate with the target audience. (C)",
+      "humanCodingScheme": "3.P.EICC.4.e",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "cdfb2594-a667-4975-89c2-08854f8e93d8",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/cdfb2594-a667-4975-89c2-08854f8e93d8",
+      "fullStatement": "Evaluate the text\u2019s effectiveness based on self-review or feedback from others, determining whether the text matches the purpose and goals for writing. (C)",
+      "humanCodingScheme": "3.P.EICC.4.f",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "daf74439-5a8a-41b9-8101-0c20c3f4c8fb",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/daf74439-5a8a-41b9-8101-0c20c3f4c8fb",
+      "fullStatement": "Make changes to the text based on self-evaluation or external feedback, revising the organization, ideas, information, word choices, and craft techniques in order to increase the text\u2019s effectiveness. (C)",
+      "humanCodingScheme": "3.P.EICC.4.g",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "4efd9893-5fa8-4334-b938-4eda4896b7ca",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/4efd9893-5fa8-4334-b938-4eda4896b7ca",
+      "fullStatement": "Edit the text, ensuring it adheres to the conventions of written language. (C)",
+      "humanCodingScheme": "3.P.EICC.4.h",
+      "CFItemType": "Expectation",
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "educationLevel": [
+        "03"
+      ],
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "97e8ca5c-4c12-4da7-b57a-aca1cf0778ee",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/97e8ca5c-4c12-4da7-b57a-aca1cf0778ee",
+      "fullStatement": "This progression begins in 9th grade.",
+      "humanCodingScheme": "3.L.GC.2.e",
+      "CFItemType": "Expectation",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "4cd50acb-b0b5-49d5-bbc9-eba0e3a15887",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/4cd50acb-b0b5-49d5-bbc9-eba0e3a15887",
+      "fullStatement": "This progression begins in 6th grade.",
+      "humanCodingScheme": "3.T.SS.2.c",
+      "CFItemType": "Expectation",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "e3fdccee-baad-4221-9aba-c0a2ab178856",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/e3fdccee-baad-4221-9aba-c0a2ab178856",
+      "fullStatement": "This progression begins in 9th grade.",
+      "humanCodingScheme": "3.T.T.3.b",
+      "CFItemType": "Expectation",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "8758989a-c1fa-427e-a66b-1117e558321b",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/8758989a-c1fa-427e-a66b-1117e558321b",
+      "fullStatement": "This progression begins in 9th grade.",
+      "humanCodingScheme": "3.T.T.3.d",
+      "CFItemType": "Expectation",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "lastChangeDateTime": "2024-03-12T19:10:16+00:00",
+      "statusStartDate": "2025-07-01"
+    },
+    {
+      "identifier": "fa892369-17d6-4686-b168-a6b7c9d3cfd4",
+      "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItems/fa892369-17d6-4686-b168-a6b7c9d3cfd4",
+      "fullStatement": "Apply expository techniques to introduce a topic, develop the topic with facts and other information (e.g., definitions, details, illustrations), and provide a concluding statement or section. (C)",
+      "humanCodingScheme": "3.T.T.2.d",
+      "CFItemType": "Expectation",
+      "CFItemTypeURI": {
+        "title": "Expectation",
+        "identifier": "9cd2b547-1044-4777-90bd-4af8f83db473",
+        "uri": "https://case.georgiastandards.org/ims/case/v1p0/CFItemTypes/9cd2b547-1044-4777-90bd-4af8f83db473"
+      },
+      "educationLevel": [
+        "03"
+      ],
+      "language": "en",
+      "statusStartDate": "2025-07-01",
+      "lastChangeDateTime": "2024-11-25T14:18:16+00:00"
+    }
+  ]
+}

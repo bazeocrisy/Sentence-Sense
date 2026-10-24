@@ -1,0 +1,644 @@
+/* Authored curriculum. Data and question construction are independent of navigation.
+   Fixed example families make answer keys and explanations auditable; no AI service. */
+(function (root) {
+  "use strict";
+  const units = [
+    "Understanding Complete Sentences",
+    "Understanding Grammar",
+    "Understanding Sentence Structure",
+    "Building Sentences",
+    "Improving Sentences",
+    "Building Paragraphs",
+    "Applying Writing Skills",
+  ];
+  // adjective | simple subject | verb | remainder. Each is a complete declarative sentence.
+  const contexts = `curious|student|examined|a smooth rock beside the creek
+careful|catcher|blocked|a low pitch during the game
+creative|artist|painted|a bright mural inside the school
+helpful|neighbor|carried|a heavy box up the steps
+patient|teacher|explained|the science project to the class
+brave|swimmer|crossed|the quiet pool before lunch
+young|scientist|measured|a tiny seedling near the window
+friendly|librarian|recommended|a mystery book after school
+skillful|drummer|played|a steady rhythm during rehearsal
+thoughtful|friend|shared|a colorful notebook with a classmate
+busy|gardener|planted|a small tree beside the fence
+clever|engineer|designed|a strong bridge for the model town
+excited|reader|opened|a new book about space
+quiet|rabbit|nibbled|a green leaf under the bush
+hungry|robin|pulled|a long worm from the soil
+careful|baker|decorated|a birthday cake in the kitchen
+proud|captain|lifted|a shiny trophy after the tournament
+curious|visitor|studied|an old map inside the museum
+skilled|carpenter|built|a wooden shelf for the classroom
+kind|volunteer|delivered|a warm meal to the community center
+alert|ranger|spotted|a small deer beside the trail
+cheerful|singer|performed|a new song at the concert
+patient|coach|demonstrated|a safe stretch before practice
+busy|chef|stirred|a thick soup inside the pot
+careful|reporter|recorded|an important fact during the interview
+young|astronaut|tested|a small robot inside the training room`
+    .split("\n")
+    .map((s, i) => {
+      const [adj, noun, verb, rest] = s.split("|");
+      const subject = `The ${adj} ${noun}`;
+      return {
+        i,
+        adj,
+        noun,
+        verb,
+        rest,
+        subject,
+        predicate: `${verb} ${rest}`,
+        sentence: `${subject} ${verb} ${rest}.`,
+      };
+    });
+
+  const alternates =
+    `determined|runner|completed|a difficult race beside the river
+careful|photographer|captured|a bright rainbow after the storm
+curious|explorer|discovered|a narrow path beyond the garden
+patient|tutor|explained|a tricky puzzle during the lesson
+friendly|guide|described|a historic building near the square
+thoughtful|designer|sketched|a useful tool in the workshop
+alert|lifeguard|checked|the swimming area before the lesson
+creative|poet|shared|a short poem at the assembly
+helpful|classmate|organized|the science supplies before recess
+skillful|dancer|practiced|a new step during rehearsal
+quiet|turtle|crossed|a sandy path beside the pond
+busy|farmer|gathered|ripe vegetables in the morning
+careful|mechanic|repaired|a bicycle wheel inside the garage
+young|inventor|tested|a simple machine at the science fair
+kind|custodian|cleaned|a muddy hallway after the rain
+excited|actor|rehearsed|an important scene on the stage
+patient|weaver|created|a colorful basket for the exhibit
+curious|researcher|recorded|a surprising result in a notebook
+brave|climber|reached|a narrow ledge above the trail
+skilled|tailor|stitched|a strong pocket onto the jacket
+thoughtful|planner|arranged|a community event in the park
+friendly|translator|explained|a new phrase to the visitors
+careful|archivist|sorted|old photographs inside the library
+cheerful|juggler|balanced|a small ball on the platform
+alert|observer|noticed|a bright star above the horizon
+creative|illustrator|drew|a detailed picture for the story`
+      .split("\n")
+      .map((line, i) => {
+        const [adj, noun, verb, rest] = line.split("|");
+        const subject = `The ${adj} ${noun}`;
+        return {
+          i,
+          adj,
+          noun,
+          verb,
+          rest,
+          subject,
+          predicate: `${verb} ${rest}`,
+          sentence: `${subject} ${verb} ${rest}.`,
+        };
+      });
+
+  const lessons = [];
+  function add(
+    id,
+    unit,
+    title,
+    codes,
+    definition,
+    why,
+    steps,
+    mistake,
+    task,
+    write,
+    criteria,
+  ) {
+    lessons.push({
+      id,
+      unit,
+      title,
+      codes: codes.split(" "),
+      objective: `I can ${task}.`,
+      definition,
+      why,
+      steps,
+      mistake,
+      write,
+      criteria: criteria || [
+        task,
+        "express a complete thought with a matching subject and verb",
+        "begin sentences with capitals and use suitable punctuation",
+      ],
+      kind: id,
+    });
+  }
+  add(
+    "complete",
+    0,
+    "Complete thoughts and fragments",
+    "3.L.GC.2.a 3.L.GC.2.b",
+    "A complete sentence expresses a whole thought. It usually names who or what and tells something about that subject. A fragment leaves a thought unfinished.",
+    "A reader needs enough information to understand your idea.",
+    [
+      "Read the words aloud.",
+      "Ask who or what the words are about.",
+      "Ask what is happening or being said.",
+      "Check that the thought can stand alone.",
+    ],
+    "A capital and a period cannot turn an unfinished thought into a sentence. A command can be complete with an understood subject, you.",
+    "recognize and repair a fragment",
+    "Write two complete sentences about something you did at school.",
+  );
+  add(
+    "subject",
+    0,
+    "Subjects and predicates",
+    "3.L.GC.2.a 3.L.GC.2.c",
+    "The subject tells who or what a sentence is about. The predicate includes the verb and tells what the subject does or is.",
+    "Both parts work together to express your thought.",
+    [
+      "Find the verb: what happened?",
+      "Ask who or what did that.",
+      "Name the simple subject, the main noun or pronoun.",
+      "Read the whole predicate, including words that go with the verb.",
+    ],
+    "A noun after the verb is not always the subject. In The player caught the ball, ball is not doing the catching.",
+    "identify the subject and predicate",
+    "Write a sentence about a family member. Name its simple subject and complete predicate.",
+  );
+  add(
+    "capitals",
+    0,
+    "Capitals and ending marks",
+    "3.L.GC.1",
+    "Capitalize the first word of a sentence, the pronoun I, and names. End a statement or ordinary command with a period, a direct question with a question mark, and strong feeling with an exclamation mark.",
+    "Marks help your reader know where ideas begin and end.",
+    [
+      "Find the first word and any names.",
+      "Decide whether the sentence tells, asks, commands, or expresses strong feeling.",
+      "Add an ending mark that matches the purpose.",
+      "Reread from the capital to the ending mark.",
+    ],
+    "Do not capitalize every important-looking word or put a question mark after a statement.",
+    "edit capitals and ending punctuation",
+    "Write a statement and a question about a game.",
+  );
+  add(
+    "types",
+    0,
+    "Statements, questions, commands, and exclamations",
+    "3.L.GC.2.a 3.L.GC.2.b",
+    "A statement tells, a question asks, a command directs, and an exclamation expresses strong feeling. Sentence purpose is different from simple, compound, or complex structure.",
+    "You can choose a sentence that fits what you want a reader to do or understand.",
+    [
+      "Read the whole sentence.",
+      "Ask what the speaker wants to do: tell, ask, direct, or exclaim.",
+      "For commands, understand that you is the subject even when it is unwritten.",
+      "Match punctuation to purpose.",
+    ],
+    "A command is a complete sentence even when it begins with a verb.",
+    "use four sentence purposes",
+    "Write one statement, question, command, and exclamation about a school event.",
+  );
+  add(
+    "nouns",
+    1,
+    "Common, proper, collective, and abstract nouns",
+    "3.L.GC.1.23",
+    "A noun names a person, place, thing, or idea. A proper noun names a specific one. A collective noun names a group. An abstract noun names an idea, quality, or feeling.",
+    "Precise nouns help a reader understand exactly who or what you mean.",
+    [
+      "Find what the word names.",
+      "Ask whether it is a name, a group, or an idea.",
+      "In Courage helped Maya speak, courage names a quality.",
+      "In The team practiced, team names one group.",
+    ],
+    "An abstract noun is still a noun even though you cannot touch it. A noun can have different jobs in different sentences.",
+    "recognize collective and abstract nouns",
+    "Write one sentence with a collective noun and one with an abstract noun.",
+  );
+  add(
+    "plurals",
+    1,
+    "Regular and irregular plurals",
+    "3.L.GC.1.19",
+    "A plural noun names more than one. Many add -s or -es. Some change form: child becomes children; mouse becomes mice.",
+    "Correct plurals tell your reader how many you mean.",
+    [
+      "Decide whether there is one or more than one.",
+      "Check whether the noun uses a regular ending or a special form.",
+      "Use the plural in the sentence.",
+      "Reread the noun and its verb.",
+    ],
+    "Do not add an apostrophe just to make a noun plural.",
+    "form and use irregular plural nouns",
+    "Write a sentence using two irregular plural nouns.",
+  );
+  add(
+    "verbs",
+    1,
+    "Action, helping, and linking verbs",
+    "3.L.GC.1.33",
+    "An action verb tells what happens. A helping verb works with a main verb: is running. A linking verb connects the subject to a description or name: is ready.",
+    "Knowing the whole verb phrase helps you explain a complete action or state.",
+    [
+      "Ask what happens or what is said about the subject.",
+      "Look for a main verb and any helpers.",
+      "In Maya is reading, is helps reading.",
+      "In Maya is calm, is links Maya to calm.",
+    ],
+    "An -ing word is not automatically a verb: building names a thing in The building is tall.",
+    "identify action, helping, and linking verbs",
+    "Write an action sentence, a helping-verb sentence, and a linking-verb sentence.",
+  );
+  add(
+    "tense",
+    1,
+    "Verb time and irregular past tense",
+    "3.L.GC.1.20 3.L.GC.2.b",
+    "Verb tense shows time. Regular past verbs often end in -ed. Irregular past verbs change in special ways: run becomes ran, and go becomes went.",
+    "Consistent tense makes the order of events clear.",
+    [
+      "Find the time clue.",
+      "Choose a past, present, or future form to match it.",
+      "Check any irregular form.",
+      "Keep the time consistent unless the meaning changes.",
+    ],
+    "Do not add -ed to every past verb: went, not goed.",
+    "use irregular past tense consistently",
+    "Describe a finished activity using at least two irregular past verbs.",
+  );
+  add(
+    "pronouns",
+    1,
+    "Personal, reflexive, and indefinite pronouns",
+    "3.L.GC.1.24 3.L.GC.1.29 3.L.GC.1.38",
+    "A pronoun can take the place of a noun. An antecedent is the noun it refers to. Reflexive pronouns point back to the subject: myself, yourself, herself, himself, itself, ourselves, yourselves, themselves. Indefinite pronouns, such as everyone, do not name a specific person.",
+    "Clear pronouns prevent confusion about who acts.",
+    [
+      "Find the noun being replaced.",
+      "Match the pronoun to that noun in number and meaning.",
+      "Use a reflexive form when the action returns to the subject.",
+      "Use a singular verb with everyone, someone, and each.",
+    ],
+    "Use I for a subject and me for an object. Everyone is singular: everyone is, not everyone are.",
+    "use pronouns with clear agreement",
+    "Write one reflexive-pronoun sentence and one sentence beginning with Everyone.",
+  );
+  add(
+    "describers",
+    1,
+    "Adjectives, adverbs, and comparisons",
+    "3.L.GC.1.28 3.L.GC.2.d",
+    "An adjective describes a noun. An adverb can tell how, when, or where an action happens. Comparative forms compare two; superlative forms compare three or more.",
+    "Useful descriptions give your reader precise details.",
+    [
+      "Find the word being described.",
+      "Use an adjective for a noun and an adverb for an action.",
+      "For two, use forms such as taller or more carefully.",
+      "For three or more, use tallest or most carefully.",
+    ],
+    "Do not combine more with -er or most with -est: taller, not more taller.",
+    "use adjectives, adverbs, and comparison forms",
+    "Describe two players and then a group using a comparative and a superlative.",
+  );
+  add(
+    "prepositions",
+    1,
+    "Prepositions and their phrases",
+    "3.L.GC.1.27",
+    "A preposition relates a noun or pronoun to another word. A prepositional phrase includes the preposition and its object: beside the tree.",
+    "These phrases add place, time, or other relationships.",
+    [
+      "Look for a relationship word such as beside, after, or under.",
+      "Find the noun or pronoun that completes the phrase.",
+      "Keep the words between them.",
+      "Check what detail the whole phrase adds.",
+    ],
+    "In under the tall tree, the whole phrase includes tall; it is not just under or tree.",
+    "form and use prepositional phrases",
+    "Write two sentences with phrases that tell where and when.",
+  );
+  add(
+    "apostrophes",
+    1,
+    "Contractions and possessives",
+    "3.L.GC.1.18 3.L.GC.1.37",
+    "A contraction joins words and uses an apostrophe for missing letters. A possessive shows ownership: the child’s book; the players’ bags; the children’s games.",
+    "Apostrophes help distinguish shortened words, ownership, and ordinary plurals.",
+    [
+      "For a contraction, say the two full words.",
+      "For ownership, name the owner.",
+      "Add apostrophe-s to a singular owner or irregular plural not ending in s.",
+      "Add an apostrophe after a regular plural ending in s.",
+    ],
+    "Its shows ownership; it’s means it is or it has. Plural cats needs no apostrophe.",
+    "use contractions and singular and plural possessives",
+    "Write a contraction sentence and an ownership sentence with more than one owner.",
+  );
+  add(
+    "dialogue",
+    1,
+    "Dialogue, commas, and interjections",
+    "3.L.GC.1.30 3.L.GC.1.32 3.L.GC.1.36",
+    "Dialogue records exact spoken words inside quotation marks. A comma can separate a speaker tag. Use commas around a name in direct address and after yes or no. An interjection expresses feeling: Wow!",
+    "Readers need to distinguish who speaks and which words were spoken.",
+    [
+      "Put quotation marks around the exact spoken words.",
+      "Capitalize the start of a spoken sentence.",
+      "Use a comma before a following speaker tag when the quote is a statement.",
+      "Keep a question mark or exclamation mark when the spoken words need it.",
+    ],
+    "Do not quote the speaker tag. A comma in Alex, please listen addresses Alex; Alex listens is a statement about Alex.",
+    "punctuate dialogue and direct address",
+    "Write a short exchange with two speakers, then a sentence addressing a friend by name.",
+  );
+  add(
+    "word-choice",
+    1,
+    "Confused words, titles, and abbreviations",
+    "3.L.GC.1.34 3.L.GC.1.35 3.L.GC.1.41",
+    "Words that sound alike can have different meanings. Their shows ownership, there points to a place, and they’re means they are. Titles and abbreviations follow special capitalization conventions.",
+    "Correct spelling and capitals help the reader understand your intended meaning.",
+    [
+      "Use the sentence meaning to choose the word.",
+      "Expand a contraction to check it.",
+      "Capitalize formal titles with names and proper adjectives: Dr. Lee; American.",
+      "Capitalize major title words. Use quotation marks for a short poem or story and italics or underlining for a book.",
+    ],
+    "Two is a number; too means also or more than needed; to can show direction.",
+    "choose precise words and capitalize names and titles",
+    "Write three sentences using their, there, and they’re correctly.",
+  );
+  add(
+    "hyphens",
+    1,
+    "Hyphens at line breaks",
+    "3.L.GC.1.26",
+    "When a printed word must continue on another line, a hyphen can show a break between syllables. In ordinary digital writing, keeping the whole word together is usually best.",
+    "A clear syllable break keeps a printed word readable.",
+    [
+      "Use a dictionary’s syllable divisions.",
+      "Break only between syllables.",
+      "Put the hyphen at the end of the first line.",
+      "Keep short one-syllable words whole.",
+    ],
+    "Do not divide a word at a random letter or use a hyphen instead of an ending mark.",
+    "choose syllable-based line breaks",
+    "Use a dictionary to find and explain an appropriate line break in two multisyllable words.",
+  );
+  add(
+    "complete-subject",
+    2,
+    "Simple and complete subjects",
+    "3.L.GC.2.a",
+    "The simple subject is the main noun or pronoun. The complete subject includes that word and the words that tell which one or describe it.",
+    "A complete subject helps a reader picture exactly who or what acts.",
+    [
+      "Find the verb.",
+      "Ask who or what does or is what the verb says.",
+      "Find the main subject word.",
+      "Keep all the words that belong with it.",
+    ],
+    "Do not stop at the noun if you are asked for the complete subject.",
+    "distinguish simple and complete subjects",
+    "Write a detailed sentence and label its simple subject and complete subject.",
+  );
+  add(
+    "agreement",
+    2,
+    "Subject and verb agreement",
+    "3.L.GC.2.c",
+    "A subject and its verb must agree. In the present tense, one player runs; two players run. I and you use special forms: I am, you are.",
+    "Agreement makes your sentence easy to understand.",
+    [
+      "Find the main subject, not a nearby noun in a phrase.",
+      "Decide whether the subject is one or more than one.",
+      "Choose the matching verb.",
+      "Reread the sentence: The box of pencils is here.",
+    ],
+    "A nearby plural noun does not change a singular subject: The basket of apples is full.",
+    "match subjects and verbs",
+    "Write a present-tense sentence with one subject and another with a plural subject.",
+  );
+  add(
+    "compound",
+    2,
+    "Simple and compound sentences",
+    "3.L.GC.1.21 3.L.GC.1.25 3.L.GC.2.a 3.L.GC.2.b",
+    "A simple sentence has one independent clause, a thought that can stand alone. A compound sentence joins two independent clauses. Use a comma and a coordinating conjunction such as and, but, or so.",
+    "Combining related thoughts shows their relationship.",
+    [
+      "Find both complete thoughts.",
+      "Choose and for addition, but for contrast, or so for a result.",
+      "Place a comma before the conjunction joining complete thoughts.",
+      "Check that each side can stand alone.",
+    ],
+    "A comma alone creates a comma splice. A shared subject with two actions does not automatically make a compound sentence.",
+    "compose and recognize compound sentences",
+    "Combine two related complete thoughts with a comma and a suitable conjunction.",
+  );
+  add(
+    "complex",
+    2,
+    "Complex sentences and relative words",
+    "3.L.GC.1.31 3.L.GC.1.39 3.L.GC.1.40 3.L.GC.2.a 3.L.GC.2.b",
+    "A complex sentence contains an independent clause and a dependent clause. A dependent clause cannot stand alone: because rain fell. Words such as because, when, and although connect clauses. Relative words such as who, which, that, where, and when can introduce clauses describing nouns.",
+    "A complex sentence can explain a reason, time, or condition.",
+    [
+      "Find the thought that stands alone.",
+      "Identify the dependent clause and what it adds.",
+      "If a dependent clause comes first, use a comma after it.",
+      "Read the whole thought; do not leave a because clause by itself.",
+    ],
+    "Because we practiced. is a fragment. In The player who practiced improved, who practiced describes player.",
+    "construct complete complex sentences",
+    "Write a because sentence and a sentence with who describing a person.",
+  );
+  add(
+    "builder",
+    3,
+    "Sentence Builder: arrange and create",
+    "3.L.GC.2.b 3.L.GC.2.c",
+    "Sentence construction means choosing and arranging words to communicate a complete idea. More than one word order can be correct if the meaning stays clear.",
+    "You can move from recognizing sentences to writing your own.",
+    [
+      "Choose who or what your sentence is about.",
+      "Choose a matching verb.",
+      "Add information that completes the idea.",
+      "Read it aloud and check capitals and punctuation.",
+    ],
+    "Do not assume there is only one correct original sentence. Exact-copy tasks are different from original writing.",
+    "arrange words and write original complete sentences",
+    "Create two original sentences about a real or imagined school day.",
+  );
+  add(
+    "fixer",
+    3,
+    "Sentence Fixer: repair fragments and run-ons",
+    "3.L.GC.2.a 3.L.GC.2.b",
+    "A fragment is unfinished. A run-on joins complete thoughts without a suitable boundary. Repair a fragment by completing its idea, and separate or correctly join a run-on’s thoughts.",
+    "A reader can follow your ideas when each thought has a clear boundary.",
+    [
+      "Locate each subject and verb.",
+      "Check whether each thought can stand alone.",
+      "Complete unfinished ideas.",
+      "Separate complete thoughts with a period, or join them correctly.",
+    ],
+    "Adding a comma alone does not repair a run-on.",
+    "repair fragments and run-ons",
+    "Repair this run-on in two ways: We packed our bags we left for the park.",
+  );
+  add(
+    "expand",
+    4,
+    "Sentence Expander: meaningful details",
+    "3.L.GC.2.d",
+    "Expanding a sentence means adding useful details about who, what, where, when, how, or why. Keep the original meaning.",
+    "Specific details help a reader picture what happened.",
+    [
+      "Start with the complete thought.",
+      "Ask one useful detail question.",
+      "Choose an adjective, adverb, or phrase that answers it.",
+      "Reread and remove details that distract.",
+    ],
+    "Longer does not always mean better. Details must make sense and preserve the original event.",
+    "expand sentences with precise details",
+    "Expand The player practiced with where, when, and how details.",
+  );
+  add(
+    "combine",
+    4,
+    "Combine sentences without repetition",
+    "3.L.GC.1.21 3.L.GC.2.b",
+    "Combining related sentences can reduce repetition and show how ideas connect. You may share a subject, join complete clauses, or add a dependent clause.",
+    "Varied sentences make your writing clearer and smoother.",
+    [
+      "Identify repeated information.",
+      "Decide what relationship connects the ideas.",
+      "Keep the important meaning from both.",
+      "Choose a structure and check its punctuation.",
+    ],
+    "Do not delete a fact just to shorten a sentence or join unrelated ideas.",
+    "combine related sentences clearly",
+    "Combine two related sentences about a sport or hobby without losing either idea.",
+  );
+  add(
+    "revise",
+    4,
+    "Revise ideas, then proofread",
+    "3.P.EICC.4.f 3.P.EICC.4.g 3.P.EICC.4.h",
+    "Revision improves ideas, order, and word choices. Editing checks grammar, spelling, capitals, and punctuation. Proofreading is a final careful check.",
+    "You can improve a draft while keeping your own voice.",
+    [
+      "Read for meaning and missing information.",
+      "Revise a detail or sentence order.",
+      "Check grammar and consistent tense.",
+      "Proofread spelling, capitals, and punctuation.",
+    ],
+    "Fixing a capital is editing, not the same as adding a reason or clarifying an idea.",
+    "revise and edit your own draft",
+    "Write a first draft, then a revised version. Explain one revision and one editing change.",
+  );
+  add(
+    "paragraph",
+    5,
+    "Paragraph Builder: one main idea",
+    "3.T.SS.1.d",
+    "A paragraph groups related sentences around one main idea. A topic sentence introduces it; details explain it; a concluding sentence gives a sense of finish.",
+    "Grouping ideas helps your reader understand and remember them.",
+    [
+      "Choose one main idea.",
+      "Introduce it with a topic sentence.",
+      "Add specific, related details.",
+      "End with a sentence that wraps up the idea.",
+    ],
+    "An interesting sentence can still be off topic. Not every paragraph has exactly five sentences.",
+    "build a clear paragraph",
+    "Write a paragraph about a place you know. Include a topic sentence, details, and a conclusion.",
+  );
+  add(
+    "sequence",
+    5,
+    "Sequence, transitions, and cohesion",
+    "3.T.SS.1.b 3.T.SS.1.c 3.T.SS.1.d",
+    "Sequence is a sensible order. Transitions connect ideas: first, next, finally, because, and however. Choose a transition that matches the relationship.",
+    "A reader needs to know how one idea connects to the next.",
+    [
+      "Decide whether you are showing time, cause, contrast, or an example.",
+      "Arrange ideas in a sensible order.",
+      "Choose a transition that fits.",
+      "Reread to check that the connection is true.",
+    ],
+    "Do not use finally for the first step or because when no reason follows.",
+    "connect sentences in a logical order",
+    "Describe a three-step activity using transitions that fit the order.",
+  );
+  add(
+    "narrative",
+    6,
+    "Narrative Writer",
+    "3.T.T.1.e 3.P.EICC.4.a 3.P.EICC.4.b 3.P.EICC.4.e",
+    "A narrative tells a real or imagined experience. It includes characters, a setting, connected events, and an ending. A problem and resolution can help shape the story.",
+    "Readers follow a story when events and feelings connect.",
+    [
+      "Choose who, where, and a purpose for your reader.",
+      "Plan the beginning, problem, events, and ending.",
+      "Draft in a clear sequence with actions and details.",
+      "Revise and edit before sharing.",
+    ],
+    "A list of unrelated events is hard to follow. Show how the character reacts and how events connect.",
+    "plan and draft a connected narrative",
+    "Write a short story about a character who solves a problem at practice or school.",
+  );
+  add(
+    "opinion",
+    6,
+    "Opinion Writer",
+    "3.T.T.3.a 3.T.T.3.c 3.P.EICC.4.e",
+    "An opinion states what you think about a topic. An opinion piece introduces the topic, states a view, supports it with reasons, links the reasons, and concludes.",
+    "Reasons help readers understand your view even when they disagree.",
+    [
+      "Name the topic and your audience.",
+      "State a clear opinion.",
+      "Support it with relevant reasons and examples.",
+      "Connect ideas and finish by returning to your opinion.",
+    ],
+    "Repeating I like it is not a new reason. Opinions are not the same as checkable facts.",
+    "support an opinion with reasons",
+    "Write an opinion about a useful classroom activity. Give two reasons and a conclusion.",
+  );
+  add(
+    "informational",
+    6,
+    "Informational Writer",
+    "3.T.T.2.a 3.T.T.2.d 3.P.EICC.4.c 3.P.EICC.4.e",
+    "Informational writing teaches about a topic using accurate facts, definitions, and details. It introduces the topic and provides a conclusion.",
+    "A reader should learn information that can be checked.",
+    [
+      "Choose a focused topic and reader.",
+      "Gather facts from a reliable source or a supplied fact box.",
+      "Group related facts and explain them in your own words.",
+      "Check accuracy and provide a conclusion.",
+    ],
+    "Do not present a guess or personal preference as a fact. Record where information came from.",
+    "explain a topic with accurate facts",
+    "Explain how to care for a classroom plant. Use the provided facts or a reliable source, and identify your source.",
+  );
+  add(
+    "weekend",
+    6,
+    "Weekend News",
+    "3.T.T.1.e 3.T.SS.1.d 3.P.EICC.4.g 3.P.EICC.4.h",
+    "Weekend News is a short personal narrative about one event or a few connected events. Tell what happened, add useful details, and explain a reaction.",
+    "You can turn your own experiences into clear writing.",
+    [
+      "Choose an event; ordinary moments count.",
+      "Plan who, where, what happened first, next, and last.",
+      "Draft with a detail and a feeling or reflection.",
+      "Revise, then check complete sentences, capitals, and punctuation.",
+    ],
+    "You do not need an exciting trip to have a worthwhile story. You may use an imagined weekend and label it imagined.",
+    "write and revise Weekend News",
+    "Write Weekend News about a real or imagined event, then revise one detail.",
+  );
+  root.SS_CURRICULUM = { version: 2, units, contexts, alternates, lessons };
+})(typeof window === "undefined" ? globalThis : window);
