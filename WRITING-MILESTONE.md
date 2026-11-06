@@ -7,7 +7,7 @@ Branch `claude/write-strong-sentence`, based on `build-1.8` (`ccbfeb4`, the buil
 | Ref | Build | Notes |
 |---|---|---|
 | `main` | 1.2.7 (`cc1f102`) | Old. Not the product. |
-| `build-1.8` = `claude/build-1.4` | 1.8.0 (`ccbfeb4`) | Ten skills on Home (Words: 7, Sentences: 3) plus the Grammar Check banner. Content also defines `complete-subject` and `predicate`, which are not on Home. The earlier audit found production serving this build. This sandbox cannot reach github.io to confirm. |
+| `build-1.8` = `claude/build-1.4` | 1.8.0 (`ccbfeb4`) | **Pages source unverified.** Every Pages deployment on record built `claude/build-1.4`, not `build-1.8`. | Ten skills on Home (Words: 7, Sentences: 3) plus the Grammar Check banner. Content also defines `complete-subject` and `predicate`, which are not on Home. The earlier audit found production serving this build. This sandbox cannot reach github.io to confirm. |
 | `feature/sentence-sense-2-learning-system` | 2.0.0-dev (`1753dd1`) | See below. Draft PR #3, marked do not merge. Left untouched. |
 
 **2.0 ancestry (corrected).** My first status message said the 2.0 branch "is 4 commits ahead of build-1.8 and contains it". That was wrong: I misread `git log build-1.8..feature`, which lists commits on the feature branch that are not in build-1.8, not a containment check. Verified with git:
@@ -81,8 +81,8 @@ Praise and messages follow these rules (each one is a harness check):
 ## 6. Prioritized follow-up (recorded, not done)
 
 1. **Owner review on a real device with Chris.** Physical phone or tablet, real screen reader, and an observed child session were not tested.
-2. **Standards.** Re-check against the live GaDOE site from a normal network (this sandbox could only use the saved copy). The original brief asked to keep standards codes out of the child flow, but 1.8 shows them on Skill, Learn and Practice screens, which the owner approved in 1.5.0. Decide whether to move them to For grown-ups.
-3. **Per-skill Test wording.** Phrases like "You've got verbs" after a 12-question test overstate what was measured. Soften them the same way as the Grammar Check.
+2. **Standards.** Re-check against the live GaDOE site from a normal network (this sandbox could only use the saved copy). Codes now appear only in For grown-ups.
+3. Per-skill Test wording: done (every tier now says "On this test, …" and names a next step).
 4. Verb-tense pools: done in the review pass (see §5).
 5. "An adjective always describes a noun" also needs to cover pronouns ("She is happy").
 6. **Reconcile with the 2.0 draft.** Decide whether its writing notebooks and rubric review should be ported onto 1.8 piece by piece rather than replacing 1.8.

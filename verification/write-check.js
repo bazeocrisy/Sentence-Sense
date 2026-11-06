@@ -271,7 +271,7 @@ async function tapWord(page, field, word) {
     check("E6 supported piece shows help used", soup.includes("Help me: 4 of 4") && soup.includes("sentence frame"));
     check("E7 grown-ups view renders child text safely", (await page.locator("#parent-body b, #parent-body img").count()) === 0);
     check("E8 explains limits and local storage", (await page.locator(".parent-intro").innerText()).includes("does not sync"));
-    check("E9 standards note present", (await page.locator("#parent-standards").innerText()).includes("About the Georgia standards"));
+    check("E9 standards note present", (await page.locator("#parent-standards").innerText()).includes("Georgia standards for each skill"));
     await pieces.filter({ hasText: "the puppy" }).locator(".parent-note").fill("We read it together.");
     await page.waitForTimeout(400);
     await page.reload();
@@ -286,15 +286,43 @@ async function tapWord(page, field, word) {
 
     /* ---------------- F. Existing grammar activities still work ---------------- */
     await page.click("#parent-back");
+    /* Standards codes live in For grown-ups, not on the child's screens. */
     await page.click('#skill-grid button[data-skill="verb-tense"]');
-    const tags = await page.locator("#skill-ga").innerText();
-    check("F1 Verb Tense tags use verified codes", !tags.includes("3-5.L.GC.1") && tags.includes("3.L.GC.1.20") && tags.includes("Consistent verb tense"), tags);
+    check("F1 Skill screen shows no standards codes", (await page.locator("#screen-skill .ga-tags").count()) === 0);
     await page.click('button[data-activity="learn"]');
-    check("F2 Verb Tense Learn opens", await visible(page, "#screen-learn"));
+    check("F2 Learn step shows no standards codes", (await visible(page, "#screen-learn")) && (await page.locator("#screen-learn .ga-tags").count()) === 0);
     await page.click("#learn-home");
-    await page.click('#skill-grid button[data-skill="adverb"]');
-    check("F3 unverified 3.L.V.2.b not shown", !(await page.locator("#skill-ga").innerText()).includes("3.L.V.2.b"));
-    await page.click("#skill-back");
+    await page.click('#skill-grid button[data-skill="verb"]');
+    await page.click('button[data-activity="practice"]');
+    check("F3 Practice question shows no standards codes", (await page.locator("#screen-practice .ga-tags").count()) === 0);
+    await page.click("#practice-home");
+    await page.click("#parent-link");
+    await page.click("#parent-standards summary");
+    const gaText = await page.locator("#parent-standards").innerText();
+    check("F3b For grown-ups lists verified codes per skill", gaText.includes("Verb Tense") && gaText.includes("3.L.GC.1.20") &&
+      gaText.includes("Consistent verb tense") && !gaText.includes("3-5.L.GC.1") && (gaText.match(/3\.L\.V\.2\.b/g) || []).length === 1, gaText.slice(0, 300));
+    await page.screenshot({ path: path.join(OUT, "desktop-parent-standards.png"), fullPage: true });
+    await page.click("#parent-back");
+    /* No broad mastery claims left in Test results or Learn completion. */
+    const claims = await page.evaluate(() => {
+      const C = window.SS_LEARN_CONTENT, out = [];
+      Object.keys(C.topics).forEach(k => { const g = C.topics[k].testPool && C.topics[k].testPool.guidance; if (g) Object.values(g).forEach(t => out.push(t)); });
+      Object.values(C.grammarCheck.guidance).forEach(t => out.push(t));
+      return out.filter(t => /you know|you've got|you are strong|great work with|mastered|you passed/i.test(t));
+    });
+    check("F3c no broad mastery claims in any Test result message", claims.length === 0, claims.join(" | "));
+    await page.click('#skill-grid button[data-skill="complete-sentence"]');
+    await page.click('button[data-activity="learn"]');
+    for (let i = 0; i < 12 && !(await visible(page, "#learn-done")); i++) {
+      const choices = page.locator("#try-choices button:not([disabled])");
+      if (await page.locator("#learn-try").isVisible() && await choices.count()) {
+        for (const b of await choices.all()) { if (await page.locator("#learn-next").isEnabled()) break; await b.click().catch(() => {}); }
+      }
+      if (await page.locator("#learn-next").isEnabled()) await page.click("#learn-next");
+    }
+    check("F3d Learn completion names the lesson, not mastery", (await page.locator("#learn-done-title").innerText()) === "You finished the Complete Sentence lesson!",
+      await page.locator("#learn-done-title").innerText().catch(() => ""));
+    await page.click("#learn-done-home");
     await page.click('#skill-grid button[data-skill="complete-sentence"]');
     await page.click('button[data-activity="practice"]');
     check("F4 Complete Sentence Practice opens with choices", (await page.locator("#practice-choices button").count()) >= 2);

@@ -348,7 +348,12 @@
     return false;
   }
 
-  window.SS_GA = { line: gaLine, verify: verifiedGa };
+  /* Build 1.9.0: standards codes are teacher/parent information. They are
+     no longer drawn on the child's Skill, Learn or Practice screens; the
+     verified list is in For grown-ups. Set true to restore the 1.5-1.8
+     placement. */
+  const GA_IN_CHILD_SCREENS = false;
+  window.SS_GA = { line: gaLine, verify: verifiedGa, inChildScreens: GA_IN_CHILD_SCREENS };
 
   function openSkill(key) {
     const t = C.topics[key];
@@ -360,7 +365,7 @@
     el("skill-ask-line").textContent = t.ask;
     const oldGa = el("skill-ga");
     if (oldGa) oldGa.remove();
-    if (t.ga && t.ga.length) {
+    if (GA_IN_CHILD_SCREENS && t.ga && t.ga.length) {
       const ga = gaLine(t.ga);
       ga.id = "skill-ga";
       /* Below the hero, not inside it: the hero is a fixed icon/title grid. */

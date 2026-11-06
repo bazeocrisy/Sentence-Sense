@@ -291,7 +291,7 @@
     /* Build 1.5.0: the Georgia standards this skill teaches, small and
        quiet at the FOOT of every Learn step -- after the teaching, never
        before it. On Let me try it follows the question. */
-    if (t.ga && window.SS_GA) {
+    if (t.ga && window.SS_GA && window.SS_GA.inChildScreens) {
       const ga = window.SS_GA.line(t.ga);
       ga.id = "learn-ga";
       const old = el("learn-ga"); if (old) old.remove();
@@ -502,7 +502,7 @@
     el("learn-controls").hidden = true;
     el("learn-done").hidden = false;
 
-    el("learn-done-title").textContent = "You learned " + t.name + "!";
+    el("learn-done-title").textContent = "You finished the " + t.name + " lesson!";
     el("learn-done-recap").textContent = t.recap;
 
     /* Practice is the honest next step only where a real bank exists. */

@@ -60,7 +60,7 @@ Exit code is 0 only when every check passes.
 ## Build 1.9.0 — Write a Strong Sentence walkthrough
 
 `write-check.js` walks the writing activity end to end with **Playwright**
-(122 checks): independent and supported writing, help ladder, starters and word
+(125 checks): independent and supported writing, help ladder, starters and word
 bank, refresh/Home/Escape/Back resume, frozen first draft vs revision, markup and
 multiline text rendered as text, the grown-ups view (notes, delete one, delete
 all), blocked/full/damaged storage, speech unavailable, 375×667 and 320×640
@@ -75,3 +75,5 @@ node verification/write-check.js ./write-out
 Latest results: `write-results.json`; screenshots: `write-screenshots/`.
 `guard.js` (the 1.8 regression harness, puppeteer-core) also runs on Linux with
 `PUPPETEER=<path>/puppeteer-core CHROME=<chromium> BASE=http://127.0.0.1:8347/`.
+
+`serve.js` takes an optional bind address as the 4th argument: the default `127.0.0.1` allows this computer only, and `0.0.0.0` allows other devices on the network. It never serves `.git`. Windows preview steps: `PREVIEW-WINDOWS.md`.

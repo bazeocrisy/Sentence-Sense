@@ -178,7 +178,7 @@
     const st = run.bank.stages[q.stage];
     const oldGa = el("practice-ga");
     if (oldGa) oldGa.remove();
-    if (window.SS_GA) {
+    if (window.SS_GA && window.SS_GA.inChildScreens) {
       const ga = window.SS_GA.line(gaFor(q));
       ga.id = "practice-ga";
       el("practice-stage-desc").insertAdjacentElement("afterend", ga);

@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-06T22:57:04.707Z",
-  "passed": 122,
+  "date": "2026-11-06T23:30:26.262Z",
+  "passed": 125,
   "failed": 0,
   "results": [
     {
@@ -421,12 +421,12 @@
     {
       "name": "E4 self-checks labelled as the child's own answers",
       "ok": true,
-      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 10:56:56 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nChanges: Added: all morning.\n\nChild's own answers (not checked by the app)\nTapped as who/what: “the puppy”\nTapped as what happens: “hid under my bed”\nMakes sense by itself? Said yes\nNot ticked: It starts with a capital letter.\nNot ticked: It ends with . ? or !\nNot ticked: Names of people and places start with a capital letter (or there aren't any).\nHelp used\nOpened the optional detail ideas\nPut the first draft back on the Revise screen\nParent note (optional)\nDelete this piece"
+      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 11:29:18 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nChanges: Added: all morning.\n\nChild's own answers (not checked by the app)\nTapped as who/what: “the puppy”\nTapped as what happens: “hid under my bed”\nMakes sense by itself? Said yes\nNot ticked: It starts with a capital letter.\nNot ticked: It ends with . ? or !\nNot ticked: Names of people and places start with a capital letter (or there aren't any).\nHelp used\nOpened the optional detail ideas\nPut the first draft back on the Revise screen\nParent note (optional)\nDelete this piece"
     },
     {
       "name": "E5 help and detail use recorded",
       "ok": true,
-      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 10:56:56 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nChanges: Added: all morning.\n\nChild's own answers (not checked by the app)\nTapped as who/what: “the puppy”\nTapped as what happens: “hid under my bed”\nMakes sense by itself? Said yes\nNot ticked: It starts with a capital letter.\nNot ticked: It ends with . ? or !\nNot ticked: Names of people and places start with a capital letter (or there aren't any).\nHelp used\nOpened the optional detail ideas\nPut the first draft back on the Revise screen\nParent note (optional)\nDelete this piece"
+      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 11:29:18 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nChanges: Added: all morning.\n\nChild's own answers (not checked by the app)\nTapped as who/what: “the puppy”\nTapped as what happens: “hid under my bed”\nMakes sense by itself? Said yes\nNot ticked: It starts with a capital letter.\nNot ticked: It ends with . ? or !\nNot ticked: Names of people and places start with a capital letter (or there aren't any).\nHelp used\nOpened the optional detail ideas\nPut the first draft back on the Revise screen\nParent note (optional)\nDelete this piece"
     },
     {
       "name": "E6 supported piece shows help used",
@@ -464,19 +464,34 @@
       "detail": ""
     },
     {
-      "name": "F1 Verb Tense tags use verified codes",
-      "ok": true,
-      "detail": "GEORGIA STANDARDS\n3.L.GC.1\nSimple verb tenses (Review)\n3.L.GC.1.20\nIrregular past tense (Master)\n3.L.GC.2.b\nConsistent verb tense"
-    },
-    {
-      "name": "F2 Verb Tense Learn opens",
+      "name": "F1 Skill screen shows no standards codes",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "F3 unverified 3.L.V.2.b not shown",
+      "name": "F2 Learn step shows no standards codes",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "F3 Practice question shows no standards codes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F3b For grown-ups lists verified codes per skill",
+      "ok": true,
+      "detail": "Georgia standards for each skill\n\nThese codes are checked against a saved copy of the Georgia Department of Education's Grade 3 ELA standards (CASE package, retrieved 2026-10-24). Sentence Sense practices some Grade 3 language skills. It does not cover all of the Georgia standards and has not been r"
+    },
+    {
+      "name": "F3c no broad mastery claims in any Test result message",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F3d Learn completion names the lesson, not mastery",
+      "ok": true,
+      "detail": "You finished the Complete Sentence lesson!"
     },
     {
       "name": "F4 Complete Sentence Practice opens with choices",

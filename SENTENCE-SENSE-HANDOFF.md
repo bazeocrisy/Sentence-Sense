@@ -13,10 +13,14 @@
 | **Honest feedback**: no sentence is ever marked right or wrong. The app only points at a first letter, an end mark, a lowercase "i", leftover frame blanks, or more than one sentence. Everything else is a self-check. | `looksAt()` |
 | **Grammar Check wording**: "What should I practice next?"; no "You know your grammar" / "pass" claims from 2 questions per skill | `grammarCheck` in `learn-content.js` |
 | **Grammar accuracy**: tense may change when time changes; agreement -s rule scoped to present tense with I/you; *was* with I, *were* with you; commands are complete (understood *you*) | `verb-tense`, `agreement`, `complete-sentence` content |
-| **Georgia tags**: `3-5.L.GC.1` shown as the matching official `3.L.GC.1.NN` item or `3.L.GC.1`; unverifiable `3.L.V.2.b` hidden; Home badge qualified to "Practices Georgia Grade 3 language skills" | `verifiedGa()` in `js/app.js` |
+| **Georgia standards**: no longer drawn on the child's Skill, Learn or Practice screens (`GA_IN_CHILD_SCREENS = false`). For grown-ups lists each skill's verified codes. `3-5.L.GC.1` mapped to the matching official `3.L.GC.1.NN` item or `3.L.GC.1`; unverifiable `3.L.V.2.b` hidden; Home badge reads "Practices Georgia Grade 3 language skills" | `verifiedGa()` in `js/app.js`; `renderParent()` in `js/write.js` |
+| **Result wording**: every Test result tier describes *this test* ("On this test, …") and names a next step; Learn completion says "You finished the X lesson!" | `testPool.guidance` in content; `js/learn.js` |
+| **Preview server**: `serve.js` binds to `127.0.0.1` by default; pass `0.0.0.0` as the 4th argument for phone access; `.git` is never served | `verification/serve.js` |
 | **Tense feedback**: 14 Practice/Test clues now give the reason ("Both actions happen at the same time") | `verb-tense` content |
-| Harnesses: `guard.js` 889/889 (five expectations updated to 1.9.0 wording); `write-check.js` 122/122 | `verification/` |
-| Parent review: `PARENT-REVIEW-SCRIPT.md` | |
+| Harnesses: `guard.js` 889/889 (expectations updated for the 1.9.0 wording and order); `write-check.js` 125/125 | `verification/` |
+| Pilot: `PREVIEW-WINDOWS.md`, `PARENT-REVIEW-SCRIPT.md`, `PILOT-CHECKLIST.md` (with observation log). **Feature scope frozen until the pilot is reviewed.** | |
+
+**Deployment source: unverified.** The Pages settings API is not reachable from cloud sessions. Indirect evidence: every `github-pages` deployment and `pages build and deployment` run on record (8 deployments, 2026-10-02 to 2026-10-19) built `claude/build-1.4`, not `build-1.8`. Both pointed at `ccbfeb4`. Check Settings → Pages → Build and deployment before any merge, because merging into `build-1.8` may not publish anything.
 
 Read `WRITING-MILESTONE.md` for the educational rationale, limits and roadmap.
 **The 2.0 draft branch** (`feature/sentence-sense-2-learning-system`, draft PR #3) is a separate rewrite: 4 commits on top of `main` 1.2.7 (`cc1f102`). It does not contain `build-1.8`. It was not modified or merged. Its writing notebook ideas can be compared with this work later; see WRITING-MILESTONE.md §6.

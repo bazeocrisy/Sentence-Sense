@@ -1098,14 +1098,33 @@
       host.appendChild(all);
     }
 
-    /* Standards note: honest status of the Georgia tags shown in Learn and
-       Practice. Kept here, away from the child's flow. */
+    /* Standards: teacher/parent information, kept here and off the child's
+       screens. Codes come from the same verified renderer the 1.5-1.8
+       child-screen tags used (SS_GA.verify in app.js). */
     const ga = make("details", "stage parent-standards");
     ga.id = "parent-standards";
-    ga.appendChild(make("summary", "path-summary", "About the Georgia standards tags"));
-    ga.appendChild(make("p", "", "Skill screens, Learn steps and Practice questions show small Georgia standards tags. They were checked against a saved copy of the Georgia Department of Education's Grade 3 ELA standards (CASE package, retrieved 2026-10-24)."));
-    ga.appendChild(make("p", "", "Verified: 3.L.GC.2.a (sentence structure), 3.L.GC.2.b (sentence variety and consistent verb tense), 3.L.GC.2.c (subject-verb agreement), 3.L.GC.2.d (adjectives and adverbs for detail), 3.L.GC.1 (grammar, usage and mechanics) and its numbered items such as 3.L.GC.1.33 (helping and linking verbs)."));
-    ga.appendChild(make("p", "", "Not verified, so not shown: 3.L.V.2.b. Sentence Sense practices some Grade 3 language skills. It does not cover all of the Georgia standards and has not been reviewed by the state or a school district."));
+    ga.appendChild(make("summary", "path-summary", "Georgia standards for each skill"));
+    ga.appendChild(make("p", "", "These codes are checked against a saved copy of the Georgia Department of Education's Grade 3 ELA standards (CASE package, retrieved 2026-10-24). Sentence Sense practices some Grade 3 language skills. It does not cover all of the Georgia standards and has not been reviewed by the state or a school district. One code from earlier builds, 3.L.V.2.b, could not be verified and is not listed."));
+    const list = make("dl", "parent-ga-list");
+    (C.homeGroups || []).forEach(g => g.skills.forEach(k => {
+      const t = C.topics[k];
+      if (!t || !t.ga || !window.SS_GA) return;
+      list.appendChild(make("dt", "parent-ga-skill", t.name));
+      window.SS_GA.verify(t.ga).forEach(c => {
+        const dd = make("dd", "parent-ga-code");
+        dd.appendChild(make("span", "ga-code", c.code));
+        if (c.label) dd.appendChild(make("span", "parent-ga-label", " " + c.label));
+        list.appendChild(dd);
+      });
+    }));
+    list.appendChild(make("dt", "parent-ga-skill", "Write a Strong Sentence"));
+    [["3.L.GC.2.a", "Correctly structured sentences"], ["3.L.GC.2.d", "Optional detail with adjectives and adverbs"]].forEach(c => {
+      const dd = make("dd", "parent-ga-code");
+      dd.appendChild(make("span", "ga-code", c[0]));
+      dd.appendChild(make("span", "parent-ga-label", " " + c[1]));
+      list.appendChild(dd);
+    });
+    ga.appendChild(list);
     host.appendChild(ga);
   }
 

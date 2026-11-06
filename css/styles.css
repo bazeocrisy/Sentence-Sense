@@ -2317,3 +2317,7 @@ img{max-width:100%;}
 /* Nothing noticed: a calm neutral note, not a warning colour. */
 .write-look.is-clear{background:var(--line-soft);border-color:var(--line);}
 .write-look.is-clear .write-look-title{color:var(--muted);}
+.parent-ga-list{margin:10px 0 0;display:grid;grid-template-columns:1fr;gap:2px 12px;}
+.parent-ga-skill{font-weight:700;color:var(--navy-deep);margin-top:10px;}
+.parent-ga-code{margin:0 0 0 12px;color:var(--text);}
+.parent-ga-code .ga-code{font-family:var(--font-display);font-weight:600;font-size:0.9rem;}

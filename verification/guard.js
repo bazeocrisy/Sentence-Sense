@@ -444,7 +444,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     toPractice: document.getElementById("learn-done-practice").hidden === false,
     label: document.getElementById("learn-done-practice").textContent
   }));
-  ok("4.20 Learn completes", ldone.visible && /you learned verb/i.test(ldone.title), ldone.title);
+  ok("4.20 Learn completes", ldone.visible && /you finished the verb lesson/i.test(ldone.title), ldone.title);
   ok("4.21 completion recaps the teaching, and claims no mastery",
     ldone.recap.length > 0 && !/master/i.test(ldone.recap), ldone.recap);
   ok("4.22 Verb offers Practice as the real next step",
@@ -1263,15 +1263,15 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   }
 
   const CASES = [
-    ["12/12",       12, 8, 4, true,  /got verbs/i,               "Back to Verb",  "Try again"],
-    ["10/12 a7 b3", 12, 7, 3, true,  /got verbs/i,               "Back to Verb",  "Try again"],
-    ["10/12 a8 b2", 12, 8, 2, false, /action verbs are strong/i, "Practice verbs","Back to Verb"],
-    ["10/12 a6 b4", 12, 6, 4, false, /being verbs well/i,        "Practice verbs","Back to Verb"],
+    ["12/12",       12, 8, 4, true,  /found the verb in almost/i, "Back to Verb",  "Try again"],
+    ["10/12 a7 b3", 12, 7, 3, true,  /found the verb in almost/i, "Back to Verb",  "Try again"],
+    ["10/12 a8 b2", 12, 8, 2, false, /action verb answers went/i, "Practice verbs","Back to Verb"],
+    ["10/12 a6 b4", 12, 6, 4, false, /being verb answers went/i, "Practice verbs","Back to Verb"],
     ["9/12",        12, 6, 3, false, /almost there/i,            "Practice verbs","Back to Verb"],
     ["7/12",        12, 5, 2, false, /keep going/i,              "Learn verbs",   "Back to Verb"],
     ["0/12",        12, 0, 0, false, /keep going/i,              "Learn verbs",   "Back to Verb"],
-    ["20/20",       20, 13, 7, true, /got verbs/i,               "Back to Verb",  "Try again"],
-    ["17/20 a13 b4",20, 13, 4, false,/action verbs are strong/i, "Practice verbs","Back to Verb"]
+    ["20/20",       20, 13, 7, true, /found the verb in almost/i, "Back to Verb",  "Try again"],
+    ["17/20 a13 b4",20, 13, 4, false,/action verb answers went/i, "Practice verbs","Back to Verb"]
   ];
   let cel = 0, gd = 0, cta = 0;
   for (const [label, size, nA, nB, expectMastery, msg, wantPrimary, wantTertiary] of CASES) {

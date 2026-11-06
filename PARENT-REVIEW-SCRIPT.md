@@ -1,6 +1,6 @@
 # Five-minute parent review: Build 1.9.0, Write a Strong Sentence
 
-Use a fresh browser profile or a private window so you start with no saved writing. Check that the footer says **Sentence Sense — Build 1.9.0**.
+Start the preview as described in `PREVIEW-WINDOWS.md`. Use a fresh browser profile or a private window so you start with no saved writing. Check that the footer says **Sentence Sense — Build 1.9.0**. Record what you see in `PILOT-CHECKLIST.md`.
 
 ## 1. Independent writing (about 1 minute)
 1. On Home, the top card says **Next for you · Write a strong sentence**. Press **Start writing**.
@@ -32,7 +32,7 @@ Use a fresh browser profile or a private window so you start with no saved writi
 1. Press **Show a grown-up** (or go Home and press **For grown-ups: review saved writing** at the bottom).
 2. For each piece, check the prompt, **First draft**, **Revised version**, **Changes**, **Child's own answers (not checked by the app)** and **Help used**.
 3. Type a parent note, refresh, reopen, and confirm the note is still there.
-4. Open **About the Georgia standards tags** and read what was and wasn't verified.
+4. Open **Georgia standards for each skill**. Standards codes appear only here now, not on Chris's screens.
 5. When you're done, **Delete all saved writing** clears this device.
 
 ## What to watch when Chris uses it

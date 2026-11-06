@@ -646,10 +646,10 @@ window.SS_LEARN_CONTENT = {
 
         /* Wording is CONTENT, never engine strings. */
         guidance: {
-          mastered:  "You've got verbs. You found the verb in almost every sentence.",
-          beingWeak: "Your action verbs are strong. Review being verbs, then try again.",
-          actionWeak:"You know being verbs well. Review action verbs, then try again.",
-          almost:    "Almost there. You know verbs well \u2014 a few tricky ones to go.",
+          mastered:  "On this test, you found the verb in almost every sentence. Next, look for the verbs in your own writing with Write a strong sentence.",
+          beingWeak: "On this test, your action verb answers went well. Next, review being verbs in Learn, then try the test again.",
+          actionWeak:"On this test, your being verb answers went well. Next, review action verbs in Learn, then try the test again.",
+          almost:    "Almost there on this test. A few tricky verbs to review. Next, try Practice, then take the test again.",
           keepGoing: "Keep going. Review Learn, then try Practice again."
         },
 
@@ -1306,10 +1306,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You found the subject every way we tested it. You know how to use the verb to ask Who? or What?",
-          "simpleWeak": "You did well with tricky subjects. Review how to find the verb first and then ask Who? or What? to find the subject.",
-          "trickyWeak": "You found subjects in clear sentences. Review sentences that start with extra words, have a noun near the verb, or use is and are.",
-          "almost": "You are almost there with subjects. Find the verb first, then ask Who? or What?",
+          "mastered": "On this test, you found the subject in every kind of sentence we asked about. Next, check who or what your own sentences are about with Write a strong sentence.",
+          "simpleWeak": "On this test, you did well with tricky subjects. Next, review how to find the verb first and then ask Who? or What?",
+          "trickyWeak": "On this test, you found subjects in clear sentences. Next, review sentences that start with extra words, have a noun near the verb, or use is and are.",
+          "almost": "Almost there on this test. Next, practice finding the verb first, then asking Who? or What?",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -3355,10 +3355,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You found nouns that name people, places, things, and ideas. Great work with nouns!",
-          "concreteWeak": "You found idea nouns well. Review nouns that name people, places, and things, and check what each word does in the sentence.",
-          "ideaWeak": "You found people, places, and things well. Review idea nouns, the ones you cannot see or touch, like joy or hope.",
-          "almost": "You are almost there with nouns. Ask: Is it a person, place, thing, or idea?",
+          "mastered": "On this test, you found nouns that name people, places, things, and ideas. Next, notice the nouns you choose in your own writing.",
+          "concreteWeak": "On this test, you found idea nouns well. Next, review nouns that name people, places, and things, and check what each word does in the sentence.",
+          "ideaWeak": "On this test, you found people, places, and things well. Next, review idea nouns, the ones you cannot see or touch, like joy or hope.",
+          "almost": "Almost there on this test. Next, practice asking: Is it a person, place, thing, or idea?",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -5666,10 +5666,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You found adjectives and the nouns they describe. Great work with adjectives!",
-          "kindWeak": "You found how many and which one well. Review adjectives that tell what kind, and check which noun each one describes.",
-          "countWeak": "You found what kind well. Review adjectives that tell how many and which one, like three, this, and that.",
-          "almost": "You are almost there with adjectives. Find the noun, then ask: What kind? Which one? How many?",
+          "mastered": "On this test, you found adjectives and the nouns they describe. Next, when you write, add an adjective only when it helps a reader picture something.",
+          "kindWeak": "On this test, you found how many and which one well. Next, review adjectives that tell what kind, and check which noun each one describes.",
+          "countWeak": "On this test, you found what kind well. Next, review adjectives that tell how many and which one, like three, this, and that.",
+          "almost": "Almost there on this test. Next, practice finding the noun, then asking: What kind? Which one? How many?",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -8026,10 +8026,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You know pronouns! You can find them, tell what they stand for, and use words like myself.",
-          "personalWeak": "You are strong with words like myself, so review how a pronoun stands for a noun and matches it.",
-          "reflexiveWeak": "You are strong at finding pronouns, so review words like myself and themselves that point back to who did the action.",
-          "almost": "You are almost there with pronouns, so review the ones you missed and try again.",
+          "mastered": "On this test, you found pronouns, what they stand for, and words like myself. Next, check that each pronoun in your own writing is clear.",
+          "personalWeak": "On this test, words like myself went well. Next, review how a pronoun stands for a noun and matches it.",
+          "reflexiveWeak": "On this test, finding pronouns went well. Next, review words like myself and themselves that point back to who did the action.",
+          "almost": "Almost there on this test. Next, look at the ones you missed, then try again.",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -10569,10 +10569,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You know adverbs! You can find words that tell how, when, and where.",
-          "findWeak": "You are strong at telling adverbs from adjectives, so review finding the verb and asking How? When? Where?",
-          "chooseWeak": "You are strong at finding adverbs, so review how an adverb tells about a verb and an adjective describes a noun.",
-          "almost": "You are almost there with adverbs, so review the ones you missed and try again.",
+          "mastered": "On this test, you found words that tell how, when, and where. Next, when you write, add an adverb only when it helps.",
+          "findWeak": "On this test, telling adverbs from adjectives went well. Next, review finding the verb and asking How? When? Where?",
+          "chooseWeak": "On this test, finding adverbs went well. Next, review how an adverb tells about a verb and an adjective describes a noun.",
+          "almost": "Almost there on this test. Next, look at the ones you missed, then try again.",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -13086,10 +13086,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You know complete sentences! You can spot fragments and run-ons and fix them.",
-          "fragmentWeak": "You are strong with run-ons, so review how a complete sentence needs a subject and a predicate.",
-          "runonWeak": "You are strong with fragments, so review how to spot two sentences stuck together and join them the right way.",
-          "almost": "You are almost there with complete sentences, so review the ones you missed and try again.",
+          "mastered": "On this test, you spotted fragments and run-ons. Next, check your own sentences with Write a strong sentence.",
+          "fragmentWeak": "On this test, run-ons went well. Next, review how a complete sentence needs a subject and a predicate.",
+          "runonWeak": "On this test, fragments went well. Next, review how to spot two sentences stuck together and join them the right way.",
+          "almost": "Almost there on this test. Next, look at the ones you missed, then try again.",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -15528,10 +15528,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You know your helping and linking verbs!",
-          "helpingWeak": "You are strong with linking verbs. Review helping verbs and the main verbs they help.",
-          "linkingWeak": "You are strong with helping verbs. Review linking verbs that link the subject to a describing or naming word.",
-          "almost": "You are almost there with helping and linking verbs. Look at the word after each verb.",
+          "mastered": "On this test, you sorted helping verbs and linking verbs. Next, notice them in your own writing.",
+          "helpingWeak": "On this test, linking verbs went well. Next, review helping verbs and the main verbs they help.",
+          "linkingWeak": "On this test, helping verbs went well. Next, review linking verbs that link the subject to a describing or naming word.",
+          "almost": "Almost there on this test. Next, practice looking at the word after each verb.",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -18027,10 +18027,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You know how verb tense tells when something happens!",
-          "tenseWeak": "You are strong with special past tense words. Review time words and keeping the tense the same while the time stays the same.",
-          "irregularWeak": "You are strong with past, present, and future. Review special past tense words like went and ate.",
-          "almost": "You are almost there with verb tense. Look for the time words in each sentence.",
+          "mastered": "On this test, you chose verbs that show when something happens. Next, notice the time words in your own writing.",
+          "tenseWeak": "On this test, special past tense words went well. Next, review time words and keeping the tense the same while the time stays the same.",
+          "irregularWeak": "On this test, past, present, and future went well. Next, review special past tense words like went and ate.",
+          "almost": "Almost there on this test. Next, practice looking for the time words in each sentence.",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [
@@ -20601,10 +20601,10 @@ window.SS_LEARN_CONTENT = {
           ]
         },
         "guidance": {
-          "mastered": "You know how to make subjects and verbs match!",
-          "basicWeak": "You are strong with tricky subjects. Review matching a verb to one or more than one.",
-          "betweenWeak": "You are strong at matching subjects and verbs. Review tricky subjects: words in between, names joined by and, and group words like team.",
-          "almost": "You are almost there with subject-verb agreement. Find the real subject before you choose.",
+          "mastered": "On this test, you matched subjects and verbs. Next, check that subjects and verbs match in your own writing.",
+          "basicWeak": "On this test, tricky subjects went well. Next, review matching a verb to one or more than one.",
+          "betweenWeak": "On this test, simple matching went well. Next, review tricky subjects: words in between, names joined by and, and group words like team.",
+          "almost": "Almost there on this test. Next, practice finding the real subject before you choose.",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
         },
         "questions": [

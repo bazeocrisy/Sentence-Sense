@@ -5,8 +5,10 @@ Date 2026-11-06. Branch `claude/write-strong-sentence` (base `build-1.8` @ `ccbf
 | Check | Result |
 |---|---|
 | `verification/guard.js` on untouched 1.8 baseline | 889 passed, 0 failed |
-| `verification/guard.js` on 1.9.0 | 889 passed, 0 failed. Five expectations updated: build number (×2), hero line, keyboard order (three "Next for you" stops come first), qualified Georgia line. |
-| `verification/write-check.js` (Playwright, Chromium 1243, headless) | 122 passed, 0 failed (`verification/write-results.json`) |
+| `verification/guard.js` on 1.9.0 | 889 passed, 0 failed. Expectations updated: build number (×2), hero line, keyboard order (three "Next for you" stops come first), qualified Georgia line, Learn completion title, and three Verb result message patterns. Scoring, celebration and button checks are unchanged. |
+| `serve.js` bind address (Linux container) | default `127.0.0.1:8347`: loopback 200, network address refused. `0.0.0.0`: network address 200. `/.git/config` and `/.GIT/config`: 404. `../` traversal: 403. Not tested on Windows. |
+| GitHub Pages source | **Unverified.** The settings API is blocked here. Deployment history shows only `claude/build-1.4` builds. |
+| `verification/write-check.js` (Playwright, Chromium 1243, headless) | 125 passed, 0 failed (`verification/write-results.json`) |
 | Screenshots inspected by eye | `verification/write-screenshots/` |
 
 `write-check.js` covers:
