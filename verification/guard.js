@@ -225,8 +225,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     home.previews.every(p => p.length > 0), home.previews.join(" / "));
   ok("2.7 exactly one action button per card", home.buttons === home.count, home.buttons);
   ok("2.8 the card itself is not a second control", !home.cardIsButton);
-  ok("2.9 a quiet Georgia alignment line is present",
-    /aligned with georgia grade 3 ela standards/i.test(home.standards), home.standards);
+  ok("2.9 a quiet, qualified Georgia line is present",
+    /practices georgia grade 3 language skills/i.test(home.standards), home.standards);
 
   const FORBIDDEN = ["achievement", "progress", "settings", "login", "sign in", "profile",
     "avatar", "today's goal", "todays goal", "mission", "points", "coins", "streak",

@@ -1,8 +1,168 @@
 {
-  "date": "2026-11-06T22:38:37.597Z",
-  "passed": 83,
+  "date": "2026-11-06T22:57:04.707Z",
+  "passed": 122,
   "failed": 0,
   "results": [
+    {
+      "name": "P1 notes for \"Mr. Lee waved at us.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P2 notes for \"Mrs. Diaz said, \\\"Come in!\\\"\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P3 notes for \"Mrs. Diaz said, “Come in!”\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P4 notes for \"\\\"Wow!\\\" said Mom.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P5 notes for \"“Can I play?” asked Ben.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P6 notes for \"Can we go to the park?\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P7 notes for \"Look at that cloud!\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P8 notes for \"Sit down.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P9 notes for \"Wow!!\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P10 notes for \"We drove to St. Louis with Dr. Patel.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P11 notes for \"J. K. Rowling wrote it.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P12 notes for \"We left at 3 p.m. on Friday.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P13 notes for \"My dog ran (very fast).\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P14 notes for \"He said, \\\"Hi.\\\"\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P15 notes for \"I think I can.\" = []",
+      "ok": true,
+      "detail": "got []"
+    },
+    {
+      "name": "P16 notes for \"I woke up. Then I ate.\" = [many]",
+      "ok": true,
+      "detail": "got [many]"
+    },
+    {
+      "name": "P17 notes for \"She yelled, \\\"Stop!\\\" Then she laughed.\" = [many]",
+      "ok": true,
+      "detail": "got [many]"
+    },
+    {
+      "name": "P18 notes for \"Is it raining? Yes, it is.\" = [many]",
+      "ok": true,
+      "detail": "got [many]"
+    },
+    {
+      "name": "P19 notes for \"the dog ran.\" = [firstLetter]",
+      "ok": true,
+      "detail": "got [firstLetter]"
+    },
+    {
+      "name": "P20 notes for \"\\\"wow,\\\" said Mom.\" = [firstLetter]",
+      "ok": true,
+      "detail": "got [firstLetter]"
+    },
+    {
+      "name": "P21 notes for \"The dog ran\" = [ending]",
+      "ok": true,
+      "detail": "got [ending]"
+    },
+    {
+      "name": "P22 notes for \"i like it.\" = [firstLetter,wordI]",
+      "ok": true,
+      "detail": "got [firstLetter,wordI]"
+    },
+    {
+      "name": "P23 notes for \"Mom and i're here.\" = [wordI]",
+      "ok": true,
+      "detail": "got [wordI]"
+    },
+    {
+      "name": "P24 notes for \"The ____ ran.\" = [blanks]",
+      "ok": true,
+      "detail": "got [blanks]"
+    },
+    {
+      "name": "P25 notes for \"Pizza tastes ____\" = [ending,blanks]",
+      "ok": true,
+      "detail": "got [ending,blanks]"
+    },
+    {
+      "name": "P26 no note uses the words wrong/incorrect/error/mistake",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "P27 no praise claims better/correct/right/mastery",
+      "ok": true,
+      "detail": "You read your sentence again and chose to keep it. That's a real writer's choice. | You made a new version. | You added: “big”. | You made a new version. | You took out: “very very”. Taking words out is a real revision too. | You made a new version. | You changed the first letter to a capital. | You added an end mark. | You read your sentence again and chose to keep it. That's a real writer's choice. | You noticed it's a command."
+    },
+    {
+      "name": "P28 keeping it the same is praised as a choice",
+      "ok": true,
+      "detail": "You read your sentence again and chose to keep it. That's a real writer's choice."
+    },
+    {
+      "name": "P29 added words stated as a fact, not a value",
+      "ok": true,
+      "detail": "You made a new version. | You added: “big”."
+    },
+    {
+      "name": "P30 removing words is presented as real revision",
+      "ok": true,
+      "detail": "You made a new version. | You took out: “very very”. Taking words out is a real revision too."
+    },
+    {
+      "name": "P31 capital and end-mark changes are named as marks, not words",
+      "ok": true,
+      "detail": "You made a new version. | You changed the first letter to a capital. | You added an end mark."
+    },
+    {
+      "name": "P32 command is acknowledged",
+      "ok": true,
+      "detail": "You read your sentence again and chose to keep it. That's a real writer's choice. | You noticed it's a command."
+    },
     {
       "name": "A1 build badge is 1.9.0",
       "ok": true,
@@ -14,407 +174,442 @@
       "detail": ""
     },
     {
-      "name": "A3 all ten skill cards still on Home",
+      "name": "A3 ten skill cards on Home",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A4 learning path is folded away",
+      "name": "A4 Georgia badge is qualified",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A5 prompt chooser focused",
+      "name": "A5 draft step, focus on heading",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A6 draft step, focus on heading",
+      "name": "A6 Check screen (one screen, three questions)",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A7 tools closed by default (independent path is one box)",
+      "name": "A7 Revise screen",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A8 empty draft is not accepted, gentle nudge shown",
+      "name": "A8 unchanged sentence offers 'Keep it and finish'",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A9 whitespace-only draft is not accepted",
+      "name": "A9 detail is optional and folded away",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A10 first draft accepted -> who step",
+      "name": "A10 valid sentence: no marks noted",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A11 first draft saved to localStorage",
+      "name": "A11 compare screen",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A12 unmarked Next nudges once",
+      "name": "A12 both boxes show the unchanged sentence",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A13 picked words show pressed state",
+      "name": "A13 labelled as kept the same",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A14 what step names the child's subject",
+      "name": "A14 short session: whole piece in ≤ 12 taps plus typing",
+      "ok": true,
+      "detail": "9"
+    },
+    {
+      "name": "A15 praise reports the child's marking as their own",
+      "ok": true,
+      "detail": "You read your sentence again and chose to keep it. That's a real writer's choice.\nYou marked who or what it's about: “My dog”."
+    },
+    {
+      "name": "A16 no page errors",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A15 after refresh Home offers Continue",
+      "name": "B1 empty draft is not accepted, gentle nudge",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A16 resume returns to the same step",
+      "name": "B2 whitespace-only draft is not accepted",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A17 detail step is optional",
+      "name": "B3 first draft saved immediately",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A18 Home button goes home",
+      "name": "B4 nothing answered: one gentle nudge, not a block",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A19 Continue restores detail step",
+      "name": "B5 after refresh Home offers Continue",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A20 choosing a detail opens the editor",
+      "name": "B6 resume returns to Check with taps kept",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A21 editor starts with the first draft text",
+      "name": "B7 lowercase start and missing end mark are noted as things to look at",
+      "ok": true,
+      "detail": "firstLetter,ending"
+    },
+    {
+      "name": "B8 detail ideas open on request",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A22 marks step",
+      "name": "B9 changed sentence offers 'I'm finished'",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A23 corrected sentence: nothing flagged",
+      "name": "B10 notes clear when fixed",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A24 honesty note present",
+      "name": "B11 Home and back: revision restored",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A25 Escape goes home",
+      "name": "B12 Escape goes Home",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A26 checkboxes restored",
+      "name": "B13 Back reaches the frozen first draft",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A27 read-again step",
+      "name": "B14 first draft and revision distinct in storage",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A28 back to frozen first draft",
+      "name": "B15 revising cleared index marks, but kept the words as evidence",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A29 first draft and revision distinct in storage",
+      "name": "B16 'Go back to my first draft' restores it after confirming",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A30 forward again to read step",
+      "name": "B17 praise names the added words and mark changes",
+      "ok": true,
+      "detail": "You made a new version.\nYou added: “all morning.”.\nYou changed the first letter to a capital.\nYou added an end mark.\nYou marked who or what it's about: “the puppy”."
+    },
+    {
+      "name": "B18 no page errors",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A31 compare screen",
+      "name": "C1 four help rungs, one at a time",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A32 both versions shown",
+      "name": "C2 Help me disabled after the last rung",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A33 praise is specific (names what was added)",
-      "ok": true,
-      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
-    },
-    {
-      "name": "A33b capital fix credited, not shown as a new word",
-      "ok": true,
-      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
-    },
-    {
-      "name": "A33c end mark credited",
-      "ok": true,
-      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
-    },
-    {
-      "name": "A33d when-detail suggests adverbs",
+      "name": "C3 rung 1 asks one question",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A34 no mastery language",
-      "ok": true,
-      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
-    },
-    {
-      "name": "A35 Home now says write another",
+      "name": "C4 example is about a different topic",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "A36 no page errors",
+      "name": "C5 frame is not inserted until asked",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "B1 four help rungs, one at a time",
+      "name": "C6 frame added only on request",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "B2 Help me disabled after the last rung",
-      "ok": true,
-      "detail": ""
-    },
-    {
-      "name": "B3 rung 1 asks one question",
-      "ok": true,
-      "detail": ""
-    },
-    {
-      "name": "B4 example is about a different topic",
-      "ok": true,
-      "detail": ""
-    },
-    {
-      "name": "B5 frame only added when asked",
-      "ok": true,
-      "detail": ""
-    },
-    {
-      "name": "B6 starter + bank word inserted without replacing text",
+      "name": "C7 starter + bank word inserted without replacing text",
       "ok": true,
       "detail": "Cold watermelon sweet is my favorite."
     },
     {
-      "name": "B7 markup is shown as text, never parsed",
+      "name": "C8 markup is shown as text, never parsed",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "B8 more-than-one-sentence noticed, not marked wrong",
-      "ok": true,
-      "detail": "Things to look at\n\nIt looks like you wrote more than one sentence. That's okay! Check the start and end of each one."
-    },
-    {
-      "name": "C1 grown-ups view opens, heading focused",
+      "name": "C9 multiline text keeps its line break",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C2 both pieces listed",
+      "name": "C10 two sentences noticed as 'more than one', nothing else",
+      "ok": true,
+      "detail": "many"
+    },
+    {
+      "name": "C11 removing words praised as real revision",
+      "ok": true,
+      "detail": "You made a new version.\nYou added: “is”.\nYou took out: “My”, “<b>is</b> hot & <img src=x onerror=window.__pwned=1>. It's”. Taking words out is a real revision too.\nYou used help when you wanted it."
+    },
+    {
+      "name": "D1 command explained as complete",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C3 shows prompt, first draft, revision",
+      "name": "D2 command: no marks noted",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C4 shows self-checks (marks kept after revising)",
-      "ok": true,
-      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 10:38:30 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nAdded: all morning.\n\nChild's self-checks\nMarked the words that tell who or what: “the puppy”\nMarked what happens: “hid under my bed”\nSaid it makes sense by itself\nDetail: chose to add when\n☑ My sentence starts with a capital letter.\n☑ It ends with . ? or !\n☑ Names of people and places start with a capital letter (or there aren't any).\nHelp used\nNo help used\nParent note (optional)\nDelete this piece"
-    },
-    {
-      "name": "C5 shows help used",
+      "name": "D3 command finishes normally",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C6 help on supported piece recorded",
+      "name": "E1 grown-ups view opens, heading focused",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C7 parent view renders child text safely",
+      "name": "E2 three pieces listed",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C8 explains limits and local storage",
+      "name": "E3 shows prompt, first draft, revision",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C9 parent note persists",
+      "name": "E4 self-checks labelled as the child's own answers",
+      "ok": true,
+      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 10:56:56 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nChanges: Added: all morning.\n\nChild's own answers (not checked by the app)\nTapped as who/what: “the puppy”\nTapped as what happens: “hid under my bed”\nMakes sense by itself? Said yes\nNot ticked: It starts with a capital letter.\nNot ticked: It ends with . ? or !\nNot ticked: Names of people and places start with a capital letter (or there aren't any).\nHelp used\nOpened the optional detail ideas\nPut the first draft back on the Revise screen\nParent note (optional)\nDelete this piece"
+    },
+    {
+      "name": "E5 help and detail use recorded",
+      "ok": true,
+      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 10:56:56 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nChanges: Added: all morning.\n\nChild's own answers (not checked by the app)\nTapped as who/what: “the puppy”\nTapped as what happens: “hid under my bed”\nMakes sense by itself? Said yes\nNot ticked: It starts with a capital letter.\nNot ticked: It ends with . ? or !\nNot ticked: Names of people and places start with a capital letter (or there aren't any).\nHelp used\nOpened the optional detail ideas\nPut the first draft back on the Revise screen\nParent note (optional)\nDelete this piece"
+    },
+    {
+      "name": "E6 supported piece shows help used",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C10 delete one piece",
+      "name": "E7 grown-ups view renders child text safely",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C11 delete all",
+      "name": "E8 explains limits and local storage",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "C12 no page errors",
+      "name": "E9 standards note present",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D1 Verb skill screen",
+      "name": "E10 parent note persists",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D2 Verb Learn opens",
+      "name": "E11 delete one piece",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D3 Complete Sentence Practice opens with choices",
+      "name": "E12 delete all",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D4 Practice gives feedback",
+      "name": "F1 Verb Tense tags use verified codes",
+      "ok": true,
+      "detail": "GEORGIA STANDARDS\n3.L.GC.1\nSimple verb tenses (Review)\n3.L.GC.1.20\nIrregular past tense (Master)\n3.L.GC.2.b\nConsistent verb tense"
+    },
+    {
+      "name": "F2 Verb Tense Learn opens",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D5 Agreement Test intro",
+      "name": "F3 unverified 3.L.V.2.b not shown",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D6 Grammar Check opens",
+      "name": "F4 Complete Sentence Practice opens with choices",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D7 Grammar Check asks what to practice",
+      "name": "F5 Practice gives feedback",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "D8 no page errors",
+      "name": "F6 Agreement Test intro",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "E1 blocked storage explained",
+      "name": "F7 Grammar Check asks what to practice",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "E2 activity still works without storage",
+      "name": "F8 Grammar Check opens",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "E3 no page errors",
+      "name": "F9 no page errors",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "E4 full storage explained",
+      "name": "G1 a piece saved by the earlier 8-step draft resumes on Revise",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "E5 damaged data kept as a copy, app loads",
+      "name": "G2 no page errors",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "F1 375x667 Home no sideways scroll",
+      "name": "H1 blocked storage explained",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "F2 375x667 draft + help no sideways scroll",
+      "name": "H2 activity still works without storage",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "F3 375x667 long sentence word picker fits",
+      "name": "H3 no page errors",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "F1 320x640 Home no sideways scroll",
+      "name": "H4 full storage explained",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "F2 320x640 draft + help no sideways scroll",
+      "name": "H5 damaged data kept as a copy, app loads",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "F3 320x640 long sentence word picker fits",
+      "name": "I1 375x667 Home no sideways scroll",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "G1 keyboard reaches Start writing early",
+      "name": "I2 375x667 draft + help no sideways scroll",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "G2 focus moves to new step heading",
+      "name": "I3 375x667 long sentence on Check fits",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "G3 visible focus ring on prompt button",
+      "name": "I4 375x667 Revise fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "I1 320x640 Home no sideways scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "I2 320x640 draft + help no sideways scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "I3 320x640 long sentence on Check fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "I4 320x640 Revise fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "J1 keyboard reaches Start writing early",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "J2 focus moves to new step heading",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "J3 visible focus ring on prompt button",
       "ok": true,
       "detail": "solid"
     },
     {
-      "name": "G4 Enter on a prompt opens the draft",
+      "name": "J4 Enter on a prompt opens the draft",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "H1 no read-aloud button without speech support",
+      "name": "J5 focus on Check heading after keyboard submit",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "K1 no read-aloud button without speech support",
       "ok": true,
       "detail": ""
     }

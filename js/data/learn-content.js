@@ -18028,7 +18028,7 @@ window.SS_LEARN_CONTENT = {
         },
         "guidance": {
           "mastered": "You know how verb tense tells when something happens!",
-          "tenseWeak": "You are strong with special past tense words. Review time words and keeping the tense the same.",
+          "tenseWeak": "You are strong with special past tense words. Review time words and keeping the tense the same while the time stays the same.",
           "irregularWeak": "You are strong with past, present, and future. Review special past tense words like went and ate.",
           "almost": "You are almost there with verb tense. Look for the time words in each sentence.",
           "keepGoing": "Keep going. Review Learn, then try Practice again."
@@ -18214,7 +18214,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "licks is right. sleeps is present, so the next verb is present too.",
-            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+            "clue": "Remember: look at the other verb. Both actions happen at the same time, so use the same tense."
           },
           {
             "id": "VT006",
@@ -18252,7 +18252,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "tells is right. turns is present, and the words every night mean it happens again and again.",
-            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+            "clue": "Remember: look at the other verb. Both actions happen at the same time, so use the same tense."
           },
           {
             "id": "VT007",
@@ -18552,7 +18552,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "clapped is right. laughed is past, so the next verb is past too.",
-            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+            "clue": "Remember: look at the other verb. Both actions happen at the same time, so use the same tense."
           },
           {
             "id": "VT015",
@@ -18591,7 +18591,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "shares is right. picks is present, so the next verb is present too.",
-            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+            "clue": "Remember: look at the other verb. Both actions happen at the same time, so use the same tense."
           },
           {
             "id": "VT016",
@@ -18702,7 +18702,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "fly is right. leave is present, and the words every fall mean it happens again and again.",
-            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+            "clue": "Remember: look at the other verb. Both actions happen at the same time, so use the same tense."
           },
           {
             "id": "VT019",
@@ -18740,7 +18740,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "swam is right. jumped is past, so the next verb is past. The past of swim is swam.",
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense. Some verbs have a special past tense."
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense. Some verbs have a special past tense."
           },
           {
             "id": "VT020",
@@ -18852,7 +18852,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "drank is right. woke is past, so the next verb is past. The past of drink is drank.",
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense. Some verbs have a special past tense."
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense. Some verbs have a special past tense."
           },
           {
             "id": "VT023",
@@ -19126,7 +19126,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "slides is right. climbs is present, so the next verb is present too.",
-            "clue": "Remember: look at the other verb. Keep the verb in the blank in the same tense."
+            "clue": "Remember: look at the other verb. Both actions happen at the same time, so use the same tense."
           },
           {
             "id": "VT030",
@@ -19322,7 +19322,7 @@ window.SS_LEARN_CONTENT = {
               }
             ],
             "why": "hid is right. heard and ran are past, so the next verb is past. The past of hide is hid.",
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense. Some verbs have a special past tense."
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense. Some verbs have a special past tense."
           },
           {
             "id": "VT035",
@@ -19624,7 +19624,7 @@ window.SS_LEARN_CONTENT = {
           },
           {
             "name": "Think It Through",
-            "desc": "Keep the second verb in the same tense as the first.",
+            "desc": "When both actions happen at the same time, keep the second verb in the same tense as the first.",
             "mark": "💪",
             "milestoneTitle": "Think It Through complete!",
             "milestoneLine": "You kept the tense the same inside each sentence.",
@@ -20089,7 +20089,7 @@ window.SS_LEARN_CONTENT = {
                 "feedback": "The word finding cannot be the verb by itself. It needs a helping verb. Match opened: found."
               }
             ],
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense.",
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense.",
             "reveal": "Let's find it together. The first verb, opened, tells about the past. The verb that matches it is found."
           },
           {
@@ -20132,7 +20132,7 @@ window.SS_LEARN_CONTENT = {
                 "feedback": "The word washing cannot be the verb by itself. It needs a helping verb. Match makes: washes."
               }
             ],
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense.",
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense.",
             "reveal": "Let's find it together. The first verb, makes, tells about every day. The verb that matches it is washes."
           },
           {
@@ -20174,7 +20174,7 @@ window.SS_LEARN_CONTENT = {
                 "feedback": "The word falled is not used in correct writing. The past tense of fall is a special word: fell."
               }
             ],
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense.",
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense.",
             "reveal": "Let's find it together. The first verb, jumped, tells about the past. The verb that matches it is fell."
           },
           {
@@ -20218,7 +20218,7 @@ window.SS_LEARN_CONTENT = {
                 "feedback": "The word giving cannot be the verb by itself. It needs a helping verb. Match walks: gives."
               }
             ],
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense.",
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense.",
             "reveal": "Let's find it together. The first verb, walks, tells about every day. The verb that matches it is gives."
           },
           {
@@ -20261,7 +20261,7 @@ window.SS_LEARN_CONTENT = {
                 "feedback": "The word sprinkling cannot be the verb by itself. It needs a helping verb. Match planted: sprinkled."
               }
             ],
-            "clue": "Remember: look at the first verb. Keep the next verb in the same tense.",
+            "clue": "Remember: look at the first verb. Both actions happen at the same time, so use the same tense.",
             "reveal": "Let's find it together. The first verb, planted, tells about the past. The verb that matches it is sprinkled."
           },
           {

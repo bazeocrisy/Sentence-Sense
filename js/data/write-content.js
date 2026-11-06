@@ -132,7 +132,10 @@ window.SS_WRITE_CONTENT = {
     frameNote: "Your own words stay. The frame goes at the end."
   },
 
-  /* ---------------- The check steps ---------------- */
+  /* ---------------- The steps ----------------
+     Build 1.9.0 review pass: five screens (Pick, Write, Check, Revise,
+     Compare). Every answer on Check is the CHILD'S judgment. The app
+     records it and never says whether it is right. */
   steps: {
     draft: {
       title: "Write your sentence",
@@ -141,70 +144,62 @@ window.SS_WRITE_CONTENT = {
       emptyNudge: "Write your idea first. A few words is a good start. You can use Help me or the word bank.",
       primary: "This is my first draft"
     },
-    who: {
-      title: "Who or what is it about?",
-      ask: "Tap the word or words that tell who or what your sentence is about.",
+    check: {
+      title: "Check your sentence",
+      whoAsk: "Who or what is it about? Tap those words.",
       command: "It's a command (the subject is you)",
-      commandNote: "Good thinking. A sentence that tells someone to do something, like “Look at that cloud!”, is complete. Its subject is you, even though you don't see it.",
-      missing: "My sentence doesn't say yet",
-      missingTip: "Add who or what your sentence is about. For example, “ran to the fence” becomes “The goat ran to the fence.”",
-      nudge: "Tap the words first, or press Next again if you're not sure.",
-      example: { words: ["My", "little", "brother", "found", "a", "shiny", "rock."], marks: [{ start: 0, end: 2, kind: "subject", label: "WHO?" }] },
-      exampleLine: "Who found a shiny rock? My little brother. Those words tell who the sentence is about."
-    },
-    what: {
-      title: "What happens?",
-      ask: "Tap the words that tell what happens, or what your sentence says about {who}.",
-      askNoWho: "Tap the words that tell what happens, or what your sentence says.",
+      commandNote: "A sentence that tells someone to do something, like “Look at that cloud!”, is complete. Its subject is you, even though you don't see it.",
+      missing: "It doesn't say yet",
+      whatAsk: "What happens, or what does it tell about them? Tap those words.",
       sense: "Does your sentence make sense all by itself?",
-      senseYes: "Yes, it makes sense",
-      senseNo: "Not yet, I'll fix it",
-      senseNoTip: "Read it out loud. Is a part missing? You can change your sentence in the box.",
-      nudge: "Tap the words first, or press Next again if you're not sure.",
-      example: { words: ["The", "kitten", "chased", "a", "ball", "of", "yarn."], marks: [{ start: 2, end: 6, kind: "verb", label: "WHAT HAPPENS" }] },
-      exampleLine: "What does the kitten do? It chased a ball of yarn. Those words tell what happens."
+      senseYes: "Yes",
+      senseNo: "Not yet",
+      nudge: "You can tap words or answer the question. Or press Next again to keep going.",
+      example: { words: ["My", "little", "brother", "found", "a", "shiny", "rock."], split: { at: 3, leftLabel: "WHO OR WHAT", rightLabel: "WHAT HAPPENS" } },
+      exampleLine: "Who found a shiny rock? My little brother. What happens? He found a shiny rock."
     },
-    detail: {
-      title: "Can a reader picture it?",
-      ask: "You can add one detail if it helps. Or keep it the way it is.",
-      options: [
-        { key: "where", label: "Add where", tip: "Where did it happen? Words like “at the park” or “under the table.”" },
-        { key: "when", label: "Add when", tip: "When did it happen? Words like “after school” or “last night.”" },
-        { key: "how", label: "Add how", tip: "How did it happen? Words like “slowly” or “with a big splash.”" },
-        { key: "kind", label: "Add what kind", tip: "What kind? Words like “muddy,” “tiny,” or “striped.”" },
-        { key: "enough", label: "It already has enough detail", tip: "That's a real writer's choice. A short, clear sentence can be strong." }
-      ],
-      example: { from: "The bus stopped.", to: "The yellow bus stopped at the corner." },
-      exampleLine: "See how the details help you picture it? The new words tell what kind and where."
-    },
-    marks: {
-      title: "Check the capital and the end mark",
-      ask: "Look at the beginning and the end of your sentence.",
+    revise: {
+      title: "Revise if you want to",
+      ask: "Read it out loud. Change anything you want, or keep it just the way it is.",
+      fromCheck: {
+        missing: "You said it doesn't say who or what yet. You can add that here. For example, “ran to the fence” becomes “The goat ran to the fence.”",
+        notyet: "You said it doesn't make sense yet. Read it out loud and fix the part that sounds missing."
+      },
       lookTitle: "Things to look at",
-      honest: "The app can only notice a few marks. It can't tell if your sentence is right. You and a grown-up decide that.",
-      nothing: "The app didn't notice anything to look at. Read it once more yourself.",
+      honest: "The app only notices a few marks. It can't tell if your sentence is right. You and a grown-up decide that.",
+      nothing: "The app didn't notice any marks to look at.",
       looks: {
         firstLetter: "Look at the first letter. Should it be a capital letter?",
-        ending: "Look at the end. Does your sentence need a period (.), a question mark (?), or an exclamation point (!)?",
-        wordI: "Look at the word i. When it means you, it is always a capital: I.",
-        blanks: "Your sentence still has a blank (____). Fill it with your own words.",
+        ending: "Look at the end. Does it need a period (.), a question mark (?), or an exclamation point (!)?",
+        wordI: "Look at the word “i”. When it means you, it is a capital: I.",
+        blanks: "There is still a blank (____). Fill it with your own words.",
         many: "It looks like you wrote more than one sentence. That's okay! Check the start and end of each one."
       },
+      detailTitle: "Want to add a detail? (You don't have to.)",
+      detailIntro: "A detail can help a reader picture it. A short, clear sentence can be strong too.",
+      detailIdeas: [
+        "Where? Like “at the park” or “under the table.”",
+        "When? Like “after school” or “last night.”",
+        "How? Like “slowly” or “with a big splash.”",
+        "What kind? Like “muddy,” “tiny,” or “striped.”"
+      ],
+      detailExample: { from: "The bus stopped.", to: "The yellow bus stopped at the corner." },
+      checksTitle: "Before you finish, you can check:",
       checks: [
-        { key: "capital", label: "My sentence starts with a capital letter." },
+        { key: "capital", label: "It starts with a capital letter." },
         { key: "ending", label: "It ends with . ? or !" },
         { key: "names", label: "Names of people and places start with a capital letter (or there aren't any)." }
-      ]
-    },
-    read: {
-      title: "Read it one more time",
-      ask: "Read your sentence out loud. Does it say what you mean?",
-      primary: "I'm finished"
+      ],
+      restore: "Go back to my first draft",
+      restoreConfirm: "Put your first draft back in the box? Your changes on this screen will be replaced.",
+      keep: "Keep it and finish",
+      finish: "I'm finished",
+      empty: "The box is empty. Write your sentence, or press “Go back to my first draft”."
     }
   },
 
-  editLabel: "Change my sentence",
-  editHint: "Your first draft is saved. Changes go into your new version.",
+  editLabel: "My sentence",
+  editHint: "Your first draft is saved just as you wrote it. Changes here make your new version.",
 
   /* ---------------- The learning path (Home) ----------------
      A suggested order, not a rule. Each step points at what already

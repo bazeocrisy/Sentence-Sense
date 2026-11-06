@@ -176,10 +176,43 @@
   /* Build 1.5.0 — Georgia standard tags. Shown where the PARENT looks
      (the Skill screen, each Learn step, each Practice question) and set
      small and quiet so a child reads past them. */
+  /* Build 1.9.0 — standards tags checked against the official GaDOE Grade 3
+     ELA CASE package (retrieved 2026-10-24, saved on the 2.0 branch as
+     docs/sources/georgia-grade3-2026.json).
+       - 3.L.GC.2.a-d exist and match their labels: shown unchanged.
+       - "3-5.L.GC.1" is not an official code. Each such label is mapped to the
+         official 3.L.GC.1.NN item whose wording and level match, or to the
+         official parent standard 3.L.GC.1 (Grammar, Usage & Mechanics).
+       - 3.L.V.2.b could not be found in the saved source, so it is not shown.
+     The content data is untouched; this is the single rendering point. */
+  const GA_ITEMS = [
+    [/helping and linking/i, "3.L.GC.1.33"],
+    [/irregular past/i, "3.L.GC.1.20"],
+    [/joining words/i, "3.L.GC.1.21"],
+    [/collective|abstract nouns/i, "3.L.GC.1.23"],
+    [/reflexive pronouns/i, "3.L.GC.1.24"],
+    [/comma (\+|before) and/i, "3.L.GC.1.25"],
+    [/prepositional phrases/i, "3.L.GC.1.27"],
+    [/pronoun agreement/i, "3.L.GC.1.29"]
+  ];
+  const GA_UNVERIFIED = ["3.L.V.2.b"];
+  function verifiedGa(codes) {
+    const seen = new Set();
+    return (codes || []).filter(c => GA_UNVERIFIED.indexOf(c.code) < 0).map(c => {
+      let code = c.code, label = c.label || "";
+      if (code === "3-5.L.GC.1") {
+        const hit = GA_ITEMS.find(m => m[0].test(label));
+        code = hit ? hit[1] : "3.L.GC.1";
+      }
+      if (code === "3.L.GC.2.b" && /keep the tense the same/i.test(label)) label = "Consistent verb tense";
+      return { code: code, label: label };
+    }).filter(c => { const k = c.code + "|" + c.label; if (seen.has(k)) return false; seen.add(k); return true; });
+  }
+
   function gaLine(codes) {
     const p = make("p", "ga-tags");
     p.appendChild(make("span", "ga-tags-label", "Georgia standards"));
-    (codes || []).forEach(c => {
+    verifiedGa(codes).forEach(c => {
       const tag = make("span", "ga-tag");
       tag.appendChild(make("span", "ga-code", c.code));
       if (c.label) tag.appendChild(make("span", "ga-label", c.label));
@@ -315,7 +348,7 @@
     return false;
   }
 
-  window.SS_GA = { line: gaLine };
+  window.SS_GA = { line: gaLine, verify: verifiedGa };
 
   function openSkill(key) {
     const t = C.topics[key];

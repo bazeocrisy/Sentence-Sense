@@ -6,17 +6,20 @@
 
 | Change | Where |
 |---|---|
-| **Write a Strong Sentence**: pick a prompt → first draft → who/what → what happens → optional detail → capital & end mark → read again → compare first draft and new version | `js/write.js`, `js/data/write-content.js`, `#screen-write` |
+| **Write a Strong Sentence**, 5 screens: Pick → Write (first draft) → Check (3 self-check questions on one screen) → Revise (edit or keep; marks to look at; optional detail) → Compare | `js/write.js`, `js/data/write-content.js`, `#screen-write` |
 | **Next for you** on Home: one primary action (Start / Continue writing), one secondary suggestion, and a folded-away suggested learning path. All ten skills stay below. | `renderHomeNext()` in `js/write.js`, `#home-next` |
 | **Grown-ups view**: prompt, first draft, revision, what changed, child's self-checks, help used, optional parent note, delete one / delete all | `#screen-parent`, footer link on Home only |
 | **Saving**: `localStorage` key `sentence-sense-writing-v1`, saved on every change, step changes saved immediately; blocked/full storage explained; damaged data set aside as `…-damaged-<time>`; stale second tab stops writing | `js/write.js` STORAGE |
 | **Honest feedback**: no sentence is ever marked right or wrong. The app only points at a first letter, an end mark, a lowercase "i", leftover frame blanks, or more than one sentence. Everything else is a self-check. | `looksAt()` |
 | **Grammar Check wording**: "What should I practice next?"; no "You know your grammar" / "pass" claims from 2 questions per skill | `grammarCheck` in `learn-content.js` |
 | **Grammar accuracy**: tense may change when time changes; agreement -s rule scoped to present tense with I/you; *was* with I, *were* with you; commands are complete (understood *you*) | `verb-tense`, `agreement`, `complete-sentence` content |
-| Harnesses: `guard.js` 889/889 (four expectations updated to 1.9.0 wording); `write-check.js` 83/83 | `verification/` |
+| **Georgia tags**: `3-5.L.GC.1` shown as the matching official `3.L.GC.1.NN` item or `3.L.GC.1`; unverifiable `3.L.V.2.b` hidden; Home badge qualified to "Practices Georgia Grade 3 language skills" | `verifiedGa()` in `js/app.js` |
+| **Tense feedback**: 14 Practice/Test clues now give the reason ("Both actions happen at the same time") | `verb-tense` content |
+| Harnesses: `guard.js` 889/889 (five expectations updated to 1.9.0 wording); `write-check.js` 122/122 | `verification/` |
+| Parent review: `PARENT-REVIEW-SCRIPT.md` | |
 
 Read `WRITING-MILESTONE.md` for the educational rationale, limits and roadmap.
-**The 2.0 draft branch** (`feature/sentence-sense-2-learning-system`, draft PR #3) is a separate rewrite based on `main` 1.2.7, not on 1.8. It was not modified or merged. Its writing notebook ideas can be compared with this work later; see WRITING-MILESTONE.md §6.
+**The 2.0 draft branch** (`feature/sentence-sense-2-learning-system`, draft PR #3) is a separate rewrite: 4 commits on top of `main` 1.2.7 (`cc1f102`). It does not contain `build-1.8`. It was not modified or merged. Its writing notebook ideas can be compared with this work later; see WRITING-MILESTONE.md §6.
 
 ---
 

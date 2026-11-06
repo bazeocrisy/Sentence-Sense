@@ -2,33 +2,35 @@
    Sentence Sense — WRITE A STRONG SENTENCE (Build 1.9.0)
 
    The first activity where the child PRODUCES writing instead of choosing
-   a supplied answer:
+   a supplied answer. Five screens, built for one short session:
 
-     choose a prompt -> write a first draft -> check who/what ->
-     check what happens -> (optional) add a detail -> check marks ->
-     read it again -> compare first draft and new version
+     Pick -> Write (first draft) -> Check (child's own judgments) ->
+     Revise (optional changes, marks, optional detail) -> Compare
 
    WHAT THE APP CAN AND CANNOT CHECK
      Open-ended writing cannot be graded by string checks. This file never
      labels the child's sentence correct or incorrect. It only:
-       - asks self-check questions (the child taps their own words),
+       - asks self-check questions; the child taps their own words and
+         answers. These are the CHILD'S judgments and are reported as such;
        - points at a few mechanical things worth LOOKING at (first letter,
-         ending mark, lowercase "i", leftover frame blanks),
+         ending mark, lowercase "i", leftover frame blanks, what looks like
+         more than one sentence), phrased as questions;
        - records what the child chose, for a grown-up to review.
-     Whether the sentence is complete, clear and meaningful is decided by
-     the child and an adult, in the Grown-ups view.
+     Adding words is not treated as better writing, removing words is not
+     treated as worse, and no sentence needs an adjective or adverb.
 
    THE CHILD'S WORDS
      - The first draft is frozen when the child presses "This is my first
        draft". Every later change goes into `revision`. Nothing rewrites
-       either one except the child's own typing, or a frame the child
-       explicitly asks to add.
+       either one except the child's own typing, a chip or frame the child
+       taps, or the child pressing "Go back to my first draft".
      - Child text is ALWAYS rendered with textContent. Never innerHTML.
 
    SAVING
-     localStorage, one key, saved on every change. If storage is blocked or
-     full the activity keeps working in memory and says so plainly. Back,
-     Home, Escape and refresh never lose work.
+     localStorage, one key. Typing is saved after a short pause; step
+     changes are saved at once. If storage is blocked or full the activity
+     keeps working in memory and says so plainly. Back, Home, Escape and
+     refresh never lose work.
    ========================================================= */
 
 (function () {
@@ -42,24 +44,15 @@
   const el = id => document.getElementById(id);
 
   const KEY = "sentence-sense-writing-v1";
-  const STEPS = ["choose", "draft", "who", "what", "detail", "marks", "read", "compare"];
-  /* The step line shows four phases, not eight steps. */
-  const PHASES = [
-    { name: "Pick", steps: ["choose"] },
-    { name: "Write", steps: ["draft"] },
-    { name: "Check and revise", steps: ["who", "what", "detail", "marks", "read"] },
-    { name: "Compare", steps: ["compare"] }
-  ];
+  const STEPS = ["choose", "draft", "check", "revise", "compare"];
+  /* Pieces saved by the first 1.9.0 draft used eight step names. */
+  const LEGACY_STEP = { who: "check", what: "check", detail: "revise", marks: "revise", read: "revise" };
+  const PHASES = ["Pick", "Write", "Check", "Revise", "Compare"];
 
   /* =========================================================
      STORAGE
      ========================================================= */
-  const store = {
-    data: { version: 1, pieces: [] },
-    ok: true,          // last write succeeded
-    available: true,   // storage usable at all
-    message: ""
-  };
+  const store = { data: { version: 1, pieces: [] }, ok: true, available: true, message: "" };
 
   function probeStorage() {
     try {
@@ -75,6 +68,21 @@
       typeof p.promptId === "string" && typeof p.draft === "string";
   }
 
+  /* Fill in any field an older save is missing, so old data never crashes. */
+  function normalize(p) {
+    p.status = p.status === "finished" ? "finished" : "writing";
+    p.step = LEGACY_STEP[p.step] || (STEPS.indexOf(p.step) >= 0 ? p.step : "draft");
+    if (typeof p.firstDraft !== "string") p.firstDraft = null;
+    if (typeof p.revision !== "string") p.revision = p.firstDraft || "";
+    p.marks = Object.assign({ who: null, what: null, text: "", whoWords: "", whatWords: "" }, p.marks || {});
+    p.checks = Object.assign({ who: null, sense: null, capital: false, ending: false, names: false }, p.checks || {});
+    p.help = Object.assign({ rung: 0, wordBank: false, starters: false, frameUsed: false, examples: [], detailIdeas: false, restored: false }, p.help || {});
+    if (!Array.isArray(p.help.examples)) p.help.examples = [];
+    if (typeof p.parentNote !== "string") p.parentNote = "";
+    if (!p.updated) p.updated = p.created || new Date(0).toISOString();
+    return p;
+  }
+
   function load() {
     store.available = probeStorage();
     if (!store.available) {
@@ -88,7 +96,7 @@
     try {
       const d = JSON.parse(raw);
       if (!d || !Array.isArray(d.pieces)) throw new Error("shape");
-      store.data = { version: 1, pieces: d.pieces.filter(validPiece) };
+      store.data = { version: 1, pieces: d.pieces.filter(validPiece).map(normalize) };
     } catch (e) {
       /* Damaged data is set aside, never silently thrown away. */
       try { window.localStorage.setItem(KEY + "-damaged-" + Date.now(), raw); } catch (e2) { /* nothing more to do */ }
@@ -113,12 +121,13 @@
   let saveTimer = null;
   function saveSoon() {
     clearTimeout(saveTimer);
-    setSaveStatus("Saving…");
-    saveTimer = setTimeout(save, 250);
+    if (store.ok) setSaveStatus("Saving…");
+    saveTimer = setTimeout(() => { saveTimer = null; save(); }, 250);
   }
   function flush() {
     if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; save(); }
   }
+  function saveNow() { clearTimeout(saveTimer); saveTimer = null; save(); }
 
   function setSaveStatus(text) {
     const n = el("write-save");
@@ -137,11 +146,10 @@
   function now() { return new Date().toISOString(); }
 
   function newPiece(promptId) {
-    /* Drop untouched pieces (prompt picked, nothing written) so they do
-       not pile up as "unfinished" work. */
+    /* Drop untouched pieces (prompt picked, nothing written). */
     store.data.pieces = store.data.pieces.filter(p =>
       !(p.status === "writing" && p.firstDraft === null && !p.draft.trim()));
-    const p = {
+    const p = normalize({
       id: "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
       promptId: promptId,
       status: "writing",
@@ -149,14 +157,10 @@
       draft: "",
       firstDraft: null,
       revision: "",
-      marks: { who: null, what: null, text: "" },
-      checks: { who: null, sense: null, detail: null, capital: false, ending: false, names: false },
-      help: { rung: 0, wordBank: false, starters: false, frameUsed: false, examples: [] },
-      parentNote: "",
       created: now(),
       updated: now(),
       finished: null
-    };
+    });
     store.data.pieces.push(p);
     return p;
   }
@@ -168,36 +172,70 @@
       .sort((a, b) => b.updated.localeCompare(a.updated))[0] || null;
   }
   function finishedPieces() {
-    return store.data.pieces.filter(p => p.status === "finished");
+    return store.data.pieces.filter(p => p.status === "finished")
+      .sort((a, b) => (b.finished || "").localeCompare(a.finished || ""));
   }
   function promptOf(p) {
     return W.prompts.find(x => x.id === p.promptId) || W.prompts[W.prompts.length - 1];
   }
-  function current(p) { return p.firstDraft === null ? p.draft : p.revision; }
 
   /* =========================================================
      TEXT HELPERS — mechanical only. None of these grade a sentence.
      ========================================================= */
   function tokens(text) { return text.trim().split(/\s+/).filter(Boolean); }
 
+  /* Words that end in a period without ending a sentence. */
+  const ABBREV = /^(mr|mrs|ms|dr|st|mt|jr|sr|vs|etc|prof|ave|rd|no|a\.m|p\.m|u\.s|e\.g|i\.e)$/i;
+  const CLOSERS = "\"'”’)]";
+
+  function endsWithMark(t) {
+    let i = t.length - 1;
+    while (i >= 0 && CLOSERS.indexOf(t[i]) >= 0) i--;
+    return i >= 0 && /[.!?…]/.test(t[i]);
+  }
+
+  /* Is there a sentence boundary inside the text? A boundary is an end
+     mark (plus any closing quotes) followed by a space and a capital
+     letter, where the word before the mark is not an abbreviation or an
+     initial. A lowercase word after a quote ("Wow!" said Mom.) is the same
+     sentence. */
+  function looksLikeMany(t) {
+    const words = tokens(t);
+    for (let i = 0; i < words.length - 1; i++) {
+      const w = words[i];
+      let j = w.length - 1;
+      while (j >= 0 && CLOSERS.indexOf(w[j]) >= 0) j--;
+      if (j < 0 || !/[.!?]/.test(w[j])) continue;
+      const next = words[i + 1].replace(/^["'“‘(\[]+/, "");
+      if (!/^[A-Z0-9]/.test(next)) continue;
+      if (w[j] === ".") {
+        const base = w.slice(0, j).replace(/^["'“‘(\[]+/, "").replace(/\.+$/, "");
+        if (ABBREV.test(base) || /^[A-Z]$/.test(base)) continue;
+      }
+      return true;
+    }
+    return false;
+  }
+
   function looksAt(text) {
     const t = text.trim();
-    const L = W.steps.marks.looks;
+    const L = W.steps.revise.looks;
     const out = [];
     if (!t) return out;
-    if (/^[^A-Za-z]*[a-z]/.test(t)) out.push(L.firstLetter);
-    if (!/[.!?]["'”’)]*$/.test(t)) out.push(L.ending);
-    if (/(^|[^A-Za-z'’])i(?=$|[\s,.!?'’])/.test(t)) out.push(L.wordI);
-    if (/_{3,}/.test(t)) out.push(L.blanks);
-    if (/[.!?]["'”’)]*\s+\S/.test(t)) out.push(L.many);
+    const first = t.replace(/^[^A-Za-z0-9]+/, "");
+    if (/^[a-z]/.test(first)) out.push({ key: "firstLetter", text: L.firstLetter });
+    if (!endsWithMark(t)) out.push({ key: "ending", text: L.ending });
+    if (/(^|[\s"“‘(])i(?=$|[\s,!?'’”"]|\.(?!e\.))/.test(t)) out.push({ key: "wordI", text: L.wordI });
+    if (/_{3,}/.test(t)) out.push({ key: "blanks", text: L.blanks });
+    if (looksLikeMany(t)) out.push({ key: "many", text: L.many });
     return out;
   }
 
-  /* Word-level difference for the comparison screen (LCS). Display only. */
+  /* Word-level difference for the comparison screen (LCS). Words are
+     compared without case or surrounding punctuation, so "the" -> "The"
+     or adding a period is a mark change, not a new word. Display only. */
   function diffWords(a, b) {
-    /* Words are compared without case or end marks, so fixing "the" to
-       "The" or adding a period counts as a mark fix, not a new word. */
-    const norm = w => w.toLowerCase().replace(/[.!?,;:"“”]+$/, "").replace(/^["“]+/, "");
+    const norm = w => w.toLowerCase().replace(/^["“‘'(\[]+/, "").replace(/[.!?,;:"”’')\]]+$/, "");
     const X = tokens(a), Y = tokens(b);
     const x = X.map(norm), y = Y.map(norm);
     const n = x.length, m = y.length;
@@ -247,11 +285,9 @@
   }
 
   /* =========================================================
-     RENDERING
+     SHARED RENDERING
      ========================================================= */
   const ui = { piece: null, nudged: false };
-
-  function body() { return el("write-body"); }
 
   function heading(text) {
     const h = make("h2", "activity-title", text);
@@ -263,19 +299,19 @@
   function renderPhases(step) {
     const host = el("write-steps");
     clear(host);
-    const at = PHASES.findIndex(ph => ph.steps.includes(step));
-    PHASES.forEach((ph, i) => {
+    const at = { choose: 0, draft: 1, "draft-locked": 1, check: 2, revise: 3, compare: 4 }[step];
+    PHASES.forEach((name, i) => {
       const li = make("li", "step-pill" + (i === at ? " is-current" : i < at ? " is-done" : ""));
       li.appendChild(make("span", "step-num", String(i + 1)));
-      li.appendChild(make("span", "step-name", ph.name));
+      li.appendChild(make("span", "step-name", name));
       if (i === at) li.setAttribute("aria-current", "step");
       host.appendChild(li);
     });
   }
 
   /* The child's sentence shown as text. pre-wrap keeps their line breaks. */
-  function sentenceBox(text, cls) {
-    const box = make("p", "write-text" + (cls ? " " + cls : ""));
+  function sentenceBox(text) {
+    const box = make("p", "write-text");
     box.textContent = text.trim() ? text : "(nothing written yet)";
     if (!text.trim()) box.classList.add("is-empty");
     return box;
@@ -288,6 +324,13 @@
     return b;
   }
 
+  function navButton(label, onClick, cls) {
+    const b = make("button", "nav-btn" + (cls ? " " + cls : ""), label);
+    b.type = "button";
+    if (onClick) b.addEventListener("click", onClick);
+    return b;
+  }
+
   function controls(primary, extra) {
     const row = make("div", "controls write-controls");
     (extra || []).forEach(x => { if (x) row.appendChild(x); });
@@ -295,20 +338,59 @@
     return row;
   }
 
-  function renderStep(step, opts) {
+  function choice(label, pressed) {
+    const b = make("button", "choice-btn write-choice", label);
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(!!pressed));
+    return b;
+  }
+
+  /* Example help: always a different sentence from the child's topic. */
+  function exampleHelp(key, spec, line) {
     const p = ui.piece;
-    /* Step changes save at once (typing is debounced), so leaving the
-       page right after pressing Next never loses the step. */
-    if (p && step !== "choose") { p.step = step; p.updated = now(); clearTimeout(saveTimer); save(); }
+    const wrap = make("div", "write-example");
+    const b = navButton("Show me an example", null, "btn-help");
+    const panel = make("div", "ladder-rung");
+    panel.tabIndex = -1;
+    panel.hidden = true;
+    b.addEventListener("click", () => {
+      panel.hidden = false;
+      b.hidden = true;
+      if (!panel.firstChild) {
+        const sh = make("div", "sentence-host");
+        S.renderSentence(sh, spec);
+        panel.appendChild(sh);
+        panel.appendChild(make("p", "ladder-text", line));
+      }
+      if (p.help.examples.indexOf(key) < 0) { p.help.examples.push(key); touch(p); }
+      panel.focus();
+    });
+    wrap.appendChild(b);
+    wrap.appendChild(panel);
+    return wrap;
+  }
+
+  /* =========================================================
+     ROUTER
+     ========================================================= */
+  function show(step, opts) {
+    const p = ui.piece;
+    /* After the first draft is frozen, Write shows it read-only. */
+    if (step === "draft" && p && p.firstDraft !== null) step = "draft-locked";
+    const scr = el("screen-write");
+    if (scr) scr.dataset.view = step;
+    if (p && step !== "choose" && step !== "draft-locked") {
+      p.step = step;
+      p.updated = now();
+      saveNow();
+    }
     ui.nudged = false;
     stopSpeech();
     renderPhases(step);
-    const host = body();
+    const host = el("write-body");
     clear(host);
-    ({
-      choose: renderChoose, draft: renderDraft, who: renderWho, what: renderWhat,
-      detail: renderDetail, marks: renderMarks, read: renderRead, compare: renderCompare
-    })[step](host);
+    ({ choose: renderChoose, draft: renderDraft, "draft-locked": renderDraftLocked,
+       check: renderCheck, revise: renderRevise, compare: renderCompare })[step](host);
     window.SS_SHELL.showScreen("write");
     if (!(opts && opts.noFocus)) {
       const h = el("write-heading");
@@ -316,11 +398,11 @@
     }
   }
 
-  /* ---------- Step 0: choose a prompt ---------- */
+  /* ---------- Pick ---------- */
   function renderChoose(host) {
     const stage = make("div", "stage");
     stage.appendChild(heading("What do you want to write about?"));
-    stage.appendChild(make("p", "write-lead", "Pick one idea. You will write one sentence, then make it even better."));
+    stage.appendChild(make("p", "write-lead", "Pick one idea. You will write one sentence. Then you can make it even better, or keep it."));
     const list = make("ul", "prompt-list");
     W.prompts.forEach(pr => {
       const li = make("li");
@@ -331,7 +413,6 @@
       b.appendChild(make("span", "prompt-line", pr.line));
       b.addEventListener("click", () => {
         ui.piece = newPiece(pr.id);
-        save();
         show("draft");
       });
       li.appendChild(b);
@@ -341,7 +422,7 @@
     host.appendChild(stage);
   }
 
-  /* ---------- Step 1: write the first draft ---------- */
+  /* ---------- Write: the first draft ---------- */
   function renderDraft(host) {
     const p = ui.piece, pr = promptOf(p), D = W.steps.draft;
     const stage = make("div", "stage");
@@ -352,7 +433,6 @@
     const sp = speakButton(() => pr.ask);
     if (sp) ask.appendChild(sp);
     stage.appendChild(ask);
-
     stage.appendChild(make("p", "write-tip", D.sayTip));
 
     const label = make("label", "write-label", D.label);
@@ -364,7 +444,6 @@
     ta.value = p.draft;
     ta.setAttribute("autocomplete", "off");
     ta.setAttribute("spellcheck", "true");
-    ta.addEventListener("input", () => { p.draft = ta.value; nudge.hidden = true; touch(p); });
     stage.appendChild(ta);
 
     const nudge = make("p", "write-nudge", D.emptyNudge);
@@ -372,6 +451,7 @@
     nudge.setAttribute("role", "status");
     nudge.hidden = true;
     stage.appendChild(nudge);
+    ta.addEventListener("input", () => { p.draft = ta.value; nudge.hidden = true; touch(p); });
 
     /* Optional tools: closed by default so independent writing stays one
        box and one button. */
@@ -388,27 +468,23 @@
     help.id = "write-help";
     stage.appendChild(help);
     renderLadder(help, ta);
-
     host.appendChild(stage);
 
-    const helpBtn = make("button", "nav-btn btn-help", "Help me");
-    helpBtn.type = "button";
-    helpBtn.id = "write-help-btn";
-    helpBtn.addEventListener("click", () => {
+    const helpBtn = navButton("Help me", () => {
       if (p.help.rung < 4) { p.help.rung++; touch(p); }
       renderLadder(help, ta);
       const last = help.querySelector(".ladder-rung:last-child");
       if (last) last.focus();
       if (p.help.rung >= 4) helpBtn.disabled = true;
-    });
+    }, "btn-help");
+    helpBtn.id = "write-help-btn";
     if (p.help.rung >= 4) helpBtn.disabled = true;
 
     host.appendChild(controls(primaryButton(D.primary, () => {
       if (!p.draft.trim()) { nudge.hidden = false; ta.focus(); return; }
       p.firstDraft = p.draft;
       p.revision = p.draft;
-      touch(p);
-      show("who");
+      show("check");
     }), [helpBtn]));
   }
 
@@ -494,134 +570,43 @@
       if (r === 4) {
         rung.appendChild(make("p", "ladder-text", L.frameIntro));
         rung.appendChild(make("p", "write-frame", pr.frame));
-        const fb = make("button", "nav-btn", L.frameButton);
-        fb.type = "button";
-        fb.addEventListener("click", () => {
+        rung.appendChild(navButton(L.frameButton, () => {
           const v = ta.value;
           ta.value = v.trim() ? v.replace(/\s+$/, "") + " " + pr.frame : pr.frame;
           p.draft = ta.value;
           p.help.frameUsed = true;
           touch(p);
           ta.focus();
-        });
-        rung.appendChild(fb);
+        }));
         rung.appendChild(make("p", "ladder-note", L.frameNote));
       }
       host.appendChild(rung);
     }
   }
 
-  /* ---------- Shared: the editable new version ---------- */
-  function revisionEditor(opts) {
+  /* Read-only first draft, reached with Back once it is frozen. */
+  function renderDraftLocked(host) {
     const p = ui.piece;
-    const wrap = make("div", "rev-editor");
-    const ta = make("textarea", "write-input");
-    ta.id = "write-revision";
-    ta.rows = 3;
-    ta.value = p.revision;
-    const label = make("label", "write-label", "My new version");
-    label.htmlFor = "write-revision";
-    ta.addEventListener("input", () => {
-      p.revision = ta.value;
-      touch(p);
-      if (opts && opts.onChange) opts.onChange();
-    });
-    wrap.appendChild(label);
-    wrap.appendChild(ta);
-    wrap.appendChild(make("p", "write-hint", W.editHint));
-    if (opts && opts.tip) {
-      const t = make("p", "write-tip", opts.tip);
-      wrap.insertBefore(t, label);
-    }
-    wrap.hidden = !(opts && opts.open);
-    return wrap;
+    const stage = make("div", "stage");
+    stage.appendChild(heading("Your first draft"));
+    stage.appendChild(make("p", "write-lead", "Your first draft is saved just as you wrote it. You can change your new version on the Revise screen."));
+    stage.appendChild(sentenceBox(p.firstDraft || ""));
+    host.appendChild(stage);
+    host.appendChild(controls(primaryButton("Next", () => show("check"))));
   }
 
-  /* The child's current sentence plus a "Change my sentence" control that
-     opens the editor. One primary action per step stays the Next button. */
-  function sentencePanel(host, opts) {
-    const p = ui.piece;
-    const panel = make("div", "write-mine");
-    panel.appendChild(make("p", "write-mine-label", "Your sentence"));
-    const shown = sentenceBox(p.revision);
-    panel.appendChild(shown);
-    const editor = revisionEditor({
-      open: opts && opts.open, tip: opts && opts.tip,
-      onChange: () => {
-        shown.textContent = p.revision.trim() ? p.revision : "(nothing written yet)";
-        if (opts && opts.onChange) opts.onChange();
-      }
-    });
-    const row = make("div", "write-mine-actions");
-    const edit = make("button", "nav-btn write-edit", W.editLabel);
-    edit.type = "button";
-    edit.setAttribute("aria-expanded", String(!editor.hidden));
-    edit.addEventListener("click", () => {
-      editor.hidden = false;
-      edit.setAttribute("aria-expanded", "true");
-      el("write-revision").focus();
-    });
-    row.appendChild(edit);
-    const sp = speakButton(() => p.revision, "Read my sentence to me");
-    if (sp) row.appendChild(sp);
-    panel.appendChild(row);
-    panel.appendChild(editor);
-    host.appendChild(panel);
-    return { openEditor: (tip) => {
-      if (tip) {
-        let t = editor.querySelector(".write-tip");
-        if (!t) { t = make("p", "write-tip"); editor.insertBefore(t, editor.firstChild); }
-        t.textContent = tip;
-      }
-      editor.hidden = false;
-      edit.setAttribute("aria-expanded", "true");
-      el("write-revision").focus();
-    } };
-  }
-
-  /* Example help used on the check steps: always a different sentence. */
-  function exampleHelp(key, spec, line) {
-    const p = ui.piece;
-    const wrap = make("div", "write-example");
-    const b = make("button", "nav-btn btn-help", "Show me an example");
-    b.type = "button";
-    const panel = make("div", "ladder-rung");
-    panel.tabIndex = -1;
-    panel.hidden = true;
-    b.addEventListener("click", () => {
-      panel.hidden = false;
-      b.hidden = true;
-      if (!panel.firstChild) {
-        if (spec.words) {
-          const sh = make("div", "sentence-host");
-          S.renderSentence(sh, spec);
-          panel.appendChild(sh);
-        } else {
-          panel.appendChild(make("p", "write-text is-small", spec.from));
-          panel.appendChild(make("p", "write-arrow", "↓"));
-          panel.appendChild(make("p", "write-text is-small", spec.to));
-        }
-        panel.appendChild(make("p", "ladder-text", line));
-      }
-      if (p.help.examples.indexOf(key) < 0) { p.help.examples.push(key); touch(p); }
-      panel.focus();
-    });
-    wrap.appendChild(b);
-    wrap.appendChild(panel);
-    return wrap;
-  }
-
-  /* Tap-your-own-words. The child marks words in THEIR sentence; the app
-     records the choice and does not judge it. */
-  function wordPicker(field, kind, onPick) {
+  /* ---------- Check: the child's own judgments ---------- */
+  /* Tap-your-own-words. Index marks belong to one exact text; when the
+     sentence changes they reset, but the marked WORDS are kept as text so
+     the grown-up still sees what the child chose. */
+  function wordPicker(field, kind, label, onPick) {
     const p = ui.piece;
     const words = tokens(p.revision);
-    /* Index marks belong to one exact text. When the sentence changes they
-       reset, but the marked WORDS are kept as evidence (whoWords/whatWords). */
     if (p.marks.text !== p.revision) { p.marks.who = null; p.marks.what = null; p.marks.text = p.revision; }
     const picked = new Set(p.marks[field] || []);
     const row = make("div", "pick-row");
     row.setAttribute("role", "group");
+    row.setAttribute("aria-label", label);
     words.forEach((w, i) => {
       const b = make("button", "pick-word ss-k-" + kind, w);
       b.type = "button";
@@ -640,174 +625,132 @@
     return row;
   }
 
-  function pickedText(field) {
-    const p = ui.piece;
-    if (p.marks.text !== p.revision || !p.marks[field] || !p.marks[field].length) return p.marks[field + "Words"] || "";
-    const words = tokens(p.revision);
-    return p.marks[field].map(i => words[i]).join(" ").replace(/[.!?,]+$/, "");
-  }
-
-  function backButton(step) {
-    const b = make("button", "nav-btn", "← Back");
-    b.type = "button";
-    b.addEventListener("click", () => show(step));
-    return b;
-  }
-
-  /* ---------- Step 2: who or what ---------- */
-  function renderWho(host) {
-    const p = ui.piece, K = W.steps.who;
+  function renderCheck(host) {
+    const p = ui.piece, K = W.steps.check;
     const stage = make("div", "stage");
     stage.appendChild(heading(K.title));
-    stage.appendChild(make("p", "write-lead", K.ask));
-    const pickHost = make("div");
+    stage.appendChild(sentenceBox(p.revision));
     const status = make("p", "write-note");
+    status.id = "write-check-status";
     status.setAttribute("role", "status");
-    const repick = () => {
-      clear(pickHost);
-      pickHost.appendChild(wordPicker("who", "subject", () => {
-        p.checks.who = "marked"; touch(p); status.textContent = "";
-      }));
-    };
-    repick();
-    stage.appendChild(pickHost);
 
-    const alt = make("div", "write-alt");
-    const cmd = make("button", "nav-btn", K.command);
-    cmd.type = "button";
-    cmd.addEventListener("click", () => { p.checks.who = "command"; touch(p); status.textContent = K.commandNote; });
-    const miss = make("button", "nav-btn", K.missing);
-    miss.type = "button";
-    alt.appendChild(cmd);
-    alt.appendChild(miss);
-    stage.appendChild(alt);
-    stage.appendChild(status);
-
-    const panel = sentencePanel(stage, { onChange: repick });
-    miss.addEventListener("click", () => {
-      p.checks.who = "added"; touch(p);
-      panel.openEditor(K.missingTip);
-    });
-    stage.appendChild(exampleHelp("who", K.example, K.exampleLine));
-    host.appendChild(stage);
-
-    host.appendChild(controls(primaryButton("Next", () => {
-      const marked = pickedText("who");
-      if (!marked && !p.checks.who && !ui.nudged) { ui.nudged = true; status.textContent = K.nudge; return; }
-      if (marked && p.checks.who !== "command" && p.checks.who !== "added") p.checks.who = "marked";
-      if (!marked && !p.checks.who) p.checks.who = "skipped";
+    /* 1. Who or what */
+    const q1 = make("div", "check-q");
+    q1.appendChild(make("p", "write-qtext", "1. " + K.whoAsk));
+    q1.appendChild(wordPicker("who", "subject", K.whoAsk, () => {
+      if (p.checks.who !== "command") p.checks.who = p.marks.who.length ? "marked" : null;
       touch(p);
-      show("what");
-    }), [backButton("draft-locked")]));
-  }
+      status.textContent = "";
+    }));
+    const alt = make("div", "write-alt");
+    const cmd = choice(K.command, p.checks.who === "command");
+    cmd.dataset.who = "command";
+    const miss = choice(K.missing, p.checks.who === "missing");
+    miss.dataset.who = "missing";
+    const toggleWho = (value, btn, other, note) => {
+      const on = p.checks.who !== value;
+      p.checks.who = on ? value : (p.marks.who && p.marks.who.length ? "marked" : null);
+      btn.setAttribute("aria-pressed", String(on));
+      other.setAttribute("aria-pressed", "false");
+      status.textContent = on ? note : "";
+      touch(p);
+    };
+    cmd.addEventListener("click", () => toggleWho("command", cmd, miss, K.commandNote));
+    miss.addEventListener("click", () => toggleWho("missing", miss, cmd, W.steps.revise.fromCheck.missing));
+    alt.appendChild(cmd); alt.appendChild(miss);
+    q1.appendChild(alt);
+    stage.appendChild(q1);
 
-  /* ---------- Step 3: what happens / what is said ---------- */
-  function renderWhat(host) {
-    const p = ui.piece, K = W.steps.what;
-    const stage = make("div", "stage");
-    stage.appendChild(heading(K.title));
-    const who = pickedText("who");
-    stage.appendChild(make("p", "write-lead",
-      who ? K.ask.replace("{who}", "“" + who + "”") : K.askNoWho));
-    const pickHost = make("div");
-    const status = make("p", "write-note");
-    status.setAttribute("role", "status");
-    const repick = () => { clear(pickHost); pickHost.appendChild(wordPicker("what", "verb", () => { status.textContent = ""; })); };
-    repick();
-    stage.appendChild(pickHost);
+    /* 2. What happens */
+    const q2 = make("div", "check-q");
+    q2.appendChild(make("p", "write-qtext", "2. " + K.whatAsk));
+    q2.appendChild(wordPicker("what", "verb", K.whatAsk, () => { status.textContent = ""; }));
+    stage.appendChild(q2);
 
-    const q = make("fieldset", "write-question");
-    q.appendChild(make("legend", "write-qtext", K.sense));
+    /* 3. Makes sense */
+    const q3 = make("fieldset", "write-question check-q");
+    q3.appendChild(make("legend", "write-qtext", "3. " + K.sense));
+    const row = make("div", "write-alt");
     const yes = choice(K.senseYes, p.checks.sense === "yes");
+    yes.dataset.sense = "yes";
     const no = choice(K.senseNo, p.checks.sense === "notyet");
-    q.appendChild(yes); q.appendChild(no);
-    stage.appendChild(q);
+    no.dataset.sense = "notyet";
+    yes.addEventListener("click", () => { p.checks.sense = "yes"; yes.setAttribute("aria-pressed", "true"); no.setAttribute("aria-pressed", "false"); status.textContent = ""; touch(p); });
+    no.addEventListener("click", () => { p.checks.sense = "notyet"; no.setAttribute("aria-pressed", "true"); yes.setAttribute("aria-pressed", "false"); status.textContent = W.steps.revise.fromCheck.notyet; touch(p); });
+    row.appendChild(yes); row.appendChild(no);
+    q3.appendChild(row);
+    stage.appendChild(q3);
     stage.appendChild(status);
-    const panel = sentencePanel(stage, { onChange: repick });
-    yes.addEventListener("click", () => { p.checks.sense = "yes"; setPressed(yes, no); touch(p); });
-    no.addEventListener("click", () => {
-      p.checks.sense = "notyet"; setPressed(no, yes); touch(p);
-      panel.openEditor(K.senseNoTip);
-    });
-    stage.appendChild(exampleHelp("what", K.example, K.exampleLine));
+    stage.appendChild(exampleHelp("check", K.example, K.exampleLine));
     host.appendChild(stage);
 
     host.appendChild(controls(primaryButton("Next", () => {
-      if (!pickedText("what") && !ui.nudged) { ui.nudged = true; status.textContent = K.nudge; return; }
-      show("detail");
-    }), [backButton("who")]));
+      const answered = (p.marks.who && p.marks.who.length) || (p.marks.what && p.marks.what.length) || p.checks.who || p.checks.sense;
+      if (!answered && !ui.nudged) { ui.nudged = true; status.textContent = K.nudge; return; }
+      if (!p.checks.who) p.checks.who = "skipped";
+      show("revise");
+    }), [navButton("← Back", () => show("draft-locked"))]));
   }
 
-  function choice(label, pressed) {
-    const b = make("button", "choice-btn write-choice", label);
-    b.type = "button";
-    b.setAttribute("aria-pressed", String(!!pressed));
-    return b;
-  }
-  function setPressed(on) {
-    Array.prototype.slice.call(arguments, 1).forEach(b => b.setAttribute("aria-pressed", "false"));
-    on.setAttribute("aria-pressed", "true");
-  }
-
-  /* ---------- Step 4: an optional detail ---------- */
-  function renderDetail(host) {
-    const p = ui.piece, K = W.steps.detail;
+  /* ---------- Revise: optional changes ---------- */
+  function renderRevise(host) {
+    const p = ui.piece, K = W.steps.revise;
     const stage = make("div", "stage");
     stage.appendChild(heading(K.title));
     stage.appendChild(make("p", "write-lead", K.ask));
-    const tip = make("p", "write-note");
-    tip.setAttribute("role", "status");
-    const opts = make("div", "choices is-wide detail-choices");
-    opts.setAttribute("role", "group");
-    opts.setAttribute("aria-label", K.title);
-    const buttons = [];
-    let panel = null;
-    K.options.forEach(o => {
-      const b = choice(o.label, p.checks.detail === o.key);
-      b.dataset.detail = o.key;
-      b.addEventListener("click", () => {
-        p.checks.detail = o.key; touch(p);
-        buttons.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
-        tip.textContent = o.tip;
-        if (o.key !== "enough") panel.openEditor(o.tip);
-      });
-      buttons.push(b);
-      opts.appendChild(b);
+
+    if (p.checks.who === "missing") stage.appendChild(make("p", "write-tip", K.fromCheck.missing));
+    if (p.checks.sense === "notyet") stage.appendChild(make("p", "write-tip", K.fromCheck.notyet));
+
+    const label = make("label", "write-label", W.editLabel);
+    label.htmlFor = "write-revision";
+    stage.appendChild(label);
+    const ta = make("textarea", "write-input");
+    ta.id = "write-revision";
+    ta.rows = 3;
+    ta.value = p.revision;
+    stage.appendChild(ta);
+    stage.appendChild(make("p", "write-hint", W.editHint));
+
+    const acts = make("div", "write-mine-actions");
+    const sp = speakButton(() => p.revision, "Read my sentence to me");
+    if (sp) acts.appendChild(sp);
+    const restore = navButton(K.restore, () => {
+      if (p.revision === p.firstDraft) return;
+      if (!window.confirm(K.restoreConfirm)) return;
+      p.revision = p.firstDraft || "";
+      p.help.restored = true;
+      ta.value = p.revision;
+      touch(p);
+      refresh();
+      ta.focus();
     });
-    stage.appendChild(opts);
-    stage.appendChild(tip);
-    panel = sentencePanel(stage, {});
-    stage.appendChild(exampleHelp("detail", K.example, K.exampleLine));
-    host.appendChild(stage);
-    host.appendChild(controls(primaryButton("Next", () => show("marks")), [backButton("what")]));
-  }
+    restore.id = "write-restore";
+    acts.appendChild(restore);
+    stage.appendChild(acts);
 
-  /* ---------- Step 5: capital letter and end mark ---------- */
-  function renderMarks(host) {
-    const p = ui.piece, K = W.steps.marks;
-    const stage = make("div", "stage");
-    stage.appendChild(heading(K.title));
-    stage.appendChild(make("p", "write-lead", K.ask));
-
+    /* Things to look at: questions about marks, updated as the child types. */
     const look = make("div", "write-look");
     look.id = "write-look";
     look.setAttribute("aria-live", "polite");
-    const drawLook = () => {
-      clear(look);
-      look.appendChild(make("p", "write-look-title", K.lookTitle));
-      const items = looksAt(p.revision);
-      if (!items.length) look.appendChild(make("p", "write-look-none", K.nothing));
-      else {
-        const ul = make("ul", "write-look-list");
-        items.forEach(t => ul.appendChild(make("li", "", t)));
-        look.appendChild(ul);
-      }
-    };
-    drawLook();
     stage.appendChild(look);
 
+    /* Optional detail ideas, folded away. Nothing is required. */
+    const det = make("details", "write-detail");
+    det.id = "write-detail";
+    det.appendChild(make("summary", "write-detail-summary", K.detailTitle));
+    det.appendChild(make("p", "write-note", K.detailIntro));
+    const ul = make("ul", "write-look-list");
+    K.detailIdeas.forEach(t => ul.appendChild(make("li", "", t)));
+    det.appendChild(ul);
+    det.appendChild(make("p", "write-text is-small", K.detailExample.from));
+    det.appendChild(make("p", "write-arrow", "↓"));
+    det.appendChild(make("p", "write-text is-small", K.detailExample.to));
+    det.addEventListener("toggle", () => { if (det.open && !p.help.detailIdeas) { p.help.detailIdeas = true; touch(p); } });
+    stage.appendChild(det);
+
     const fs = make("fieldset", "write-question");
-    fs.appendChild(make("legend", "write-qtext", "Check it yourself:"));
+    fs.appendChild(make("legend", "write-qtext", K.checksTitle));
     K.checks.forEach(c => {
       const lab = make("label", "write-check");
       const cb = make("input");
@@ -819,158 +762,122 @@
       fs.appendChild(lab);
     });
     stage.appendChild(fs);
-
-    sentencePanel(stage, { open: looksAt(p.revision).length > 0, onChange: drawLook });
     stage.appendChild(make("p", "write-honest", K.honest));
-    host.appendChild(stage);
-    host.appendChild(controls(primaryButton("Next", () => show("read")), [backButton("detail")]));
-  }
 
-  /* ---------- Step 6: read it again ---------- */
-  function renderRead(host) {
-    const p = ui.piece, K = W.steps.read;
-    const stage = make("div", "stage");
-    stage.appendChild(heading(K.title));
-    stage.appendChild(make("p", "write-lead", K.ask));
-    sentencePanel(stage, {});
+    const emptyNote = make("p", "write-nudge", K.empty);
+    emptyNote.setAttribute("role", "status");
+    emptyNote.hidden = true;
+    stage.appendChild(emptyNote);
     host.appendChild(stage);
-    host.appendChild(controls(primaryButton(K.primary, () => {
-      if (!p.revision.trim()) {
-        /* An emptied new version is not a finished piece. Restore nothing
-           automatically; ask the child to write it. */
-        const n = make("p", "write-nudge", "Your new version is empty. Write your sentence in the box, or copy your first draft.");
-        n.setAttribute("role", "status");
-        stage.appendChild(n);
-        return;
-      }
+
+    const finish = primaryButton("", () => {
+      if (!p.revision.trim()) { emptyNote.hidden = false; ta.focus(); return; }
       p.status = "finished";
       p.finished = now();
-      touch(p);
-      flush();
       show("compare");
-    }), [backButton("marks")]));
+    });
+
+    function refresh() {
+      clear(look);
+      look.appendChild(make("p", "write-look-title", K.lookTitle));
+      const items = looksAt(p.revision);
+      look.classList.toggle("is-clear", !items.length);
+      if (!items.length) look.appendChild(make("p", "write-look-none", K.nothing));
+      else {
+        const l = make("ul", "write-look-list");
+        items.forEach(it => { const li = make("li", "", it.text); li.dataset.look = it.key; l.appendChild(li); });
+        look.appendChild(l);
+      }
+      const same = p.revision === p.firstDraft;
+      finish.textContent = same ? K.keep : K.finish;
+      restore.hidden = same;
+      if (p.revision.trim()) emptyNote.hidden = true;
+    }
+    ta.addEventListener("input", () => { p.revision = ta.value; touch(p); refresh(); });
+    refresh();
+
+    host.appendChild(controls(finish, [navButton("← Back", () => show("check"))]));
   }
 
-  /* ---------- Step 7: compare and next step ---------- */
+  /* ---------- Compare ---------- */
+  /* Facts and effort only. No message says the new version is better,
+     that more words are better, or that the app checked the grammar. */
   function praise(p) {
     const out = [];
-    const d = diffWords(p.firstDraft || "", p.revision);
-    if ((p.firstDraft || "").trim() === p.revision.trim()) {
-      out.push("You checked your sentence carefully and chose to keep it. Writers do that too.");
+    const f = (p.firstDraft || "").trim(), r = p.revision.trim();
+    if (f === r) {
+      out.push("You read your sentence again and chose to keep it. That's a real writer's choice.");
     } else {
-      out.push("You revised your sentence.");
+      const d = diffWords(f, r);
+      out.push("You made a new version.");
       if (d.added.length) out.push("You added: " + d.added.map(a => "“" + a + "”").join(", ") + ".");
-      if (d.removed.length) out.push("You took out: " + d.removed.map(a => "“" + a + "”").join(", ") + ".");
-      const f = (p.firstDraft || "").trim(), r = p.revision.trim();
-      if (/^[^A-Za-z]*[a-z]/.test(f) && /^[^A-Za-z]*[A-Z]/.test(r)) out.push("You fixed the capital letter at the start.");
-      if (!/[.!?]["'”’)]*$/.test(f) && /[.!?]["'”’)]*$/.test(r)) out.push("You added an end mark.");
-      if (out.length === 1 && !d.added.length && !d.removed.length) out.push("You changed some marks or spacing.");
+      if (d.removed.length) out.push("You took out: " + d.removed.map(a => "“" + a + "”").join(", ") + ". Taking words out is a real revision too.");
+      if (/^[^A-Za-z]*[a-z]/.test(f) && /^[^A-Za-z]*[A-Z]/.test(r)) out.push("You changed the first letter to a capital.");
+      if (!endsWithMark(f) && endsWithMark(r)) out.push("You added an end mark.");
+      if (out.length === 1) out.push("You changed some marks or spacing.");
     }
-    if (p.checks.who === "marked" || p.checks.who === "command") out.push("You found who or what your sentence is about.");
-    if (p.checks.who === "added") out.push("You noticed your sentence needed a subject and worked on it.");
-    if (p.checks.detail === "enough") out.push("You decided your sentence already had enough detail.");
-    else if (p.checks.detail && (p.firstDraft || "") !== p.revision) out.push("You worked on a detail to help a reader picture it.");
-    if (p.help.rung || p.help.examples.length) out.push("You used Help when you needed it. That's a smart move.");
+    if (p.checks.who === "marked" && p.marks.whoWords) out.push("You marked who or what it's about: “" + p.marks.whoWords + "”.");
+    if (p.checks.who === "command") out.push("You noticed it's a command.");
+    if (p.checks.who === "missing" && f !== r) out.push("You said it needed a who or what, and you worked on it.");
+    if (p.checks.sense === "notyet" && f !== r) out.push("You said it didn't make sense yet, and you worked on it.");
+    if (p.help.rung || p.help.examples.length || p.help.starters || p.help.wordBank) out.push("You used help when you wanted it.");
     return out;
   }
 
-  /* One suggestion, from what the child said about their own sentence. */
+  /* One suggestion, from the child's own answers. */
   function suggestion(p) {
-    if (p.checks.who === "added" || p.checks.who === "skipped") return { skill: "subject", activity: "learn", label: "Learn more about subjects" };
-    if (p.checks.sense === "notyet") return { skill: "complete-sentence", activity: "practice", label: "Practice complete sentences" };
-    if (p.checks.detail === "kind") return { skill: "adjective", activity: "learn", label: "Learn about adjectives" };
-    if (p.checks.detail && p.checks.detail !== "enough") return { skill: "adverb", activity: "learn", label: "Learn about adverbs" };
+    if (p.checks.who === "missing" || p.checks.who === "skipped") return { skill: "subject", activity: "learn", label: "More on subjects" };
     return { skill: "complete-sentence", activity: "practice", label: "Practice complete sentences" };
   }
 
   function renderCompare(host) {
     const p = ui.piece;
     const stage = make("div", "stage");
-    stage.appendChild(heading("Look how you worked on it!"));
+    stage.appendChild(heading("Your two versions"));
     const pair = make("div", "compare-pair");
     const a = make("div", "compare-card");
     a.appendChild(make("p", "compare-label", "First draft"));
     a.appendChild(sentenceBox(p.firstDraft || ""));
     const b = make("div", "compare-card is-new");
-    b.appendChild(make("p", "compare-label", "New version"));
+    b.appendChild(make("p", "compare-label", p.revision.trim() === (p.firstDraft || "").trim() ? "Final version (kept the same)" : "New version"));
     b.appendChild(sentenceBox(p.revision));
     pair.appendChild(a); pair.appendChild(b);
     stage.appendChild(pair);
     const ul = make("ul", "praise-list");
     praise(p).forEach(t => ul.appendChild(make("li", "", t)));
     stage.appendChild(ul);
-    stage.appendChild(make("p", "write-note", "Your writing is saved on this device. Show a grown-up, or write another sentence."));
+    stage.appendChild(make("p", "write-note", "Your writing is saved on this device. You can show a grown-up, write another sentence, or stop here."));
     host.appendChild(stage);
 
-    const again = primaryButton("Write another sentence", () => { ui.piece = null; show("choose"); });
-    const grown = make("button", "nav-btn", "Show a grown-up");
-    grown.type = "button";
-    grown.addEventListener("click", () => openParent());
     const sug = suggestion(p);
-    const next = make("button", "nav-btn", sug.label);
-    next.type = "button";
+    const next = navButton(sug.label, () => window.SS_SHELL.openActivity(sug.skill, sug.activity));
     next.dataset.skill = sug.skill;
-    next.addEventListener("click", () => window.SS_SHELL.openActivity(sug.skill, sug.activity));
-    const home = make("button", "nav-btn", "Home");
-    home.type = "button";
-    home.addEventListener("click", () => window.SS_SHELL.goHome());
     const row = make("div", "done-buttons write-done");
-    row.appendChild(again); row.appendChild(next); row.appendChild(grown); row.appendChild(home);
+    row.appendChild(primaryButton("Write another sentence", () => { ui.piece = null; show("choose"); }));
+    row.appendChild(navButton("Show a grown-up", () => openParent()));
+    row.appendChild(next);
+    row.appendChild(navButton("Home", () => window.SS_SHELL.goHome()));
     host.appendChild(row);
   }
 
   /* =========================================================
      NAVIGATION
      ========================================================= */
-  function start() {
-    ui.piece = null;
-    show("choose");
-  }
+  function start() { ui.piece = null; show("choose"); }
+
   function resume(id) {
     const p = store.data.pieces.find(x => x.id === id) || unfinished();
     if (!p) { start(); return; }
     ui.piece = p;
-    show(STEPS.includes(p.step) && p.step !== "choose" ? p.step : "draft");
+    show(p.step === "choose" ? "draft" : p.step);
   }
 
-  /* Header Back: one step back inside the activity, Home from the start.
-     Going back to Write after the first draft is frozen shows the draft
-     read-only; edits continue in the new version. */
+  /* Header Back: one screen back inside the activity, Home from the start. */
   function back() {
     const view = el("screen-write").dataset.view;
-    const prev = { who: "draft-locked", what: "who", detail: "what", marks: "detail", read: "marks" }[view];
+    const prev = { check: "draft-locked", revise: "check" }[view];
     if (!ui.piece || !prev) { flush(); stopSpeech(); window.SS_SHELL.goHome(); return; }
     show(prev);
-  }
-
-  /* After the first draft is frozen, "Write" shows it read-only. */
-  function renderDraftLocked(host) {
-    const p = ui.piece;
-    const stage = make("div", "stage");
-    stage.appendChild(heading("Your first draft"));
-    stage.appendChild(make("p", "write-lead", "Your first draft is saved just as you wrote it. You can keep changing your new version."));
-    stage.appendChild(sentenceBox(p.firstDraft || ""));
-    host.appendChild(stage);
-    host.appendChild(controls(primaryButton("Next", () => show("who"))));
-  }
-
-  /* THE ROUTER. "draft-locked" is a view, not a saved step: once the first
-     draft is frozen, going back to Write shows it read-only. */
-  function show(step, opts) {
-    const scr = el("screen-write");
-    const locked = step === "draft-locked" ||
-      (step === "draft" && ui.piece && ui.piece.firstDraft !== null);
-    if (scr) scr.dataset.view = locked ? "draft-locked" : step;
-    if (!locked) { renderStep(step, opts); return; }
-    stopSpeech();
-    ui.piece.step = "who";
-    touch(ui.piece);
-    renderPhases("draft");
-    const host = body();
-    clear(host);
-    renderDraftLocked(host);
-    window.SS_SHELL.showScreen("write");
-    if (!(opts && opts.noFocus)) el("write-heading").focus();
   }
 
   /* =========================================================
@@ -994,7 +901,7 @@
       secondary = { label: "Start a new sentence", fn: () => start() };
     } else if (!done.length) {
       title = "Write a strong sentence";
-      line = "Pick an idea, write one sentence, then make it even better.";
+      line = "Pick an idea, write one sentence, then check it.";
       label = "Start writing";
       action = () => start();
       secondary = { label: "Warm up first: Complete Sentence", fn: () => window.SS_SHELL.openSkill("complete-sentence") };
@@ -1003,12 +910,11 @@
       line = "You've written " + done.length + (done.length === 1 ? " sentence" : " sentences") + " so far. Try a new idea.";
       label = "Start writing";
       action = () => start();
-      const s = suggestion(done.sort((a, b) => (b.finished || "").localeCompare(a.finished || ""))[0]);
+      const s = suggestion(done[0]);
       secondary = { label: s.label, fn: () => window.SS_SHELL.openActivity(s.skill, s.activity) };
     }
 
-    const h = make("h2", "next-title", title);
-    card.appendChild(h);
+    card.appendChild(make("h2", "next-title", title));
     card.appendChild(make("p", "next-line", line));
     const acts = make("div", "next-actions");
     const b = make("button", "btn btn-next next-primary");
@@ -1021,10 +927,8 @@
     b.addEventListener("click", action);
     acts.appendChild(b);
     if (secondary) {
-      const s = make("button", "nav-btn next-secondary", secondary.label);
-      s.type = "button";
+      const s = navButton(secondary.label, secondary.fn, "next-secondary");
       s.id = "next-secondary";
-      s.addEventListener("click", secondary.fn);
       acts.appendChild(s);
     }
     card.appendChild(acts);
@@ -1071,13 +975,17 @@
      ========================================================= */
   function describeChecks(p) {
     const c = p.checks, out = [];
-    const who = { marked: "Marked the words that tell who or what", command: "Said it is a command (subject: you)", added: "Said the subject was missing and worked on it", skipped: "Skipped marking who or what" }[c.who];
-    if (who) out.push(who + (c.who === "marked" && p.marks.whoWords ? ": “" + p.marks.whoWords + "”" : ""));
-    if (p.marks.whatWords) out.push("Marked what happens: “" + p.marks.whatWords + "”");
-    if (c.sense) out.push(c.sense === "yes" ? "Said it makes sense by itself" : "Said it did not make sense yet, and worked on it");
-    const d = W.steps.detail.options.find(o => o.key === c.detail);
-    if (d) out.push("Detail: " + d.label.replace(/^Add /, "chose to add ").replace("It already", "said it already"));
-    W.steps.marks.checks.forEach(k => out.push((c[k.key] ? "☑ " : "☐ ") + k.label));
+    const who = {
+      marked: "Tapped as who/what" + (p.marks.whoWords ? ": “" + p.marks.whoWords + "”" : ""),
+      command: "Said it is a command (subject: you)",
+      missing: "Said it doesn't say who or what yet",
+      skipped: "Did not answer who/what"
+    }[c.who];
+    if (who) out.push(who);
+    out.push(p.marks.whatWords ? "Tapped as what happens: “" + p.marks.whatWords + "”" : "Did not tap what happens");
+    out.push(c.sense === "yes" ? "Makes sense by itself? Said yes"
+      : c.sense === "notyet" ? "Makes sense by itself? Said not yet" : "Makes sense by itself? Did not answer");
+    W.steps.revise.checks.forEach(k => out.push((c[k.key] ? "Ticked: " : "Not ticked: ") + k.label));
     return out;
   }
   function describeHelp(p) {
@@ -1086,7 +994,9 @@
     if (h.starters) out.push("Opened sentence starters");
     if (h.wordBank) out.push("Used the word bank");
     if (h.frameUsed) out.push("Added the sentence frame to the draft");
-    if (h.examples.length) out.push("Looked at examples on: " + h.examples.join(", ") + " steps");
+    if (h.examples.length) out.push("Looked at an example on the Check screen");
+    if (h.detailIdeas) out.push("Opened the optional detail ideas");
+    if (h.restored) out.push("Put the first draft back on the Revise screen");
     if (!out.length) out.push("No help used");
     return out;
   }
@@ -1106,24 +1016,21 @@
     const host = el("parent-body");
     clear(host);
     const intro = make("div", "stage parent-intro");
-    intro.appendChild(make("p", "", "This page shows your child's writing: the prompt, the first draft, the revised version, the help used, and their own self-checks."));
-    intro.appendChild(make("p", "", "What the app checks: it only points out a few mechanical things to look at (first letter, ending mark, a lowercase “i”, leftover frame blanks). It does not decide whether a sentence is complete, clear, or correct, and finishing a piece does not mean a skill is mastered. Please read the writing and talk about it together."));
+    intro.appendChild(make("p", "", "This page shows your child's writing: the prompt, the first draft, the revised version, the help used, and their own answers to the check questions."));
+    intro.appendChild(make("p", "", "What the app checks: it only points out a few marks to look at (first letter, end mark, a lowercase “i”, leftover frame blanks, what looks like a second sentence). It does not decide whether a sentence is complete, clear, or correct. The answers below are your child's own judgments; the app did not verify them. Finishing a piece does not mean a skill is mastered. Please read the writing and talk about it together."));
     intro.appendChild(make("p", "", "Where it's saved: only in this browser on this device. It does not sync to other devices, and clearing browser data removes it. No account, no names, nothing is sent anywhere."));
     if (!store.ok) intro.appendChild(make("p", "write-nudge", store.message));
     host.appendChild(intro);
 
     const pieces = store.data.pieces.filter(p => p.draft.trim() || p.firstDraft !== null)
       .sort((a, b) => b.updated.localeCompare(a.updated));
-    if (!pieces.length) {
-      host.appendChild(make("p", "write-note", "No saved writing yet."));
-      return;
-    }
+    if (!pieces.length) host.appendChild(make("p", "write-note", "No saved writing yet."));
     pieces.forEach(p => {
       const card = make("article", "stage parent-piece");
       card.dataset.piece = p.id;
       card.appendChild(make("h3", "parent-prompt", promptOf(p).ask));
       card.appendChild(make("p", "parent-meta",
-        (p.status === "finished" ? "Finished " + fmtDate(p.finished) : "Not finished yet · last saved " + fmtDate(p.updated))));
+        p.status === "finished" ? "Finished " + fmtDate(p.finished) : "Not finished yet · last saved " + fmtDate(p.updated)));
       const pair = make("div", "compare-pair");
       const a = make("div", "compare-card");
       a.appendChild(make("p", "compare-label", "First draft"));
@@ -1139,13 +1046,13 @@
       card.appendChild(pair);
       if (p.firstDraft !== null) {
         const d = diffWords(p.firstDraft, p.revision);
-        const changes = p.firstDraft.trim() === p.revision.trim() ? "No changes between versions."
-          : [d.added.length ? "Added: " + d.added.join(" / ") : "", d.removed.length ? "Removed: " + d.removed.join(" / ") : ""].filter(Boolean).join(" · ") || "Changed punctuation or spacing.";
-        card.appendChild(make("p", "parent-meta", changes));
+        const changes = p.firstDraft.trim() === p.revision.trim() ? "Kept the same."
+          : [d.added.length ? "Added: " + d.added.join(" / ") : "", d.removed.length ? "Removed: " + d.removed.join(" / ") : ""].filter(Boolean).join(" · ") || "Changed capitals, punctuation or spacing.";
+        card.appendChild(make("p", "parent-meta", "Changes: " + changes));
       }
       const cols = make("div", "parent-cols");
       const c1 = make("div");
-      c1.appendChild(make("h4", "parent-h", "Child's self-checks"));
+      c1.appendChild(make("h4", "parent-h", "Child's own answers (not checked by the app)"));
       const l1 = make("ul", "parent-list");
       describeChecks(p).forEach(t => l1.appendChild(make("li", "", t)));
       c1.appendChild(l1);
@@ -1167,32 +1074,39 @@
       card.appendChild(nl);
       card.appendChild(note);
 
-      const del = make("button", "nav-btn parent-delete", "Delete this piece");
-      del.type = "button";
-      del.addEventListener("click", () => {
+      card.appendChild(navButton("Delete this piece", () => {
         if (!window.confirm("Delete this piece of writing? This can't be undone.")) return;
         store.data.pieces = store.data.pieces.filter(x => x.id !== p.id);
         if (ui.piece && ui.piece.id === p.id) ui.piece = null;
         save();
         renderParent();
         el("parent-heading").focus();
-      });
-      card.appendChild(del);
+      }, "parent-delete"));
       host.appendChild(card);
     });
 
-    const all = make("button", "nav-btn parent-delete", "Delete all saved writing");
-    all.type = "button";
-    all.id = "parent-delete-all";
-    all.addEventListener("click", () => {
-      if (!window.confirm("Delete ALL saved writing on this device? This can't be undone.")) return;
-      store.data.pieces = [];
-      ui.piece = null;
-      save();
-      renderParent();
-      el("parent-heading").focus();
-    });
-    host.appendChild(all);
+    if (pieces.length) {
+      const all = navButton("Delete all saved writing", () => {
+        if (!window.confirm("Delete ALL saved writing on this device? This can't be undone.")) return;
+        store.data.pieces = [];
+        ui.piece = null;
+        save();
+        renderParent();
+        el("parent-heading").focus();
+      }, "parent-delete");
+      all.id = "parent-delete-all";
+      host.appendChild(all);
+    }
+
+    /* Standards note: honest status of the Georgia tags shown in Learn and
+       Practice. Kept here, away from the child's flow. */
+    const ga = make("details", "stage parent-standards");
+    ga.id = "parent-standards";
+    ga.appendChild(make("summary", "path-summary", "About the Georgia standards tags"));
+    ga.appendChild(make("p", "", "Skill screens, Learn steps and Practice questions show small Georgia standards tags. They were checked against a saved copy of the Georgia Department of Education's Grade 3 ELA standards (CASE package, retrieved 2026-10-24)."));
+    ga.appendChild(make("p", "", "Verified: 3.L.GC.2.a (sentence structure), 3.L.GC.2.b (sentence variety and consistent verb tense), 3.L.GC.2.c (subject-verb agreement), 3.L.GC.2.d (adjectives and adverbs for detail), 3.L.GC.1 (grammar, usage and mechanics) and its numbered items such as 3.L.GC.1.33 (helping and linking verbs)."));
+    ga.appendChild(make("p", "", "Not verified, so not shown: 3.L.V.2.b. Sentence Sense practices some Grade 3 language skills. It does not cover all of the Georgia standards and has not been reviewed by the state or a school district."));
+    host.appendChild(ga);
   }
 
   /* =========================================================
@@ -1208,15 +1122,15 @@
     if (link) link.addEventListener("click", openParent);
     window.addEventListener("pagehide", flush);
     window.addEventListener("beforeunload", flush);
-    /* Another tab changed the saved writing: reload it when not mid-edit
-       here, so a stale tab does not overwrite newer work on its next save. */
+    /* Another tab changed the saved writing. If this tab is mid-activity,
+       stop saving from it so it can't overwrite newer work. */
     window.addEventListener("storage", e => {
       if (e.key !== KEY) return;
       const editing = ui.piece && el("screen-write") && !el("screen-write").hidden;
       if (editing) {
+        store.available = false;
         store.ok = false;
         store.message = "This writing was changed in another tab. Close one of the tabs, then refresh, so nothing is lost.";
-        store.available = false;  // stop writing from this stale tab
         renderSaveStatus();
         return;
       }
@@ -1235,6 +1149,7 @@
     /* For the verification harness only. */
     _store: store,
     _looksAt: looksAt,
-    _diffWords: diffWords
+    _diffWords: diffWords,
+    _praise: praise
   };
 })();

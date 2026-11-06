@@ -60,7 +60,7 @@ Exit code is 0 only when every check passes.
 ## Build 1.9.0 — Write a Strong Sentence walkthrough
 
 `write-check.js` walks the writing activity end to end with **Playwright**
-(83 checks): independent and supported writing, help ladder, starters and word
+(122 checks): independent and supported writing, help ladder, starters and word
 bank, refresh/Home/Escape/Back resume, frozen first draft vs revision, markup and
 multiline text rendered as text, the grown-ups view (notes, delete one, delete
 all), blocked/full/damaged storage, speech unavailable, 375×667 and 320×640

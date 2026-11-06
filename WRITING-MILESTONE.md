@@ -2,44 +2,58 @@
 
 Branch `claude/write-strong-sentence`, based on `build-1.8` (`ccbfeb4`, the build the earlier audit found live). **Not merged or deployed.**
 
-## 1. Source-of-truth findings (2026-11-06)
+## 1. Source-of-truth findings (verified 2026-11-06)
 
 | Ref | Build | Notes |
 |---|---|---|
 | `main` | 1.2.7 (`cc1f102`) | Old. Not the product. |
-| `build-1.8` = `claude/build-1.4` | 1.8.0 (`ccbfeb4`) | Ten skills, Learn/Practice/Test, Grammar Check. The earlier audit and the 2.0 branch's own evidence both say production serves this. The cloud sandbox blocks github.io, so I could not fetch the live site myself. |
-| `feature/sentence-sense-2-learning-system` | 2.0.0-dev (`1753dd1`) | Draft rewrite **based on main 1.2.7, not 1.8**. It replaces the runner (about 37k lines deleted relative to 1.8) and uses 29-question mastery tests. Draft PR #3 is marked do not merge. Left untouched. |
-| `build-1.7`, `port-milestones`, `review/*`, `backup/live-build-1.4.2` | older | Ancestors or rollbacks of 1.8. |
+| `build-1.8` = `claude/build-1.4` | 1.8.0 (`ccbfeb4`) | Ten skills on Home (Words: 7, Sentences: 3) plus the Grammar Check banner. Content also defines `complete-subject` and `predicate`, which are not on Home. The earlier audit found production serving this build. This sandbox cannot reach github.io to confirm. |
+| `feature/sentence-sense-2-learning-system` | 2.0.0-dev (`1753dd1`) | See below. Draft PR #3, marked do not merge. Left untouched. |
 
-This milestone extends 1.8, because 1.8 is the working product with reviewed grammar content. Rebuilding it on the 2.0 draft would have meant adopting an unreviewed rewrite.
+**2.0 ancestry (corrected).** My first status message said the 2.0 branch "is 4 commits ahead of build-1.8 and contains it". That was wrong: I misread `git log build-1.8..feature`, which lists commits on the feature branch that are not in build-1.8, not a containment check. Verified with git:
+- `git merge-base feature build-1.8` = `cc1f102`, which is also the merge base with `main`.
+- `build-1.8` is **not** an ancestor of the feature branch. `main` (`cc1f102`) **is**.
+- The feature branch has 4 commits on top of `main`: `f97da27` (parent `cc1f102`), `7e87c41`, `0d8f7de`, `1753dd1`.
+- `build-1.8` has 38 commits that the feature branch does not.
 
-## 2. What the child does, and why
+So the 2.0 draft and 1.8 are sibling lines from 1.2.7. 1.9.0 is built on 1.8.
 
-| Step | What Chris does | Educational purpose |
+## 2. What the child does, and why (5 screens, review pass)
+
+The first version had eight screens (Pick, Write, Who, What, Detail, Marks, Read, Compare). The review pass cut it to five so one sentence fits a short session. The required path is **5 taps plus typing**: Start writing → prompt → This is my first draft → Next → Keep it and finish.
+
+| Screen | What Chris does | Educational purpose |
 |---|---|---|
-| Pick | Chooses 1 of 6 concrete prompts (or "My own idea") | Writing starts with something to say. Familiar topics lower the load so attention goes to the sentence. |
-| Write | Types a first draft. Optional: say it aloud, read-aloud of the prompt, starters, word bank, 4-rung Help me | **BUILD/WRITE**. Independent writing is one box and one button. Scaffolds are opt-in. |
-| Who or what? | Taps the words in **his own sentence** that tell who or what it is about. Can say "it's a command (subject: you)" or "it doesn't say yet" | **IDENTIFY** transferred from Subject practice onto his own writing |
-| What happens? | Taps the predicate words; answers "Does it make sense by itself?" | Complete sentence = an independent thought, not just a noun plus a verb |
-| Detail (optional) | Add where / when / how / what kind, **or** "it already has enough detail" | **REVISE**. A detail helps when it helps a reader picture something. Length is not the goal. |
-| Capital and end mark | Reads the "Things to look at" notes and ticks his own checklist | **FIX**. Mechanical review, honestly scoped |
-| Read again | Reads it aloud (optional read-to-me) | Rereading is the most transferable revision habit |
-| Compare | Sees first draft and new version side by side, gets specific praise, and one next step | Revision made visible. Praise names the actual change, not "mastery". |
+| Pick | Chooses 1 of 6 concrete prompts (or "My own idea") | Writing starts with something to say. Familiar topics lower the load. |
+| Write | Types a first draft. Optional: say it aloud, read-aloud of the prompt, starters, word bank, 4-rung Help me | **BUILD/WRITE**. Independent writing is one box and one button. |
+| Check | Three questions on one screen. (1) Tap the words in **his own sentence** that tell who or what, or say "it's a command" or "it doesn't say yet". (2) Tap what happens. (3) "Does it make sense by itself?" Yes / Not yet | **IDENTIFY** transferred onto his own writing. All answers are his judgments, recorded and never graded. One gentle nudge if he answers nothing; never a block. |
+| Revise | Edits his sentence in place, or keeps it. Sees "Things to look at" (marks only). Optional, folded "Want to add a detail? (You don't have to.)". Optional self-check boxes. "Go back to my first draft" (with confirmation) | **FIX/REVISE**. A good sentence can stay unchanged: the button reads **Keep it and finish**. No adjective or adverb is required. |
+| Compare | First draft and final version side by side, factual praise, one suggestion | Revision made visible, with no claim that the new version is better. |
 
-**Help ladder** (draft step): a question about his idea → a strategy plus the word bank → an example **about a different topic** (shown split into who/what and what happens) → a frame with blanks, which goes into his box only if he presses "Put this frame in my writing". Each check step also has its own "Show me an example", again with different content.
+**Help ladder** (Write screen): a question about his idea → a strategy plus the word bank → an example **about a different topic** → a frame with blanks, added only when he presses "Put this frame in my writing". Check has its own example, also on a different topic.
 
-**His words are protected.** The first draft is frozen when he presses "This is my first draft". All later changes go into the new version. Chips and frames *insert* text and never replace it. Nothing auto-corrects.
+**His words are protected.** The first draft is frozen on "This is my first draft". Only Chris's typing, a chip or frame he taps, or his confirmed "Go back to my first draft" ever changes the new version.
 
-## 3. What the app can and cannot check
+## 3. What the app can and cannot check, and the feedback rules
 
-The only automatic notes are about **things to look at**, never right or wrong:
-- the first letter is lowercase
-- there's no `.`, `?` or `!` at the end
-- a standalone lowercase `i`
-- leftover `____` from a frame
-- what looks like more than one sentence (presented as "That's okay! Check each one.")
+Automatic notes are **things to look at**, phrased as questions, never as right or wrong:
+- the first letter is lowercase (leading quotes are skipped, so `"wow," said Mom.` is noticed);
+- the end has no `.`, `?`, `!` or `…` (closing quotes and brackets are allowed after the mark);
+- a standalone lowercase `i`;
+- leftover `____` from a frame;
+- what looks like more than one sentence ("That's okay! Check each one.").
 
-The app does **not** judge whether a sentence is complete, clear, grammatical, or well detailed. Subject, predicate, sense and detail are self-checks, and the grown-ups view shows his answers so an adult can talk them through. The child screen and the grown-ups page both say this plainly. Known limits: names that should be capitalized are not detected; a sentence like "I." passes the mechanical notes. That is fine, because the notes are prompts to look, not grades.
+The sentence-count heuristic skips the abbreviations Mr., Mrs., Ms., Dr., St., Mt., Jr., Sr., a.m., p.m. and U.S., and single-letter initials. It also skips an end mark followed by a lowercase word (`"Wow!" said Mom.`), and treats `?` and `!` like periods. The harness checks 25 cases, including commands (`Sit down.`, `Look at that cloud!`), questions, quotes and `Wow!!`. It errs toward silence: `We met at 3 p.m. Then we left.` is not flagged as two sentences. A missed note is safer than calling valid writing wrong.
+
+Praise and messages follow these rules (each one is a harness check):
+- Keeping a sentence the same is praised as a writer's choice.
+- Added words are stated as fact ("You added: 'big'."). They are never called better.
+- Removed words are presented as real revision.
+- Capital and end-mark changes are named as mark changes, not as added or removed words.
+- No message uses "better", "correct", "right", "perfect" or "master".
+- Self-check results are worded as the child's actions ("You marked…", "You said…"). The grown-ups page labels them **Child's own answers (not checked by the app)**.
+- Commands are a first-class choice on Check and finish normally.
+- Detail is optional, and the detail ideas include "a short, clear sentence can be strong too".
 
 ## 4. Saving
 
@@ -53,16 +67,23 @@ The app does **not** judge whether a sentence is complete, clear, grammatical, o
 ## 5. Corrections to existing content
 
 - **Grammar Check:** "How much do I know?" → "What should I practice next?". "You know your grammar" and "You passed" are removed, and 20/20 now says it was a short check with 2 questions per skill.
-- **Verb tense:** the absolute rule "keep the other verbs in the past" becomes "when the time stays the same, keep the same tense; if the time changes, the tense can change", with an example. The recap and study-guide reminder match.
-- **Agreement:** the -s rule is scoped to now/every day (present tense), with I and you taking no -s. *I* goes with *am* and *was*; *you* goes with *are* and *were*, even for one person.
-- **Complete sentence:** the study guide now says a command is complete and its subject is the understood *you*. I checked all 57 Complete Sentence items: none marks a real command as a fragment.
+- **Verb tense, lesson:** "When the time stays the same, keep the same tense; if the time changes, the tense can change", with an example. The recap and study guide match.
+- **Verb tense, feedback (audited):** all 14 "keeps the same tense" Practice and Test items are compound predicates in one time frame (for example "Mia opened the box and ___ a puppy inside"), so the keys and per-choice feedback are correct. Their 14 clues said "Keep the next verb in the same tense" with no reason, and now say "Both actions happen at the same time, so use the same tense." The stage description and test guidance are qualified the same way.
+- **Agreement:** the -s rule is scoped to now/every day, with I and you taking no -s. *I* goes with *am* and *was*; *you* goes with *are* and *were*, even for one person.
+- **Complete sentence:** the study guide says a command is complete, with an understood *you*. None of the 57 items marks a command as a fragment.
+- **Georgia standards:** compared against the saved GaDOE Grade 3 ELA CASE package (`docs/sources/georgia-grade3-2026.json` on the 2.0 branch, retrieved 2026-10-24; the official site is unreachable from this sandbox).
+  - `3.L.GC.2.a`–`d` exist and match.
+  - `3-5.L.GC.1` is not an official code. Each tag is now shown as the matching official item (for example `3.L.GC.1.33` for helping and linking verbs, `.20` irregular past, `.23` collective/abstract nouns, `.24` reflexive pronouns, `.25` comma + conjunction, `.27` prepositional phrases, `.29` pronoun agreement), or as the parent standard `3.L.GC.1`.
+  - `3.L.V.2.b` is not in the saved source, so it is no longer shown.
+  - The fix is in one renderer (`verifiedGa()` in `app.js`); the content data is unchanged.
+  - The Home badge "Aligned with Georgia Grade 3 ELA Standards" now reads **"Practices Georgia Grade 3 language skills"**. For grown-ups has a standards note.
 
 ## 6. Prioritized follow-up (recorded, not done)
 
 1. **Owner review on a real device with Chris.** Physical phone or tablet, real screen reader, and an observed child session were not tested.
-2. **Standards claim.** Home says "Aligned with Georgia Grade 3 ELA Standards". The 2.0 branch found the current GaDOE framework uses new codes (for example 3.T.T…). The 1.8 `ga` tags were not re-verified in this milestone, so review them before relying on the claim.
+2. **Standards.** Re-check against the live GaDOE site from a normal network (this sandbox could only use the saved copy). The original brief asked to keep standards codes out of the child flow, but 1.8 shows them on Skill, Learn and Practice screens, which the owner approved in 1.5.0. Decide whether to move them to For grown-ups.
 3. **Per-skill Test wording.** Phrases like "You've got verbs" after a 12-question test overstate what was measured. Soften them the same way as the Grammar Check.
-4. **Verb-tense pools.** Audit the Practice and Test items for any explanation that still teaches "never change tense".
+4. Verb-tense pools: done in the review pass (see §5).
 5. "An adjective always describes a noun" also needs to cover pronouns ("She is happy").
 6. **Reconcile with the 2.0 draft.** Decide whether its writing notebooks and rubric review should be ported onto 1.8 piece by piece rather than replacing 1.8.
 
