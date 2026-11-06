@@ -1,0 +1,422 @@
+{
+  "date": "2026-11-06T22:38:37.597Z",
+  "passed": 83,
+  "failed": 0,
+  "results": [
+    {
+      "name": "A1 build badge is 1.9.0",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A2 Home shows one prominent next action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A3 all ten skill cards still on Home",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A4 learning path is folded away",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A5 prompt chooser focused",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A6 draft step, focus on heading",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A7 tools closed by default (independent path is one box)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A8 empty draft is not accepted, gentle nudge shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A9 whitespace-only draft is not accepted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A10 first draft accepted -> who step",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A11 first draft saved to localStorage",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A12 unmarked Next nudges once",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A13 picked words show pressed state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A14 what step names the child's subject",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A15 after refresh Home offers Continue",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A16 resume returns to the same step",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A17 detail step is optional",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A18 Home button goes home",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A19 Continue restores detail step",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A20 choosing a detail opens the editor",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A21 editor starts with the first draft text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A22 marks step",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A23 corrected sentence: nothing flagged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A24 honesty note present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A25 Escape goes home",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A26 checkboxes restored",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A27 read-again step",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A28 back to frozen first draft",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A29 first draft and revision distinct in storage",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A30 forward again to read step",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A31 compare screen",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A32 both versions shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A33 praise is specific (names what was added)",
+      "ok": true,
+      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
+    },
+    {
+      "name": "A33b capital fix credited, not shown as a new word",
+      "ok": true,
+      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
+    },
+    {
+      "name": "A33c end mark credited",
+      "ok": true,
+      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
+    },
+    {
+      "name": "A33d when-detail suggests adverbs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A34 no mastery language",
+      "ok": true,
+      "detail": "You revised your sentence.\nYou added: “all morning.”.\nYou fixed the capital letter at the start.\nYou added an end mark.\nYou found who or what your sentence is about.\nYou worked on a detail to help a reader picture it."
+    },
+    {
+      "name": "A35 Home now says write another",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A36 no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B1 four help rungs, one at a time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B2 Help me disabled after the last rung",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B3 rung 1 asks one question",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B4 example is about a different topic",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B5 frame only added when asked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B6 starter + bank word inserted without replacing text",
+      "ok": true,
+      "detail": "Cold watermelon sweet is my favorite."
+    },
+    {
+      "name": "B7 markup is shown as text, never parsed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B8 more-than-one-sentence noticed, not marked wrong",
+      "ok": true,
+      "detail": "Things to look at\n\nIt looks like you wrote more than one sentence. That's okay! Check the start and end of each one."
+    },
+    {
+      "name": "C1 grown-ups view opens, heading focused",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C2 both pieces listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C3 shows prompt, first draft, revision",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C4 shows self-checks (marks kept after revising)",
+      "ok": true,
+      "detail": "Write one sentence about an animal doing something.\n\nFinished 11/6/2026, 10:38:30 PM\n\nFIRST DRAFT\n\nthe puppy hid under my bed\n\nREVISED VERSION\n\nThe puppy hid under my bed all morning.\n\nAdded: all morning.\n\nChild's self-checks\nMarked the words that tell who or what: “the puppy”\nMarked what happens: “hid under my bed”\nSaid it makes sense by itself\nDetail: chose to add when\n☑ My sentence starts with a capital letter.\n☑ It ends with . ? or !\n☑ Names of people and places start with a capital letter (or there aren't any).\nHelp used\nNo help used\nParent note (optional)\nDelete this piece"
+    },
+    {
+      "name": "C5 shows help used",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C6 help on supported piece recorded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C7 parent view renders child text safely",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C8 explains limits and local storage",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C9 parent note persists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C10 delete one piece",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C11 delete all",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C12 no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D1 Verb skill screen",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D2 Verb Learn opens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D3 Complete Sentence Practice opens with choices",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D4 Practice gives feedback",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D5 Agreement Test intro",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D6 Grammar Check opens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D7 Grammar Check asks what to practice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D8 no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E1 blocked storage explained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E2 activity still works without storage",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E3 no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E4 full storage explained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E5 damaged data kept as a copy, app loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F1 375x667 Home no sideways scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F2 375x667 draft + help no sideways scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F3 375x667 long sentence word picker fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F1 320x640 Home no sideways scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F2 320x640 draft + help no sideways scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "F3 320x640 long sentence word picker fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "G1 keyboard reaches Start writing early",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "G2 focus moves to new step heading",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "G3 visible focus ring on prompt button",
+      "ok": true,
+      "detail": "solid"
+    },
+    {
+      "name": "G4 Enter on a prompt opens the draft",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "H1 no read-aloud button without speech support",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

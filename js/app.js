@@ -34,7 +34,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.8.0";
+  const BUILD_NUMBER = "Build 1.9.0";
 
   const C = window.SS_LEARN_CONTENT;
   const S = window.SS_SENTENCE;
@@ -45,7 +45,7 @@
   /* Build 1.4.0: the "coming next" SCREEN was removed. An unavailable
      activity is now labelled on its own card and is not a control, so
      nothing routed to that screen and it became dead architecture. */
-  const SCREENS = ["home", "skill", "learn", "practice", "test"];
+  const SCREENS = ["home", "skill", "learn", "practice", "test", "write", "parent"];
 
   const state = {
     screen: "home",   // one of SCREENS
@@ -123,6 +123,9 @@
       if (node) node.hidden = (s !== name);
     });
     state.screen = name;
+    /* Build 1.9.0: the grown-ups link belongs on Home only. */
+    const pl = document.querySelector(".parent-link-row");
+    if (pl) pl.hidden = name !== "home";
     window.scrollTo(0, 0);
   }
 
@@ -131,6 +134,8 @@
      rather than leaving it on a button inside a screen just hidden. */
   function goHome(moveFocus) {
     state.skill = null;
+    /* Build 1.9.0: refresh "Next for you" so it reflects saved writing. */
+    if (window.SS_WRITE) window.SS_WRITE.renderHomeNext(el("home-next"));
     showScreen("home");
     if (moveFocus !== false) el("home-heading").focus();
   }
@@ -456,6 +461,13 @@
        a skill returns Home. */
     document.addEventListener("keydown", e => {
       if (e.key !== "Escape") return;
+      /* Build 1.9.0: writing is saved on every change, so Escape can go Home
+         safely. A native dialog (confirm) handles its own Escape. */
+      if (state.screen === "write" || state.screen === "parent") {
+        if (window.SS_WRITE) window.SS_WRITE.flush();
+        goHome();
+        return;
+      }
       if (state.screen === "test" && window.SS_TEST && window.SS_TEST.state().topicKey === "check") {
         goHome();
         return;
@@ -480,6 +492,7 @@
     if (window.SS_LEARN) window.SS_LEARN.init();
     if (window.SS_PRACTICE) window.SS_PRACTICE.init();
     if (window.SS_TEST) window.SS_TEST.init();
+    if (window.SS_WRITE) window.SS_WRITE.init();
 
     goHome(false);
   }

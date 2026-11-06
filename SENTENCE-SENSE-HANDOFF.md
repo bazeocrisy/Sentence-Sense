@@ -1,6 +1,28 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
-**Current build: Sentence Sense — Build 1.8.0** (1.8.0: the Grammar Check, 20 mixed questions across all ten skills; 1.7.0: a Test for every skill, with "Show me how" after the test; 1.6.0: Noun and Adjective Practice, Help me in every Learn "Let me try")
+**Current build: Sentence Sense — Build 1.9.0** (development branch `claude/write-strong-sentence`, based on the live `build-1.8` at `ccbfeb4`). **Not merged, not deployed.** Production still serves 1.8.0 until the owner approves.
+
+## BUILD 1.9.0 IN ONE SCREEN — first writing milestone
+
+| Change | Where |
+|---|---|
+| **Write a Strong Sentence**: pick a prompt → first draft → who/what → what happens → optional detail → capital & end mark → read again → compare first draft and new version | `js/write.js`, `js/data/write-content.js`, `#screen-write` |
+| **Next for you** on Home: one primary action (Start / Continue writing), one secondary suggestion, and a folded-away suggested learning path. All ten skills stay below. | `renderHomeNext()` in `js/write.js`, `#home-next` |
+| **Grown-ups view**: prompt, first draft, revision, what changed, child's self-checks, help used, optional parent note, delete one / delete all | `#screen-parent`, footer link on Home only |
+| **Saving**: `localStorage` key `sentence-sense-writing-v1`, saved on every change, step changes saved immediately; blocked/full storage explained; damaged data set aside as `…-damaged-<time>`; stale second tab stops writing | `js/write.js` STORAGE |
+| **Honest feedback**: no sentence is ever marked right or wrong. The app only points at a first letter, an end mark, a lowercase "i", leftover frame blanks, or more than one sentence. Everything else is a self-check. | `looksAt()` |
+| **Grammar Check wording**: "What should I practice next?"; no "You know your grammar" / "pass" claims from 2 questions per skill | `grammarCheck` in `learn-content.js` |
+| **Grammar accuracy**: tense may change when time changes; agreement -s rule scoped to present tense with I/you; *was* with I, *were* with you; commands are complete (understood *you*) | `verb-tense`, `agreement`, `complete-sentence` content |
+| Harnesses: `guard.js` 889/889 (four expectations updated to 1.9.0 wording); `write-check.js` 83/83 | `verification/` |
+
+Read `WRITING-MILESTONE.md` for the educational rationale, limits and roadmap.
+**The 2.0 draft branch** (`feature/sentence-sense-2-learning-system`, draft PR #3) is a separate rewrite based on `main` 1.2.7, not on 1.8. It was not modified or merged. Its writing notebook ideas can be compared with this work later; see WRITING-MILESTONE.md §6.
+
+---
+
+## PREVIOUS: Build 1.8.0
+
+**Build 1.8.0** (1.8.0: the Grammar Check, 20 mixed questions across all ten skills; 1.7.0: a Test for every skill, with "Show me how" after the test; 1.6.0: Noun and Adjective Practice, Help me in every Learn "Let me try")
 **Last pass:** Georgia grade 3 upgrade — Help me hints, six new skills, grouped Home, standard tags — 2026-10-19
 **Previous:** Build 1.4.2 (Subject Practice). Rollback branch: `backup/live-build-1.4.2` (exact copy of 1.4.2, `274a298`).
 **Repository:** `C:\Sentence-Sense` → GitHub Pages · static · $0 recurring
@@ -155,6 +177,8 @@ Current: **Build 1.5.0**. It must match in four places, and the audit checks all
 | `index.html` | Four screens: home, skill, learn, practice | 298 |
 | `css/styles.css` | Every style, phone-first, numbered sections 1–13 | 1225 |
 | `js/app.js` | Shell: Home, the shared Skill screen, routing, icons, build badge | 353 |
+| `js/write.js` | **NEW 1.9.0** — Write a Strong Sentence, Next for you, Grown-ups view, local saving | 1240 |
+| `js/data/write-content.js` | **NEW 1.9.0** — prompts, help ladders, check-step wording, learning path | 223 |
 | `js/sentence.js` | **NEW 1.4.0** — the shared sentence renderer | 226 |
 | `js/learn.js` | The shared four-state LEARN component | 385 |
 | `js/practice.js` | **NEW 1.4.0** — the shared PRACTICE question engine | 370 |
@@ -169,7 +193,7 @@ Current: **Build 1.5.0**. It must match in four places, and the audit checks all
 | `SENTENCE-SENSE-HANDOFF.md` | This file |
 
 Script load order in `index.html` matters:
-`learn-content` → `sentence` → `learn` → `practice` → `test` → `app`.
+`learn-content` → `sentence` → `learn` → `practice` → `test` → `write-content` → `write` → `app` (1.9.0).
 `js/app.js` calls `init()` on all three components and must load last.
 
 ---

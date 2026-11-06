@@ -63,7 +63,7 @@
               </span>
             </p>
             <h1 id="home-heading" class="hero-title" tabindex="-1">Build stronger sentences.</h1>
-            <p class="hero-sub">Choose a skill to start learning.</p>
+            <p class="hero-sub">Learn a skill. Then use it in your own writing.</p>
 
             <!-- Non-interactive: not a link, not a control, not a grade picker.
                  It lives INSIDE the text column so it always sits on the
@@ -77,6 +77,10 @@
       </header>
 
       <div class="home-main">
+        <!-- Build 1.9.0: "What should I do next?" One prominent action,
+             built by js/write.js. The skill groups below stay available. -->
+        <section class="home-next" id="home-next" aria-label="Next for you"></section>
+
         <div class="section-head">
           <h2 class="section-title">Choose a skill</h2>
           <p class="section-sub">Build the parts. Create better sentences.</p>
@@ -380,6 +384,44 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         WRITE — Build 1.9.0. The child's own sentence: write, check,
+         revise, compare. Everything inside is filled by js/write.js.
+         ============================================================ -->
+    <section class="screen screen-write" id="screen-write" aria-labelledby="write-heading" data-view="" hidden>
+      <header class="app-header">
+        <button type="button" class="nav-btn nav-back" id="write-back">
+          <span aria-hidden="true">&larr;</span> Back
+        </button>
+        <span class="header-tag">Write</span>
+        <button type="button" class="nav-btn nav-home" id="write-home">Home</button>
+      </header>
+      <div class="activity-body">
+        <ol class="step-line write-steps" id="write-steps" aria-label="Writing steps"></ol>
+        <p class="write-save" id="write-save" role="status" aria-live="polite"></p>
+        <div class="write-body" id="write-body"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         GROWN-UPS — Build 1.9.0. Writing evidence for a parent.
+         Reached only from the small footer link and the "Show a
+         grown-up" button; never part of the child's main path.
+         ============================================================ -->
+    <section class="screen screen-parent" id="screen-parent" aria-labelledby="parent-heading" hidden>
+      <header class="app-header">
+        <button type="button" class="nav-btn nav-back" id="parent-back">
+          <span aria-hidden="true">&larr;</span> Home
+        </button>
+        <span class="header-tag">For grown-ups</span>
+      </header>
+      <div class="activity-body">
+        <h2 class="activity-title" id="parent-heading" tabindex="-1">Writing to review</h2>
+        <div class="parent-body" id="parent-body"></div>
+      </div>
+    </section>
+
+    <p class="parent-link-row"><button type="button" class="link-btn" id="parent-link">For grown-ups: review saved writing</button></p>
     <p class="build-badge" id="build-badge" aria-label="Application version"></p>
 
   </div>
@@ -392,6 +434,8 @@
   <script src="js/learn.js"></script>
   <script src="js/practice.js"></script>
   <script src="js/test.js"></script>
+  <script src="js/data/write-content.js"></script>
+  <script src="js/write.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -111,7 +111,7 @@ window.SS_LEARN_CONTENT = {
     icon: "target",
     groupName: "Check yourself",
     groupSub: "Mixed questions from all ten skills.",
-    ask: "How much do I know?",
+    ask: "What should I practice next?",
     card: "20 questions, 2 from each skill. See which skills to practice next.",
     perSkill: 2,
     intro: "{n} questions, 2 from each skill. No hints this time \u2014 you've got this.",
@@ -122,9 +122,9 @@ window.SS_LEARN_CONTENT = {
        masteredPolish (passed, a few misses), closeMiss (17+ but a skill
        at 0), review, keepGoing. */
     guidance: {
-      mastered: "Great work! You got every question right. You know your grammar.",
-      masteredPolish: "Great work! You passed the Grammar Check. A quick Practice on these skills will make them even stronger.",
-      closeMiss: "So close! To pass, get at least 1 right in every skill. Practice the skills below, then try again.",
+      mastered: "Great work! You got every question right. This was a short check, 2 questions per skill. Keep using these skills in your own writing.",
+      masteredPolish: "Great work! You got most of them. A quick Practice on the skills below can help.",
+      closeMiss: "Good effort. A skill below had no right answers this time. Practice it, then try the Grammar Check again.",
       review: "Good work. Practice the skills listed below, then try the Grammar Check again.",
       keepGoing: "Keep going. Pick a skill below and start with Learn."
     },
@@ -15462,7 +15462,7 @@ window.SS_LEARN_CONTENT = {
             ]
           }
         ],
-        "reminder": "A comma alone cannot join two sentences. Use a period, or a comma and a joining word."
+        "reminder": "A comma alone cannot join two sentences. Use a period, or a comma and a joining word. A command, like Close the door, is complete too: its subject is you."
       }
     },
 
@@ -19524,7 +19524,7 @@ window.SS_LEARN_CONTENT = {
             }
           ]
         },
-        "warning": "Keep the same tense. If a sentence starts in the past, keep the other verbs in the past too."
+        "warning": "When the time stays the same, keep the same tense. If the time changes, the tense can change too: Yesterday I lost my hat, but now I have it."
       },
       "example": {
         "title": "Let's keep the tense the same",
@@ -19602,7 +19602,7 @@ window.SS_LEARN_CONTENT = {
           }
         ]
       },
-      "recap": "The tense of a verb tells when it happens. Use time words, and keep the tense the same.",
+      "recap": "The tense of a verb tells when it happens. Use time words. Keep the same tense unless the time changes.",
       "tryItBank": {
         "recap": "You practiced past, present, and future verbs, special past tense words, and keeping the tense the same in 20 different sentences.",
         "stages": [
@@ -20535,7 +20535,7 @@ window.SS_LEARN_CONTENT = {
             ]
           }
         ],
-        "reminder": "Look for time words, and keep every verb in a sentence in the same tense."
+        "reminder": "Look for time words. Keep the same tense while the time stays the same."
       }
     },
 
@@ -21951,7 +21951,7 @@ window.SS_LEARN_CONTENT = {
           "rows": [
             {
               "key": "ONE",
-              "text": "the verb usually ends in -s: The dog barks."
+              "text": "now or every day, the verb usually ends in -s: The dog barks."
             },
             {
               "key": "MORE",
@@ -22024,7 +22024,7 @@ window.SS_LEARN_CONTENT = {
             }
           ]
         },
-        "note": "One goes with is and was. More than one goes with are and were. I goes with am."
+        "note": "One goes with is and was. More than one goes with are and were. I goes with am and was. You goes with are and were, even for one person."
       },
       "clue": {
         "title": "How do I make them match?",
@@ -22127,7 +22127,7 @@ window.SS_LEARN_CONTENT = {
           }
         ]
       },
-      "recap": "The subject and the verb must match. One goes with -s. More than one goes with no -s.",
+      "recap": "The subject and the verb must match. Now or every day: one usually goes with -s, more than one with no -s. I and you take no -s.",
       "tryItBank": {
         "recap": "You practiced making subjects and verbs match in 20 different sentences, even when other words got in the way.",
         "stages": [
@@ -23033,7 +23033,7 @@ window.SS_LEARN_CONTENT = {
             ]
           }
         ],
-        "reminder": "Find the real subject first. One goes with -s. More than one goes with no -s."
+        "reminder": "Find the real subject first. Now or every day: one usually goes with -s, more than one with no -s. I and you take no -s."
       }
     }
   }

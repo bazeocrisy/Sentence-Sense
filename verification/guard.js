@@ -162,8 +162,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     fontsLoaded: document.fonts ? document.fonts.status : "n/a"
   }));
 
-  ok("1.4 BUILD_NUMBER is Build 1.8.0", globals.build === "Build 1.8.0", globals.build);
-  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.8.0", globals.badge);
+  ok("1.4 BUILD_NUMBER is Build 1.9.0", globals.build === "Build 1.9.0", globals.build);
+  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.9.0", globals.badge);
   ok("1.6 the three component globals are present",
     globals.hasLearn && globals.hasPractice && globals.hasSentence);
   ok("1.7 localStorage and sessionStorage empty on load",
@@ -218,7 +218,7 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   ok("2.3 primary message is the approved wording",
     home.title === "Build stronger sentences.", home.title);
   ok("2.4 supporting line is the approved wording",
-    home.sub === "Choose a skill to start learning.", home.sub);
+    home.sub === "Learn a skill. Then use it in your own writing.", home.sub);
   ok("2.5 each card shows its skill's own child clue",
     home.asks.join(" | ") === home.expectedAsks.join(" | "), home.asks.join(" | "));
   ok("2.6 each card carries an example sentence",
@@ -718,7 +718,9 @@ async function answerCorrect(page, choiceSel, dataProbe) {
   /* tab order and visible focus */
   await page.evaluate(() => document.body.focus());
   const tabbed = [];
-  for (let i = 0; i < 6; i++) {
+  /* Build 1.9.0: "Next for you" (primary, secondary, learning path) comes
+     first on Home, so three more Tab stops precede the skill cards. */
+  for (let i = 0; i < 9; i++) {
     await page.keyboard.press("Tab");
     tabbed.push(await page.evaluate(() => {
       const a = document.activeElement;
