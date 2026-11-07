@@ -303,8 +303,14 @@
     /* Spelling to look at: a letter typed 3+ times in a row ("Ddddd",
        "sooo"), or 4+ letters with no vowel. Asked as a question; the
        child decides. At most two words are named. */
+    /* Build 1.9.1: also any lowercase word not in the built-in list of
+       common words (js/data/wordlist.js). Skipped on purpose: capitalized
+       words (names), words with an apostrophe (contractions, possessives)
+       and words with dots or digits inside (p.m., 3rd). */
+    const known = window.SS_WORDS;
     const odd = words.map(w => w.replace(/^[^A-Za-z]+|[^A-Za-z']+$/g, ""))
-      .filter(w => /([A-Za-z])\1\1/i.test(w) || (w.length >= 4 && !/[aeiouy]/i.test(w)));
+      .filter(w => /([A-Za-z])\1\1/i.test(w) || (w.length >= 4 && !/[aeiouy]/i.test(w)) ||
+        (known && /^[a-z]+$/.test(w) && !known.has(w)));
     Array.from(new Set(odd)).slice(0, 2).forEach(w => out.push({ key: "spelling", text: L.spelling.replace("{word}", w) }));
     return out;
   }

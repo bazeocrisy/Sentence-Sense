@@ -796,6 +796,36 @@ async function tapWord(page, field, word) {
     await ctx.close();
   }
 
+  /* ---------------- Y. Built-in word list: spelling questions ---------------- */
+  {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(BASE);
+    const r = await page.evaluate(() => {
+      const L = t => window.SS_WRITE._looksAt(t).filter(x => x.key === "spelling").map(x => x.text);
+      const W = window.SS_WRITE_CONTENT, F = window.SS_FIXIT_CONTENT;
+      const own = JSON.stringify([W, F]).toLowerCase().match(/[a-z]+/g);
+      return {
+        loaded: !!(window.SS_WORDS && window.SS_WORDS.size > 40000),
+        misspelled: L("We went home becuase my freind was sick."),
+        names: L("Jada and Mr. Okonkwo visited Atlanta."),
+        contractions: L("I don't think it's my sister's turn."),
+        dont: L("I dont know."),
+        clean: ["My dog chased a squirrel up the tree.", "The puppy hid under my bed all morning.", "Grandma baked cookies after dinner.",
+          "At recess, my friends and I raced to the big oak tree.", "We stayed inside because it was raining.", "We left at 3 p.m. on Friday."].map(L),
+        ownUnknown: own.filter(w => !window.SS_WORDS.has(w))
+      };
+    });
+    check("Y1 the built-in word list loads (40,000+ common words)", r.loaded);
+    check("Y2 misspelled words are asked about by name", r.misspelled.length === 2 && r.misspelled[0].includes("“becuase”") && r.misspelled[1].includes("“freind”"), r.misspelled.join(" | "));
+    check("Y3 capitalized names are not questioned", r.names.length === 0, r.names.join(" | "));
+    check("Y4 contractions and possessives are not questioned", r.contractions.length === 0, r.contractions.join(" | "));
+    check("Y5 'dont' without an apostrophe is asked about", r.dont.length === 1 && r.dont[0].includes("“dont”"), r.dont.join(" | "));
+    check("Y6 ordinary sentences get no spelling questions", r.clean.every(x => x.length === 0), JSON.stringify(r.clean));
+    check("Y7 every word the app itself suggests is in the list", r.ownUnknown.length === 0, r.ownUnknown.join(","));
+    check("Y8 no page errors", page.errors.length === 0, page.errors.join(" | "));
+    await ctx.close();
+  }
+
   await browser.close();
   const failed = results.filter(r => !r.ok);
   fs.writeFileSync(path.join(OUT, "write-results.json"), JSON.stringify({ date: new Date().toISOString(), passed: results.length - failed.length, failed: failed.length, results }, null, 2));
