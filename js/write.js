@@ -799,17 +799,63 @@
     look.setAttribute("aria-live", "polite");
     stage.appendChild(look);
 
-    /* Optional detail ideas, folded away. Nothing is required. */
+    /* Build 1.9.1: help the child CHOOSES. One panel at a time; each uses a
+       different sentence and never touches the child's own words. */
+    const fix = make("div", "fix-help");
+    fix.appendChild(make("p", "write-qtext", K.fixTitle));
+    const fixRow = make("div", "write-alt");
+    const fixPanel = make("div", "ladder-rung fix-panel");
+    fixPanel.id = "fix-panel";
+    fixPanel.tabIndex = -1;
+    fixPanel.hidden = true;
+    const fixButtons = [];
+    K.fixHelp.forEach(h => {
+      const b = choice(h.label, false);
+      b.dataset.fix = h.key;
+      b.addEventListener("click", () => {
+        fixButtons.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+        clear(fixPanel);
+        fixPanel.appendChild(make("p", "ladder-label", h.label));
+        fixPanel.appendChild(make("p", "ladder-text", h.explain));
+        fixPanel.appendChild(make("p", "fix-tag", "Missing a part:"));
+        fixPanel.appendChild(make("p", "write-text is-small", h.broken));
+        fixPanel.appendChild(make("p", "fix-tag", "One way to fix it:"));
+        fixPanel.appendChild(make("p", "write-text is-small is-fixed", h.fixed));
+        fixPanel.appendChild(make("p", "fix-tag", "This looks like a fix, but isn't:"));
+        fixPanel.appendChild(make("p", "write-text is-small is-tempting", h.tempting));
+        fixPanel.appendChild(make("p", "ladder-text", h.temptingWhy));
+        fixPanel.appendChild(make("p", "ladder-text fix-next", "Your turn: " + h.next));
+        fixPanel.hidden = false;
+        if (p.help.fixHelp.indexOf(h.key) < 0) { p.help.fixHelp.push(h.key); touch(p); }
+        fixPanel.focus();
+      });
+      fixButtons.push(b);
+      fixRow.appendChild(b);
+    });
+    fix.appendChild(fixRow);
+    fix.appendChild(fixPanel);
+    stage.appendChild(fix);
+
+    /* Build 1.9.1: how writers revise. Adding, cutting and keeping are all
+       shown, on sentences that are not the child's. Nothing is required. */
     const det = make("details", "write-detail");
     det.id = "write-detail";
-    det.appendChild(make("summary", "write-detail-summary", K.detailTitle));
-    det.appendChild(make("p", "write-note", K.detailIntro));
-    const ul = make("ul", "write-look-list");
-    K.detailIdeas.forEach(t => ul.appendChild(make("li", "", t)));
-    det.appendChild(ul);
-    det.appendChild(make("p", "write-text is-small", K.detailExample.from));
-    det.appendChild(make("p", "write-arrow", "↓"));
-    det.appendChild(make("p", "write-text is-small", K.detailExample.to));
+    det.appendChild(make("summary", "write-detail-summary", K.waysTitle));
+    K.ways.forEach(w => {
+      const box = make("div", "revise-way");
+      box.dataset.way = w.key;
+      box.appendChild(make("p", "write-qtext", w.title));
+      box.appendChild(make("p", "write-text is-small", w.from));
+      box.appendChild(make("p", "write-arrow", w.key === "keep" ? "↓ (kept the same)" : "↓"));
+      box.appendChild(make("p", "write-text is-small", w.to));
+      box.appendChild(make("p", "write-note", w.why));
+      if (w.ideas) {
+        const ul = make("ul", "write-look-list");
+        w.ideas.forEach(t => ul.appendChild(make("li", "", t)));
+        box.appendChild(ul);
+      }
+      det.appendChild(box);
+    });
     det.addEventListener("toggle", () => { if (det.open && !p.help.detailIdeas) { p.help.detailIdeas = true; touch(p); } });
     stage.appendChild(det);
 
@@ -1067,7 +1113,8 @@
     if (h.wordBank) out.push("Used the word bank");
     if (h.frameUsed) out.push("Added the sentence frame to the draft");
     if (h.examples.length) out.push("Looked at an example on the Check screen");
-    if (h.detailIdeas) out.push("Opened the optional detail ideas");
+    if (h.detailIdeas) out.push("Opened the revision examples");
+    (h.fixHelp || []).forEach(k => { const f = W.steps.revise.fixHelp.find(x => x.key === k); if (f) out.push("Fix help: " + f.label); });
     if (h.restored) out.push("Put the first draft back on the Revise screen");
     if (!out.length) out.push("No help used");
     return out;

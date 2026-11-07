@@ -80,7 +80,9 @@ window.SS_WRITE_CONTENT = {
       question: "What food is it? What is it like, or what happens when you eat it?",
       starters: ["Pizza", "My grandma's soup", "Cold watermelon"],
       words: {
-        "Who or what": ["pizza", "tacos", "pancakes", "soup", "apples", "my sandwich"],
+        /* Build 1.9.1: every food here is ONE thing, so it agrees with
+           "is", "tastes" and the frame "____ tastes ____." */
+        "Who or what": ["pizza", "soup", "a taco", "my sandwich", "mac and cheese", "a crunchy apple"],
         "What it is or does": ["is", "tastes", "smells", "crunches", "melts", "warms me up"],
         "Details": ["cheesy", "sweet", "spicy", "on Saturday", "crunchy", "with syrup"]
       },
@@ -156,14 +158,14 @@ window.SS_WRITE_CONTENT = {
       senseNo: "Not yet",
       nudge: "You can tap words or answer the question. Or press Next again to keep going.",
       example: { words: ["My", "little", "brother", "found", "a", "shiny", "rock."], split: { at: 3, leftLabel: "WHO OR WHAT", rightLabel: "WHAT HAPPENS" } },
-      exampleLine: "Who found a shiny rock? My little brother. What happens? He found a shiny rock."
+      exampleLine: "Who or what? My little brother. What happens? found a shiny rock. Those are the words that tell what my little brother did."
     },
     revise: {
       title: "Revise if you want to",
       ask: "Read it out loud. Change anything you want, or keep it just the way it is.",
       fromCheck: {
-        missing: "You said it doesn't say who or what yet. You can add that here. For example, “ran to the fence” becomes “The goat ran to the fence.”",
-        notyet: "You said it doesn't make sense yet. Read it out loud and fix the part that sounds missing."
+        missing: "You said it doesn't say who or what yet. You can add that here. For example, “ran to the fence” becomes “The goat ran to the fence.” Need help? Pick “It doesn't say who or what” below.",
+        notyet: "You said it doesn't make sense yet. Read it out loud and fix the part that sounds missing. Need help? Pick one of the choices below."
       },
       lookTitle: "Things to look at",
       honest: "The app only notices a few marks. It can't tell if your sentence is right. You and a grown-up decide that.",
@@ -175,15 +177,44 @@ window.SS_WRITE_CONTENT = {
         blanks: "There is still a blank (____). Fill it with your own words.",
         many: "It looks like you wrote more than one sentence. That's okay! Check the start and end of each one."
       },
-      detailTitle: "Want to add a detail? (You don't have to.)",
-      detailIntro: "A detail can help a reader picture it. A short, clear sentence can be strong too.",
-      detailIdeas: [
-        "Where? Like “at the park” or “under the table.”",
-        "When? Like “after school” or “last night.”",
-        "How? Like “slowly” or “with a big splash.”",
-        "What kind? Like “muddy,” “tiny,” or “striped.”"
+      /* Build 1.9.1: purposeful revision, shown on examples that are NOT
+         the child's sentence. Adding, cutting and keeping are all real
+         revision choices. */
+      waysTitle: "See how writers revise (examples)",
+      ways: [
+        { key: "add", title: "Add useful information", from: "The bus stopped.", to: "The yellow bus stopped at the corner.",
+          why: "The new words tell which bus and where. Add words only when they help a reader picture it.",
+          ideas: ["Where? Like “at the park.”", "When? Like “after school.”", "How? Like “slowly.”", "What kind? Like “muddy” or “tiny.”"] },
+        { key: "cut", title: "Take out extra words", from: "My dog he is really really fast.", to: "My dog is really fast.",
+          why: "“My dog” and “he” name the same dog, and “really really” says the same thing twice. Taking them out makes it clearer." },
+        { key: "keep", title: "Keep it the same", from: "The kitten chased the yarn.", to: "The kitten chased the yarn.",
+          why: "It says who and what happens, and it's clear. The writer read it again and kept it." }
       ],
-      detailExample: { from: "The bus stopped.", to: "The yellow bus stopped at the corner." },
+      /* Build 1.9.1: help the CHILD chooses. Each one: what is missing, a
+         repair on a different sentence, a tempting repair that doesn't
+         work, and a next step for their own sentence. Nothing here changes
+         the child's sentence. */
+      fixTitle: "Need help fixing something? Pick one:",
+      fixHelp: [
+        { key: "who", label: "It doesn't say who or what",
+          explain: "A sentence needs to say who or what it is about.",
+          broken: "Ran to the fence.", fixed: "The goat ran to the fence.",
+          tempting: "Ran to the fence very fast.",
+          temptingWhy: "This adds more words, but it still doesn't say who ran. More words didn't fix it.",
+          next: "Look at your sentence. Who or what did it? Add those words, usually at the start." },
+        { key: "what", label: "It doesn't tell what happens",
+          explain: "A sentence needs to tell what happens, or what someone or something is.",
+          broken: "The tall giraffe by the fence.", fixed: "The tall giraffe by the fence ate leaves.",
+          tempting: "The tall giraffe and the zebra by the fence.",
+          temptingWhy: "This adds another animal, but it still doesn't say what they did.",
+          next: "Ask: what did they do, or what are they? Add those words." },
+        { key: "finish", label: "My thought isn't finished",
+          explain: "Some word groups start a thought but don't finish it, often ones that begin with because, when, or if.",
+          broken: "Because it was raining.", fixed: "We stayed inside because it was raining.",
+          tempting: "Because it was raining all day long.",
+          temptingWhy: "It's longer, but the thought still isn't finished. What happened because it was raining?",
+          next: "Ask: what happened? Add that part before or after your words." }
+      ],
       checksTitle: "Before you finish, you can check:",
       checks: [
         { key: "capital", label: "It starts with a capital letter." },

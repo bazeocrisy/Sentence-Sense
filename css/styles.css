@@ -2329,3 +2329,10 @@ img{max-width:100%;}
 .pick-word{text-align:left;}
 /* A self-check answer about an earlier version is marked in words, not colour alone. */
 .parent-version-note{list-style:none !important;margin-left:0 !important;font-style:italic;color:var(--navy-deep);}
+.fix-help{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:12px;}
+.fix-panel{gap:6px;}
+.fix-tag{font-family:var(--font-display);font-weight:700;font-size:0.82rem;color:var(--muted);margin-top:4px;}
+.write-text.is-fixed{border:2px solid var(--right-edge);}
+.write-text.is-tempting{border:2px dashed var(--wrong-edge);}
+.fix-next{font-weight:700;color:var(--navy-deep);}
+.revise-way{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px;}

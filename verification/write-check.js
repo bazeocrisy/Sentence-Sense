@@ -266,7 +266,7 @@ async function tapWord(page, field, word) {
     const puppy = await pieces.filter({ hasText: "the puppy hid under my bed" }).innerText();
     check("E3 shows prompt, first draft, revision", puppy.includes("animal") && puppy.includes("The puppy hid under my bed all morning."));
     check("E4 self-checks labelled as the child's own answers", puppy.includes("Child's own answers (not checked by the app)") && puppy.includes("Tapped as who/what: “the puppy”") && puppy.includes("Makes sense by itself? Said yes"), puppy);
-    check("E5 help and detail use recorded", puppy.includes("Opened the optional detail ideas") && puppy.includes("Put the first draft back"), puppy);
+    check("E5 help and detail use recorded", puppy.includes("Opened the revision examples") && puppy.includes("Put the first draft back"), puppy);
     const soup = await pieces.filter({ hasText: "grandma" }).innerText();
     check("E6 supported piece shows help used", soup.includes("Help me: 4 of 4") && soup.includes("sentence frame"));
     check("E7 grown-ups view renders child text safely", (await page.locator("#parent-body b, #parent-body img").count()) === 0);
@@ -529,6 +529,47 @@ async function tapWord(page, field, word) {
       check("R5b ticked boxes name the text they were ticked against", t.includes("ticked while the sentence read: “The puppy hid.”"), t);
       await ctx.close();
     }
+  }
+
+  /* ---------------- T. Build 1.9.1 teaching repairs ---------------- */
+  {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(BASE);
+    const content = await page.evaluate(() => {
+      const W = window.SS_WRITE_CONTENT;
+      const food = W.prompts.find(p => p.id === "food");
+      return { foodWho: food.words["Who or what"], frame: food.frame, line: W.steps.check.exampleLine, ex: W.steps.check.example.words.slice(W.steps.check.example.split.at).join(" ") };
+    });
+    check("T1 food word bank has no plural foods (agrees with tastes/is and the frame)",
+      !content.foodWho.some(w => /(tacos|pancakes|apples)\b/.test(w)) && content.frame === "____ tastes ____.", content.foodWho.join(","));
+    check("T2 Check example explanation quotes the highlighted words", content.line.includes(content.ex.replace(/\.$/, "")) && !/He found/.test(content.line), content.line);
+    await page.click("#next-primary"); await page.click('.prompt-btn[data-prompt="own"]');
+    await page.fill("#write-input", "Jumped over the log."); await primary(page);
+    await page.click('.write-choice[data-who="missing"]'); await primary(page);
+    const before = await page.inputValue("#write-revision");
+    for (const k of ["who", "what", "finish"]) {
+      await page.click('.write-choice[data-fix="' + k + '"]');
+      const t = await page.locator("#fix-panel").innerText();
+      check("T3 fix help '" + k + "' explains, models, shows a tempting wrong repair, and gives a next step",
+        t.includes("One way to fix it:") && t.includes("This looks like a fix, but isn't:") && t.includes("Your turn:"), t.slice(0, 120));
+      check("T3b fix help '" + k + "' uses a different sentence and doesn't touch the child's words",
+        !t.includes("Jumped over the log") && (await page.inputValue("#write-revision")) === before);
+      check("T3c only one fix choice pressed at a time", (await page.locator('.write-choice[data-fix][aria-pressed="true"]').count()) === 1);
+    }
+    await page.click("#write-detail summary");
+    const ways = await page.locator(".revise-way").evaluateAll(n => n.map(x => x.dataset.way));
+    check("T4 revision examples show adding, cutting, and keeping", ways.join(",") === "add,cut,keep", ways.join(","));
+    await page.screenshot({ path: path.join(OUT, "desktop-revise-help.png"), fullPage: true });
+    await page.setViewportSize({ width: 320, height: 640 });
+    check("T5 fix help and revision examples fit a 320px phone", await noHScroll(page));
+    await page.screenshot({ path: path.join(OUT, "phone-320-revise-help.png"), fullPage: true });
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.fill("#write-revision", "My cat jumped over the log."); await primary(page);
+    await page.click(".write-done >> text=Show a grown-up");
+    const help = await page.locator(".parent-piece").first().innerText();
+    check("T6 grown-ups view records which fix help was chosen", help.includes("Fix help: It doesn't say who or what") && help.includes("Fix help: My thought isn't finished"), help);
+    check("T7 no page errors", page.errors.length === 0, page.errors.join(" | "));
+    await ctx.close();
   }
 
   await browser.close();
