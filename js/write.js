@@ -97,6 +97,9 @@
     if (typeof p.checkedText !== "string") p.checkedText = "";
     if (typeof p.ticksText !== "string") p.ticksText = "";
     if (!Array.isArray(p.openNotes)) p.openNotes = [];
+    if (p.review !== "good" && p.review !== "fix") p.review = null;
+    if (typeof p.reviewText !== "string") p.reviewText = "";
+    if (typeof p.reviewSeen !== "boolean") p.reviewSeen = true;
     if (typeof p.parentNote !== "string") p.parentNote = "";
     if (p.kind !== "fix") p.kind = "write";
     if (typeof p.fixStep !== "number") p.fixStep = 0;
@@ -1100,6 +1103,32 @@
     }
     card.appendChild(acts);
 
+    /* A grown-up's check Chris hasn't seen yet. */
+    const marked = store.data.pieces.filter(x => x.review && !x.reviewSeen)
+      .sort((a, b) => (b.reviewAt || "").localeCompare(a.reviewAt || ""))[0];
+    if (marked) {
+      const note = make("div", "next-review");
+      note.id = "next-review";
+      note.appendChild(make("p", "write-qtext", marked.review === "good"
+        ? "A grown-up looked at your sentence: Looks good ✓"
+        : "A grown-up wants to fix this one with you:"));
+      const t = make("p", "write-text is-small");
+      t.textContent = marked.reviewText;
+      note.appendChild(t);
+      const r = make("div", "write-alt");
+      const seen = () => { const cur = byId(marked.id); if (cur) { cur.reviewSeen = true; dirty.add(cur.id); saveNow(); } return cur; };
+      if (marked.review === "fix" && marked.kind !== "fix") {
+        const open = navButton("Open it", () => { const cur = seen(); if (!cur) return; cur.status = "writing"; cur.finished = null; ui.piece = cur; show("revise"); });
+        open.id = "next-review-open";
+        r.appendChild(open);
+      }
+      const ok = navButton("OK", () => { seen(); renderHomeNext(host); });
+      ok.id = "next-review-ok";
+      r.appendChild(ok);
+      note.appendChild(r);
+      card.appendChild(note);
+    }
+
     /* The path: a suggestion, folded away so it never becomes another grid. */
     const det = make("details", "path");
     det.appendChild(make("summary", "path-summary", "See the learning path"));
@@ -1249,6 +1278,7 @@
       cols.appendChild(c1); cols.appendChild(c2);
       card.appendChild(cols);
 
+      reviewControls(card, p);
       const nl = make("label", "write-label", "Parent note (optional)");
       nl.htmlFor = "note-" + p.id;
       const note = make("textarea", "write-input parent-note");
@@ -1345,6 +1375,45 @@
     return p;
   }
 
+  /* Build 1.9.1: the grown-up's own check. This is the only "is it right?"
+     judgment in the app, and it comes from a person. It records which
+     version was looked at, and Chris sees it on Home until he taps OK. */
+  function reviewControls(card, p) {
+    const box = make("div", "parent-review");
+    box.appendChild(make("p", "parent-h", "Your check"));
+    const row = make("div", "write-alt");
+    const status = make("p", "parent-meta parent-review-status");
+    status.setAttribute("role", "status");
+    const text = cur => (cur.kind === "fix" ? cur.draft : cur.revision);
+    const say = cur => {
+      status.textContent = !cur.review ? "Not checked by a grown-up yet."
+        : (cur.review === "good" ? "You marked it: Looks good ✓" : "You marked it: Let's fix it together") +
+          (cur.reviewText.trim() !== text(cur).trim() ? " (about an earlier version: “" + cur.reviewText + "”)" : "") +
+          (cur.reviewSeen ? " · Your child has seen it." : " · Your child will see this on Home.");
+    };
+    [["good", "Looks good ✓"], ["fix", "Let's fix it together"]].forEach(pair => {
+      const b = choice(pair[1], p.review === pair[0]);
+      b.dataset.review = pair[0];
+      b.addEventListener("click", () => {
+        const cur = byId(p.id);
+        if (!cur) return;
+        cur.review = cur.review === pair[0] ? null : pair[0];
+        cur.reviewText = cur.review ? text(cur) : "";
+        cur.reviewSeen = !cur.review;
+        cur.reviewAt = now();
+        dirty.add(cur.id);
+        saveSoon();
+        Array.prototype.forEach.call(row.children, x => x.setAttribute("aria-pressed", String(x.dataset.review === cur.review)));
+        say(cur);
+      });
+      row.appendChild(b);
+    });
+    box.appendChild(row);
+    box.appendChild(status);
+    say(p);
+    card.appendChild(box);
+  }
+
   function renderFixCard(card, p) {
     const F = window.SS_FIXIT_CONTENT && window.SS_FIXIT_CONTENT["complete-sentence"];
     card.appendChild(make("h3", "parent-prompt", (F ? F.title : "Fix it lesson")));
@@ -1367,6 +1436,7 @@
     const h = make("h4", "parent-h", "Child's own answers (not checked by the app)");
     card.appendChild(h);
     card.appendChild(l);
+    reviewControls(card, p);
     const nl = make("label", "write-label", "Parent note (optional)");
     nl.htmlFor = "note-" + p.id;
     const note = make("textarea", "write-input parent-note");

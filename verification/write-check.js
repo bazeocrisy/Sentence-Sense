@@ -758,6 +758,44 @@ async function tapWord(page, field, word) {
     await ctx.close();
   }
 
+  /* ---------------- X. A grown-up's own check ---------------- */
+  {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(BASE);
+    await page.click("#next-primary"); await page.click('.prompt-btn[data-prompt="animal"]');
+    await page.fill("#write-input", "My dog ran"); await primary(page);
+    await primary(page); await primary(page);
+    await primary(page); await page.click("#write-finish-anyway");
+    await page.click(".write-done >> text=Show a grown-up");
+    const card = page.locator(".parent-piece").first();
+    check("X1 each piece starts 'Not checked by a grown-up yet'", (await card.locator(".parent-review-status").innerText()).includes("Not checked by a grown-up yet"));
+    await card.locator('.write-choice[data-review="fix"]').click();
+    check("X2 marking 'Let's fix it together' says Chris will see it", (await card.locator(".parent-review-status").innerText()).includes("will see this on Home"));
+    check("X2b only one mark pressed", (await card.locator('.write-choice[data-review][aria-pressed="true"]').count()) === 1);
+    await page.waitForTimeout(400);
+    await page.reload();
+    check("X3 Home shows the grown-up's request with the sentence", (await page.locator("#next-review").innerText()).includes("A grown-up wants to fix this one with you") &&
+      (await page.locator("#next-review").innerText()).includes("My dog ran"));
+    await page.click("#next-review-open");
+    check("X4 'Open it' reopens that sentence on Revise", (await heading(page)) === "Revise if you want to" && (await page.inputValue("#write-revision")) === "My dog ran");
+    await page.fill("#write-revision", "My dog ran to the park."); await primary(page);
+    await page.click(".write-done >> text=Home");
+    check("X5 the request isn't shown again after it was opened", (await page.locator("#next-review").count()) === 0);
+    await page.click("#parent-link");
+    const st = await page.locator(".parent-piece").first().locator(".parent-review-status").innerText();
+    check("X6 grown-ups see their mark was about an earlier version", st.includes("about an earlier version: “My dog ran”") && st.includes("has seen it"), st);
+    await page.locator(".parent-piece").first().locator('.write-choice[data-review="good"]').click();
+    await page.waitForTimeout(400);
+    await page.click("#parent-back");
+    check("X7 'Looks good ✓' appears on Home", (await page.locator("#next-review").innerText()).includes("Looks good ✓"));
+    await page.click("#next-review-ok");
+    check("X8 OK hides it", (await page.locator("#next-review").count()) === 0);
+    await page.reload();
+    check("X9 and it stays hidden after a refresh", (await page.locator("#next-review").count()) === 0);
+    check("X10 no page errors", page.errors.length === 0, page.errors.join(" | "));
+    await ctx.close();
+  }
+
   await browser.close();
   const failed = results.filter(r => !r.ok);
   fs.writeFileSync(path.join(OUT, "write-results.json"), JSON.stringify({ date: new Date().toISOString(), passed: results.length - failed.length, failed: failed.length, results }, null, 2));
