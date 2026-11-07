@@ -2321,3 +2321,11 @@ img{max-width:100%;}
 .parent-ga-skill{font-weight:700;color:var(--navy-deep);margin-top:10px;}
 .parent-ga-code{margin:0 0 0 12px;color:var(--text);}
 .parent-ga-code .ga-code{font-family:var(--font-display);font-weight:600;font-size:0.9rem;}
+
+/* ---------- Build 1.9.1 repair ---------- */
+/* Long unbroken words wrap inside their button instead of pushing the
+   phone layout sideways. */
+.pick-word,.chip-btn,.write-choice,.choice-btn,.prompt-btn{max-width:100%;overflow-wrap:anywhere;word-break:break-word;white-space:normal;}
+.pick-word{text-align:left;}
+/* A self-check answer about an earlier version is marked in words, not colour alone. */
+.parent-version-note{list-style:none !important;margin-left:0 !important;font-style:italic;color:var(--navy-deep);}

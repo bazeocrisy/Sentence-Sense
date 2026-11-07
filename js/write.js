@@ -50,17 +50,32 @@
   const PHASES = ["Pick", "Write", "Check", "Revise", "Compare"];
 
   /* =========================================================
-     STORAGE
+     STORAGE (Build 1.9.1 repair)
+     - Reading and writing are checked separately: a browser that lets us
+       read but refuses writes still SHOWS existing writing, and says new
+       changes can't be saved.
+     - Every save first merges with what is already saved, so another tab's
+       work is never overwritten. This tab's changed pieces (and the piece
+       open here) win for those pieces only.
+     - Screens look pieces up by id, never through an old object, so a
+       reload from another tab can't strand an edit (e.g. a parent note).
      ========================================================= */
-  const store = { data: { version: 1, pieces: [] }, ok: true, available: true, message: "" };
+  const store = { data: { version: 1, pieces: [] }, ok: true, readable: true, writable: true, message: "" };
+  const dirty = new Set();    // piece ids changed in this tab since the last save
+  const removed = new Set();  // piece ids deleted in this tab since the last save
 
-  function probeStorage() {
+  function probeWrite() {
     try {
       const k = KEY + "-probe";
       window.localStorage.setItem(k, "1");
       window.localStorage.removeItem(k);
       return true;
     } catch (e) { return false; }
+  }
+
+  function readRaw() {
+    try { store.readable = true; return window.localStorage.getItem(KEY); }
+    catch (e) { store.readable = false; return null; }
   }
 
   function validPiece(p) {
@@ -76,38 +91,84 @@
     if (typeof p.revision !== "string") p.revision = p.firstDraft || "";
     p.marks = Object.assign({ who: null, what: null, text: "", whoWords: "", whatWords: "" }, p.marks || {});
     p.checks = Object.assign({ who: null, sense: null, capital: false, ending: false, names: false }, p.checks || {});
-    p.help = Object.assign({ rung: 0, wordBank: false, starters: false, frameUsed: false, examples: [], detailIdeas: false, restored: false }, p.help || {});
+    p.help = Object.assign({ rung: 0, wordBank: false, starters: false, frameUsed: false, examples: [], detailIdeas: false, restored: false, fixHelp: [] }, p.help || {});
     if (!Array.isArray(p.help.examples)) p.help.examples = [];
+    if (!Array.isArray(p.help.fixHelp)) p.help.fixHelp = [];
+    if (typeof p.checkedText !== "string") p.checkedText = "";
+    if (typeof p.ticksText !== "string") p.ticksText = "";
     if (typeof p.parentNote !== "string") p.parentNote = "";
     if (!p.updated) p.updated = p.created || new Date(0).toISOString();
     return p;
   }
 
-  function load() {
-    store.available = probeStorage();
-    if (!store.available) {
-      store.ok = false;
-      store.message = "This browser isn't letting Sentence Sense save. Your writing stays while this page is open.";
-      return;
-    }
-    let raw = null;
-    try { raw = window.localStorage.getItem(KEY); } catch (e) { raw = null; }
-    if (!raw) return;
+  /* Parse saved text. Returns pieces, [] for nothing saved, or null if the
+     data is damaged. */
+  function parse(raw) {
+    if (!raw) return [];
     try {
       const d = JSON.parse(raw);
-      if (!d || !Array.isArray(d.pieces)) throw new Error("shape");
-      store.data = { version: 1, pieces: d.pieces.filter(validPiece).map(normalize) };
-    } catch (e) {
+      if (!d || !Array.isArray(d.pieces)) return null;
+      return d.pieces.filter(validPiece).map(normalize);
+    } catch (e) { return null; }
+  }
+
+  function setMessage() {
+    if (store.writable && store.readable) return;
+    store.ok = false;
+    store.message = !store.readable
+      ? "This browser isn't letting Sentence Sense save or open saved writing. Your writing stays while this page is open."
+      : store.data.pieces.length
+        ? "This browser is showing your saved writing, but it isn't letting Sentence Sense save new changes. New changes stay only while this page is open."
+        : "This browser isn't letting Sentence Sense save. Your writing stays while this page is open.";
+  }
+
+  function load() {
+    store.writable = probeWrite();
+    const raw = readRaw();
+    const pieces = parse(raw);
+    if (pieces) store.data = { version: 1, pieces: pieces };
+    else {
       /* Damaged data is set aside, never silently thrown away. */
-      try { window.localStorage.setItem(KEY + "-damaged-" + Date.now(), raw); } catch (e2) { /* nothing more to do */ }
+      if (store.writable) { try { window.localStorage.setItem(KEY + "-damaged-" + Date.now(), raw); } catch (e2) { /* nothing more to do */ } }
       store.data = { version: 1, pieces: [] };
     }
+    setMessage();
+  }
+
+  function byId(id) { return store.data.pieces.find(p => p.id === id) || null; }
+
+  /* Combine what is saved (maybe by another tab) with this tab's work.
+     Returns true if a piece open in THIS tab was also changed elsewhere. */
+  function mergeFromDisk() {
+    const raw = readRaw();
+    if (!store.readable) return false;   // unreadable: keep what is on screen
+    const saved = parse(raw);
+    if (!saved) return false;            // damaged: never merge from it
+    const openId = ui.piece ? ui.piece.id : null;
+    const keepLocal = id => dirty.has(id) || id === openId;
+    const local = new Map(store.data.pieces.map(p => [p.id, p]));
+    const out = [], seen = new Set();
+    let openChanged = false;
+    saved.forEach(p => {
+      if (removed.has(p.id)) return;
+      seen.add(p.id);
+      if (keepLocal(p.id) && local.has(p.id)) {
+        if (p.id === openId && p.updated > local.get(p.id).updated) openChanged = true;
+        out.push(local.get(p.id));
+      } else out.push(p);
+    });
+    store.data.pieces.forEach(p => { if (!seen.has(p.id) && keepLocal(p.id)) out.push(p); });
+    store.data.pieces = out;
+    return openChanged;
   }
 
   function save() {
-    if (!store.available) { renderSaveStatus(); return false; }
+    if (!store.writable) { setMessage(); renderSaveStatus(); return false; }
     try {
+      mergeFromDisk();
       window.localStorage.setItem(KEY, JSON.stringify(store.data));
+      dirty.clear();
+      removed.clear();
       store.ok = true;
       store.message = "";
     } catch (e) {
@@ -129,15 +190,14 @@
   }
   function saveNow() { clearTimeout(saveTimer); saveTimer = null; save(); }
 
-  function setSaveStatus(text) {
-    const n = el("write-save");
-    if (n) n.textContent = text;
-  }
+  /* Both the writing screen and the grown-ups page show save status. */
+  function statusNodes() { return ["write-save", "parent-save"].map(el).filter(Boolean); }
+  function setSaveStatus(text) { statusNodes().forEach(n => { n.textContent = text; }); }
   function renderSaveStatus() {
-    const n = el("write-save");
-    if (!n) return;
-    n.classList.toggle("is-problem", !store.ok);
-    n.textContent = store.ok ? "Saved on this device" : store.message;
+    statusNodes().forEach(n => {
+      n.classList.toggle("is-problem", !store.ok);
+      n.textContent = store.ok ? "Saved on this device" : store.message;
+    });
   }
 
   /* =========================================================
@@ -162,10 +222,11 @@
       finished: null
     });
     store.data.pieces.push(p);
+    dirty.add(p.id);
     return p;
   }
 
-  function touch(p) { p.updated = now(); saveSoon(); }
+  function touch(p) { p.updated = now(); dirty.add(p.id); saveSoon(); }
 
   function unfinished() {
     return store.data.pieces.filter(p => p.status === "writing")
@@ -382,6 +443,7 @@
     if (p && step !== "choose" && step !== "draft-locked") {
       p.step = step;
       p.updated = now();
+      dirty.add(p.id);
       saveNow();
     }
     ui.nudged = false;
@@ -688,6 +750,8 @@
       const answered = (p.marks.who && p.marks.who.length) || (p.marks.what && p.marks.what.length) || p.checks.who || p.checks.sense;
       if (!answered && !ui.nudged) { ui.nudged = true; status.textContent = K.nudge; return; }
       if (!p.checks.who) p.checks.who = "skipped";
+      /* Record exactly which text these answers were about. */
+      p.checkedText = p.revision;
       show("revise");
     }), [navButton("← Back", () => show("draft-locked"))]));
   }
@@ -756,7 +820,7 @@
       const cb = make("input");
       cb.type = "checkbox";
       cb.checked = !!p.checks[c.key];
-      cb.addEventListener("change", () => { p.checks[c.key] = cb.checked; touch(p); });
+      cb.addEventListener("change", () => { p.checks[c.key] = cb.checked; p.ticksText = p.revision; touch(p); });
       lab.appendChild(cb);
       lab.appendChild(make("span", "", c.label));
       fs.appendChild(lab);
@@ -973,19 +1037,27 @@
   /* =========================================================
      GROWN-UPS VIEW — writing evidence, kept out of the child's flow.
      ========================================================= */
+  /* The child's answers, each tied to the text it was about. Answers made
+     about an earlier version say which version, so a grown-up never reads
+     them as a judgment of the final sentence. */
   function describeChecks(p) {
     const c = p.checks, out = [];
+    const finalText = p.revision.trim();
+    const checked = (p.checkedText || p.marks.text || "").trim();
+    if (checked && checked !== finalText) out.push({ note: true, text: "Check answers were about an earlier version: “" + checked + "”" });
     const who = {
       marked: "Tapped as who/what" + (p.marks.whoWords ? ": “" + p.marks.whoWords + "”" : ""),
       command: "Said it is a command (subject: you)",
       missing: "Said it doesn't say who or what yet",
       skipped: "Did not answer who/what"
     }[c.who];
-    if (who) out.push(who);
-    out.push(p.marks.whatWords ? "Tapped as what happens: “" + p.marks.whatWords + "”" : "Did not tap what happens");
-    out.push(c.sense === "yes" ? "Makes sense by itself? Said yes"
-      : c.sense === "notyet" ? "Makes sense by itself? Said not yet" : "Makes sense by itself? Did not answer");
-    W.steps.revise.checks.forEach(k => out.push((c[k.key] ? "Ticked: " : "Not ticked: ") + k.label));
+    if (who) out.push({ text: who });
+    out.push({ text: p.marks.whatWords ? "Tapped as what happens: “" + p.marks.whatWords + "”" : "Did not tap what happens" });
+    out.push({ text: c.sense === "yes" ? "Makes sense by itself? Said yes"
+      : c.sense === "notyet" ? "Makes sense by itself? Said not yet" : "Makes sense by itself? Did not answer" });
+    const ticked = (p.ticksText || "").trim();
+    if (ticked && ticked !== finalText) out.push({ note: true, text: "Boxes below were ticked while the sentence read: “" + ticked + "”" });
+    W.steps.revise.checks.forEach(k => out.push({ text: (c[k.key] ? "Ticked: " : "Not ticked: ") + k.label }));
     return out;
   }
   function describeHelp(p) {
@@ -1013,8 +1085,14 @@
   }
 
   function renderParent() {
+    mergeFromDisk();
     const host = el("parent-body");
     clear(host);
+    const status = make("p", "write-save");
+    status.id = "parent-save";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    host.appendChild(status);
     const intro = make("div", "stage parent-intro");
     intro.appendChild(make("p", "", "This page shows your child's writing: the prompt, the first draft, the revised version, the help used, and their own answers to the check questions."));
     intro.appendChild(make("p", "", "What the app checks: it only points out a few marks to look at (first letter, end mark, a lowercase “i”, leftover frame blanks, what looks like a second sentence). It does not decide whether a sentence is complete, clear, or correct. The answers below are your child's own judgments; the app did not verify them. Finishing a piece does not mean a skill is mastered. Please read the writing and talk about it together."));
@@ -1054,7 +1132,7 @@
       const c1 = make("div");
       c1.appendChild(make("h4", "parent-h", "Child's own answers (not checked by the app)"));
       const l1 = make("ul", "parent-list");
-      describeChecks(p).forEach(t => l1.appendChild(make("li", "", t)));
+      describeChecks(p).forEach(t => l1.appendChild(make("li", t.note ? "parent-version-note" : "", t.text)));
       c1.appendChild(l1);
       const c2 = make("div");
       c2.appendChild(make("h4", "parent-h", "Help used"));
@@ -1070,12 +1148,22 @@
       note.id = "note-" + p.id;
       note.rows = 2;
       note.value = p.parentNote || "";
-      note.addEventListener("input", () => { p.parentNote = note.value; saveSoon(); });
+      /* Look the piece up by id at save time: another tab may have
+         reloaded the data since this page was drawn. */
+      note.addEventListener("input", () => {
+        const cur = byId(p.id);
+        if (!cur) return;
+        cur.parentNote = note.value;
+        dirty.add(cur.id);
+        saveSoon();
+      });
       card.appendChild(nl);
       card.appendChild(note);
 
       card.appendChild(navButton("Delete this piece", () => {
         if (!window.confirm("Delete this piece of writing? This can't be undone.")) return;
+        removed.add(p.id);
+        dirty.delete(p.id);
         store.data.pieces = store.data.pieces.filter(x => x.id !== p.id);
         if (ui.piece && ui.piece.id === p.id) ui.piece = null;
         save();
@@ -1088,8 +1176,11 @@
     if (pieces.length) {
       const all = navButton("Delete all saved writing", () => {
         if (!window.confirm("Delete ALL saved writing on this device? This can't be undone.")) return;
-        store.data.pieces = [];
         ui.piece = null;
+        dirty.clear();
+        mergeFromDisk();
+        store.data.pieces.forEach(x => removed.add(x.id));
+        store.data.pieces = [];
         save();
         renderParent();
         el("parent-heading").focus();
@@ -1126,6 +1217,7 @@
     });
     ga.appendChild(list);
     host.appendChild(ga);
+    renderSaveStatus();
   }
 
   /* =========================================================
@@ -1141,19 +1233,24 @@
     if (link) link.addEventListener("click", openParent);
     window.addEventListener("pagehide", flush);
     window.addEventListener("beforeunload", flush);
-    /* Another tab changed the saved writing. If this tab is mid-activity,
-       stop saving from it so it can't overwrite newer work. */
+    /* Another tab changed the saved writing: merge it in. This tab keeps
+       its own unsaved changes and the piece open here; everything else is
+       refreshed so nothing here is stale. */
     window.addEventListener("storage", e => {
       if (e.key !== KEY) return;
-      const editing = ui.piece && el("screen-write") && !el("screen-write").hidden;
-      if (editing) {
-        store.available = false;
-        store.ok = false;
-        store.message = "This writing was changed in another tab. Close one of the tabs, then refresh, so nothing is lost.";
-        renderSaveStatus();
-        return;
+      const openChanged = mergeFromDisk();
+      const scrParent = el("screen-parent"), scrHome = el("screen-home"), scrWrite = el("screen-write");
+      if (scrParent && !scrParent.hidden) {
+        const active = document.activeElement;
+        /* Don't redraw under someone typing a note; their typing still
+           saves to the right piece because saves look it up by id. */
+        if (!(active && active.closest && active.closest("#parent-body") && active.tagName === "TEXTAREA")) renderParent();
+      } else if (scrHome && !scrHome.hidden) {
+        renderHomeNext(el("home-next"));
       }
-      load();
+      if (openChanged && scrWrite && !scrWrite.hidden) {
+        setSaveStatus("This sentence is also open in another tab. This tab's version is the one being saved.");
+      }
     });
   }
 

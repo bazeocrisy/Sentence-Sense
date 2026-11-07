@@ -448,6 +448,89 @@ async function tapWord(page, field, word) {
     await ctx.close();
   }
 
+  /* ---------------- R. Build 1.9.1 regression checks for confirmed defects ---------------- */
+  {
+    const KEY = "sentence-sense-writing-v1";
+    const seed = (id, txt) => ({ id, promptId: "animal", status: "finished", step: "compare", draft: txt, firstDraft: txt, revision: txt,
+      parentNote: "", created: "2026-11-06T00:00:00Z", updated: "2026-11-06T00:00:00Z", finished: "2026-11-06T00:00:00Z" });
+    /* R1-R2: two tabs. */
+    {
+      const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+      const A = await ctx.newPage(), B = await ctx.newPage();
+      for (const p of [A, B]) { p.errors = []; p.on("pageerror", e => p.errors.push(e.message)); p.on("dialog", d => d.accept()); await p.route(/fonts\.(googleapis|gstatic)\.com/, r => r.abort()); }
+      await A.goto(BASE);
+      await A.evaluate(([k, v]) => localStorage.setItem(k, v), [KEY, JSON.stringify({ version: 1, pieces: [seed("p1", "The dog ran.")] })]);
+      await A.reload();
+      await B.goto(BASE);
+      await A.click("#parent-link");
+      const noteBox = A.locator(".parent-piece", { hasText: "The dog ran." }).locator(".parent-note");
+      await noteBox.click();                                  // grown-up is already in the note box
+      await B.click("#next-primary"); await B.click('.prompt-btn[data-prompt="own"]');
+      await B.fill("#write-input", "We swam."); await B.locator(".write-primary").click();
+      await B.waitForTimeout(300);
+      await noteBox.type("Note typed after the other tab saved");
+      await A.waitForTimeout(600);
+      let s = await A.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY);
+      check("R1 parent note saves after another tab changed writing", (s.pieces.find(p => p.id === "p1") || {}).parentNote === "Note typed after the other tab saved");
+      check("R1b the other tab's new piece is kept", s.pieces.some(p => p.firstDraft === "We swam."));
+      check("R1c grown-ups page shows save status", (await A.locator("#parent-save").count()) > 0 && (await A.locator("#parent-save").innerText()).includes("Saved on this device"));
+      /* B keeps writing while A deletes nothing: no overwrite of A's note. */
+      await B.locator(".pick-row").nth(0).locator(".pick-word", { hasText: /^We$/ }).click();
+      await B.locator(".write-primary").click();
+      await B.fill("#write-revision", "We swam in the lake.");
+      await B.waitForTimeout(500);
+      s = await B.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY);
+      check("R2 writing in one tab doesn't erase a note saved by another", (s.pieces.find(p => p.id === "p1") || {}).parentNote === "Note typed after the other tab saved" &&
+        s.pieces.some(p => p.revision === "We swam in the lake."));
+      check("R2b no page errors in either tab", A.errors.length === 0 && B.errors.length === 0, A.errors.concat(B.errors).join(" | "));
+      await ctx.close();
+    }
+    /* R3: storage readable, writes rejected. */
+    {
+      const { ctx, page } = await newPage(browser);
+      await page.goto(BASE);
+      await page.evaluate(([k, v]) => localStorage.setItem(k, v), [KEY, JSON.stringify({ version: 1, pieces: [seed("p1", "The dog ran."),
+        Object.assign(seed("p2", "a cat sat"), { status: "writing", step: "revise", revision: "A cat sat.", finished: null })] })]);
+      await page.addInitScript(() => { Storage.prototype.setItem = function () { const e = new Error("full"); e.name = "QuotaExceededError"; throw e; }; });
+      await page.reload();
+      check("R3 Home still offers to continue saved writing when writes are rejected", (await page.locator("#next-primary").innerText()).includes("Continue my sentence"));
+      await page.click("#parent-link");
+      check("R3b existing writing is shown when writes are rejected", (await page.locator(".parent-piece").count()) === 2);
+      check("R3c message says it can show but not save", (await page.locator("#parent-save").count()) > 0 && (await page.locator("#parent-save").innerText()).includes("isn't letting Sentence Sense save new changes"));
+      check("R3d no page errors", page.errors.length === 0, page.errors.join(" | "));
+      await ctx.close();
+    }
+    /* R4: long unbroken word on a phone. */
+    {
+      const { ctx, page } = await newPage(browser, { viewport: { width: 320, height: 640 } });
+      await page.goto(BASE);
+      await page.click("#next-primary"); await page.click('.prompt-btn[data-prompt="own"]');
+      await page.fill("#write-input", "Wowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww my dog ran.");
+      await primary(page);
+      check("R4 long unbroken word: no sideways scroll on Check (320px)", await noHScroll(page));
+      const right = await page.evaluate(() => Math.max(...[...document.querySelectorAll(".pick-word")].map(x => x.getBoundingClientRect().right)));
+      check("R4b long word button stays inside the screen", right <= 320, String(right));
+      await page.screenshot({ path: path.join(OUT, "phone-320-longword.png"), fullPage: true });
+      await ctx.close();
+    }
+    /* R5: self-checks about an earlier version are labelled with that text. */
+    {
+      const { ctx, page } = await newPage(browser);
+      await page.goto(BASE);
+      await page.click("#next-primary"); await page.click('.prompt-btn[data-prompt="animal"]');
+      await page.fill("#write-input", "The puppy hid."); await primary(page);
+      await tapWord(page, "who", "puppy");
+      await page.click('.write-choice[data-sense="yes"]'); await primary(page);
+      await page.locator(".write-check input").first().check();
+      await page.fill("#write-revision", "My cat slept all day."); await primary(page);
+      await page.click(".write-done >> text=Show a grown-up");
+      const t = await page.locator(".parent-piece .parent-cols").first().innerText();
+      check("R5 parent view names the text the Check answers were about", t.includes("Check answers were about an earlier version: “The puppy hid.”"), t);
+      check("R5b ticked boxes name the text they were ticked against", t.includes("ticked while the sentence read: “The puppy hid.”"), t);
+      await ctx.close();
+    }
+  }
+
   await browser.close();
   const failed = results.filter(r => !r.ok);
   fs.writeFileSync(path.join(OUT, "write-results.json"), JSON.stringify({ date: new Date().toISOString(), passed: results.length - failed.length, failed: failed.length, results }, null, 2));
