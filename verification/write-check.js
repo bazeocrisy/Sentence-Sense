@@ -237,7 +237,8 @@ async function tapWord(page, field, word) {
     check("C9 multiline text keeps its line break", (await page.locator("#write-body .write-text").first().innerText()).includes("\n"));
     await primary(page); await primary(page);
     const looks = await page.locator("#write-look li").evaluateAll(l => l.map(x => x.dataset.look));
-    check("C10 two sentences noticed as 'more than one', nothing else", looks.join(",") === "many", looks.join(","));
+    /* The markup test text contains "src=x" (no vowel), so a spelling question is expected too. */
+    check("C10 two sentences noticed as 'more than one'; no capital or end-mark note", looks.includes("many") && !looks.includes("firstLetter") && !looks.includes("ending"), looks.join(","));
     /* Words removed path. */
     await page.fill("#write-revision", "Grandma's soup is the best!");
     await primary(page);
@@ -716,6 +717,45 @@ async function tapWord(page, field, word) {
       check("V26 every step fits a 320px phone (no sideways scroll)", fits.every(Boolean), fits.join(","));
       await ctx.close();
     }
+  }
+
+  /* ---------------- W. One word / junk letters: honest finish ---------------- */
+  {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(BASE);
+    const cases = [
+      ["Ddddd", ["ending", "oneWord", "spelling"]],
+      ["Dog.", ["oneWord"]],
+      ["Stop!", []],
+      ["Wow!", []],
+      ["The dog ran sooo fast.", ["spelling"]],
+      ["My cat likes the rhythm of the rain.", []],
+      ["Mississippi is a long river.", []],
+      ["Grandma and I baked cookies.", []]
+    ];
+    const got = await page.evaluate(cs => cs.map(c => window.SS_WRITE._looksAt(c[0]).map(x => x.key)), cases);
+    cases.forEach((c, i) => check("W" + (i + 1) + " notes for " + JSON.stringify(c[0]) + " = [" + c[1].join(",") + "]",
+      JSON.stringify(got[i].slice().sort()) === JSON.stringify(c[1].slice().sort()), "got [" + got[i].join(",") + "]"));
+    await page.click("#next-primary"); await page.click('.prompt-btn[data-prompt="animal"]');
+    await page.fill("#write-input", "Ddddd"); await primary(page);
+    await primary(page); await primary(page);   // nudge once on Check, then Revise
+    check("W9 Revise names the word to look at", (await page.locator("#write-look").innerText()).includes("Look at “Ddddd”"));
+    await primary(page);
+    check("W10 finishing with open notes pauses once and asks", await page.locator("#write-gate").isVisible() && (await heading(page)) === "Revise if you want to");
+    await page.click("#write-gate >> text=Go back and look");
+    check("W11 'Go back and look' returns to the sentence box", (await focusedId(page)) === "write-revision" && !(await page.locator("#write-gate").isVisible()));
+    await primary(page); await page.click("#write-finish-anyway");
+    const pr = await page.locator(".praise-list").innerText();
+    check("W12 no 'writer's choice' praise while notes are open", !pr.includes("writer's choice") && pr.includes("You kept your sentence the same."), pr);
+    check("W13 Compare lists what is still worth a look", (await page.locator("#write-still").innerText()).includes("Look at “Ddddd”"));
+    await page.click("#write-revise-again");
+    check("W14 'Revise it' reopens Revise with the sentence", (await heading(page)) === "Revise if you want to" && (await page.inputValue("#write-revision")) === "Ddddd");
+    await page.fill("#write-revision", "My dog dug a hole."); await primary(page);
+    check("W15 after fixing, finishing doesn't pause and nothing is listed", !(await page.locator("#write-still").count()) && (await heading(page)) === "Your two versions");
+    await page.click(".write-done >> text=Show a grown-up");
+    check("W16 grown-ups see what was noted at finish", (await page.locator(".parent-piece").first().innerText()).includes("Nothing noted by the app when finished."));
+    check("W17 no page errors", page.errors.length === 0, page.errors.join(" | "));
+    await ctx.close();
   }
 
   await browser.close();
