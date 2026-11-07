@@ -1132,7 +1132,8 @@
       ok.id = "next-review-ok";
       r.appendChild(ok);
       note.appendChild(r);
-      card.appendChild(note);
+      /* First thing on the card: a grown-up's message comes before "Next for you". */
+      card.insertBefore(note, card.children[1] || null);
     }
 
     /* The path: a suggestion, folded away so it never becomes another grid. */

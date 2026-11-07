@@ -27,7 +27,7 @@ No paragraphs, no new skills, and no AI grading were added. The existing design 
 
 | Check | Result |
 |---|---|
-| `verification/write-check.js` (Playwright, Chromium) | **195 passed, 0 failed** |
+| `verification/write-check.js` (Playwright, Chromium) | **231 passed, 0 failed** (195 before the §3b follow-up) |
 | Regression checks R1–R5 on unchanged 1.9.0 | **10 failed** (the defects reproduce) |
 | Regression checks R1–R5 on 1.9.1 | all pass |
 | `verification/guard.js` (original 1.8 harness) | **889 passed, 0 failed** |
@@ -82,6 +82,27 @@ Remaining teaching concerns for your review:
 What this does **not** show: passing these steps, ticking self-checks, or answering multiple-choice questions correctly does not show Chris can write complete sentences on his own. Only his own writing, read by an adult over time, shows that.
 
 ---
+
+## 3b. Owner test follow-up: "Ddddd" and "is it right?"
+
+On a phone, the owner wrote "Ddddd", kept it, and got **"You read your sentence again and chose to keep it. That's a real writer's choice."** Causes:
+- nothing looked for one-word entries or junk letters;
+- the keep-it praise ignored open notes;
+- finishing took one tap.
+
+The app still never rewrites Chris's writing. Fixed by checks that ask, plus a check that comes from a person:
+
+| Check | Reliability | What it does |
+|---|---|---|
+| **A grown-up's check** (For grown-ups → Your check) | The only "right / not yet" judgment, and it comes from a person | **Looks good ✓** or **Let's fix it together**. Records which version was looked at. Chris sees it first on Home; "Open it" reopens that sentence on Revise. |
+| **Task-specific checks** (Fix it) | Dependable, because the task narrows the answer | "Is there a who before ate?", "Did you keep a part that tells what happens?" |
+| **Built-in word list** | Dependable for "is this a common word", not for grammar | 43,879 common words (SCOWL, with its notice) plus the app's own words; about 400 KB, nothing sent anywhere. An unknown lowercase word gets "Look at “freind”. Is it a real word, spelled the way you want?". Names, contractions and abbreviations are skipped. |
+| **One word / junk letters** | Heuristic, so asked as a question | "There is only one word…" (not for one-word exclamations like "Stop!"); a letter typed 3+ times in a row, or 4+ letters with no vowel |
+| **Honest finish** | n/a | With notes open, finishing pauses once ("Go back and look" / "Finish anyway"). No "writer's choice" praise. Compare lists **Still worth a look** with **Revise it**. Grown-ups see what was still noted at finish. |
+
+New checks: W1–W17 (the "Ddddd" walk, false-alarm guards such as "Stop!", "Mississippi" and "rhythm"), X1–X10 (grown-up check), Y1–Y8 (word list: misspellings named; names, contractions and abbreviations not questioned; every word the app suggests is known). **write-check 231/231, guard 889/889.**
+
+Still not possible without a person or AI: knowing whether a sentence is complete, sensible or grammatical. "The moon ate my homework." passes every automatic check.
 
 ## 4. Observed child usability
 
