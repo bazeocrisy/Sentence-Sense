@@ -1,5 +1,7 @@
 # SENTENCE SENSE — PROJECT HANDOFF
 
+> **Build 1.9.1 (repair, draft PR, not deployed):** cross-tab-safe saving, read-only storage, long-word wrapping, checked-version evidence, grammatical food bank, aligned Check example, child-chosen fix help, revision examples, reasoning-step hints for Complete Sentence, and one sample teaching sequence ("Fix it: Who is it about?"). See `REPAIR-1.9.1.md`. **Production (`claude/build-1.4`) still serves 1.9.0 (`d958c60`).** Pages publishes from `claude/build-1.4`, confirmed by the build a push to it triggered on 2026-11-07.
+
 **Current build: Sentence Sense — Build 1.9.0** (development branch `claude/write-strong-sentence`, based on the live `build-1.8` at `ccbfeb4`). **Not merged, not deployed.** Production still serves 1.8.0 until the owner approves.
 
 ## BUILD 1.9.0 IN ONE SCREEN — first writing milestone

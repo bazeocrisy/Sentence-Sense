@@ -162,8 +162,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     fontsLoaded: document.fonts ? document.fonts.status : "n/a"
   }));
 
-  ok("1.4 BUILD_NUMBER is Build 1.9.0", globals.build === "Build 1.9.0", globals.build);
-  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.9.0", globals.badge);
+  ok("1.4 BUILD_NUMBER is Build 1.9.1", globals.build === "Build 1.9.1", globals.build);
+  ok("1.5 rendered badge matches", globals.badge === "Sentence Sense — Build 1.9.1", globals.badge);
   ok("1.6 the three component globals are present",
     globals.hasLearn && globals.hasPractice && globals.hasSentence);
   ok("1.7 localStorage and sessionStorage empty on load",
@@ -1801,8 +1801,9 @@ async function answerCorrect(page, choiceSel, dataProbe) {
     await page.evaluate(() => document.getElementById("practice-help").click());
     await sleep(45);
     const askedTwo = await helpState();
-    ok(N + "7g " + key + " Help 2 crosses out two wrong choices and never the answer",
-      askedTwo.ruled === 2 && !askedTwo.rightRuled && askedTwo.attempts === 0, "ruled=" + askedTwo.ruled);
+    /* Build 1.9.1: Complete Sentence Help 2 gives a reasoning step and crosses nothing out. */
+    ok(N + "7g " + key + (key === "complete-sentence" ? " Help 2 gives a reasoning step and crosses nothing out" : " Help 2 crosses out two wrong choices and never the answer"),
+      (key === "complete-sentence" ? askedTwo.ruled === 0 : askedTwo.ruled === 2) && !askedTwo.rightRuled && askedTwo.attempts === 0, "ruled=" + askedTwo.ruled);
     await page.evaluate(() => document.getElementById("practice-help").click());
     await sleep(45);
     const askedThree = await helpState();
@@ -2046,8 +2047,8 @@ async function answerCorrect(page, choiceSel, dataProbe) {
       /is-clue/.test(h1.cls) && h1.txt.includes(h1.clue) && h1.wrong === 0 && h1.locked);
     await page.click("#try-help"); await sleep(50);
     const h2 = await probe();
-    ok("15L." + key + ".3 Help 2 leaves two choices and never crosses out the answer",
-      h2.open === 2 && !h2.rightRuled, "open=" + h2.open);
+    ok("15L." + key + ".3 " + (key === "complete-sentence" ? "Help 2 gives a reasoning step and leaves every choice open" : "Help 2 leaves two choices and never crosses out the answer"),
+      (key === "complete-sentence" ? h2.open === 4 : h2.open === 2) && !h2.rightRuled, "open=" + h2.open);
     await page.click("#try-help"); await sleep(50);
     const h3 = await probe();
     ok("15L." + key + ".4 Help 3 walks through it and the child still taps",

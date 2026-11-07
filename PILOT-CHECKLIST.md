@@ -16,6 +16,7 @@ Scope is frozen. The pilot's job is to watch, not to fix things mid-session. Wri
 - [ ] Note the exact words that confused him, and where he hesitated.
 - [ ] Partway through, ask him to press **Home**, then come back. Does he find **Continue my sentence**?
 - [ ] If he wants another, let him write a second sentence. Don't push for it.
+- [ ] Build 1.9.1 only: in another session, try **Complete Sentence → Fix it**. Note which step he lingers on, what he picks on "Careful!", and his own fix in "Your turn".
 
 ## Right after (5 minutes)
 - [ ] Open **For grown-ups** together. Read both versions aloud.
