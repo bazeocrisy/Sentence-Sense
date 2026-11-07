@@ -364,6 +364,10 @@
     if (run.help === 1) {
       /* The strategy, in this skill's own words. */
       feedback("clue", [q.clue], "Hint 1 of 3");
+    } else if (run.help === 2 && q.step2) {
+      /* Build 1.9.1: a concrete next reasoning step for this sentence,
+         instead of crossing answers out. */
+      feedback("clue", [q.step2], "Hint 2 of 3");
     } else if (run.help === 2) {
       /* Narrow it down to two. Cross out every wrong choice still open
          except one, picked at random so the survivor is not a pattern. */

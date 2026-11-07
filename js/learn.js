@@ -405,6 +405,9 @@
     const ci = block.choices.findIndex(c => c.correct);
     if (tryHelp.step === 1) {
       tryFeedback("clue", "Hint 1 of 3", [block.clue]);
+    } else if (tryHelp.step === 2 && block.step2) {
+      /* Build 1.9.1: a concrete next reasoning step, not crossed-out answers. */
+      tryFeedback("clue", "Hint 2 of 3", [block.step2]);
     } else if (tryHelp.step === 2) {
       const open = buttons.filter(b => !b.disabled && Number(b.dataset.ci) !== ci);
       for (let i = open.length - 1; i > 0; i--) {

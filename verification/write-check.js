@@ -572,6 +572,32 @@ async function tapWord(page, field, word) {
     await ctx.close();
   }
 
+  /* ---------------- U. Complete Sentence hints give reasoning steps ---------------- */
+  {
+    const { ctx, page } = await newPage(browser);
+    await page.goto(BASE);
+    const cov = await page.evaluate(() => window.SS_HINTS_APPLIED && window.SS_HINTS_APPLIED["complete-sentence"]);
+    check("U1 every Complete Sentence practice item and the Learn try have item-specific hints", cov && cov.applied === cov.expected && cov.applied === 21, JSON.stringify(cov));
+    await page.click('#skill-grid button[data-skill="complete-sentence"]');
+    await page.click('button[data-activity="practice"]');
+    await page.click("#practice-help"); await page.click("#practice-help");
+    const fb = await page.locator("#practice-feedback").innerText();
+    const sentence = await page.locator("#practice-sentence").innerText();
+    const expected = await page.evaluate(s => {
+      const q = window.SS_LEARN_CONTENT.topics["complete-sentence"].tryItBank.questions.find(x => x.sentence.words.join(" ").replace(/\s+/g, " ") === s.replace(/\s+/g, " ").trim());
+      return q ? q.step2 : null;
+    }, sentence);
+    check("U2 Practice Hint 2 is the item's reasoning step", expected && fb.includes(expected), fb.slice(0, 160));
+    check("U3 Practice Hint 2 crosses nothing out", (await page.locator("#practice-choices .is-ruled-out").count()) === 0);
+    await page.click("#practice-home");
+    await page.click('#skill-grid button[data-skill="verb"]');
+    await page.click('button[data-activity="practice"]');
+    await page.click("#practice-help"); await page.click("#practice-help");
+    check("U4 other skills keep their existing Hint 2 (unchanged in this repair)", (await page.locator("#practice-choices .is-ruled-out").count()) > 0);
+    check("U5 no page errors", page.errors.length === 0, page.errors.join(" | "));
+    await ctx.close();
+  }
+
   await browser.close();
   const failed = results.filter(r => !r.ok);
   fs.writeFileSync(path.join(OUT, "write-results.json"), JSON.stringify({ date: new Date().toISOString(), passed: results.length - failed.length, failed: failed.length, results }, null, 2));
