@@ -96,6 +96,7 @@
     if (!Array.isArray(p.help.fixHelp)) p.help.fixHelp = [];
     if (typeof p.checkedText !== "string") p.checkedText = "";
     if (typeof p.ticksText !== "string") p.ticksText = "";
+    if (!Array.isArray(p.openNotes)) p.openNotes = [];
     if (typeof p.parentNote !== "string") p.parentNote = "";
     if (p.kind !== "fix") p.kind = "write";
     if (typeof p.fixStep !== "number") p.fixStep = 0;
@@ -292,6 +293,16 @@
     if (/(^|[\s"“‘(])i(?=$|[\s,!?'’”"]|\.(?!e\.))/.test(t)) out.push({ key: "wordI", text: L.wordI });
     if (/_{3,}/.test(t)) out.push({ key: "blanks", text: L.blanks });
     if (looksLikeMany(t)) out.push({ key: "many", text: L.many });
+    /* One word: a one-word command or exclamation ending in "!" ("Stop!",
+       "Wow!") can be a whole sentence, so it gets no note. */
+    const words = tokens(t).filter(w => /[A-Za-z]/.test(w));
+    if (words.length === 1 && !/!["'”’)]*$/.test(t)) out.push({ key: "oneWord", text: L.oneWord });
+    /* Spelling to look at: a letter typed 3+ times in a row ("Ddddd",
+       "sooo"), or 4+ letters with no vowel. Asked as a question; the
+       child decides. At most two words are named. */
+    const odd = words.map(w => w.replace(/^[^A-Za-z]+|[^A-Za-z']+$/g, ""))
+      .filter(w => /([A-Za-z])\1\1/i.test(w) || (w.length >= 4 && !/[aeiouy]/i.test(w)));
+    Array.from(new Set(odd)).slice(0, 2).forEach(w => out.push({ key: "spelling", text: L.spelling.replace("{word}", w) }));
     return out;
   }
 
@@ -883,11 +894,37 @@
     stage.appendChild(emptyNote);
     host.appendChild(stage);
 
-    const finish = primaryButton("", () => {
-      if (!p.revision.trim()) { emptyNote.hidden = false; ta.focus(); return; }
+    /* Build 1.9.1 review: if marks are still noted, pause once and let the
+       child choose. Nothing is changed for them either way. */
+    const gate = make("div", "write-gate");
+    gate.id = "write-gate";
+    gate.setAttribute("role", "status");
+    gate.hidden = true;
+    stage.appendChild(gate);
+    const doFinish = () => {
+      p.openNotes = looksAt(p.revision).map(x => x.text);
       p.status = "finished";
       p.finished = now();
       show("compare");
+    };
+    const finish = primaryButton("", () => {
+      if (!p.revision.trim()) { emptyNote.hidden = false; ta.focus(); return; }
+      const open = looksAt(p.revision);
+      if (open.length && gate.hidden) {
+        const B = K.beforeFinish;
+        clear(gate);
+        gate.appendChild(make("p", "write-qtext", B.text.replace("{n}", open.length === 1 ? "1 thing" : open.length + " things").replace("{it}", open.length === 1 ? "it" : "them")));
+        const row = make("div", "write-alt");
+        row.appendChild(navButton(B.look, () => { gate.hidden = true; look.scrollIntoView({ block: "center" }); ta.focus(); }));
+        const anyway = navButton(B.anyway, doFinish);
+        anyway.id = "write-finish-anyway";
+        row.appendChild(anyway);
+        gate.appendChild(row);
+        gate.hidden = false;
+        gate.querySelector("button").focus();
+        return;
+      }
+      doFinish();
     });
 
     function refresh() {
@@ -918,8 +955,13 @@
   function praise(p) {
     const out = [];
     const f = (p.firstDraft || "").trim(), r = p.revision.trim();
-    if (f === r) {
+    const open = (p.openNotes || []).length;
+    if (f === r && !open) {
       out.push("You read your sentence again and chose to keep it. That's a real writer's choice.");
+    } else if (f === r) {
+      /* Build 1.9.1 review: no "writer's choice" praise while the app
+         still noticed things to look at. */
+      out.push("You kept your sentence the same.");
     } else {
       const d = diffWords(f, r);
       out.push("You made a new version.");
@@ -959,6 +1001,18 @@
     const ul = make("ul", "praise-list");
     praise(p).forEach(t => ul.appendChild(make("li", "", t)));
     stage.appendChild(ul);
+    if ((p.openNotes || []).length) {
+      const still = make("div", "write-look");
+      still.id = "write-still";
+      still.appendChild(make("p", "write-look-title", "Still worth a look"));
+      const sl = make("ul", "write-look-list");
+      p.openNotes.forEach(t => sl.appendChild(make("li", "", t)));
+      still.appendChild(sl);
+      const again = navButton("Revise it", () => { p.status = "writing"; p.finished = null; show("revise"); });
+      again.id = "write-revise-again";
+      still.appendChild(again);
+      stage.appendChild(still);
+    }
     stage.appendChild(make("p", "write-note", "Your writing is saved on this device. You can show a grown-up, write another sentence, or stop here."));
     host.appendChild(stage);
 
@@ -1179,6 +1233,8 @@
           : [d.added.length ? "Added: " + d.added.join(" / ") : "", d.removed.length ? "Removed: " + d.removed.join(" / ") : ""].filter(Boolean).join(" · ") || "Changed capitals, punctuation or spacing.";
         card.appendChild(make("p", "parent-meta", "Changes: " + changes));
       }
+      if (p.status === "finished") card.appendChild(make("p", "parent-meta",
+        (p.openNotes || []).length ? "Still noted by the app when finished: " + p.openNotes.join(" · ") : "Nothing noted by the app when finished."));
       const cols = make("div", "parent-cols");
       const c1 = make("div");
       c1.appendChild(make("h4", "parent-h", "Child's own answers (not checked by the app)"));

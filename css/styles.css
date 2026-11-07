@@ -2340,3 +2340,5 @@ img{max-width:100%;}
 @media (min-width:620px){ .activity-grid.has-four{grid-template-columns:repeat(2,1fr);} }
 @media (min-width:1080px){ .activity-grid.has-four{grid-template-columns:repeat(4,1fr);} }
 .screen-skill .activity-card.act-fixit{border-top-width:3px;}
+.write-gate{display:flex;flex-direction:column;gap:8px;background:#FFF8E6;border:1px solid #EBD9A6;border-radius:var(--radius-md);padding:12px 14px;}
+#write-still{display:flex;flex-direction:column;gap:8px;}

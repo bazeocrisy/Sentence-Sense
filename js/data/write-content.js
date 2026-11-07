@@ -194,7 +194,16 @@ window.SS_WRITE_CONTENT = {
         ending: "Look at the end. Does it need a period (.), a question mark (?), or an exclamation point (!)?",
         wordI: "Look at the word “i”. When it means you, it is a capital: I.",
         blanks: "There is still a blank (____). Fill it with your own words.",
-        many: "It looks like you wrote more than one sentence. That's okay! Check the start and end of each one."
+        many: "It looks like you wrote more than one sentence. That's okay! Check the start and end of each one.",
+        /* Build 1.9.1 review: a single word, or letters typed over and over,
+           were passing with no note at all. */
+        oneWord: "There is only one word. Does your sentence tell who or what, and what happens?",
+        spelling: "Look at “{word}”. Is it a real word, spelled the way you want?"
+      },
+      beforeFinish: {
+        text: "The app noticed {n} to look at (see “Things to look at” above). Do you want to look at {it} first?",
+        look: "Go back and look",
+        anyway: "Finish anyway"
       },
       /* Build 1.9.1: purposeful revision, shown on examples that are NOT
          the child's sentence. Adding, cutting and keeping are all real
