@@ -404,6 +404,26 @@
     </section>
 
     <!-- ============================================================
+         FIX IT — Build 1.9.1. A short teaching sequence: notice, what's
+         missing, a model fix, a tempting wrong fix, your turn, write your
+         own. Filled by js/fixit.js from js/data/fixit-content.js.
+         ============================================================ -->
+    <section class="screen screen-fixit" id="screen-fixit" aria-labelledby="fixit-heading" data-topic="" hidden>
+      <header class="app-header">
+        <button type="button" class="nav-btn nav-back" id="fixit-back">
+          <span aria-hidden="true">&larr;</span> Back
+        </button>
+        <span class="header-tag">Fix it</span>
+        <button type="button" class="nav-btn nav-home" id="fixit-home">Home</button>
+      </header>
+      <div class="activity-body">
+        <ol class="step-line write-steps" id="fixit-steps" aria-label="Lesson steps"></ol>
+        <p class="write-save" id="fixit-save" role="status" aria-live="polite"></p>
+        <div class="write-body" id="fixit-body"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
          GROWN-UPS — Build 1.9.0. Writing evidence for a parent.
          Reached only from the small footer link and the "Show a
          grown-up" button; never part of the child's main path.
@@ -437,6 +457,8 @@
   <script src="js/test.js"></script>
   <script src="js/data/write-content.js"></script>
   <script src="js/write.js"></script>
+  <script src="js/data/fixit-content.js"></script>
+  <script src="js/fixit.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

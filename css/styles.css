@@ -2336,3 +2336,7 @@ img{max-width:100%;}
 .write-text.is-tempting{border:2px dashed var(--wrong-edge);}
 .fix-next{font-weight:700;color:var(--navy-deep);}
 .revise-way{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px;}
+/* Build 1.9.1: Complete Sentence has four activities (Learn, Fix it, Practice, Test). */
+@media (min-width:620px){ .activity-grid.has-four{grid-template-columns:repeat(2,1fr);} }
+@media (min-width:1080px){ .activity-grid.has-four{grid-template-columns:repeat(4,1fr);} }
+.screen-skill .activity-card.act-fixit{border-top-width:3px;}

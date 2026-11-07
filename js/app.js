@@ -34,7 +34,7 @@
 (function () {
   "use strict";
 
-  const BUILD_NUMBER = "Build 1.9.0";
+  const BUILD_NUMBER = "Build 1.9.1";
 
   const C = window.SS_LEARN_CONTENT;
   const S = window.SS_SENTENCE;
@@ -45,7 +45,7 @@
   /* Build 1.4.0: the "coming next" SCREEN was removed. An unavailable
      activity is now labelled on its own card and is not a control, so
      nothing routed to that screen and it became dead architecture. */
-  const SCREENS = ["home", "skill", "learn", "practice", "test", "write", "parent"];
+  const SCREENS = ["home", "skill", "learn", "practice", "test", "write", "parent", "fixit"];
 
   const state = {
     screen: "home",   // one of SCREENS
@@ -335,12 +335,15 @@
      ========================================================= */
   const ACTIVITIES = [
     { key: "learn",    name: "Learn",    line: "Show me how",           icon: "idea"  },
+    /* Build 1.9.1: shown only for a skill that has a Fix it sequence. */
+    { key: "fixit",    name: "Fix it",   line: "See how to fix a sentence", icon: "pencil", optional: true },
     { key: "practice", name: "Practice", line: "Let me try with help",  icon: "write" },
     { key: "test",     name: "Test",     line: "Let me do it myself",   icon: "sheet" }
   ];
 
   function activityReady(topic, key) {
     if (key === "learn") return true;
+    if (key === "fixit") return !!(window.SS_FIXIT && window.SS_FIXIT.has(topic.key));
     if (key === "practice") return topic.practice === "bank";
     /* Test is available exactly when the skill has an approved question
        pool. Adding one is a content change; no code change is needed. */
@@ -385,8 +388,10 @@
     /* Three cards, built the same way the Home cards are: the CARD is a
        container and the BUTTON is the only control, so there is exactly one
        tab stop per activity. */
-    ACTIVITIES.forEach(a => {
-      const ready = activityReady(t, a.key);
+    const shown = ACTIVITIES.filter(a => !a.optional || activityReady(Object.assign({ key: key }, t), a.key));
+    host.classList.toggle("has-four", shown.length === 4);
+    shown.forEach(a => {
+      const ready = activityReady(Object.assign({ key: key }, t), a.key);
       const card = make("li", "activity-card act-" + a.key + (ready ? "" : " is-soon"));
 
       card.appendChild(iconNode(a.icon, "activity-icon"));
@@ -434,6 +439,11 @@
 
     if (activityKey === "learn") {
       window.SS_LEARN.start(skillKey);
+      return;
+    }
+
+    if (activityKey === "fixit" && window.SS_FIXIT && window.SS_FIXIT.has(skillKey)) {
+      window.SS_FIXIT.start(skillKey);
       return;
     }
 
@@ -511,7 +521,8 @@
         return;
       }
       if (state.screen === "learn" || state.screen === "practice" ||
-          state.screen === "test") {
+          state.screen === "test" || state.screen === "fixit") {
+        if (state.screen === "fixit" && window.SS_WRITE) window.SS_WRITE.flush();
         openSkill(state.skill);
         return;
       }
@@ -531,6 +542,7 @@
     if (window.SS_PRACTICE) window.SS_PRACTICE.init();
     if (window.SS_TEST) window.SS_TEST.init();
     if (window.SS_WRITE) window.SS_WRITE.init();
+    if (window.SS_FIXIT) window.SS_FIXIT.init();
 
     goHome(false);
   }

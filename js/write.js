@@ -97,6 +97,9 @@
     if (typeof p.checkedText !== "string") p.checkedText = "";
     if (typeof p.ticksText !== "string") p.ticksText = "";
     if (typeof p.parentNote !== "string") p.parentNote = "";
+    if (p.kind !== "fix") p.kind = "write";
+    if (typeof p.fixStep !== "number") p.fixStep = 0;
+    if (typeof p.source !== "string") p.source = "";
     if (!p.updated) p.updated = p.created || new Date(0).toISOString();
     return p;
   }
@@ -191,7 +194,7 @@
   function saveNow() { clearTimeout(saveTimer); saveTimer = null; save(); }
 
   /* Both the writing screen and the grown-ups page show save status. */
-  function statusNodes() { return ["write-save", "parent-save"].map(el).filter(Boolean); }
+  function statusNodes() { return ["write-save", "parent-save", "fixit-save"].map(el).filter(Boolean); }
   function setSaveStatus(text) { statusNodes().forEach(n => { n.textContent = text; }); }
   function renderSaveStatus() {
     statusNodes().forEach(n => {
@@ -229,11 +232,11 @@
   function touch(p) { p.updated = now(); dirty.add(p.id); saveSoon(); }
 
   function unfinished() {
-    return store.data.pieces.filter(p => p.status === "writing")
+    return store.data.pieces.filter(p => p.status === "writing" && p.kind !== "fix")
       .sort((a, b) => b.updated.localeCompare(a.updated))[0] || null;
   }
   function finishedPieces() {
-    return store.data.pieces.filter(p => p.status === "finished")
+    return store.data.pieces.filter(p => p.status === "finished" && p.kind !== "fix")
       .sort((a, b) => (b.finished || "").localeCompare(a.finished || ""));
   }
   function promptOf(p) {
@@ -466,7 +469,7 @@
     stage.appendChild(heading("What do you want to write about?"));
     stage.appendChild(make("p", "write-lead", "Pick one idea. You will write one sentence. Then you can make it even better, or keep it."));
     const list = make("ul", "prompt-list");
-    W.prompts.forEach(pr => {
+    W.prompts.filter(pr => !pr.lessonOnly).forEach(pr => {
       const li = make("li");
       const b = make("button", "prompt-btn");
       b.type = "button";
@@ -1153,6 +1156,7 @@
     pieces.forEach(p => {
       const card = make("article", "stage parent-piece");
       card.dataset.piece = p.id;
+      if (p.kind === "fix") { renderFixCard(card, p); host.appendChild(card); return; }
       card.appendChild(make("h3", "parent-prompt", promptOf(p).ask));
       card.appendChild(make("p", "parent-meta",
         p.status === "finished" ? "Finished " + fmtDate(p.finished) : "Not finished yet · last saved " + fmtDate(p.updated)));
@@ -1268,6 +1272,72 @@
   }
 
   /* =========================================================
+     LESSON PIECES (Build 1.9.1) — the "Fix it" supported try is the
+     child's own writing, so it is saved and shown to grown-ups like any
+     other piece. It never appears as "Continue my sentence".
+     ========================================================= */
+  function fixPiece(lessonId, source) {
+    let p = store.data.pieces.filter(x => x.kind === "fix" && x.promptId === lessonId && x.status === "writing")
+      .sort((a, b) => b.updated.localeCompare(a.updated))[0];
+    if (!p) {
+      p = normalize({ id: "f" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), promptId: lessonId,
+        kind: "fix", source: source, status: "writing", step: "draft", draft: "", firstDraft: null, revision: "",
+        created: now(), updated: now(), finished: null });
+      store.data.pieces.push(p);
+      dirty.add(p.id);
+    }
+    return p;
+  }
+
+  function renderFixCard(card, p) {
+    const F = window.SS_FIXIT_CONTENT && window.SS_FIXIT_CONTENT["complete-sentence"];
+    card.appendChild(make("h3", "parent-prompt", (F ? F.title : "Fix it lesson")));
+    card.appendChild(make("p", "parent-meta",
+      p.status === "finished" ? "Finished " + fmtDate(p.finished) : "Not finished yet · last saved " + fmtDate(p.updated)));
+    const pair = make("div", "compare-pair");
+    const a = make("div", "compare-card");
+    a.appendChild(make("p", "compare-label", "Sentence to fix (from the lesson)"));
+    a.appendChild(sentenceBox(p.source || ""));
+    const b = make("div", "compare-card is-new");
+    b.appendChild(make("p", "compare-label", "Child's fix"));
+    b.appendChild(sentenceBox(p.draft));
+    pair.appendChild(a); pair.appendChild(b);
+    card.appendChild(pair);
+    const l = make("ul", "parent-list");
+    l.appendChild(make("li", "", p.marks.whoWords ? "Tapped as who: “" + p.marks.whoWords + "”" : "Did not tap who"));
+    if (p.checkedText && p.checkedText.trim() !== p.draft.trim()) l.appendChild(make("li", "parent-version-note", "Tapped while the fix read: “" + p.checkedText + "”"));
+    l.appendChild(make("li", "", p.help.rung ? "Used Help me: " + p.help.rung + " of 3" : "No Help me used"));
+    if (p.help.wordBank) l.appendChild(make("li", "", "Tapped an idea for who"));
+    const h = make("h4", "parent-h", "Child's own answers (not checked by the app)");
+    card.appendChild(h);
+    card.appendChild(l);
+    const nl = make("label", "write-label", "Parent note (optional)");
+    nl.htmlFor = "note-" + p.id;
+    const note = make("textarea", "write-input parent-note");
+    note.id = "note-" + p.id;
+    note.rows = 2;
+    note.value = p.parentNote || "";
+    note.addEventListener("input", () => {
+      const cur = byId(p.id);
+      if (!cur) return;
+      cur.parentNote = note.value; dirty.add(cur.id); saveSoon();
+    });
+    card.appendChild(nl);
+    card.appendChild(note);
+    card.appendChild(navButton("Delete this piece", () => {
+      if (!window.confirm("Delete this piece of writing? This can't be undone.")) return;
+      removed.add(p.id); dirty.delete(p.id);
+      store.data.pieces = store.data.pieces.filter(x => x.id !== p.id);
+      save(); renderParent(); el("parent-heading").focus();
+    }, "parent-delete"));
+  }
+
+  function startWithPrompt(promptId) {
+    ui.piece = newPiece(promptId);
+    show("draft");
+  }
+
+  /* =========================================================
      INIT
      ========================================================= */
   function init() {
@@ -1309,6 +1379,13 @@
     renderHomeNext: renderHomeNext,
     openParent: openParent,
     flush: flush,
+    startWithPrompt: startWithPrompt,
+    fixPiece: fixPiece,
+    touchPiece: p => touch(p),
+    saveNow: () => saveNow(),
+    tokens: t => tokens(t),
+    looksAt: t => looksAt(t),
+    onSaveStatus: () => renderSaveStatus(),
     /* For the verification harness only. */
     _store: store,
     _looksAt: looksAt,

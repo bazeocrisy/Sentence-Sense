@@ -119,7 +119,7 @@ async function tapWord(page, field, word) {
   {
     const { ctx, page } = await newPage(browser);
     await page.goto(BASE);
-    check("A1 build badge is 1.9.0", (await page.locator("#build-badge").innerText()).includes("Build 1.9.0"));
+    check("A1 build badge is 1.9.1", (await page.locator("#build-badge").innerText()).includes("Build 1.9.1"));
     check("A2 Home shows one prominent next action", (await page.locator("#next-primary").innerText()).includes("Start writing"));
     check("A3 ten skill cards on Home", (await page.locator("#skill-grid .skill-card").count()) === 10);
     check("A4 Georgia badge is qualified", (await page.locator(".hb-line").innerText()) === "Practices Georgia Grade 3 language skills");
@@ -596,6 +596,126 @@ async function tapWord(page, field, word) {
     check("U4 other skills keep their existing Hint 2 (unchanged in this repair)", (await page.locator("#practice-choices .is-ruled-out").count()) > 0);
     check("U5 no page errors", page.errors.length === 0, page.errors.join(" | "));
     await ctx.close();
+  }
+
+  /* ---------------- V. "Fix it: Who is it about?" sample sequence ---------------- */
+  {
+    const openFix = async page => {
+      await page.goto(BASE);
+      await page.click('#skill-grid button[data-skill="complete-sentence"]');
+      await page.click('button[data-activity="fixit"]');
+    };
+    const fixBody = page => page.locator("#fixit-body");
+    const nextBtn = page => page.locator(".fixit-primary");
+    const fixHead = page => page.locator("#fixit-heading").innerText();
+    {
+      const { ctx, page } = await newPage(browser);
+      await page.goto(BASE);
+      await page.click('#skill-grid button[data-skill="complete-sentence"]');
+      check("V1 Complete Sentence shows Learn, Fix it, Practice, Test (Fix it before Practice)",
+        (await page.locator("#activity-list .activity-name").allInnerTexts()).join(",") === "Learn,Fix it,Practice,Test");
+      await page.click("#skill-back");
+      await page.click('#skill-grid button[data-skill="verb"]');
+      check("V2 other skills keep their three activities", (await page.locator("#activity-list .activity-name").count()) === 3);
+      /* Notice: every wrong choice explains; Next waits for the problem to be named. */
+      await openFix(page);
+      check("V3 opens on Notice with focus on the heading", (await fixHead(page)) === "What's wrong with this one?" && (await focusedId(page)) === "fixit-heading");
+      check("V3b Next waits until the problem is noticed", await nextBtn(page).isDisabled());
+      for (const wrong of ["How big was the puddle?", "When did it happen?"]) {
+        await fixBody(page).locator(".choice-btn", { hasText: wrong }).click();
+        const fb = await fixBody(page).locator(".answer-feedback").innerText();
+        check("V4 '" + wrong + "' explains why it isn't the problem and invites another try", /still wouldn't know who jumped|still wouldn't say who jumped/.test(fb) && fb.includes("Try again"), fb);
+        check("V4b Next still waits after '" + wrong + "'", await nextBtn(page).isDisabled());
+      }
+      await fixBody(page).locator(".choice-btn", { hasText: "Who jumped?" }).click();
+      check("V5 naming the problem unlocks Next", !(await nextBtn(page).isDisabled()));
+      await nextBtn(page).click();
+      const ex = (await fixBody(page).innerText()).replace(/\s+/g, " ");
+      check("V6 Explain keeps the fragment's capital J and names the missing part", ex.includes("Jumped over the big puddle") && ex.includes("It is missing who"), ex.slice(0, 200));
+      await nextBtn(page).click();
+      const mo = (await fixBody(page).innerText()).replace(/\s+/g, " ");
+      check("V7 Model shows a fix, why j changes, and other valid fixes", mo.includes("My little sister") && mo.includes("small j") && mo.includes("Other fixes work too") && mo.includes("We jumped over the big puddle."), mo.slice(0, 200));
+      await nextBtn(page).click();
+      check("V8 Careful: Next waits for an answer", await nextBtn(page).isDisabled());
+      await fixBody(page).locator(".choice-btn", { hasText: "Yes, it's fixed" }).click();
+      check("V9 the tempting 'Yes' is explained: more words didn't add a who", (await fixBody(page).locator(".answer-feedback").innerText()).includes("More words didn't fix it"));
+      check("V9b after either answer Next is enabled", !(await nextBtn(page).isDisabled()));
+      await fixBody(page).locator(".choice-btn", { hasText: "No, it still doesn't say who" }).click();
+      check("V10 the 'No' answer is explained too", (await fixBody(page).locator(".answer-feedback").innerText()).includes("Adding details doesn't add a who"));
+      await nextBtn(page).click();
+      /* Your turn. */
+      check("V11 Your turn shows a different fragment than the examples", (await fixBody(page).innerText()).includes("Ate all the strawberries."));
+      await nextBtn(page).click();
+      check("V12 empty repair gets a gentle nudge, not a mark", await fixBody(page).locator(".write-nudge").isVisible());
+      for (let i = 0; i < 3; i++) await page.click("#fixit-help-btn");
+      const rungs = await fixBody(page).locator(".ladder-rung").allInnerTexts();
+      check("V13 Help goes question -> strategy -> sentence frame", rungs.length === 3 && rungs[0].includes("who could eat") && rungs[1].includes("Remember the fix") && rungs[2].includes("____ ate all the strawberries"), rungs.join(" | "));
+      check("V13b Help me stops after three", await page.locator("#fixit-help-btn").isDisabled());
+      check("V13c nothing was typed for the child", (await page.inputValue("#fixit-input")) === "");
+      /* Multiple valid answers: the app never says right or wrong. */
+      const tries = [
+        ["We ate all the strawberries.", []],
+        ["My brother ate them all!", []],
+        ["The hungry bear gobbled the strawberries.", ["keptWhat"]],
+        ["Ate all the strawberries.", ["startsWithAte"]]
+      ];
+      for (const [txt, expect] of tries) {
+        await page.fill("#fixit-input", txt);
+        const look = await page.locator("#fixit-look").innerText();
+        const hasAte = look.includes("Is there a who before ate?"), hasKept = look.includes("Did you keep a part that tells what happens?");
+        check("V14 '" + txt + "': notes are questions only, as expected", hasAte === expect.includes("startsWithAte") && hasKept === expect.includes("keptWhat") && !/\b(wrong|incorrect|correct)\b/i.test(look), look);
+      }
+      await page.fill("#fixit-input", "");
+      await page.locator("#fixit-input").focus();
+      await fixBody(page).locator(".chip-btn", { hasText: "Grandma" }).click();
+      await page.keyboard.type("ate all the strawberries.");
+      check("V15 an idea chip adds words without writing the sentence", (await page.inputValue("#fixit-input")) === "Grandma ate all the strawberries.");
+      await fixBody(page).locator("#fixit-check .pick-word", { hasText: /^Grandma$/ }).click();
+      await page.reload();
+      await page.click('#skill-grid button[data-skill="complete-sentence"]');
+      await page.click('button[data-activity="fixit"]');
+      check("V16 refresh returns to Your turn with the child's words", (await fixHead(page)) === "Your turn" && (await page.inputValue("#fixit-input")) === "Grandma ate all the strawberries.");
+      check("V16b the who taps survive a refresh", (await page.locator('#fixit-check .pick-word[aria-pressed="true"]').count()) === 1);
+      await page.keyboard.press("Escape");
+      check("V17 Escape returns to the skill screen", await visible(page, "#screen-skill"));
+      await page.click('button[data-activity="fixit"]');
+      await nextBtn(page).click();
+      check("V18 last step offers a new writing prompt", (await fixHead(page)) === "Now write your own");
+      const endText = await fixBody(page).innerText();
+      check("V19 no mastery claims at the end", !/master|you know|you've got|perfect|you learned/i.test(endText), endText);
+      await page.click("#fixit-body >> text=← Back");
+      check("V20 Back from the last step shows the saved repair", (await page.inputValue("#fixit-input")) === "Grandma ate all the strawberries.");
+      await nextBtn(page).click();
+      await nextBtn(page).click();
+      check("V21 'Write my own sentence' opens the family prompt", (await page.locator(".write-prompt-text").innerText()).includes("someone in your family"));
+      await page.click("#write-home");
+      check("V22 the lesson doesn't appear as 'Continue my sentence'", !(await page.locator("#next-primary").innerText()).includes("Continue"));
+      await page.click("#parent-link");
+      const card = await page.locator(".parent-piece", { hasText: "Fix it: Who is it about?" }).innerText();
+      check("V23 grown-ups see the lesson sentence, the child's fix, and their own answers",
+        card.includes("Ate all the strawberries.") && card.includes("Grandma ate all the strawberries.") && card.includes("Tapped as who: “Grandma”") && card.includes("not checked by the app"), card);
+      const contentText = await page.evaluate(() => JSON.stringify(window.SS_FIXIT_CONTENT));
+      check("V24 no mastery language anywhere in the sequence content", !/master|you know|you've got|perfect|great job|you learned/i.test(contentText));
+      check("V25 no page errors", page.errors.length === 0, page.errors.join(" | "));
+      await ctx.close();
+    }
+    /* Phone: every step fits at 320px; screenshots for review. */
+    {
+      const { ctx, page } = await newPage(browser, { viewport: { width: 320, height: 640 } });
+      await openFix(page);
+      const fits = [];
+      const shot = async n => { fits.push(await noHScroll(page)); await page.screenshot({ path: path.join(OUT, "phone-320-fixit-" + n + ".png"), fullPage: true }); };
+      await fixBody(page).locator(".choice-btn", { hasText: "Who jumped?" }).click(); await shot(1);
+      await nextBtn(page).click(); await shot(2);
+      await nextBtn(page).click(); await shot(3);
+      await nextBtn(page).click(); await fixBody(page).locator(".choice-btn").first().click(); await shot(4);
+      await nextBtn(page).click();
+      await page.fill("#fixit-input", "Supercalifragilisticexpialidocious bears ate all the strawberries.");
+      await page.click("#fixit-help-btn"); await shot(5);
+      await nextBtn(page).click(); await shot(6);
+      check("V26 every step fits a 320px phone (no sideways scroll)", fits.every(Boolean), fits.join(","));
+      await ctx.close();
+    }
   }
 
   await browser.close();

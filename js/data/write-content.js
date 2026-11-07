@@ -107,6 +107,25 @@ window.SS_WRITE_CONTENT = {
       frame: "____ helps me ____."
     },
     {
+      /* Build 1.9.1: the follow-on prompt for the "Fix it: Who is it
+         about?" sequence. lessonOnly keeps it out of the regular chooser. */
+      id: "family",
+      lessonOnly: true,
+      title: "Someone in your family",
+      line: "Someone at home doing something.",
+      ask: "Write one sentence about someone in your family doing something. Make sure it says who.",
+      question: "Who in your family are you thinking of? What are they doing?",
+      starters: ["My mom", "My little brother", "Grandpa"],
+      words: {
+        "Who": ["my mom", "my dad", "my sister", "my brother", "Grandma", "my cousin"],
+        "What they did": ["cooked", "laughed", "fixed", "read", "drove", "planted"],
+        "Details": ["in the kitchen", "last night", "carefully", "a funny story", "after dinner"]
+      },
+      /* Different topic: weather, not family. */
+      example: { words: ["The", "strong", "wind", "shook", "the", "windows."], split: { at: 3, leftLabel: "WHO OR WHAT", rightLabel: "WHAT HAPPENS" } },
+      frame: "My ____ ____ in the ____."
+    },
+    {
       id: "own",
       title: "My own idea",
       line: "Write about anything you want.",
